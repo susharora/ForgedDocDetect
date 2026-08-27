@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Data & results (track structure, not contents)
+data/raw/*
+data/processed/*
+results/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!results/.gitkeep
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# OS/editor
+.DS_Store
+.vscode/
