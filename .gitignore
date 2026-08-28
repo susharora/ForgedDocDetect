@@ -18,3 +18,4 @@ results/*
 # OS/editor
 .DS_Store
 .vscode/
+data/FantasyID/*
