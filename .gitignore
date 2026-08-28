@@ -19,3 +19,4 @@ results/*
 .DS_Store
 .vscode/
 data/FantasyID/*
+!data/FantasyID/.gitkeep
