@@ -20,3 +20,4 @@ results/*
 .vscode/
 data/FantasyID/*
 !data/FantasyID/.gitkeep
+external/TruFor/
