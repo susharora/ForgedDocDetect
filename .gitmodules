@@ -1,0 +1,3 @@
+[submodule "external/TruFor"]
+	path = external/TruFor
+	url = https://github.com/grip-unina/TruFor.git
