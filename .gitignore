@@ -21,3 +21,4 @@ results/*
 data/FantasyID/*
 !data/FantasyID/.gitkeep
 external/TruFor/
+configs/local.yaml

@@ -1,0 +1,6 @@
+# Copy to configs/local.yaml on each machine and edit. local.yaml is gitignored.
+# Only put things here that genuinely differ per machine.
+
+training:
+  batch_size: 16     # SUSH-AMD (~31GB usable): smaller; IMTA134/135 (~47GB): larger
+  num_workers: 16     # set to roughly half of `nproc`
