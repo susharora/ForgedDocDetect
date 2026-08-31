@@ -1,5 +1,5 @@
 
-## External dependencies
+## External dependenciesL TruFor
 
 TruFor is not tracked in this repo (large pretrained weights). To set up:
 
@@ -8,3 +8,4 @@ TruFor is not tracked in this repo (large pretrained weights). To set up:
 Weights: follow TruFor's own instructions to download `trufor.pth.tar`
 (their download script fetches `TruFor_weights.zip`). Record the commit
 hash you used here for reproducibility: <fill in after cloning>
+
