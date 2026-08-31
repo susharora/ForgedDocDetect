@@ -9,7 +9,7 @@ dataset:
       - test
 
     allowed_traffic_types:  # only two types of traffic
-      - binafide
+      - bonafide
       - attack
 
     image_extensions:       # will be compared case-insentively so .JPG will be covered

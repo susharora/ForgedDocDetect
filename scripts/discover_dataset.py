@@ -2,66 +2,196 @@
 #   * data split , traffic type, attack variant, hardware source 
 # also match images to their json descriptive files and validation transformation
 # information available in JSON against recorded trnsformed height width. 
+
+#Block: Imports
 from pathlib import Path 
 from datetime import datetime
 
 import yaml
+import inspect
+
+#Block: Global constants
 
 CONFIG_FILE = Path("dataconfig.yaml")
 
-def load_config(config_path: Path) -> dict:
-    with config_path.open("r",encoding="utf-8") as file:
-        config = yaml.safe_load(file)
+#Block: Function definitions
 
-#debug   print("config-",config) 
+#function to load config file as a dictionary of key value pairs
+def load_config(config_path: Path) -> dict:
+    func_name = inspect.currentframe().f_code.co_name
+    #load the yaml file as dictionary     
+    with config_path.open("r",encoding="utf-8") as file:
+        config = yaml.safe_load(file) # yaml safe load function returns a dict as dataconfig file is key values pairs
+
+    #debug print("config-",config) 
 
     dataset_config = config["dataset"]
-
     root = Path(dataset_config["root"])
-
     if not root.exists():
         raise FileNotFoundError(f"Dataset root does not exist: {root}")
-
     if not root.is_dir():
         raise NotADirectoryError(f"Dataset root is not a directory: {root}")
 
-    return config
-
-def setup_log_file(yaml_log_path: str) -> Path:
-    """Append current date to log filename and creates it"""
-    base_log = Path(yaml_log_path)
-
+    #Log file creation based on file path mentioned in dataconfig yaml
+    #Append current date to log filename and creates it
+    log_file_path = dataset_config["log"]
+    base_log = Path(log_file_path)
     #extract filename components
     log_dir  = base_log.parent 
     log_name = base_log.stem
     log_ext  = base_log.suffix
-
     #format date
     current_date = datetime.now().strftime("%Y-%m-%d")
-
     #construct new filename:
     new_log_name = f"{log_name}_{current_date}{log_ext}"
     final_log_path = log_dir / new_log_name
-
     log_dir.mkdir(parents=True,exist_ok=True)
 
-    return final_log_path
+    #debug print (f"{log_file_path} , {type(config)}")
+    
+    #add log entry
+    log_entries = [f"********************{func_name}: ********************"]    
+    write_log(final_log_path,log_entries)
+    log_entries = [f"{func_name}: Configuration loaded successfully from {CONFIG_FILE}", 
+                       f"   Dataset name:   {config['dataset']['name']}",
+                        f"   Dataset root:   {config['dataset']['root']}",
+                        f"   Allowed splits: {config['dataset']['allowed_splits']}"]
+    
+    write_log(final_log_path,log_entries)
+    
+    return config
 
-config = load_config(CONFIG_FILE)
+# build log path TBD
+def build_log_path(config: dict) -> Path:
+    base_log = Path(config["dataset"]["log"])
+    current_date = datetime.now().strftime("%Y-%m-%d")
+    final_log_path = base_log.parent / f"{base_log.stem}_{current_date}{base_log.suffix}"
+    base_log.parent.mkdir(parents=True, exist_ok=True)
+    return final_log_path 
 
-log_file_path = setup_log_file(config['dataset']['log'])
-#debug print (log_file_path)
+#function to write logs for data ingest
 
-log_entries = [f"Configuration loaded successfully from {CONFIG_FILE}", 
-               f"   Dataset name:   {config['dataset']['name']}",
-               f"   Dataset root:   {config['dataset']['root']}",
-               f"   Allowed splits: {config['dataset']['allowed_splits']}"]
+def write_log(log_path: Path, log_entries: list[str]) -> None:
+    full_log_output = "\n".join(log_entries) + "\n"
+     
+    with log_path.open("a",encoding="utf-8") as log_file:
+        log_file.write(full_log_output)
+    
+    #debug     print(f"\n[info] Output successfully written to log file: {log_path}")
 
-full_log_output = "\n".join(log_entries) + "\n"
+#function to traverse through dataset split defined in yaml file
+def find_dataset_splits(config: dict) -> dict[str, Path]:
+    func_name = inspect.currentframe().f_code.co_name
+    dataset_config = config["dataset"]
+    final_log_path = build_log_path(config)
+    log_entries = [f"********************{func_name}: ********************"]      
+    write_log(final_log_path,log_entries)
 
-#debug print(full_log_output,end="")
+    root = Path(dataset_config["root"])
+    allowed_splits = {
+        split.lower()
+        for split in dataset_config["allowed_splits"]
+    }
+    #debug print(allowed_splits)
+    found_splits = {} # dictinoary to store found splits in the folder. 
 
-with log_file_path.open("a",encoding="utf-8") as log_file:
-    log_file.write(full_log_output)
+    #Using sorted builtin function, we return a list of all folders/directories
+    #below implementation is only suitable when number of folders is small as its in memory sorting. 
+    for item in sorted(root.iterdir(), key=lambda path: path.name.lower()):
+        if not item.is_dir():
+            log_entries =[f"{func_name}: Ignoring top-level file: {item.name}"]
+            write_log(final_log_path,log_entries)
+            continue    # a gaurd to skip processing files which are not directories. 
 
-#debug print(f"\n[info] Output successfully written to log file: {log_file_path}")
+        #debug print (item,type(item))    
+        folder_name = item.name.lower()
+
+        # assigning folder name to its path in the dictionary found_splits
+        if folder_name in allowed_splits:
+            found_splits[folder_name] = item
+            log_entries = [f"{func_name}: Using dataset split: {item.name}"]
+            write_log(final_log_path,log_entries)
+        else:
+            log_entries = [f"{func_name}: Ignoring top-level folder: {item.name}"]    
+            write_log(final_log_path,log_entries)
+
+    missing_splits = allowed_splits - set(found_splits.keys())
+
+    if missing_splits:
+        log_entries = [f"{func_name}: Configured dataset splits not found: {sorted(missing_splits)}"]    
+        raise FileNotFoundError(
+            f"Configured dataset splits not found: {sorted(missing_splits)}"
+        )
+    else:
+        log_entries = [f"{func_name}: All Configured dataset splits found: {sorted(found_splits)}"]    
+        write_log(final_log_path,log_entries)
+
+    return found_splits
+
+def find_traffic_types(
+    split_paths: dict[str, Path],
+    config: dict
+) -> dict[str, dict[str, Path]]:
+
+    func_name = inspect.currentframe().f_code.co_name
+    final_log_path = build_log_path(config)
+    log_entries = [f"********************{func_name}: ********************"]        
+    write_log(final_log_path,log_entries)
+
+
+    allowed_traffic_types = {
+        traffic_type.lower()
+        for traffic_type in config["dataset"]["allowed_traffic_types"]
+    }
+
+    traffic_paths = {}
+
+    for split_name, split_path in split_paths.items():
+        traffic_paths[split_name] = {}
+        log_entries = [f"{func_name}: Inspecting traffic split: {split_name}"]    
+        write_log(final_log_path,log_entries)
+
+        for item in sorted(
+            split_path.iterdir(),
+            key=lambda path: path.name.lower()
+        ):
+            if not item.is_dir():
+                log_entries = [f"{func_name}: Ignoring file: {item.name}"]    
+                write_log(final_log_path,log_entries)
+                continue
+
+            folder_name = item.name.lower()
+
+            if folder_name in allowed_traffic_types:
+                traffic_paths[split_name][folder_name] = item
+                log_entries = [f"{func_name}: Using traffic type: {item.name}"]    
+                write_log(final_log_path,log_entries)
+            else:
+                log_entries = [f"{func_name}: Ignoring folder: {item.name}"]    
+                write_log(final_log_path,log_entries)
+
+    log_entries = [f"{func_name}: Directory structure found:"]    
+    write_log(final_log_path,log_entries)
+
+    for split_name, traffic_types in traffic_paths.items():
+        log_entries = [f"{func_name}: {split_name}"]    
+        write_log(final_log_path,log_entries)
+    #    print(split_name,type(split_name))
+    #    print(traffic_types,type(traffic_types))
+    
+
+        for traffic_type, path in traffic_types.items():
+            log_entries = [f"{func_name}: {traffic_type}: {path}"]    
+            write_log(final_log_path,log_entries)
+    
+    return traffic_paths
+
+#Block: Execution
+if __name__ == "__main__":
+    #load the yaml dictionary
+    config = load_config(CONFIG_FILE)
+    split_paths = find_dataset_splits(config)
+    traffic_path = find_traffic_types(
+        split_paths,
+        config
+    )
