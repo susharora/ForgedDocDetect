@@ -1,0 +1,4 @@
+Configuration loaded successfully from dataconfig.yaml
+   Dataset name:,   FantasyID
+   Dataset root:,   ../data/FantasyID
+   Allowed splits:, ['train', 'test']

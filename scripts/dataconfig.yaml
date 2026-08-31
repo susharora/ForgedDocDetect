@@ -1,0 +1,20 @@
+#Root is where the dataset resides
+dataset:
+    name: 'FantasyID' 
+    root: '../data/FantasyID'     #forward slash used to avoid YAML backslash escape issue
+    log:  '../logs/dataingest.txt' # log file for data ingestion pipelines
+    
+    allowed_splits:         # examples and other folders would be ignored
+      - train
+      - test
+
+    allowed_traffic_types:  # only two types of traffic
+      - binafide
+      - attack
+
+    image_extensions:       # will be compared case-insentively so .JPG will be covered
+      - .jpg
+      - .jpeg
+      - .png
+
+    json_extension: .json
