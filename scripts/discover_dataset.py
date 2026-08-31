@@ -83,7 +83,7 @@ def write_log(log_path: Path, log_entries: list[str]) -> None:
 def find_dataset_splits(config: dict) -> dict[str, Path]:
     func_name = inspect.currentframe().f_code.co_name
     dataset_config = config["dataset"]
-    final_log_path = build_log_path(config)
+    #final_log_path = build_log_path(config)
     log_entries = [f"********************{func_name}: ********************"]      
     write_log(final_log_path,log_entries)
 
@@ -118,7 +118,8 @@ def find_dataset_splits(config: dict) -> dict[str, Path]:
     missing_splits = allowed_splits - set(found_splits.keys())
 
     if missing_splits:
-        log_entries = [f"{func_name}: Configured dataset splits not found: {sorted(missing_splits)}"]    
+        log_entries = [f"{func_name}: Configured dataset splits not found: {sorted(missing_splits)}"]  
+        write_log(final_log_path,log_entries)  
         raise FileNotFoundError(
             f"Configured dataset splits not found: {sorted(missing_splits)}"
         )
@@ -128,13 +129,14 @@ def find_dataset_splits(config: dict) -> dict[str, Path]:
 
     return found_splits
 
+#function to traverse through traffic type as identified in YAML dict
 def find_traffic_types(
     split_paths: dict[str, Path],
     config: dict
 ) -> dict[str, dict[str, Path]]:
 
     func_name = inspect.currentframe().f_code.co_name
-    final_log_path = build_log_path(config)
+    #final_log_path = build_log_path(config)
     log_entries = [f"********************{func_name}: ********************"]        
     write_log(final_log_path,log_entries)
 
@@ -186,12 +188,94 @@ def find_traffic_types(
     
     return traffic_paths
 
+#Function to traverse traffic type. folder structure in traffic type is different hence code caters to that.
+def find_data_folders(
+        traffic_paths: dict[str,dict[str,Path]]
+) -> list[dict]:
+
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [f"********************{func_name}: ********************"]        
+    write_log(final_log_path,log_entries)
+    data_folders = []
+
+    for split_name, traffic_types in traffic_paths.items():
+
+        for traffic_type, traffic_path in traffic_types.items():
+
+            if traffic_type == "bonafide":
+
+                for hardware_path in sorted(
+                    traffic_path.iterdir(),
+                    key=lambda path: path.name.lower()
+                ):
+                    if not hardware_path.is_dir():
+                        log_entries = [f"{func_name}: Ignoring file: {hardware_path}"]
+                        write_log(final_log_path,log_entries)
+                        continue
+
+                    data_folders.append( 
+                        {
+                        "split": split_name,
+                        "traffic_type": traffic_type,
+                        "variant":"",
+                        "hardware_source":hardware_path.name,
+                        "path":hardware_path         
+                        }
+                    )        
+
+            elif traffic_type == "attack":
+
+                for variant_path in sorted(
+                    traffic_path.iterdir(),
+                    key=lambda path: path.name.lower()
+                ):
+                    if not variant_path.is_dir():
+                        log_entries = [f"{func_name}: Ignoring file: {hardware_path}"]
+                        write_log(final_log_path,log_entries)
+                        continue
+
+                    for hardware_path in sorted(
+                        variant_path.iterdir(),
+                        key=lambda path: path.name.lower()
+                    ):
+                        if not hardware_path.is_dir():
+                            log_entries = [f"{func_name}: Ignoring file: {hardware_path}"]
+                            write_log(final_log_path,log_entries)
+                            continue
+
+                        data_folders.append({
+                            "split": split_name,
+                            "traffic_type": traffic_type,
+                            "variant": variant_path.name,
+                            "hardware_source":hardware_path.name,
+                            "path":hardware_path
+                        })
+
+    log_entries = [f"{func_name}: Final data folders:"]
+    
+    for folder in data_folders:
+        log_entries.append (f"{func_name}:  {folder['split']},{folder['traffic_type']},{folder['variant']}," 
+                            f"{folder['hardware_source']} ----> {folder['path']}")
+
+    write_log(final_log_path,log_entries)               
+    
+    return data_folders
+
 #Block: Execution
 if __name__ == "__main__":
     #load the yaml dictionary
     config = load_config(CONFIG_FILE)
+    #log path
+    final_log_path = build_log_path(config)
+    #traverse data splits per yaml dictionary 
     split_paths = find_dataset_splits(config)
+    #traverse traffic type split under data split
     traffic_path = find_traffic_types(
         split_paths,
         config
     )
+    #get folders that have images and JSON files for each traffic type. 
+    data_folders = find_data_folders(traffic_path)
+
+    
+    
