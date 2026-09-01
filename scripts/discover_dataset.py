@@ -9,6 +9,7 @@ from datetime import datetime
 from collections import Counter
 from collections import defaultdict
 import hashlib 
+import json
 
 import yaml
 import inspect
@@ -473,6 +474,204 @@ def match_images_and_jsons(
 
     return matched_records
 
+#Function to establish structure of JSON files before we extract information from them.
+#This function does update the dictionary passed as parameter but returns none. 
+def parse_json_files(
+    matched_records: list[dict]
+) -> None:
+
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [f"********************{func_name}: ********************"]        
+    write_log(final_log_path,log_entries)
+    
+    for record in matched_records:
+
+        json_path = record["json_path"]
+
+        record["json_parse_ok"] = False
+        record["json_top_level_type"] = ""
+        record["json_top_level_keys"] = ""
+        record["json_error"] = ""
+        record["_json_data"] = None
+
+        if json_path is None:
+            continue
+
+        try:
+            with json_path.open(
+                "r",
+                encoding="utf-8"
+            ) as file:
+                data = json.load(file)
+
+        except (
+            OSError,
+            UnicodeDecodeError,
+            json.JSONDecodeError
+        ) as error:
+
+            record["json_error"] = str(error)
+            continue
+
+        record["json_parse_ok"] = True
+        record["json_top_level_type"] = type(data).__name__
+        record["_json_data"] = data
+
+        if isinstance(data, dict):
+            record["json_top_level_keys"] = " | ".join(
+                sorted(data.keys())
+            )
+
+    log_entries = ["JSON structure - first 5 parsed files:-------------------"]
+    shown = 0
+    for record in matched_records:
+        if not record["json_parse_ok"]:
+            continue
+
+        log_entries.append(f" {record['file_stem']}  'type:' {record['json_top_level_type']}")
+        log_entries.append(f" keys: {record['json_top_level_keys']}" )
+        shown += 1
+
+        if shown == 5:
+            break
+    log_entries.append("JSON parse failures:------------------------------")
+
+    failure_count = 0
+
+    for record in matched_records:
+        if (
+            record["json_path"] is not None
+            and not record["json_parse_ok"]
+        ):
+            log_entries.append(f"{record['json_path']} -> {record['json_error']}" )
+            failure_count += 1
+    log_entries.append(f"Total JSON parse failures: {failure_count}")
+
+    key_patterns = set()
+    for record in matched_records:
+        if record["json_parse_ok"]:
+            key_patterns.add(
+                record["json_top_level_keys"]
+            )
+    log_entries.append("Distinct JSON top-level structures:")
+    for pattern in sorted(key_patterns):
+        log_entries.append(f"  {pattern}")
+    write_log(final_log_path,log_entries)
+
+# Function to extract cropping information from JSON files. note the structure varies slighlt in naming conv.
+# Available Distinct JSON top-level structures:
+#       cropping_info | person_info | regions
+#       cropping_info-altered-recaptured | person_info | regions
+#The difference is ignored by using only first few characters of the key cropping-info. 
+def find_crop_information(
+    matched_records: list[dict]
+) -> None:
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [f"********************{func_name}: ********************"]        
+    write_log(final_log_path,log_entries)
+
+    for record in matched_records:
+
+        record["crop_info_key"] = ""
+        record["crop_info_found"] = False
+        record["crop_info_error"] = ""
+        record["_crop_data"] = None
+
+        data = record["_json_data"]
+
+        if not isinstance(data, dict):
+            continue
+
+        crop_keys = [
+            key
+            for key in data.keys()
+            if key.startswith("cropping_info")
+        ]
+
+        if len(crop_keys) == 0:
+            record["crop_info_error"] = "No cropping_info key found"
+            continue
+
+        if len(crop_keys) > 1:
+            record["crop_info_error"] = (
+                f"Multiple cropping_info keys found: {crop_keys}"
+            )
+            continue
+
+        crop_key = crop_keys[0]
+        crop_data = data[crop_key]
+
+        if not isinstance(crop_data, dict):
+            record["crop_info_error"] = (
+                f"{crop_key} is not a dictionary"
+            )
+            continue
+
+        record["crop_info_key"] = crop_key
+        record["crop_info_found"] = True
+        record["_crop_data"] = crop_data
+
+    #Diagnostics
+    structures_by_key = defaultdict(set)
+    for record in matched_records:
+        if record["crop_info_found"]:
+            structures_by_key[record["crop_info_key"]].add(
+                tuple(sorted(record["_crop_data"].keys()))
+            )
+
+    log_entries = [f"{func_name}: Distinct crop-information structures:"]
+    for crop_key in sorted(structures_by_key):
+        variants = structures_by_key[crop_key]
+        log_entries.append(f"{func_name}:  {crop_key}  ({len(variants)} variant(s)):")
+        for i, structure in enumerate(sorted(variants), 1):
+            log_entries.append(f"{func_name}:    variant {i} ({len(structure)} fields):")
+            for field in structure:
+                log_entries.append(f"{func_name}:      {field}")
+    write_log(final_log_path, log_entries)
+
+        # Crop-information key counts
+    crop_key_counts = Counter(
+        record["crop_info_key"]
+        for record in matched_records
+        if record["crop_info_found"]
+    )
+
+    log_entries = ["Crop-information key counts:"]
+    for crop_key, count in sorted(crop_key_counts.items()):
+        log_entries.append(f"  {crop_key}: {count}")
+
+    # Records that parsed but yielded no crop information
+    crop_error_count = 0
+    error_entries = []
+    for record in matched_records:
+        if record["json_parse_ok"] and not record["crop_info_found"]:
+            error_entries.append(
+                f"  {record['file_stem']} -> {record['crop_info_error']}"
+            )
+            crop_error_count += 1
+
+    log_entries.append(f"Crop-information problems: {crop_error_count}")
+    log_entries.extend(error_entries)
+
+    # Reconciliation — every record should land in exactly one bucket
+    n_total = len(matched_records)
+    n_no_json = sum(1 for r in matched_records if r["json_path"] is None)
+    n_parse_fail = sum(
+        1 for r in matched_records
+        if r["json_path"] is not None and not r["json_parse_ok"]
+    )
+    n_found = sum(crop_key_counts.values())
+
+    log_entries.append(
+        f"Reconciliation: total={n_total} no_json={n_no_json} "
+        f"parse_failed={n_parse_fail} crop_found={n_found} "
+        f"crop_missing={crop_error_count}"
+    )
+    if n_no_json + n_parse_fail + n_found + crop_error_count != n_total:
+        log_entries.append("  WARNING: buckets do not sum to total")
+
+    write_log(final_log_path, log_entries)
+
 #Block: Execution
 if __name__ == "__main__":
     #load the yaml dictionary
@@ -499,4 +698,8 @@ if __name__ == "__main__":
     #Match images to their JSON's using groups and their status
     matched_records = match_images_and_jsons(discovered_files)
     
-    
+    #Parse JSON files.
+    parse_json_files(matched_records)
+
+    #Extract cropping info
+    find_crop_information(matched_records) 
