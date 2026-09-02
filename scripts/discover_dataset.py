@@ -10,6 +10,7 @@ from collections import Counter
 from collections import defaultdict
 import hashlib 
 import json
+from PIL import Image
 
 import yaml
 import inspect
@@ -17,6 +18,18 @@ import inspect
 #Block: Global constants
 
 CONFIG_FILE = Path("dataconfig.yaml")
+
+ORIENTATION_LABELS = {
+    None: "no EXIF orientation tag",
+    1: "normal",
+    2: "mirrored horizontally",
+    3: "rotated 180",
+    4: "mirrored vertically",
+    5: "mirrored horizontally then rotated 270 CW",
+    6: "rotated 90 CW",
+    7: "mirrored horizontally then rotated 90 CW",
+    8: "rotated 270 CW",
+}
 
 #Block: Function definitions
 
@@ -672,6 +685,685 @@ def find_crop_information(
 
     write_log(final_log_path, log_entries)
 
+#helper functions for extracting crop field true to source into immutable tuples. 
+def nested_list_to_tuple(value):
+    if isinstance(value, list):
+        return tuple(
+            nested_list_to_tuple(item)
+            for item in value
+        )
+
+    return value
+
+
+def has_shape(value, rows: int, columns: int) -> bool:
+    if not isinstance(value, (list, tuple)):
+        return False
+
+    if len(value) != rows:
+        return False
+
+    for row in value:
+        if not isinstance(row, (list, tuple)):
+            return False
+
+        if len(row) != columns:
+            return False
+
+    return True
+
+#Function to extract the crop fields. 
+def extract_crop_fields(
+    matched_records: list[dict]
+) -> None:
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [f"********************{func_name}: ********************"]
+    for record in matched_records:
+
+        record["original_image_width"] = None
+        record["original_image_height"] = None
+
+        record["resulted_cropped_image_width"] = None
+        record["resulted_cropped_image_height"] = None
+
+        record["transformation_matrix"] = None
+        record["original_rectangle"] = None
+
+        record["matrix_shape_ok"] = False
+        record["rectangle_shape_ok"] = False
+
+        record["crop_field_error"] = ""
+
+        crop_data = record["_crop_data"]
+
+        if not isinstance(crop_data, dict):
+            continue
+
+        record["original_image_width"] = (
+            crop_data.get("original_image_width")
+        )
+
+        record["original_image_height"] = (
+            crop_data.get("original_image_height")
+        )
+
+        record["resulted_cropped_image_width"] = (
+            crop_data.get("resulted_cropped_image_width")
+        )
+
+        record["resulted_cropped_image_height"] = (
+            crop_data.get("resulted_cropped_image_height")
+        )
+
+        matrix = crop_data.get(
+            "transformation_matrix_into_cropped"
+        )
+
+        rectangle = crop_data.get(
+            "original_rectangle_tl_tr_br_bl"
+        )
+
+        record["transformation_matrix"] = (
+            nested_list_to_tuple(matrix)
+        )
+
+        record["original_rectangle"] = (
+            nested_list_to_tuple(rectangle)
+        )
+
+        record["matrix_shape_ok"] = has_shape(
+            matrix,
+            rows=3,
+            columns=3,
+        )
+
+        record["rectangle_shape_ok"] = has_shape(
+            rectangle,
+            rows=4,
+            columns=2,
+        )
+
+        errors = []
+
+        if not record["matrix_shape_ok"]:
+            errors.append(
+                "transformation matrix is not 3x3"
+            )
+
+        if not record["rectangle_shape_ok"]:
+            errors.append(
+                "original rectangle is not 4x2"
+            )
+
+        if (
+            record["resulted_cropped_image_width"]
+            is None
+        ):
+            errors.append(
+                "missing resulted cropped width"
+            )
+
+        if (
+            record["resulted_cropped_image_height"]
+            is None
+        ):
+            errors.append(
+                "missing resulted cropped height"
+            )
+
+        record["crop_field_error"] = " | ".join(
+            errors
+        )
+
+    #diagnostic code
+    # Records with field-level problems
+    crop_field_error_count = 0
+    error_entries = []
+    for record in matched_records:
+        if record["crop_field_error"]:
+            error_entries.append(
+                f"  {record['file_stem']} -> {record['crop_field_error']}"
+            )
+            crop_field_error_count += 1
+
+    log_entries.append(f"Crop field problems: {crop_field_error_count}")
+    log_entries.extend(error_entries)
+
+    # One example per distinct crop_info_key
+    log_entries.append("Example extracted crop metadata:")
+    shown_crop_types = set()
+    for record in matched_records:
+        crop_key = record["crop_info_key"]
+        if crop_key in shown_crop_types:
+            continue
+        shown_crop_types.add(crop_key)
+        log_entries.extend([
+            f"  Crop type: {crop_key}  (example: {record['file_stem']})",
+            f"    original image size:  {record['original_image_width']}"
+            f" x {record['original_image_height']}",
+            f"    resulted crop size:   {record['resulted_cropped_image_width']}"
+            f" x {record['resulted_cropped_image_height']}",
+            f"    matrix shape OK:      {record['matrix_shape_ok']}",
+            f"    rectangle shape OK:   {record['rectangle_shape_ok']}",
+            f"    matrix:               {record['transformation_matrix']}",
+            f"    rectangle:            {record['original_rectangle']}",
+        ])
+
+    # Reconciliation
+    n_total = len(matched_records)
+    n_crop_found = sum(1 for r in matched_records if r["crop_info_found"])
+    n_clean = sum(
+        1 for r in matched_records
+        if r["crop_info_found"] and not r["crop_field_error"]
+    )
+    log_entries.append(
+        f"Reconciliation: total={n_total} crop_found={n_crop_found} "
+        f"clean={n_clean} with_field_errors={crop_field_error_count}"
+    )
+
+    write_log(final_log_path, log_entries)
+
+#Function for transformation of x,y point via homography
+def transform_point(
+    point: tuple,
+    matrix: tuple
+) -> tuple[float, float]:
+
+    x, y = point
+
+    denominator = (
+        matrix[2][0] * x
+        + matrix[2][1] * y
+        + matrix[2][2]
+    )
+
+    if abs(denominator) < 1e-12:
+        raise ValueError(
+            "Homography denominator is too close to zero"
+        )
+
+    transformed_x = (
+        matrix[0][0] * x
+        + matrix[0][1] * y
+        + matrix[0][2]
+    ) / denominator
+
+    transformed_y = (
+        matrix[1][0] * x
+        + matrix[1][1] * y
+        + matrix[1][2]
+    ) / denominator
+
+    return transformed_x, transformed_y
+
+# Function to Transform full rectangle 
+
+def transform_rectangles(
+    matched_records: list[dict]
+) -> None:
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [f"********************{func_name}: ********************"]
+    for record in matched_records:
+
+        record["transformed_rectangle"] = None
+        record["transform_ok"] = False
+        record["transform_error"] = ""
+
+        if not (
+            record["matrix_shape_ok"]
+            and record["rectangle_shape_ok"]
+        ):
+            continue
+
+        matrix = record["transformation_matrix"]
+        rectangle = record["original_rectangle"]
+
+        try:
+            transformed_rectangle = tuple(
+                transform_point(point, matrix)
+                for point in rectangle
+            )
+
+        except (ValueError, TypeError) as error:
+            record["transform_error"] = str(error)
+            continue
+
+        record["transformed_rectangle"] = (
+            transformed_rectangle
+        )
+
+        record["transform_ok"] = True
+
+    # ---- Diagnostics ----
+    
+    # Records that failed to transform
+    transform_error_count = 0
+    error_entries = []
+    for record in matched_records:
+        if not record["transform_ok"]:
+            error_entries.append(
+                f"  {record['file_stem']} -> {record['transform_error']}"
+            )
+            transform_error_count += 1
+
+    log_entries.append(f"Transformation problems: {transform_error_count}")
+    log_entries.extend(error_entries)
+
+    # One worked example per distinct crop_info_key
+    log_entries.append("Example transformed rectangles:")
+    shown_crop_types = set()
+    for record in matched_records:
+        if not record["transform_ok"]:
+            continue
+        crop_key = record["crop_info_key"]
+        if crop_key in shown_crop_types:
+            continue
+        shown_crop_types.add(crop_key)
+
+        width = record["resulted_cropped_image_width"]
+        height = record["resulted_cropped_image_height"]
+
+        log_entries.append(
+            f"  Crop type: {crop_key}  (example: {record['file_stem']})"
+        )
+        log_entries.append(f"    Declared crop size: {width} x {height}")
+        log_entries.append("    original -> transformed  (expected corner)")
+
+        expected_corners = ((0, 0), (width, 0), (width, height), (0, height))
+        for original, transformed, expected in zip(
+            record["original_rectangle"],
+            record["transformed_rectangle"],
+            expected_corners,
+        ):
+            log_entries.append(
+                f"      ({original[0]:8.3f}, {original[1]:8.3f})"
+                f"  ->  ({transformed[0]:9.3f}, {transformed[1]:9.3f})"
+                f"   (expect {expected[0]}, {expected[1]})"
+            )
+
+    # Reconciliation
+    n_total = len(matched_records)
+    n_eligible = sum(
+        1 for r in matched_records
+        if r["matrix_shape_ok"] and r["rectangle_shape_ok"]
+    )
+    n_ok = sum(1 for r in matched_records if r["transform_ok"])
+    log_entries.append(
+        f"Reconciliation: total={n_total} eligible={n_eligible} "
+        f"transformed_ok={n_ok} failed={transform_error_count}"
+    )
+
+    write_log(final_log_path, log_entries)
+
+#Function to extract image width height from header and exif orientation and check for errors
+def extract_image_metadata(
+    matched_records: list[dict]
+) -> None:
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [f"********************{func_name}: ********************"]
+    dimension_matches = 0
+    dimension_mismatches = []
+    for record in matched_records:
+
+        record["image_width"] = None
+        record["image_height"] = None
+        record["exif_orientation"] = None
+        record["image_metadata_ok"] = False
+        record["image_metadata_error"] = ""
+        record["dims_match_declared_crop"] = False
+
+        image_path = record["image_path"]
+
+        if image_path is None:
+            continue
+
+        try:
+            with Image.open(image_path) as image:
+
+                record["image_width"] = image.width
+                record["image_height"] = image.height
+
+                exif = image.getexif()
+
+                record["exif_orientation"] = (
+                    exif.get(274)
+                )
+
+                record["image_metadata_ok"] = True
+
+                record["dims_match_declared_crop"] = (
+                    record["image_width"] == record["resulted_cropped_image_width"]
+                    and record["image_height"] == record["resulted_cropped_image_height"]
+                )
+                            
+                if record["dims_match_declared_crop"]:
+                    dimension_matches += 1
+                else:
+                    dimension_mismatches.append({
+                        "file_stem": record["file_stem"],
+                        "hardware_source": record["hardware_source"],
+                        "disk": (record["image_width"], record["image_height"]),
+                        "declared": (record["resulted_cropped_image_width"],
+                                     record["resulted_cropped_image_height"]),
+                        "transformed_rectangle": record["transformed_rectangle"],
+                    })
+
+        except (OSError, ValueError) as error:
+            record["image_metadata_error"] = str(error)
+
+#Diagnostics
+    n_no_image = sum(1 for r in matched_records if r["image_path"] is None)
+    n_failed = sum(
+        1 for r in matched_records
+        if r["image_path"] is not None and not r["image_metadata_ok"]
+    )
+    n_ok = sum(1 for r in matched_records if r["image_metadata_ok"])
+    log_entries.append(
+        f"{func_name}: Reconciliation: \n total={len(matched_records)} \n Images with no path(no_image)={n_no_image} "
+        f"\n {func_name}: \n read_ok(image_meta_data_ok)={n_ok} \n read_failed(Bad path and metadata incorrect)={n_failed}"
+    )
+    log_entries.append(
+    f"On-disk / resulted-crop dimension matches: "
+    f"{dimension_matches}"
+    )
+
+    log_entries.append(f"On-disk / declared-crop mismatches: {len(dimension_mismatches)}")
+    if len(dimension_mismatches) < 10:
+        for m in dimension_mismatches:
+            log_entries.append(
+                f"  {m['file_stem']} ({m['hardware_source']}): "
+                f"disk {m['disk'][0]}x{m['disk'][1]} vs declared "
+                f"{m['declared'][0]}x{m['declared'][1]}"
+            )
+#additional disgnostics
+
+    # ---- EXIF orientation ----
+    orientation_counts = Counter(
+        record["exif_orientation"]
+        for record in matched_records
+        if record["image_metadata_ok"]
+    )
+
+    log_entries.append("EXIF orientation counts:")
+    for orientation, count in sorted(
+        orientation_counts.items(),
+        key=lambda item: str(item[0])
+    ):
+        label = ORIENTATION_LABELS.get(orientation, "unrecognised value")
+        log_entries.append(f"  {orientation}: {count}   ({label})")
+
+    n_needs_transform = sum(
+        count for value, count in orientation_counts.items()
+        if value not in (None, 1)
+    )
+    log_entries.append(
+        f"  images needing EXIF transform before use: {n_needs_transform}"
+    )
+    if n_needs_transform:
+        log_entries.append(
+            "  WARNING: annotation coordinates may not match displayed pixels"
+        )
+
+    # ---- Orientation by device ----
+    by_device = defaultdict(Counter)
+    for r in matched_records:
+        if r["image_metadata_ok"]:
+            by_device[r["hardware_source"]][r["exif_orientation"]] += 1
+    log_entries.append("EXIF orientation by device:")
+    for device in sorted(by_device):
+        log_entries.append(f"  {device}: {dict(by_device[device])}")
+
+# Final writing of the logs.        
+    write_log(final_log_path, log_entries)
+
+#Function to check for errors in regions specified with JSON files to match they exist within the bounded images
+def inspect_regions(
+    matched_records: list[dict]
+) -> None:
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [f"********************{func_name}: ********************"]
+    for record in matched_records:
+
+        record["regions_found"] = False
+        record["regions_structure_ok"] = False
+        record["region_count"] = 0
+        record["regions_error"] = ""
+        record["_regions_data"] = None
+
+        data = record["_json_data"]
+
+        if not isinstance(data, dict):
+            continue
+
+        if "regions" not in data:
+            record["regions_error"] = (
+                "regions key not found"
+            )
+            continue
+
+        regions = data["regions"]
+
+        if not isinstance(regions, list):
+            record["regions_error"] = (
+                "regions is not a list"
+            )
+            continue
+
+        record["regions_found"] = True
+        record["regions_structure_ok"] = True
+        record["region_count"] = len(regions)
+        record["_regions_data"] = regions
+
+# Diagnostics 
+    region_key_patterns = Counter()
+    shape_key_patterns = Counter()
+    attribute_key_patterns = Counter()
+    malformed_regions = 0
+
+    for record in matched_records:
+        regions = record["_regions_data"]
+        if not isinstance(regions, list):
+            continue
+
+        for region in regions:
+            if not isinstance(region, dict):
+                malformed_regions += 1
+                continue
+
+            region_key_patterns[tuple(sorted(region.keys()))] += 1
+            #debug print("region.keys()-",region.keys())
+
+            shape_attributes = region.get("shape_attributes")
+            if isinstance(shape_attributes, dict):
+                shape_key_patterns[tuple(sorted(shape_attributes.keys()))] += 1
+            #debug print("shape_attributes.keys()-",shape_attributes.keys())
+
+            region_attributes = region.get("region_attributes")
+            if isinstance(region_attributes, dict):
+                attribute_key_patterns[tuple(sorted(region_attributes.keys()))] += 1
+            #debug print("region_attributes.keys()-",region_attributes.keys())
+
+    for title, patterns in (
+        ("region top-level", region_key_patterns),
+        ("shape_attributes", shape_key_patterns),
+        ("region_attributes", attribute_key_patterns),
+    ):
+        log_entries.append(f"Distinct {title} structures ({len(patterns)}):")
+        for pattern, count in sorted(patterns.items()):
+            log_entries.append(f"  {count:6d}  " + " | ".join(pattern))
+
+    # Region-level reconciliation
+    n_regions_found = sum(1 for r in matched_records if r["regions_found"])
+    n_regions_missing = sum(
+        1 for r in matched_records
+        if r["json_parse_ok"] and not r["regions_found"]
+    )
+    total_regions = sum(r["region_count"] for r in matched_records)
+    counted_regions = sum(region_key_patterns.values()) + malformed_regions
+
+    log_entries.append(
+        f"Reconciliation: records={len(matched_records)} "
+        f"regions_found={n_regions_found} regions_missing={n_regions_missing} "
+        f"total_regions={total_regions} counted={counted_regions} "
+        f"malformed={malformed_regions}"
+    )
+    if total_regions != counted_regions:
+        log_entries.append("  WARNING: region counts do not reconcile")
+
+    #additional diagnostics
+    no_prov = defaultdict(Counter)
+    for record in matched_records:
+        for region in record["_regions_data"] or []:
+            ra = region.get("region_attributes", {})
+            if "region_provenance" not in ra:
+                no_prov[record["traffic_type"]][record["variant"]] += 1
+    log_entries.append("Regions missing region_provenance, by traffic/variant:")
+    for tt in sorted(no_prov):
+        log_entries.append(f"  {tt}: {dict(no_prov[tt])}")
+
+    shown = 0
+    for record in matched_records:
+        for region in record["_regions_data"] or []:
+            ra = region.get("region_attributes", {})
+            if set(ra.keys()) == {"field_name"}:
+                log_entries.append(
+                    f"  {record['split']}/{record['traffic_type']}/{record['variant']}"
+                    f" {record['file_stem']}: {ra} {region['shape_attributes']}"
+                )
+                shown += 1
+                break
+        if shown >= 5:
+            break
+
+
+    write_log(final_log_path, log_entries)
+
+#Function to scan through regions in the JSON's for each image
+def extract_region_records(
+    matched_records: list[dict]
+) -> list[dict]:
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [f"********************{func_name}: ********************"]
+    region_records = []
+    skipped_records = 0
+
+    for record in matched_records:
+
+        regions = record["_regions_data"]
+
+        if not isinstance(regions, list):
+            skipped_records += 1
+            continue
+
+        for region_index, region in enumerate(regions):
+
+            shape = region.get("shape_attributes", {})
+            attributes = region.get("region_attributes", {})
+
+            region_records.append({
+                # Parent image information
+                "split": record["split"],
+                "traffic_type": record["traffic_type"],
+                "variant": record["variant"],
+                "hardware_source": record["hardware_source"],
+                "file_stem": record["file_stem"],
+                "image_path": record["image_path"],
+                "image_sha256": record["image_sha256"],
+                "json_path": record["json_path"],
+                "json_sha256": record["json_sha256"],
+
+                # Position within the JSON regions list
+                "region_index": region_index,
+
+                # Raw shape_attributes values
+                "shape_name": shape.get("name"),
+                "x": shape.get("x"),
+                "y": shape.get("y"),
+                "width": shape.get("width"),
+                "height": shape.get("height"),
+
+                # Raw region_attributes values
+                "field_name": attributes.get("field_name"),
+                "region_provenance_raw": attributes.get(
+                    "region_provenance"
+                ),
+                "language": attributes.get("language"),
+                "val": attributes.get("val"),
+                "org_value": attributes.get("org_value"),
+                "new_value": attributes.get("new_value"),
+                "source": attributes.get("source"),
+                "target": attributes.get("target"),
+            })
+
+     #Diagnostics ----
+    expected_regions = sum(r["region_count"] for r in matched_records)
+    actual_regions = len(region_records)
+
+    log_entries.append(
+        f"Reconciliation: images={len(matched_records)} "
+        f"skipped_images={skipped_records} "
+        f"expected_regions={expected_regions} extracted={actual_regions}"
+    )
+    if expected_regions != actual_regions:
+        log_entries.append("  WARNING: extracted region count does not reconcile")
+
+    # Geometry completeness
+    log_entries.append("Missing geometry values:")
+    for field in ("x", "y", "width", "height"):
+        missing = sum(1 for r in region_records if r[field] is None)
+        log_entries.append(f"  {field}: {missing}")
+
+    # Non-positive extents would rasterize to empty masks
+    degenerate = sum(
+        1 for r in region_records
+        if r["width"] is not None and r["height"] is not None
+        and (r["width"] <= 0 or r["height"] <= 0)
+    )
+    log_entries.append(f"  non-positive width or height: {degenerate}")
+
+    # Shape names
+    shape_name_counts = Counter(r["shape_name"] for r in region_records)
+    log_entries.append("Shape names:")
+    for shape_name, count in sorted(
+        shape_name_counts.items(), key=lambda item: str(item[0])
+    ):
+        log_entries.append(f"  {shape_name}: {count}")
+
+    # field_name — raw and case-folded, to expose casing inconsistency
+    field_name_counts = Counter(r["field_name"] for r in region_records)
+    log_entries.append(f"Region field_name counts ({len(field_name_counts)} distinct):")
+    for field_name, count in sorted(
+        field_name_counts.items(), key=lambda item: str(item[0])
+    ):
+        log_entries.append(f"  {field_name}: {count}")
+
+    folded_counts = Counter(
+        (r["field_name"] or "").casefold() for r in region_records
+    )
+    if len(folded_counts) != len(field_name_counts):
+        log_entries.append(
+            f"  NOTE: {len(field_name_counts)} distinct raw names collapse to "
+            f"{len(folded_counts)} when case-folded"
+        )
+
+    # Provenance, overall and by traffic type
+    provenance_counts = Counter(r["region_provenance_raw"] for r in region_records)
+    log_entries.append("Raw region_provenance counts:")
+    for provenance, count in sorted(
+        provenance_counts.items(), key=lambda item: str(item[0])
+    ):
+        log_entries.append(f"  {provenance}: {count}")
+
+    prov_by_traffic = defaultdict(Counter)
+    for r in region_records:
+        prov_by_traffic[r["traffic_type"]][r["region_provenance_raw"]] += 1
+    log_entries.append("Provenance by traffic type:")
+    for traffic_type in sorted(prov_by_traffic):
+        log_entries.append(f"  {traffic_type}: {dict(prov_by_traffic[traffic_type])}")
+
+    write_log(final_log_path, log_entries)
+    return region_records
+
 #Block: Execution
 if __name__ == "__main__":
     #load the yaml dictionary
@@ -703,3 +1395,33 @@ if __name__ == "__main__":
 
     #Extract cropping info
     find_crop_information(matched_records) 
+
+    #Debug - Diagnostic prints to check fully qualified matched records after adding crop values. 
+    # print(type(matched_records))
+    # for record in matched_records[0:2]:
+    #     crop_data = record["_crop_data"]
+    #     print("type of crop data - ", type(crop_data))
+    #     print("type of record    - ",  type(record))
+    #     record["original_image_width"] = (crop_data.get("original_image_width"))
+    #     print(record["original_image_width"])
+    #     print("tyep of orig image width" , type(record["original_image_width"]))
+
+    # extract crop fields
+    extract_crop_fields(matched_records) 
+
+    # Memory consideration : Images are always streamed from disk. JSONs are temporarily retained only while 
+    # we extract all required annotation information. Once extraction is complete, the original parsed JSON objects 
+    # are explicitly discarded.
+
+    #Tranform rectangles for each image without changing the source or rounding transformed float to INT.
+    transform_rectangles(matched_records)
+
+    #Get each images exif orientation and validate its height and width 
+    extract_image_metadata(matched_records) 
+    
+    #Extract regions which has labelled information on altered areas in attack images
+    inspect_regions(matched_records)
+
+    #Extract data from regions 
+    region_records = extract_region_records(matched_records)
+
