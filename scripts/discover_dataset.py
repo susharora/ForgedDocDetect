@@ -1770,7 +1770,525 @@ def analyse_region_visibility(
 
     write_log(final_log_path, log_entries)
 
-#Block: Execution
+#Function to analyse further the 514 outliers. 
+def analyse_right_edge_truncation(
+    region_records: list[dict],
+) -> None:
+
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [f"********************{func_name}: ********************"]
+
+    outside_regions = [
+        r for r in region_records
+        if r["disk_bounds_status"] == "partially_outside"
+    ]
+
+    # Add two useful derived values to each region record.
+    for region in region_records:
+        region["outside_right_fraction"] = 0.0
+        if (
+            region["outside_right"] is not None
+            and region["width"] > 0
+        ):
+            region["outside_right_fraction"] = (
+                region["outside_right"]
+                / region["width"]
+            )
+
+    # --------------------------------------------------
+    # Helper for min / median / max diagnostics
+    # --------------------------------------------------
+    def summary(values, label):
+
+        values = sorted(values)
+
+        if not values:
+            log_entries.append(f"{label}: no values")
+            return
+
+        n = len(values)
+
+        if n % 2:
+            median = values[n // 2]
+        else:
+            median = (
+                values[n // 2 - 1]
+                + values[n // 2]
+            ) / 2
+
+        log_entries.append(
+            f"{label} (n={n}): "
+            f"min={values[0]:.3f} "
+            f"median={median:.3f} "
+            f"max={values[-1]:.3f}"
+        )
+
+    # --------------------------------------------------
+    # Absolute number of pixels outside
+    # --------------------------------------------------
+    summary(
+        [r["outside_right"] for r in outside_regions],
+        "Right-edge pixels outside"
+    )
+
+    # --------------------------------------------------
+    # Fraction of the raw region width outside
+    # --------------------------------------------------
+    summary(
+        [
+            r["outside_right_fraction"]
+            for r in outside_regions
+        ],
+        "Fraction of region width outside"
+    )
+
+    # --------------------------------------------------
+    # Altered regions separately
+    # --------------------------------------------------
+    altered_outside = [
+        r for r in outside_regions
+        if r["region_provenance_raw"] == "altered"
+    ]
+
+    summary(
+        [r["outside_right"] for r in altered_outside],
+        "ALTERED right-edge pixels outside"
+    )
+
+    summary(
+        [
+            r["outside_right_fraction"]
+            for r in altered_outside
+        ],
+        "ALTERED fraction of region width outside"
+    )
+
+    # --------------------------------------------------
+    # By hardware source
+    # --------------------------------------------------
+    by_hardware = defaultdict(list)
+
+    for region in outside_regions:
+        by_hardware[
+            region["hardware_source"]
+        ].append(region)
+
+    log_entries.append(
+        "Right-edge truncation by hardware source:"
+    )
+
+    for hardware in sorted(by_hardware):
+
+        regions = by_hardware[hardware]
+
+        pixels = sorted(
+            r["outside_right"]
+            for r in regions
+        )
+
+        fractions = sorted(
+            r["outside_right_fraction"]
+            for r in regions
+        )
+
+        log_entries.append(
+            f"  {hardware}: "
+            f"n={len(regions)} "
+            f"outside_px="
+            f"{pixels[0]}..{pixels[-1]} "
+            f"outside_fraction="
+            f"{fractions[0]:.4f}.."
+            f"{fractions[-1]:.4f}"
+        )
+
+    # --------------------------------------------------
+    # Group the same field / stem across hardware
+    # --------------------------------------------------
+    capture_groups = defaultdict(list)
+
+    for region in outside_regions:
+
+        key = (
+            region["split"],
+            region["traffic_type"],
+            region["variant"],
+            region["file_stem"],
+            region["field_name"],
+            region["region_provenance_raw"],
+        )
+
+        capture_groups[key].append(region)
+
+    multi_hardware_groups = []
+
+    for key, regions in capture_groups.items():
+
+        hardware_sources = {
+            r["hardware_source"]
+            for r in regions
+        }
+
+        if len(hardware_sources) >= 2:
+            multi_hardware_groups.append(
+                (key, regions)
+            )
+
+    log_entries.append(
+        "Same stem/field truncated across >=2 hardware sources: "
+        f"{len(multi_hardware_groups)}"
+    )
+
+    # --------------------------------------------------
+    # Measure how similar truncation fraction is
+    # across those hardware captures
+    # --------------------------------------------------
+    spreads = []
+
+    for key, regions in multi_hardware_groups:
+
+        fractions = [
+            r["outside_right_fraction"]
+            for r in regions
+        ]
+
+        spread = max(fractions) - min(fractions)
+
+        spreads.append(
+            (spread, key, regions)
+        )
+
+    if spreads:
+
+        summary(
+            [item[0] for item in spreads],
+            "Cross-hardware truncation-fraction spread"
+        )
+
+        log_entries.append(
+            "Largest cross-hardware differences:"
+        )
+
+        for spread, key, regions in sorted(
+            spreads, key=lambda item: item[0], reverse=True
+        )[:10]:
+
+            split, traffic, variant, stem, field, provenance = key
+
+            log_entries.append(
+                f"  {split}/{traffic}/{variant} "
+                f"{stem} field={field} prov={provenance}"
+                f"spread={spread:.4f}"
+            )
+
+            for region in sorted(
+                regions,
+                key=lambda r: r["hardware_source"]
+            ):
+                log_entries.append(
+                    f"    {region['hardware_source']}: "
+                    f"outside={region['outside_right']} px "
+                    f"width={region['width']} "
+                    f"fraction="
+                    f"{region['outside_right_fraction']:.4f}"
+                )
+
+    write_log(final_log_path,log_entries)
+
+#Function to distinguish original field vs altered field in the same image where its out of bound in one JSON
+#Function to detect regions sharing the same image/field/provenance identity
+def validate_region_identity(
+    region_records: list[dict],
+) -> None:
+
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [f"********************{func_name}: ********************"]
+
+    region_groups = defaultdict(list)
+    for region in region_records:
+        key = (
+            region["image_path"],
+            region["field_name"],
+            region["region_provenance_raw"],
+        )
+        region_groups[key].append(region)
+
+    duplicate_groups = {
+        key: regions
+        for key, regions in region_groups.items()
+        if len(regions) > 1
+    }
+
+    # ---- Diagnostics ----
+    log_entries.append(f"Unique image/field/provenance groups: {len(region_groups)}")
+    log_entries.append(
+        f"Groups occurring more than once within an image: {len(duplicate_groups)}"
+    )
+
+    # Distribution of group sizes — is duplication occasional or systematic?
+    group_sizes = Counter(len(regions) for regions in region_groups.values())
+    log_entries.append("Regions per group:")
+    for size, count in sorted(group_sizes.items()):
+        log_entries.append(f"  {size} region(s): {count} groups")
+
+    # Which fields duplicate, under which provenance
+    dup_by_field = defaultdict(Counter)
+    for (_, field_name, provenance), regions in duplicate_groups.items():
+        dup_by_field[field_name][provenance] += 1
+    if dup_by_field:
+        log_entries.append("Duplicate groups by field / provenance:")
+        for field_name in sorted(dup_by_field, key=str):
+            log_entries.append(f"  {field_name}: {dict(dup_by_field[field_name])}")
+
+    # Distinct boxes sharing a label is expected (two face regions per card).
+    # Identical boxes sharing a label is an annotation error.
+    identical_box_groups = []
+    for key, regions in duplicate_groups.items():
+        boxes = [(r["x"], r["y"], r["width"], r["height"]) for r in regions]
+        if len(set(boxes)) < len(boxes):
+            identical_box_groups.append((key, regions))
+    log_entries.append(
+        f"Duplicate groups containing identical boxes: {len(identical_box_groups)}"
+    )
+    if identical_box_groups:
+        log_entries.append("  WARNING: identical boxes would double-count mask pixels")
+        for key, regions in identical_box_groups[:10]:
+            first = regions[0]
+            log_entries.append(
+                f"    {first['split']}/{first['traffic_type']}/{first['variant']} "
+                f"{first['hardware_source']} {first['file_stem']} "
+                f"field={key[1]} prov={key[2]} count={len(regions)}"
+            )
+
+    if duplicate_groups:
+        log_entries.append("Examples of duplicate image/field/provenance groups:")
+        for key, regions in sorted(
+            duplicate_groups.items(), key=lambda item: str(item[0])
+        )[:20]:
+            _, field_name, provenance = key
+            first = regions[0]
+            log_entries.append(
+                f"  {first['split']}/{first['traffic_type']}/{first['variant']} "
+                f"{first['hardware_source']} {first['file_stem']} "
+                f"field={field_name} prov={provenance} count={len(regions)}"
+            )
+            for region in regions:
+                log_entries.append(
+                    f"    region={region['region_index']} "
+                    f"box=({region['x']}, {region['y']}, "
+                    f"{region['width']}, {region['height']})"
+                )
+        if len(duplicate_groups) > 20:
+            log_entries.append(
+                f"  ... {len(duplicate_groups) - 20} more not shown"
+            )
+
+    # Reconciliation
+    total_in_groups = sum(len(r) for r in region_groups.values())
+    n_in_duplicates = sum(len(r) for r in duplicate_groups.values())
+    log_entries.append(
+        f"Reconciliation: total_regions={len(region_records)} "
+        f"grouped={total_in_groups} groups={len(region_groups)} "
+        f"regions_in_duplicate_groups={n_in_duplicates}"
+    )
+    if total_in_groups != len(region_records):
+        log_entries.append("  WARNING: grouped region count does not reconcile")
+
+    write_log(final_log_path, log_entries)
+
+#Function to extract person info from JSON
+def inspect_person_info(
+    matched_records: list[dict]
+) -> None:
+
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [
+        f"********************{func_name}: ********************"
+    ]
+
+    for record in matched_records:
+
+        record["person_info_found"] = False
+        record["person_info_structure_ok"] = False
+        record["person_info_error"] = ""
+        record["_person_info_data"] = None
+
+        data = record["_json_data"]
+
+        if not isinstance(data, dict):
+            continue
+
+        if "person_info" not in data:
+            record["person_info_error"] = (
+                "person_info key not found"
+            )
+            continue
+
+        person_info = data["person_info"]
+
+        if not isinstance(person_info, dict):
+            record["person_info_error"] = (
+                "person_info is not a dictionary"
+            )
+            continue
+
+        record["person_info_found"] = True
+        record["person_info_structure_ok"] = True
+        record["_person_info_data"] = person_info
+
+    # --------------------------------------------------
+    # Diagnostics
+    # --------------------------------------------------
+    key_patterns = Counter()
+
+    for record in matched_records:
+
+        person_info = record["_person_info_data"]
+
+        if not isinstance(person_info, dict):
+            continue
+
+        key_patterns[
+            tuple(sorted(person_info.keys()))
+        ] += 1
+
+    log_entries.append(
+        f"Distinct person_info structures: "
+        f"{len(key_patterns)}"
+    )
+
+    for pattern, count in sorted(
+        key_patterns.items()
+    ):
+        log_entries.append(
+            f"  {count:6d}  "
+            + " | ".join(pattern)
+        )
+
+    n_found = sum(
+        1 for record in matched_records
+        if record["person_info_found"]
+    )
+
+    n_missing = sum(
+        1 for record in matched_records
+        if (
+            record["json_parse_ok"]
+            and not record["person_info_found"]
+        )
+    )
+
+    log_entries.append(
+        f"Reconciliation: total={len(matched_records)} "
+        f"person_info_found={n_found} "
+        f"missing_or_invalid={n_missing}"
+    )
+
+    write_log(
+        final_log_path,
+        log_entries
+    )
+#Function to extract person info for each person in the JSON
+def extract_person_info(
+    matched_records: list[dict]
+) -> None:
+
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [
+        f"********************{func_name}: ********************"
+    ]
+
+    for record in matched_records:
+
+        record["face_db"] = None
+        record["face_id"] = None
+        record["gender"] = None
+
+        person_info = record["_person_info_data"]
+
+        if not isinstance(person_info, dict):
+            continue
+
+        record["face_db"] = person_info.get("face_db")
+        record["face_id"] = person_info.get("face_id")
+        record["gender"] = person_info.get("gender")
+
+    # -------------------------
+    # Diagnostics
+    # -------------------------
+    for field in ("face_db", "face_id", "gender"):
+
+        missing = sum(
+            1
+            for record in matched_records
+            if record[field] is None
+        )
+
+        log_entries.append(
+            f"Missing {field}: {missing}"
+        )
+
+    face_db_counts = Counter(
+        record["face_db"]
+        for record in matched_records
+    )
+
+    log_entries.append("face_db counts:")
+
+    for value, count in sorted(
+        face_db_counts.items(),
+        key=lambda item: str(item[0])
+    ):
+        log_entries.append(
+            f"  {value}: {count}"
+        )
+
+    gender_counts = Counter(
+        record["gender"]
+        for record in matched_records
+    )
+
+    log_entries.append("gender counts:")
+
+    for value, count in sorted(
+        gender_counts.items(),
+        key=lambda item: str(item[0])
+    ):
+        log_entries.append(
+            f"  {value}: {count}"
+        )
+
+    unique_face_ids = {
+        (
+            record["face_db"],
+            record["face_id"],
+        )
+        for record in matched_records
+        if record["face_id"] is not None
+    }
+
+    log_entries.append(
+        f"Unique face_db + face_id combinations: "
+        f"{len(unique_face_ids)}"
+    )
+
+    write_log(
+        final_log_path,
+        log_entries
+    )
+
+# Function to release JSON objects not needed from memory
+def release_json_memory(
+    matched_records: list[dict]
+) -> None:
+
+    for record in matched_records:
+
+        record.pop("_json_data", None)
+        record.pop("_crop_data", None)
+        record.pop("_regions_data", None)
+        record.pop("_person_info_data", None)
+
+#Main Execution
 if __name__ == "__main__":
     #load the yaml dictionary
     config = load_config(CONFIG_FILE)
@@ -1798,6 +2316,12 @@ if __name__ == "__main__":
     
     #Parse JSON files.
     parse_json_files(matched_records)
+
+    #only inspect person info from JSON. Helps discover legitimate variants, before flattening them.
+    inspect_person_info(matched_records)
+
+    #extract person info from JSON
+    extract_person_info(matched_records)
 
     #Extract cropping info
     find_crop_information(matched_records) 
@@ -1831,8 +2355,24 @@ if __name__ == "__main__":
     #Extract data from regions 
     region_records = extract_region_records(matched_records)
 
+    #second review needed.****************************************************
+
     #validate regions
     validate_region_bounds(region_records,matched_records)
 
     # Analysis of regions which are out of bound. 
     analyse_region_visibility(region_records,matched_records)
+
+    # Region annotations appear to be expressed in the final cropped-image coordinate frame. 
+    # A small but systematic subset—predominantly DOB fields—extends past the final right crop boundary. 
+    # This affects 514 regions, including 171 altered regions, with all regions retaining at least 75.6% visibility.
+
+    #Function to analyse the right edge trunction 
+    analyse_right_edge_truncation(region_records)
+
+    #validation regions and their identity
+    validate_region_identity(region_records)
+
+    #clear fields of JSOn not required. 
+    release_json_memory(matched_records)
+    

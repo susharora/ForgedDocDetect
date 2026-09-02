@@ -308,3 +308,144 @@ Most truncated regions (altered listed first):
   train/attack/digital_1 huawei portugal-NF-1083 region=5 field=dob prov=altered box=(2860, 889, 212, 116) visible=0.825472
   train/attack/digital_1 scan portugal-066_03 region=5 field=dob prov=altered box=(1882, 567, 138, 67) visible=0.833333
 Reconciliation: total_regions=33924 visibility_computed=33924 skipped=0 partially_outside=514 altered_partially_outside=171
+********************analyse_right_edge_truncation: ********************
+Right-edge pixels outside (n=514): min=6.000 median=21.000 max=54.000
+Fraction of region width outside (n=514): min=0.008 median=0.058 max=0.244
+ALTERED right-edge pixels outside (n=171): min=6.000 median=21.000 max=54.000
+ALTERED fraction of region width outside (n=171): min=0.013 median=0.080 max=0.244
+Right-edge truncation by hardware source:
+  huawei: n=174 outside_px=7..54 outside_fraction=0.0084..0.2443
+  iphone15pro: n=170 outside_px=6..29 outside_fraction=0.0126..0.1487
+  scan: n=170 outside_px=13..24 outside_fraction=0.0396..0.1752
+Same stem/field truncated across >=2 hardware sources: 170
+Cross-hardware truncation-fraction spread (n=170): min=0.010 median=0.032 max=0.173
+Largest cross-hardware differences:
+  train/attack/digital_1 portugal-NF-1060 field=dob prov=alteredspread=0.1729
+    huawei: outside=54 px width=221 fraction=0.2443
+    iphone15pro: outside=14 px width=196 fraction=0.0714
+    scan: outside=20 px width=137 fraction=0.1460
+  train/attack/digital_1 portugal-NF-1086 field=dob prov=alteredspread=0.1632
+    huawei: outside=42 px width=217 fraction=0.1935
+    iphone15pro: outside=6 px width=198 fraction=0.0303
+    scan: outside=19 px width=137 fraction=0.1387
+  train/attack/digital_1 portugal-NM-1091 field=dob prov=alteredspread=0.1195
+    huawei: outside=34 px width=219 fraction=0.1553
+    iphone15pro: outside=7 px width=196 fraction=0.0357
+    scan: outside=13 px width=137 fraction=0.0949
+  train/attack/digital_1 portugal-026_03 field=dob prov=alteredspread=0.1165
+    huawei: outside=39 px width=219 fraction=0.1781
+    iphone15pro: outside=12 px width=195 fraction=0.0615
+    scan: outside=18 px width=135 fraction=0.1333
+  train/attack/digital_1 portugal-066_03 field=dob prov=alteredspread=0.1155
+    huawei: outside=45 px width=221 fraction=0.2036
+    iphone15pro: outside=17 px width=193 fraction=0.0881
+    scan: outside=23 px width=138 fraction=0.1667
+  train/attack/digital_1 portugal-NF-1105 field=dob prov=alteredspread=0.1106
+    huawei: outside=49 px width=221 fraction=0.2217
+    iphone15pro: outside=22 px width=198 fraction=0.1111
+    scan: outside=19 px width=136 fraction=0.1397
+  train/attack/digital_1 portugal-061_03 field=dob prov=alteredspread=0.1045
+    huawei: outside=45 px width=219 fraction=0.2055
+    iphone15pro: outside=20 px width=198 fraction=0.1010
+    scan: outside=21 px width=138 fraction=0.1522
+  train/attack/digital_1 portugal-119_03 field=dob prov=alteredspread=0.1035
+    huawei: outside=39 px width=222 fraction=0.1757
+    iphone15pro: outside=14 px width=194 fraction=0.0722
+    scan: outside=18 px width=133 fraction=0.1353
+  train/attack/digital_1 portugal-NF-1109 field=dob prov=alteredspread=0.0944
+    huawei: outside=43 px width=223 fraction=0.1928
+    iphone15pro: outside=19 px width=193 fraction=0.0984
+    scan: outside=16 px width=137 fraction=0.1168
+  train/attack/digital_1 portugal-NF-1016 field=dob prov=alteredspread=0.0896
+    huawei: outside=39 px width=220 fraction=0.1773
+    iphone15pro: outside=17 px width=194 fraction=0.0876
+    scan: outside=21 px width=137 fraction=0.1533
+********************validate_region_identity: ********************
+Unique image/field/provenance groups: 30589
+Groups occurring more than once within an image: 3335
+Regions per group:
+  1 region(s): 27254 groups
+  2 region(s): 3335 groups
+Duplicate groups by field / provenance:
+  face: {'original': 1709, 'altered': 897, None: 729}
+Duplicate groups containing identical boxes: 0
+Examples of duplicate image/field/provenance groups:
+  test/attack/digital_3 huawei arabic-003_03 field=face prov=original count=2
+    region=8 box=(67, 373, 994, 1224)
+    region=9 box=(2548, 530, 349, 427)
+  test/attack/digital_3 huawei arabic-005_03 field=face prov=original count=2
+    region=8 box=(52, 373, 1006, 1242)
+    region=9 box=(2531, 549, 349, 428)
+  test/attack/digital_3 huawei arabic-01_0002_000-c7338db1_1 field=face prov=original count=2
+    region=8 box=(77, 357, 971, 1334)
+    region=9 box=(2720, 584, 357, 472)
+  test/attack/digital_3 huawei arabic-01_0076_000-fd5000df_1 field=face prov=original count=2
+    region=8 box=(80, 365, 1000, 1316)
+    region=9 box=(2722, 586, 350, 462)
+  test/attack/digital_3 huawei arabic-01_0095_000-18471808_1 field=face prov=original count=2
+    region=8 box=(82, 362, 1001, 1318)
+    region=9 box=(2722, 596, 342, 459)
+  test/attack/digital_3 huawei arabic-024_03 field=face prov=original count=2
+    region=8 box=(94, 356, 984, 1332)
+    region=9 box=(2744, 578, 376, 480)
+  test/attack/digital_3 huawei arabic-112_03 field=face prov=original count=2
+    region=8 box=(88, 373, 990, 1310)
+    region=9 box=(2700, 585, 365, 462)
+  test/attack/digital_3 huawei arabic-120_03 field=face prov=original count=2
+    region=8 box=(82, 359, 1000, 1319)
+    region=9 box=(2707, 590, 350, 461)
+  test/attack/digital_3 huawei arabic-131_03 field=face prov=original count=2
+    region=8 box=(88, 355, 992, 1311)
+    region=9 box=(2702, 580, 347, 460)
+  test/attack/digital_3 huawei arabic-139_03 field=face prov=original count=2
+    region=8 box=(89, 337, 943, 1247)
+    region=9 box=(2566, 554, 347, 440)
+  test/attack/digital_3 huawei arabic-173_03 field=face prov=original count=2
+    region=8 box=(86, 365, 1006, 1325)
+    region=9 box=(2727, 592, 347, 465)
+  test/attack/digital_3 huawei arabic-NF-1003 field=face prov=original count=2
+    region=8 box=(91, 360, 994, 1309)
+    region=9 box=(2718, 577, 351, 460)
+  test/attack/digital_3 huawei arabic-NF-1012 field=face prov=original count=2
+    region=8 box=(85, 359, 1001, 1314)
+    region=9 box=(2712, 578, 347, 459)
+  test/attack/digital_3 huawei arabic-NF-1030 field=face prov=original count=2
+    region=8 box=(88, 356, 994, 1316)
+    region=9 box=(2690, 575, 347, 458)
+  test/attack/digital_3 huawei arabic-NF-1037 field=face prov=original count=2
+    region=8 box=(70, 383, 997, 1222)
+    region=9 box=(2543, 532, 353, 426)
+  test/attack/digital_3 huawei arabic-NF-1040 field=face prov=original count=2
+    region=8 box=(82, 357, 1001, 1318)
+    region=9 box=(2711, 583, 354, 463)
+  test/attack/digital_3 huawei arabic-NF-1045 field=face prov=original count=2
+    region=8 box=(88, 367, 986, 1317)
+    region=9 box=(2706, 587, 353, 467)
+  test/attack/digital_3 huawei arabic-NF-1048 field=face prov=original count=2
+    region=8 box=(79, 379, 993, 1225)
+    region=9 box=(2540, 542, 346, 422)
+  test/attack/digital_3 huawei arabic-NF-1049 field=face prov=original count=2
+    region=8 box=(79, 356, 998, 1315)
+    region=9 box=(2710, 587, 348, 465)
+  test/attack/digital_3 huawei arabic-NF-1053 field=face prov=original count=2
+    region=8 box=(88, 359, 996, 1313)
+    region=9 box=(2715, 582, 348, 462)
+  ... 3315 more not shown
+Reconciliation: total_regions=33924 grouped=33924 groups=30589 regions_in_duplicate_groups=6670
+********************inspect_person_info: ********************
+Distinct person_info structures: 1
+    3284  face_db | face_id | gender
+Reconciliation: total=3284 person_info_found=3284 missing_or_invalid=0
+********************extract_person_info: ********************
+Missing face_db: 0
+Missing face_id: 0
+Missing gender: 0
+face_db counts:
+  AMFD_Faces_Final: 1308
+  HQ-WMCA-HFACE: 153
+  facelab_london: 1224
+  flickr-cropped: 599
+gender counts:
+  F: 1958
+  M: 1326
+Unique face_db + face_id combinations: 362
