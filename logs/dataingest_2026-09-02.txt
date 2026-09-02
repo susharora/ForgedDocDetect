@@ -1,0 +1,310 @@
+********************load_config: ********************
+load_config: Configuration loaded successfully from dataconfig.yaml
+   Dataset name:   FantasyID
+   Dataset root:   ../data/FantasyID
+   Allowed splits: ['train', 'test']
+********************find_dataset_splits: ********************
+find_dataset_splits: Ignoring top-level file: .gitkeep
+find_dataset_splits: Ignoring top-level folder: examples
+find_dataset_splits: Ignoring top-level file: generate_csv.py
+find_dataset_splits: Ignoring top-level file: README.md
+find_dataset_splits: Using dataset split: test
+find_dataset_splits: Ignoring top-level file: test.csv
+find_dataset_splits: Using dataset split: train
+find_dataset_splits: Ignoring top-level file: train.csv
+find_dataset_splits: All Configured dataset splits found: ['test', 'train']
+********************find_traffic_types: ********************
+find_traffic_types: Inspecting traffic split: test
+find_traffic_types: Using traffic type: attack
+find_traffic_types: Using traffic type: bonafide
+find_traffic_types: Inspecting traffic split: train
+find_traffic_types: Using traffic type: attack
+find_traffic_types: Using traffic type: bonafide
+find_traffic_types: Directory structure found:
+find_traffic_types: test
+find_traffic_types: attack: ../data/FantasyID/test/attack
+find_traffic_types: bonafide: ../data/FantasyID/test/bonafide
+find_traffic_types: train
+find_traffic_types: attack: ../data/FantasyID/train/attack
+find_traffic_types: bonafide: ../data/FantasyID/train/bonafide
+********************find_data_folders: ********************
+find_data_folders: Ignoring file: ../data/FantasyID/test/attack/digital_3/.DS_Store
+find_data_folders: Ignoring file: ../data/FantasyID/test/attack/facedancer/.DS_Store
+find_data_folders: Ignoring file: ../data/FantasyID/test/attack/textdiffuserft_bfei/.DS_Store
+find_data_folders: Final data folders:
+find_data_folders:  test,attack,digital_3,huawei ----> ../data/FantasyID/test/attack/digital_3/huawei
+find_data_folders:  test,attack,digital_3,iphone15pro ----> ../data/FantasyID/test/attack/digital_3/iphone15pro
+find_data_folders:  test,attack,digital_3,scan ----> ../data/FantasyID/test/attack/digital_3/scan
+find_data_folders:  test,attack,facedancer,huawei ----> ../data/FantasyID/test/attack/facedancer/huawei
+find_data_folders:  test,attack,facedancer,iphone15 ----> ../data/FantasyID/test/attack/facedancer/iphone15
+find_data_folders:  test,attack,facedancer,scan ----> ../data/FantasyID/test/attack/facedancer/scan
+find_data_folders:  test,attack,textdiffuserft_bfei,huawei ----> ../data/FantasyID/test/attack/textdiffuserft_bfei/huawei
+find_data_folders:  test,attack,textdiffuserft_bfei,iphone15 ----> ../data/FantasyID/test/attack/textdiffuserft_bfei/iphone15
+find_data_folders:  test,attack,textdiffuserft_bfei,scan ----> ../data/FantasyID/test/attack/textdiffuserft_bfei/scan
+find_data_folders:  test,bonafide,,huawei ----> ../data/FantasyID/test/bonafide/huawei
+find_data_folders:  test,bonafide,,iphone15 ----> ../data/FantasyID/test/bonafide/iphone15
+find_data_folders:  test,bonafide,,scan ----> ../data/FantasyID/test/bonafide/scan
+find_data_folders:  train,attack,digital_1,huawei ----> ../data/FantasyID/train/attack/digital_1/huawei
+find_data_folders:  train,attack,digital_1,iphone15pro ----> ../data/FantasyID/train/attack/digital_1/iphone15pro
+find_data_folders:  train,attack,digital_1,scan ----> ../data/FantasyID/train/attack/digital_1/scan
+find_data_folders:  train,attack,digital_2,huawei ----> ../data/FantasyID/train/attack/digital_2/huawei
+find_data_folders:  train,attack,digital_2,iphone15pro ----> ../data/FantasyID/train/attack/digital_2/iphone15pro
+find_data_folders:  train,attack,digital_2,scan ----> ../data/FantasyID/train/attack/digital_2/scan
+find_data_folders:  train,bonafide,,huawei ----> ../data/FantasyID/train/bonafide/huawei
+find_data_folders:  train,bonafide,,iphone15pro ----> ../data/FantasyID/train/bonafide/iphone15pro
+find_data_folders:  train,bonafide,,scan ----> ../data/FantasyID/train/bonafide/scan
+********************discover_files: ********************
+discover_files: Discovered files totals:--------------
+   image : 3284
+   json : 3284
+********************add_file_hashes: ****Calculating SHA-256 hashes*********
+********************match_images_and_jsons: ********************
+match_images_and_jsons: Image / JSON matching summary:-----------------------------
+match_images_and_jsons: matched: 3284
+match_images_and_jsons: missing_json: 0
+match_images_and_jsons: multiple_images: 0
+match_images_and_jsons: multiple_jsons: 0
+match_images_and_jsons: orphan_json: 0
+********************parse_json_files: ********************
+JSON structure - first 5 parsed files:-------------------
+ arabic-003_03  'type:' dict
+ keys: cropping_info | person_info | regions
+ arabic-005_03  'type:' dict
+ keys: cropping_info | person_info | regions
+ arabic-01_0002_000-c7338db1_1  'type:' dict
+ keys: cropping_info | person_info | regions
+ arabic-01_0076_000-fd5000df_1  'type:' dict
+ keys: cropping_info | person_info | regions
+ arabic-01_0095_000-18471808_1  'type:' dict
+ keys: cropping_info | person_info | regions
+JSON parse failures:------------------------------
+Total JSON parse failures: 0
+Distinct JSON top-level structures:
+  cropping_info | person_info | regions
+  cropping_info-altered-recaptured | person_info | regions
+********************find_crop_information: ********************
+find_crop_information: Distinct crop-information structures:
+find_crop_information:  cropping_info  (1 variant(s)):
+find_crop_information:    variant 1 (4 fields):
+find_crop_information:      original_rectangle_tl_tr_br_bl
+find_crop_information:      resulted_cropped_image_height
+find_crop_information:      resulted_cropped_image_width
+find_crop_information:      transformation_matrix_into_cropped
+find_crop_information:  cropping_info-altered-recaptured  (1 variant(s)):
+find_crop_information:    variant 1 (6 fields):
+find_crop_information:      original_image_height
+find_crop_information:      original_image_width
+find_crop_information:      original_rectangle_tl_tr_br_bl
+find_crop_information:      resulted_cropped_image_height
+find_crop_information:      resulted_cropped_image_width
+find_crop_information:      transformation_matrix_into_cropped
+Crop-information key counts:
+  cropping_info: 2685
+  cropping_info-altered-recaptured: 599
+Crop-information problems: 0
+Reconciliation: total=3284 no_json=0 parse_failed=0 crop_found=3284 crop_missing=0
+********************extract_crop_fields: ********************
+Crop field problems: 0
+Example extracted crop metadata:
+  Crop type: cropping_info  (example: arabic-003_03)
+    original image size:  None x None
+    resulted crop size:   3023 x 1884
+    matrix shape OK:      True
+    rectangle shape OK:   True
+    matrix:               ((0.9812119801595632, 0.01927008665918464, -241.01774441741057), (-0.008526567812601622, 0.9913774806728998, -2655.24602061554), (-4.353032771112318e-06, -1.5883906995640906e-06, 1.0))
+    rectangle:            ((193.0, 2680.0), (3216.0, 2706.0), (3171.0, 4565.0), (156.0, 4564.0))
+  Crop type: cropping_info-altered-recaptured  (example: chinese2-flickr_F_16745558933_a3f9fe2bc9_k)
+    original image size:  3488 x 2200
+    resulted crop size:   3230 x 2022
+    matrix shape OK:      True
+    rectangle shape OK:   True
+    matrix:               ((1.013956258695082, -0.0005141766017723538, -106.5939513134267), (-0.00030938578396090007, 0.9993160821937032, -1720.789498644457), (7.87875005641876e-06, -6.972370960793047e-06, 1.0))
+    rectangle:            ((106.0, 1722.0), (3336.0, 1723.0), (3291.0, 3745.0), (107.0, 3694.0))
+Reconciliation: total=3284 crop_found=3284 clean=3284 with_field_errors=0
+********************transform_rectangles: ********************
+Transformation problems: 0
+Example transformed rectangles:
+  Crop type: cropping_info  (example: arabic-003_03)
+    Declared crop size: 3023 x 1884
+    original -> transformed  (expected corner)
+      ( 193.000, 2680.000)  ->  (   -0.000,    -0.000)   (expect 0, 0)
+      (3216.000, 2706.000)  ->  ( 3022.000,     0.000)   (expect 3023, 0)
+      (3171.000, 4565.000)  ->  ( 3022.000,  1883.000)   (expect 3023, 1884)
+      ( 156.000, 4564.000)  ->  (    0.000,  1883.000)   (expect 0, 1884)
+  Crop type: cropping_info-altered-recaptured  (example: chinese2-flickr_F_16745558933_a3f9fe2bc9_k)
+    Declared crop size: 3230 x 2022
+    original -> transformed  (expected corner)
+      ( 106.000, 1722.000)  ->  (    0.000,     0.000)   (expect 0, 0)
+      (3336.000, 1723.000)  ->  ( 3229.000,     0.000)   (expect 3230, 0)
+      (3291.000, 3745.000)  ->  ( 3229.000,  2021.000)   (expect 3230, 2022)
+      ( 107.000, 3694.000)  ->  (    0.000,  2021.000)   (expect 0, 2022)
+Reconciliation: total=3284 eligible=3284 transformed_ok=3284 failed=0
+********************extract_image_metadata: ********************
+extract_image_metadata: Reconciliation: 
+ total=3284 
+ Images with no path(no_image)=0 
+ extract_image_metadata: 
+ read_ok(image_meta_data_ok)=3284 
+ read_failed(Bad path and metadata incorrect)=0
+On-disk / resulted-crop dimension matches: 3281
+On-disk / declared-crop mismatches: 3
+  chinese-001_03 (huawei): disk 3179x1956 vs declared 3193x1962
+  chinese-001_03 (iphone15pro): disk 2774x1765 vs declared 2778x1765
+  chinese-001_03 (scan): disk 1995x1247 vs declared 1991x1248
+EXIF orientation counts:
+  None: 3284   (no EXIF orientation tag)
+  images needing EXIF transform before use: 0
+EXIF orientation by device:
+  huawei: {None: 1094}
+  iphone15: {None: 200}
+  iphone15pro: {None: 895}
+  scan: {None: 1095}
+********************inspect_regions: ********************
+Distinct region top-level structures (1):
+   33924  region_attributes | shape_attributes
+Distinct shape_attributes structures (1):
+   33924  height | name | width | x | y
+Distinct region_attributes structures (6):
+    1662  field_name
+   13900  field_name | language | region_provenance | val
+    5412  field_name | language | val
+    6577  field_name | new_value | org_value | region_provenance
+    5081  field_name | region_provenance
+    1292  field_name | region_provenance | source | target
+Reconciliation: records=3284 regions_found=3284 regions_missing=0 total_regions=33924 counted=33924 malformed=0
+Regions missing region_provenance, by traffic/variant:
+  bonafide: {'': 7074}
+  test/bonafide/ chinese2-flickr_F_16745558933_a3f9fe2bc9_k: {'field_name': 'face'} {'name': 'rect', 'x': 0, 'y': 489, 'width': 1067, 'height': 1322}
+  test/bonafide/ chinese2-flickr_F_16858102101_d4c5c1e7a2_c: {'field_name': 'face'} {'name': 'rect', 'x': 0, 'y': 498, 'width': 1072, 'height': 1358}
+  test/bonafide/ chinese2-flickr_F_17178039488_60828ef8de_k: {'field_name': 'face'} {'name': 'rect', 'x': 0, 'y': 488, 'width': 1058, 'height': 1336}
+  test/bonafide/ chinese2-flickr_F_17619703551_9705002b22_b: {'field_name': 'face'} {'name': 'rect', 'x': 0, 'y': 497, 'width': 1061, 'height': 1340}
+  test/bonafide/ chinese2-flickr_F_17773666675_1bdbd28a62_c: {'field_name': 'face'} {'name': 'rect', 'x': 0, 'y': 493, 'width': 1064, 'height': 1332}
+********************extract_region_records: ********************
+Reconciliation: images=3284 skipped_images=0 expected_regions=33924 extracted=33924
+Missing geometry values:
+  x: 0
+  y: 0
+  width: 0
+  height: 0
+  non-positive width or height: 0
+Shape names:
+  rect: 33924
+Region field_name counts (32 distinct):
+  /الإسم: 273
+  Name: 492
+  Surname: 219
+  address: 318
+  alternative: 408
+  city: 318
+  dob: 5401
+  doe: 5485
+  doi: 2034
+  eyes: 318
+  face: 8035
+  hair: 318
+  height: 318
+  id_num_left: 186
+  id_num_right: 354
+  name: 3239
+  name2: 186
+  name_cn: 548
+  name_en: 1587
+  name_other: 47
+  name_ru: 204
+  name_ua: 219
+  surname: 996
+  surname_en: 423
+  surname_ru: 204
+  surname_ua: 219
+  weight: 318
+  تاريخ الإصدار: 273
+  تاريخ الميلاد: 273
+  صالح لغاية: 273
+  نام: 219
+  نام خانوادگی: 219
+  NOTE: 32 distinct raw names collapse to 30 when case-folded
+Raw region_provenance counts:
+  None: 7074
+  altered: 8890
+  original: 17960
+Provenance by traffic type:
+  attack: {'original': 17960, 'altered': 8890}
+  bonafide: {None: 7074}
+********************validate_region_bounds: ********************
+Region bounds against actual on-disk image:
+  fully_inside: 31955
+  inside_touching_boundary: 1455
+  partially_outside: 514
+Region bounds against JSON-declared crop:
+  fully_inside: 31955
+  inside_touching_boundary: 1455
+  partially_outside: 514
+Out-of-bounds regions by provenance:
+  None: {'partially_outside': 85}
+  altered: {'partially_outside': 171}
+  original: {'partially_outside': 258}
+  WARNING: 171 altered regions fall outside the image
+Disk / declared bounds disagreements: 0
+Reconciliation: total_regions=33924 with_parent=33924 no_parent=0 disagreements=0
+********************analyse_region_visibility: ********************
+Partially outside regions: 514
+All partially-outside visible-fraction (n=514):
+  min=0.755656  median=0.941896  max=0.991556
+Partially outside below visible-fraction thresholds:
+  < 0.99: 510
+  < 0.95: 348
+  < 0.90: 72
+  < 0.70: 0
+  < 0.50: 0
+Partially outside ALTERED regions: 171
+  Altered visible-fraction (n=171):
+  min=0.755656  median=0.920304  max=0.987368
+  altered < 0.99: 171
+  altered < 0.95: 137
+  altered < 0.90: 68
+  altered < 0.70: 0
+  altered < 0.50: 0
+Out-of-bounds edges:
+  right: 514
+Partially outside by split:
+  test: 175
+  train: 339
+Partially outside by traffic_type:
+  attack: 429
+  bonafide: 85
+Partially outside by variant:
+  : 85
+  digital_1: 169
+  digital_2: 85
+  digital_3: 175
+Partially outside by hardware_source:
+  huawei: 174
+  iphone15pro: 170
+  scan: 170
+Partially outside by field_name:
+  dob: 510
+  face: 4
+Images with any partially-outside region: 343
+Images with partially-outside ALTERED region: 171  (5.21% of all images)
+Most truncated regions (altered listed first):
+  train/attack/digital_1 huawei portugal-NF-1060 region=5 field=dob prov=altered box=(3038, 936, 221, 123) visible=0.755656
+  train/attack/digital_1 huawei portugal-NF-1105 region=5 field=dob prov=altered box=(3050, 941, 221, 124) visible=0.778281
+  train/attack/digital_1 huawei portugal-061_03 region=5 field=dob prov=altered box=(3018, 932, 219, 122) visible=0.794521
+  train/attack/digital_1 huawei portugal-066_03 region=5 field=dob prov=altered box=(3049, 947, 221, 124) visible=0.796380
+  train/attack/digital_1 huawei portugal-NF-1026 region=5 field=dob prov=altered box=(3017, 933, 222, 123) visible=0.797297
+  train/attack/digital_1 huawei portugal-004_03 region=5 field=dob prov=altered box=(3026, 935, 217, 120) visible=0.806452
+  train/attack/digital_1 huawei portugal-NF-1086 region=5 field=dob prov=altered box=(3027, 926, 217, 123) visible=0.806452
+  train/attack/digital_1 huawei portugal-NF-1107 region=5 field=dob prov=altered box=(3026, 926, 217, 120) visible=0.806452
+  train/attack/digital_1 huawei portugal-NF-1109 region=5 field=dob prov=altered box=(3036, 933, 223, 123) visible=0.807175
+  train/attack/digital_1 huawei portugal-029_03 region=5 field=dob prov=altered box=(3028, 926, 225, 123) visible=0.808889
+  train/attack/digital_1 huawei portugal-NF-1041 region=5 field=dob prov=altered box=(3022, 934, 220, 123) visible=0.809091
+  train/attack/digital_1 huawei portugal-042_03 region=5 field=dob prov=altered box=(3027, 925, 218, 123) visible=0.821101
+  train/attack/digital_1 huawei portugal-026_03 region=5 field=dob prov=altered box=(3015, 924, 219, 123) visible=0.821918
+  train/attack/digital_1 huawei portugal-NF-1024 region=5 field=dob prov=altered box=(3032, 929, 219, 120) visible=0.821918
+  train/attack/digital_1 huawei portugal-NF-1016 region=5 field=dob prov=altered box=(3017, 925, 220, 123) visible=0.822727
+  train/attack/digital_1 huawei portugal-017_03 region=5 field=dob prov=altered box=(3027, 934, 221, 123) visible=0.823529
+  train/attack/digital_1 huawei portugal-119_03 region=5 field=dob prov=altered box=(3030, 927, 222, 120) visible=0.824324
+  train/attack/digital_1 scan portugal-NF-1026 region=5 field=dob prov=altered box=(1882, 579, 137, 69) visible=0.824818
+  train/attack/digital_1 huawei portugal-NF-1083 region=5 field=dob prov=altered box=(2860, 889, 212, 116) visible=0.825472
+  train/attack/digital_1 scan portugal-066_03 region=5 field=dob prov=altered box=(1882, 567, 138, 67) visible=0.833333
+Reconciliation: total_regions=33924 visibility_computed=33924 skipped=0 partially_outside=514 altered_partially_outside=171

@@ -1364,6 +1364,412 @@ def extract_region_records(
     write_log(final_log_path, log_entries)
     return region_records
 
+#Function helper to evaluate if altered regions are within the image width x height dimensions
+def classify_region_bounds(
+    x,
+    y,
+    width,
+    height,
+    image_width,
+    image_height,
+) -> str:
+
+    right = x + width
+    bottom = y + height
+
+    fully_inside = (
+        x >= 0
+        and y >= 0
+        and right <= image_width
+        and bottom <= image_height
+    )
+
+    if fully_inside:
+        touches_boundary = (
+            x == 0
+            or y == 0
+            or right == image_width
+            or bottom == image_height
+        )
+
+        if touches_boundary:
+            return "inside_touching_boundary"
+
+        return "fully_inside"
+
+    completely_outside = (
+        right <= 0
+        or bottom <= 0
+        or x >= image_width
+        or y >= image_height
+    )
+
+    if completely_outside:
+        return "completely_outside"
+
+    return "partially_outside"
+
+#Function to evaluate if altered regions are within the image width x height dimensions
+def validate_region_bounds(
+    region_records: list[dict],
+    matched_records: list[dict],
+) -> None:
+
+    func_name = inspect.currentframe().f_code.co_name
+
+    log_entries = [
+        f"********************{func_name}: ********************"
+    ]
+
+    image_lookup = {
+        record["image_path"]: record
+        for record in matched_records
+        if record["image_path"] is not None
+    }
+
+    for region in region_records:
+
+        parent = image_lookup.get(
+            region["image_path"]
+        )
+
+        region["disk_bounds_status"] = ""
+        region["declared_bounds_status"] = ""
+
+        region["right"] = (
+            region["x"] + region["width"]
+        )
+
+        region["bottom"] = (
+            region["y"] + region["height"]
+        )
+
+        if parent is None:
+            continue
+
+        # -------------------------
+        # Actual on-disk image
+        # -------------------------
+        region["disk_bounds_status"] = (
+            classify_region_bounds(
+                region["x"],
+                region["y"],
+                region["width"],
+                region["height"],
+                parent["image_width"],
+                parent["image_height"],
+            )
+        )
+
+        # -------------------------
+        # JSON-declared crop size
+        # -------------------------
+        region["declared_bounds_status"] = (
+            classify_region_bounds(
+                region["x"],
+                region["y"],
+                region["width"],
+                region["height"],
+                parent[
+                    "resulted_cropped_image_width"
+                ],
+                parent[
+                    "resulted_cropped_image_height"
+                ],
+            )
+        )
+
+        # ---- Diagnostics ----
+    disk_status_counts = Counter(r["disk_bounds_status"] for r in region_records)
+    declared_status_counts = Counter(r["declared_bounds_status"] for r in region_records)
+
+    for title, counts in (
+        ("actual on-disk image", disk_status_counts),
+        ("JSON-declared crop", declared_status_counts),
+    ):
+        log_entries.append(f"Region bounds against {title}:")
+        for status, count in sorted(counts.items()):
+            label = status if status else "(not checked - no parent image)"
+            log_entries.append(f"  {label}: {count}")
+
+    # Out-of-bounds regions broken down by provenance — altered boxes are the
+    # ones that become ground-truth mask, so a bad box there costs more.
+    oob_by_provenance = defaultdict(Counter)
+    for r in region_records:
+        if r["disk_bounds_status"] in ("partially_outside", "completely_outside"):
+            oob_by_provenance[r["region_provenance_raw"]][r["disk_bounds_status"]] += 1
+    if oob_by_provenance:
+        log_entries.append("Out-of-bounds regions by provenance:")
+        for provenance in sorted(oob_by_provenance, key=str):
+            log_entries.append(f"  {provenance}: {dict(oob_by_provenance[provenance])}")
+        n_altered_oob = sum(oob_by_provenance.get("altered", Counter()).values())
+        if n_altered_oob:
+            log_entries.append(
+                f"  WARNING: {n_altered_oob} altered regions fall outside the image"
+            )
+
+    # Where the two frames disagree
+    disagreements = [
+        r for r in region_records
+        if r["disk_bounds_status"] != r["declared_bounds_status"]
+    ]
+    log_entries.append(f"Disk / declared bounds disagreements: {len(disagreements)}")
+    for region in disagreements[:20]:
+        parent = image_lookup[region["image_path"]]
+        log_entries.append(
+            f"  {region['file_stem']} region={region['region_index']} "
+            f"field={region['field_name']} "
+            f"box=({region['x']}, {region['y']}, {region['width']}, {region['height']}) "
+            f"disk={parent['image_width']}x{parent['image_height']} "
+            f"declared={parent['resulted_cropped_image_width']}"
+            f"x{parent['resulted_cropped_image_height']} "
+            f"{region['disk_bounds_status']} vs {region['declared_bounds_status']}"
+        )
+    if len(disagreements) > 20:
+        log_entries.append(f"  ... {len(disagreements) - 20} more not shown")
+
+    # Reconciliation
+    n_no_parent = sum(1 for r in region_records if not r["disk_bounds_status"])
+    log_entries.append(
+        f"Reconciliation: total_regions={len(region_records)} "
+        f"with_parent={len(region_records) - n_no_parent} "
+        f"no_parent={n_no_parent} "
+        f"disagreements={len(disagreements)}"
+    )
+
+    write_log(final_log_path, log_entries)
+
+#Function helper to extract information about altered regions which are outside boundary based on results of previous functio
+                # ********************validate_region_bounds: ********************
+                # Region bounds against actual on-disk image:
+                # fully_inside: 31955
+                # inside_touching_boundary: 1455
+                # partially_outside: 514
+                # Region bounds against JSON-declared crop:
+                # fully_inside: 31955
+                # inside_touching_boundary: 1455
+                # partially_outside: 514
+                # Out-of-bounds regions by provenance:
+                # None: {'partially_outside': 85}
+                # altered: {'partially_outside': 171}
+                # original: {'partially_outside': 258}
+                # WARNING: 171 altered regions fall outside the image
+                # Disk / declared bounds disagreements: 0
+                # Reconciliation: total_regions=33924 with_parent=33924 no_parent=0 disagreements=0
+def calculate_visible_region(
+    x,
+    y,
+    width,
+    height,
+    image_width,
+    image_height,
+) -> dict:
+
+    right = x + width
+    bottom = y + height
+
+    visible_left = max(0, x)
+    visible_top = max(0, y)
+    visible_right = min(image_width, right)
+    visible_bottom = min(image_height, bottom)
+
+    visible_width = max(
+        0,
+        visible_right - visible_left
+    )
+
+    visible_height = max(
+        0,
+        visible_bottom - visible_top
+    )
+
+    original_area = width * height
+    visible_area = visible_width * visible_height
+
+    visible_fraction = (
+        visible_area / original_area
+        if original_area > 0
+        else None
+    )
+
+    return {
+        "outside_left": max(0, -x),
+        "outside_top": max(0, -y),
+        "outside_right": max(
+            0,
+            right - image_width
+        ),
+        "outside_bottom": max(
+            0,
+            bottom - image_height
+        ),
+
+        "visible_left": visible_left,
+        "visible_top": visible_top,
+        "visible_right": visible_right,
+        "visible_bottom": visible_bottom,
+
+        "visible_width": visible_width,
+        "visible_height": visible_height,
+
+        "original_area": original_area,
+        "visible_area": visible_area,
+        "visible_fraction": visible_fraction,
+    }
+
+#Function to calculate the severity of outside bounds regions
+def analyse_region_visibility(
+    region_records: list[dict],
+    matched_records: list[dict],
+) -> None:
+
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [f"********************{func_name}: ********************"]
+
+    image_lookup = {
+        record["image_path"]: record
+        for record in matched_records
+        if record["image_path"] is not None
+    }
+
+    for region in region_records:
+
+        parent = image_lookup.get(
+            region["image_path"]
+        )
+
+        region["outside_left"] = None
+        region["outside_top"] = None
+        region["outside_right"] = None
+        region["outside_bottom"] = None
+
+        region["visible_left"] = None
+        region["visible_top"] = None
+        region["visible_right"] = None
+        region["visible_bottom"] = None
+
+        region["visible_width"] = None
+        region["visible_height"] = None
+
+        region["original_area"] = None
+        region["visible_area"] = None
+        region["visible_fraction"] = None
+
+        if parent is None:
+            continue
+
+        visibility = calculate_visible_region(
+            region["x"],
+            region["y"],
+            region["width"],
+            region["height"],
+            parent["image_width"],
+            parent["image_height"],
+        )
+
+        for key, value in visibility.items():
+            region[key] = value
+
+    # ---- Diagnostics ----
+    partially_outside = [
+        r for r in region_records
+        if r["disk_bounds_status"] == "partially_outside"
+    ]
+    log_entries.append(f"Partially outside regions: {len(partially_outside)}")
+
+    def fraction_summary(regions, label):
+        fractions = sorted(
+            r["visible_fraction"] for r in regions
+            if r["visible_fraction"] is not None
+        )
+        if not fractions:
+            return
+        n = len(fractions)
+        median = (
+            fractions[n // 2] if n % 2
+            else (fractions[n // 2 - 1] + fractions[n // 2]) / 2
+        )
+        log_entries.append(f"{label} visible-fraction (n={n}):")
+        log_entries.append(
+            f"  min={fractions[0]:.6f}  median={median:.6f}  max={fractions[-1]:.6f}"
+        )
+
+    fraction_summary(partially_outside, "All partially-outside")
+
+    log_entries.append("Partially outside below visible-fraction thresholds:")
+    for threshold in (0.99, 0.95, 0.90, 0.70, 0.50):
+        count = sum(
+            1 for r in partially_outside
+            if r["visible_fraction"] is not None and r["visible_fraction"] < threshold
+        )
+        log_entries.append(f"  < {threshold:.2f}: {count}")
+
+    # Altered regions are the ones that become ground-truth mask
+    altered_outside = [
+        r for r in partially_outside if r["region_provenance_raw"] == "altered"
+    ]
+    log_entries.append(f"Partially outside ALTERED regions: {len(altered_outside)}")
+    fraction_summary(altered_outside, "  Altered")
+    for threshold in (0.99, 0.95, 0.90, 0.70, 0.50):
+        count = sum(
+            1 for r in altered_outside
+            if r["visible_fraction"] is not None and r["visible_fraction"] < threshold
+        )
+        log_entries.append(f"  altered < {threshold:.2f}: {count}")
+
+    # Which edges
+    edge_counts = Counter()
+    for r in partially_outside:
+        for edge in ("left", "top", "right", "bottom"):
+            if r[f"outside_{edge}"] > 0:
+                edge_counts[edge] += 1
+    log_entries.append("Out-of-bounds edges:")
+    for edge, count in sorted(edge_counts.items()):
+        log_entries.append(f"  {edge}: {count}")
+
+    # Breakdowns
+    for field in ("split", "traffic_type", "variant", "hardware_source", "field_name"):
+        counts = Counter(r[field] for r in partially_outside)
+        log_entries.append(f"Partially outside by {field}:")
+        for value, count in sorted(counts.items(), key=lambda item: str(item[0])):
+            log_entries.append(f"  {value}: {count}")
+
+    # Image-level impact
+    affected_images = {r["image_path"] for r in partially_outside}
+    altered_affected = {r["image_path"] for r in altered_outside}
+    log_entries.append(f"Images with any partially-outside region: {len(affected_images)}")
+    log_entries.append(
+        f"Images with partially-outside ALTERED region: {len(altered_affected)}"
+        f"  ({len(altered_affected) / len(matched_records):.2%} of all images)"
+    )
+
+    # Worst cases, altered first
+    most_truncated = sorted(
+        partially_outside,
+        key=lambda r: (r["region_provenance_raw"] != "altered", r["visible_fraction"]),
+    )
+    log_entries.append("Most truncated regions (altered listed first):")
+    for r in most_truncated[:20]:
+        log_entries.append(
+            f"  {r['split']}/{r['traffic_type']}/{r['variant']} "
+            f"{r['hardware_source']} {r['file_stem']} "
+            f"region={r['region_index']} field={r['field_name']} "
+            f"prov={r['region_provenance_raw']} "
+            f"box=({r['x']}, {r['y']}, {r['width']}, {r['height']}) "
+            f"visible={r['visible_fraction']:.6f}"
+        )
+
+    # Reconciliation
+    n_no_parent = sum(1 for r in region_records if r["visible_fraction"] is None)
+    log_entries.append(
+        f"Reconciliation: total_regions={len(region_records)} "
+        f"visibility_computed={len(region_records) - n_no_parent} "
+        f"skipped={n_no_parent} partially_outside={len(partially_outside)} "
+        f"altered_partially_outside={len(altered_outside)}"
+    )
+
+    write_log(final_log_path, log_entries)
+
 #Block: Execution
 if __name__ == "__main__":
     #load the yaml dictionary
@@ -1425,3 +1831,8 @@ if __name__ == "__main__":
     #Extract data from regions 
     region_records = extract_region_records(matched_records)
 
+    #validate regions
+    validate_region_bounds(region_records,matched_records)
+
+    # Analysis of regions which are out of bound. 
+    analyse_region_visibility(region_records,matched_records)
