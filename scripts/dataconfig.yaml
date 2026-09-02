@@ -18,3 +18,9 @@ dataset:
       - .png
 
     json_extension: .json
+
+output:
+    directory: '../output'
+    workbook_name: 'fantasyid_inventory.xlsx'
+
+    

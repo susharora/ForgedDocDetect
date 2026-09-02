@@ -11,6 +11,8 @@ from collections import defaultdict
 import hashlib 
 import json
 from PIL import Image
+import pandas as pd
+
 
 import yaml
 import inspect
@@ -1188,7 +1190,10 @@ def inspect_regions(
         ("shape_attributes", shape_key_patterns),
         ("region_attributes", attribute_key_patterns),
     ):
-        log_entries.append(f"Distinct {title} structures ({len(patterns)}):")
+        log_entries.append(
+            f"Distinct {title} structures ({len(patterns)} distinct, "
+            f"{sum(patterns.values())} total):"
+        )
         for pattern, count in sorted(patterns.items()):
             log_entries.append(f"  {count:6d}  " + " | ".join(pattern))
 
@@ -2288,6 +2293,185 @@ def release_json_memory(
         record.pop("_regions_data", None)
         record.pop("_person_info_data", None)
 
+#audit 
+def audit_image_metadata(
+    matched_records: list[dict]
+) -> None:
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [f"********************{func_name}: ********************"]
+
+    # ---- Simple distributions ----
+    for field in (
+        "split", "traffic_type", "variant", "hardware_source",
+        "crop_info_key", "face_db", "gender",
+    ):
+        counts = Counter(record[field] for record in matched_records)
+        total = sum(counts.values())
+        log_entries.append(
+            f"{field} counts ({len(counts)} distinct, {total} total):"
+        )
+        for value, count in sorted(counts.items(), key=lambda item: str(item[0])):
+            label = value if value not in ("", None) else "(empty)"
+            log_entries.append(f"  {label}: {count}")
+        if total != len(matched_records):
+            log_entries.append(
+                f"  WARNING: total {total} != record count {len(matched_records)}"
+            )
+
+
+    # ---- face_db x crop_info_key ----
+    crop_face_counts = Counter(
+        (record["face_db"], record["crop_info_key"])
+        for record in matched_records
+    )
+
+    log_entries.append(
+        f"face_db x crop_info_key ({len(crop_face_counts)} combinations, "
+        f"{sum(crop_face_counts.values())} total):"
+    )
+    for (face_db, crop_key), count in sorted(
+        crop_face_counts.items(), key=lambda item: str(item[0])
+    ):
+        log_entries.append(
+            f"  {face_db or '(empty)'} | {crop_key or '(empty)'}: {count}"
+        )
+
+    # ---- Unique identities per database ----
+    identities_by_db = defaultdict(set)
+    for record in matched_records:
+        identities_by_db[record["face_db"]].add(record["face_id"])
+    log_entries.append("Unique face identities by face_db:")
+    for face_db in sorted(identities_by_db, key=str):
+        log_entries.append(
+            f"  {face_db or '(empty)'}: {len(identities_by_db[face_db])}"
+        )
+
+    # ---- Identity leakage between train and test ----
+    identities_by_split = defaultdict(set)
+    for record in matched_records:
+        identities_by_split[record["split"]].add(
+            (record["face_db"], record["face_id"])
+        )
+    train_identities = identities_by_split.get("train", set())
+    test_identities = identities_by_split.get("test", set())
+    shared_identities = train_identities & test_identities
+
+    log_entries.append("Identity split summary:")
+    log_entries.append(f"  train unique identities: {len(train_identities)}")
+    log_entries.append(f"  test unique identities:  {len(test_identities)}")
+    log_entries.append(f"  present in BOTH splits:  {len(shared_identities)}")
+    if shared_identities:
+        log_entries.append(
+            "NOTE: face identities appear in both train and test"
+        )
+        for face_db, face_id in sorted(shared_identities, key=str)[:20]:
+            log_entries.append(f"    {face_db}:{face_id}")
+        if len(shared_identities) > 20:
+            log_entries.append(f"    ... {len(shared_identities) - 20} more not shown")
+
+    # ---- Card-stem leakage, independent of face identity ----
+    stems_by_split = defaultdict(set)
+    for record in matched_records:
+        stems_by_split[record["split"]].add(record["file_stem"])
+    shared_stems = stems_by_split.get("train", set()) & stems_by_split.get("test", set())
+    log_entries.append(
+        f"Card stems in both train and test: {len(shared_stems)}"
+    )
+    if shared_stems:
+        "NOTE: same card stem appears in both train and test"
+
+    write_log(final_log_path, log_entries)
+
+#function helper create excel
+def make_excel_value(value, dataset_root: Path):
+
+    if isinstance(value, Path):
+        try:
+            return value.relative_to(dataset_root).as_posix()
+        except ValueError:
+            return value.as_posix()
+
+    if isinstance(value, tuple):
+        return json.dumps(value)
+
+    return value
+
+#Function create excel
+#Function to export the image-level and region-level inventories to a workbook
+def export_inventory_to_excel(
+    matched_records: list[dict],
+    region_records: list[dict],
+    config: dict,
+) -> None:
+
+    func_name = inspect.currentframe().f_code.co_name
+    log_entries = [f"********************{func_name}: ********************"]
+
+    dataset_root = Path(config["dataset"]["root"])
+    output_dir = Path(config["output"]["directory"])
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    base_name = Path(config["output"]["workbook_name"])
+    current_date = datetime.now().strftime("%Y-%m-%d")
+    output_path = output_dir / f"{base_name.stem}_{current_date}{base_name.suffix}"
+
+    def to_rows(records: list[dict]) -> list[dict]:
+        return [
+            {
+                key: make_excel_value(value, dataset_root)
+                for key, value in record.items()
+                if not key.startswith("_")
+            }
+            for record in records
+        ]
+
+    images_df = pd.DataFrame(to_rows(matched_records))
+    regions_df = pd.DataFrame(to_rows(region_records))
+
+    try:
+        with pd.ExcelWriter(output_path, engine="openpyxl") as writer:
+            images_df.to_excel(writer, sheet_name="Images", index=False)
+            regions_df.to_excel(writer, sheet_name="Regions", index=False)
+    except (OSError, ValueError) as error:
+        log_entries.append(f"ERROR writing workbook: {error}")
+        write_log(final_log_path, log_entries)
+        raise
+
+    # ---- Diagnostics ----
+    dropped_image_cols = sorted(
+        k for k in (matched_records[0] if matched_records else {}) if k.startswith("_")
+    )
+    dropped_region_cols = sorted(
+        k for k in (region_records[0] if region_records else {}) if k.startswith("_")
+    )
+
+    log_entries.append(f"Workbook written to: {output_path}")
+    log_entries.append(
+        f"  Images sheet:  {len(images_df)} rows x {len(images_df.columns)} columns"
+    )
+    log_entries.append(
+        f"  Regions sheet: {len(regions_df)} rows x {len(regions_df.columns)} columns"
+    )
+    log_entries.append(f"  Columns dropped (leading underscore): {dropped_image_cols}")
+    if dropped_region_cols:
+        log_entries.append(f"  Region columns dropped: {dropped_region_cols}")
+
+    log_entries.append("Images sheet columns:")
+    log_entries.append("  " + " | ".join(images_df.columns))
+    log_entries.append("Regions sheet columns:")
+    log_entries.append("  " + " | ".join(regions_df.columns))
+
+    # Reconciliation
+    log_entries.append(
+        f"Reconciliation: matched_records={len(matched_records)} "
+        f"images_rows={len(images_df)} "
+        f"region_records={len(region_records)} regions_rows={len(regions_df)}"
+    )
+    if len(images_df) != len(matched_records) or len(regions_df) != len(region_records):
+        log_entries.append("  WARNING: exported row counts do not reconcile")
+
+    write_log(final_log_path, log_entries)
+
 #Main Execution
 if __name__ == "__main__":
     #load the yaml dictionary
@@ -2322,6 +2506,9 @@ if __name__ == "__main__":
 
     #extract person info from JSON
     extract_person_info(matched_records)
+
+    # Based on above result, The 362 identities across 3,284 images also makes intuitive sense.
+    # The same underlying person/card identity appears in multiple captures, devices, and/or manipulation versions.
 
     #Extract cropping info
     find_crop_information(matched_records) 
@@ -2375,4 +2562,51 @@ if __name__ == "__main__":
 
     #clear fields of JSOn not required. 
     release_json_memory(matched_records)
-    
+
+    #Audit function
+    audit_image_metadata(matched_records)
+
+    #     TEST
+    # ├── existing-card component
+    # │   └── digital_3 = 786
+    # │       262 identities × 3 captures
+    # │
+    # └── altered/recaptured Flickr component
+    #     ├── bonafide = 300
+    #     ├── facedancer = 150
+    #     └── textdiffuserft_bfei = 149
+    #         total = 599
+
+
+
+    # The official 459-image FantasyID validation set was unavailable under the applicable EULA. 
+    # We therefore constructed a card-disjoint internal validation set of 51 cards (459 images). 
+    # It wasfrom the provided training data, preserving the official val-set size while preventing card-level leakage.
+
+    #training identifies:
+        # AMFD_Faces_Final: 109 identities
+        # facelab_london:   102 identities
+
+    # RAW AVAILABLE DATA
+
+    # official train = 1899
+    #         │
+    #         ├── internal project train
+    #         │
+    #         └── internal dev_val
+    #             grouped by whole card
+    #             deterministic
+    #             approximately/possibly exactly 459 images
+
+    # official test = 1385
+    #         └── remains completely untouched
+
+
+    # IF OFFICIAL VALIDATION LATER ARRIVES:
+
+    # official train = 1899 → all training
+    # official validation = 459 → dev_val
+    # official test = 1385 → untouched
+
+    export_inventory_to_excel(matched_records,region_records,config,)
+

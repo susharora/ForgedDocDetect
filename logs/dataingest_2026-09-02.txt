@@ -82,6 +82,23 @@ Total JSON parse failures: 0
 Distinct JSON top-level structures:
   cropping_info | person_info | regions
   cropping_info-altered-recaptured | person_info | regions
+********************inspect_person_info: ********************
+Distinct person_info structures: 1
+    3284  face_db | face_id | gender
+Reconciliation: total=3284 person_info_found=3284 missing_or_invalid=0
+********************extract_person_info: ********************
+Missing face_db: 0
+Missing face_id: 0
+Missing gender: 0
+face_db counts:
+  AMFD_Faces_Final: 1308
+  HQ-WMCA-HFACE: 153
+  facelab_london: 1224
+  flickr-cropped: 599
+gender counts:
+  F: 1958
+  M: 1326
+Unique face_db + face_id combinations: 362
 ********************find_crop_information: ********************
 find_crop_information: Distinct crop-information structures:
 find_crop_information:  cropping_info  (1 variant(s)):
@@ -160,11 +177,11 @@ EXIF orientation by device:
   iphone15pro: {None: 895}
   scan: {None: 1095}
 ********************inspect_regions: ********************
-Distinct region top-level structures (1):
+Distinct region top-level structures (1 distinct, 33924 total):
    33924  region_attributes | shape_attributes
-Distinct shape_attributes structures (1):
+Distinct shape_attributes structures (1 distinct, 33924 total):
    33924  height | name | width | x | y
-Distinct region_attributes structures (6):
+Distinct region_attributes structures (6 distinct, 33924 total):
     1662  field_name
    13900  field_name | language | region_provenance | val
     5412  field_name | language | val
@@ -432,20 +449,80 @@ Examples of duplicate image/field/provenance groups:
     region=9 box=(2715, 582, 348, 462)
   ... 3315 more not shown
 Reconciliation: total_regions=33924 grouped=33924 groups=30589 regions_in_duplicate_groups=6670
-********************inspect_person_info: ********************
-Distinct person_info structures: 1
-    3284  face_db | face_id | gender
-Reconciliation: total=3284 person_info_found=3284 missing_or_invalid=0
-********************extract_person_info: ********************
-Missing face_db: 0
-Missing face_id: 0
-Missing gender: 0
-face_db counts:
+********************audit_image_metadata: ********************
+split counts (2 distinct, 3284 total):
+  test: 1385
+  train: 1899
+traffic_type counts (2 distinct, 3284 total):
+  attack: 2351
+  bonafide: 933
+variant counts (6 distinct, 3284 total):
+  (empty): 933
+  digital_1: 633
+  digital_2: 633
+  digital_3: 786
+  facedancer: 150
+  textdiffuserft_bfei: 149
+hardware_source counts (4 distinct, 3284 total):
+  huawei: 1094
+  iphone15: 200
+  iphone15pro: 895
+  scan: 1095
+crop_info_key counts (2 distinct, 3284 total):
+  cropping_info: 2685
+  cropping_info-altered-recaptured: 599
+face_db counts (4 distinct, 3284 total):
   AMFD_Faces_Final: 1308
   HQ-WMCA-HFACE: 153
   facelab_london: 1224
   flickr-cropped: 599
-gender counts:
+gender counts (2 distinct, 3284 total):
   F: 1958
   M: 1326
-Unique face_db + face_id combinations: 362
+face_db x crop_info_key (4 combinations, 3284 total):
+  AMFD_Faces_Final | cropping_info: 1308
+  HQ-WMCA-HFACE | cropping_info: 153
+  facelab_london | cropping_info: 1224
+  flickr-cropped | cropping_info-altered-recaptured: 599
+Unique face identities by face_db:
+  AMFD_Faces_Final: 109
+  HQ-WMCA-HFACE: 51
+  facelab_london: 102
+  flickr-cropped: 100
+Identity split summary:
+  train unique identities: 211
+  test unique identities:  362
+  present in BOTH splits:  211
+NOTE: face identities appear in both train and test
+    AMFD_Faces_Final:NF-1001
+    AMFD_Faces_Final:NF-1002
+    AMFD_Faces_Final:NF-1003
+    AMFD_Faces_Final:NF-1004
+    AMFD_Faces_Final:NF-1005
+    AMFD_Faces_Final:NF-1006
+    AMFD_Faces_Final:NF-1008
+    AMFD_Faces_Final:NF-1009
+    AMFD_Faces_Final:NF-1012
+    AMFD_Faces_Final:NF-1013
+    AMFD_Faces_Final:NF-1014
+    AMFD_Faces_Final:NF-1015
+    AMFD_Faces_Final:NF-1016
+    AMFD_Faces_Final:NF-1017
+    AMFD_Faces_Final:NF-1018
+    AMFD_Faces_Final:NF-1020
+    AMFD_Faces_Final:NF-1021
+    AMFD_Faces_Final:NF-1022
+    AMFD_Faces_Final:NF-1023
+    AMFD_Faces_Final:NF-1024
+    ... 191 more not shown
+Card stems in both train and test: 211
+********************export_inventory_to_excel: ********************
+Workbook written to: ../output/fantasyid_inventory_2026-09-02.xlsx
+  Images sheet:  3284 rows x 47 columns
+  Regions sheet: 33924 rows x 41 columns
+  Columns dropped (leading underscore): []
+Images sheet columns:
+  split | traffic_type | variant | hardware_source | file_stem | image_count | json_count | image_path | json_path | image_sha256 | json_sha256 | match_status | json_parse_ok | json_top_level_type | json_top_level_keys | json_error | person_info_found | person_info_structure_ok | person_info_error | face_db | face_id | gender | crop_info_key | crop_info_found | crop_info_error | original_image_width | original_image_height | resulted_cropped_image_width | resulted_cropped_image_height | transformation_matrix | original_rectangle | matrix_shape_ok | rectangle_shape_ok | crop_field_error | transformed_rectangle | transform_ok | transform_error | image_width | image_height | exif_orientation | image_metadata_ok | image_metadata_error | dims_match_declared_crop | regions_found | regions_structure_ok | region_count | regions_error
+Regions sheet columns:
+  split | traffic_type | variant | hardware_source | file_stem | image_path | image_sha256 | json_path | json_sha256 | region_index | shape_name | x | y | width | height | field_name | region_provenance_raw | language | val | org_value | new_value | source | target | disk_bounds_status | declared_bounds_status | right | bottom | outside_left | outside_top | outside_right | outside_bottom | visible_left | visible_top | visible_right | visible_bottom | visible_width | visible_height | original_area | visible_area | visible_fraction | outside_right_fraction
+Reconciliation: matched_records=3284 images_rows=3284 region_records=33924 regions_rows=33924
