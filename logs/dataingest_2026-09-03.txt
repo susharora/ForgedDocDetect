@@ -145,16 +145,16 @@ Example transformed rectangles:
     Declared crop size: 3023 x 1884
     original -> transformed  (expected corner)
       ( 193.000, 2680.000)  ->  (   -0.000,    -0.000)   (expect 0, 0)
-      (3216.000, 2706.000)  ->  ( 3022.000,     0.000)   (expect 3023, 0)
-      (3171.000, 4565.000)  ->  ( 3022.000,  1883.000)   (expect 3023, 1884)
-      ( 156.000, 4564.000)  ->  (    0.000,  1883.000)   (expect 0, 1884)
+      (3216.000, 2706.000)  ->  ( 3022.000,     0.000)   (expect 3022, 0)
+      (3171.000, 4565.000)  ->  ( 3022.000,  1883.000)   (expect 3022, 1883)
+      ( 156.000, 4564.000)  ->  (    0.000,  1883.000)   (expect 0, 1883)
   Crop type: cropping_info-altered-recaptured  (example: chinese2-flickr_F_16745558933_a3f9fe2bc9_k)
     Declared crop size: 3230 x 2022
     original -> transformed  (expected corner)
       ( 106.000, 1722.000)  ->  (    0.000,     0.000)   (expect 0, 0)
-      (3336.000, 1723.000)  ->  ( 3229.000,     0.000)   (expect 3230, 0)
-      (3291.000, 3745.000)  ->  ( 3229.000,  2021.000)   (expect 3230, 2022)
-      ( 107.000, 3694.000)  ->  (    0.000,  2021.000)   (expect 0, 2022)
+      (3336.000, 1723.000)  ->  ( 3229.000,     0.000)   (expect 3229, 0)
+      (3291.000, 3745.000)  ->  ( 3229.000,  2021.000)   (expect 3229, 2021)
+      ( 107.000, 3694.000)  ->  (    0.000,  2021.000)   (expect 0, 2021)
 Reconciliation: total=3284 eligible=3284 transformed_ok=3284 failed=0
 ********************extract_image_metadata: ********************
 extract_image_metadata: Reconciliation: 
@@ -516,8 +516,9 @@ NOTE: face identities appear in both train and test
     AMFD_Faces_Final:NF-1024
     ... 191 more not shown
 Card stems in both train and test: 211
+NOTE: same card stem appears in both train and test
 ********************export_inventory_to_excel: ********************
-Workbook written to: ../output/fantasyid_inventory_2026-09-02.xlsx
+Workbook written to: ../output/fantasyid_inventory_2026-09-03.xlsx
   Images sheet:  3284 rows x 47 columns
   Regions sheet: 33924 rows x 41 columns
   Columns dropped (leading underscore): []
