@@ -971,7 +971,7 @@ def transform_rectangles(
         log_entries.append(f"    Declared crop size: {width} x {height}")
         log_entries.append("    original -> transformed  (expected corner)")
 
-        expected_corners = ((0, 0), (width, 0), (width, height), (0, height))
+        expected_corners = ((0, 0), (width - 1, 0), (width - 1, height - 1), (0, height - 1))
         for original, transformed, expected in zip(
             record["original_rectangle"],
             record["transformed_rectangle"],
@@ -2378,7 +2378,7 @@ def audit_image_metadata(
         f"Card stems in both train and test: {len(shared_stems)}"
     )
     if shared_stems:
-        "NOTE: same card stem appears in both train and test"
+        log_entries.append(f"NOTE: same card stem appears in both train and test")
 
     write_log(final_log_path, log_entries)
 
