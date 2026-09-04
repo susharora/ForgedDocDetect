@@ -23,4 +23,67 @@ output:
     directory: '../output'
     workbook_name: 'fantasyid_inventory.xlsx'
 
-    
+expected_counts:
+  images_total: 3284
+  regions_total: 33924
+
+  partitions:
+    train:
+      total: 1899
+      groups:
+        - name: bonafide
+          selector:
+            traffic_type: bonafide
+            variant: ""
+          expected: 633
+
+        - name: digital_1
+          selector:
+            traffic_type: attack
+            variant: digital_1
+          expected: 633
+
+        - name: digital_2
+          selector:
+            traffic_type: attack
+            variant: digital_2
+          expected: 633
+
+    test:
+      total: 1385
+      groups:
+        - name: bonafide
+          selector:
+            traffic_type: bonafide
+            variant: ""
+          expected: 300
+
+        - name: digital_3
+          selector:
+            traffic_type: attack
+            variant: digital_3
+          expected: 786
+
+        - name: facedancer
+          selector:
+            traffic_type: attack
+            variant: facedancer
+          expected: 150
+
+        - name: textdiffuserft_bfei
+          selector:
+            traffic_type: attack
+            variant: textdiffuserft_bfei
+          expected: 149
+
+
+regression_checks:
+  json_parse_failures: 0
+  dimension_mismatches: 3
+  partially_outside_regions: 514
+  altered_partially_outside_regions: 171
+  images_with_partially_outside_region: 343
+  completely_outside_regions: 0
+  face_field_provenance_groups_total: 4700
+  face_multi_region_groups: 3335
+  formula_like_source_cells: 0

@@ -12,6 +12,7 @@ import hashlib
 import json
 from PIL import Image
 import pandas as pd
+import os
 
 
 import yaml
@@ -32,6 +33,142 @@ ORIENTATION_LABELS = {
     7: "mirrored horizontally then rotated 90 CW",
     8: "rotated 270 CW",
 }
+
+NULL_MARKER = "<NULL>"
+
+
+# ------------------------------------------------------------------
+# Preferred column order.
+#
+# IMPORTANT:
+# These lists do NOT control which columns are exported.
+# Any future column not listed here is automatically appended at
+# the end, so the discovery program remains flexible.
+# ------------------------------------------------------------------
+
+IMAGE_COLUMN_ORDER = [
+    # ---- Source identity ----
+    "split",
+    "traffic_type",
+    "variant",
+    "hardware_source",
+    "file_stem",
+
+    # ---- Files / pairing ----
+    "image_path",
+    "image_sha256",
+    "json_path",
+    "json_sha256",
+    "image_count",
+    "json_count",
+    "match_status",
+
+    # ---- JSON QA ----
+    "json_parse_ok",
+    "json_top_level_type",
+    "json_top_level_keys",
+    "json_error",
+
+    # ---- Person metadata ----
+    "face_db",
+    "face_id",
+    "gender",
+
+    # ---- Person-info QA ----
+    "person_info_found",
+    "person_info_structure_ok",
+    "person_info_error",
+
+    # ---- Crop source metadata ----
+    "crop_info_key",
+    "original_image_width",
+    "original_image_height",
+    "resulted_cropped_image_width",
+    "resulted_cropped_image_height",
+    "transformation_matrix",
+    "original_rectangle",
+
+    # ---- Crop / transform QA ----
+    "crop_info_found",
+    "crop_info_error",
+    "matrix_shape_ok",
+    "rectangle_shape_ok",
+    "crop_field_error",
+    "transformed_rectangle",
+    "transform_ok",
+    "transform_error",
+
+    # ---- Actual image metadata / QA ----
+    "image_width",
+    "image_height",
+    "exif_orientation",
+    "image_metadata_ok",
+    "image_metadata_error",
+    "dims_match_declared_crop",
+
+    # ---- Region summary / QA ----
+    "region_count",
+    "regions_found",
+    "regions_structure_ok",
+    "regions_error",
+]
+
+
+REGION_COLUMN_ORDER = [
+    # ---- Parent image ----
+    "split",
+    "traffic_type",
+    "variant",
+    "hardware_source",
+    "file_stem",
+    "image_path",
+    "image_sha256",
+    "json_path",
+    "json_sha256",
+
+    # ---- Annotation identity ----
+    "region_index",
+    "shape_name",
+    "field_name",
+    "region_provenance_raw",
+
+    # ---- Raw annotation attributes ----
+    "language",
+    "val",
+    "org_value",
+    "new_value",
+    "source",
+    "target",
+
+    # ---- Raw geometry ----
+    "x",
+    "y",
+    "width",
+    "height",
+    "right",
+    "bottom",
+
+    # ---- Boundary QA ----
+    "disk_bounds_status",
+    "declared_bounds_status",
+    "outside_left",
+    "outside_top",
+    "outside_right",
+    "outside_bottom",
+
+    # ---- Visible geometry ----
+    "visible_left",
+    "visible_top",
+    "visible_right",
+    "visible_bottom",
+    "visible_width",
+    "visible_height",
+    "original_area",
+    "visible_area",
+    "visible_fraction",
+    "outside_right_fraction",
+]
+
 
 #Block: Function definitions
 
@@ -2382,95 +2519,2681 @@ def audit_image_metadata(
 
     write_log(final_log_path, log_entries)
 
-#function helper create excel
-def make_excel_value(value, dataset_root: Path):
+
+# ================================================================
+# DISCOVERY WORKBOOK EXPORT ( Excel code review)
+# ================================================================
+
+NULL_MARKER = "<NULL>"
+
+# Only source-text fields where we need to preserve the difference:
+#
+#   None  -> source field/key absent
+#   ""    -> genuine empty string
+#
+# Numeric/general columns keep None as a true blank Excel cell.
+NULL_MARKER_COLUMNS = {
+    "field_name",
+    "region_provenance_raw",
+    "language",
+    "val",
+    "org_value",
+    "new_value",
+    "source",
+    "target",
+}
+
+
+# ================================================================
+# PREFERRED COLUMN ORDER
+#
+# These lists control ordering only.
+# Any future/unrecognised columns are automatically appended.
+# ================================================================
+
+IMAGE_COLUMN_ORDER = [
+    # ---- Source identity ----
+    "split",
+    "traffic_type",
+    "variant",
+    "hardware_source",
+    "file_stem",
+
+    # ---- Files / pairing ----
+    "image_path",
+    "image_sha256",
+    "json_path",
+    "json_sha256",
+    "image_count",
+    "json_count",
+    "match_status",
+
+    # ---- JSON QA ----
+    "json_parse_ok",
+    "json_top_level_type",
+    "json_top_level_keys",
+    "json_error",
+
+    # ---- Person metadata ----
+    "face_db",
+    "face_id",
+    "gender",
+
+    # ---- Person QA ----
+    "person_info_found",
+    "person_info_structure_ok",
+    "person_info_error",
+
+    # ---- Crop metadata ----
+    "crop_info_key",
+    "original_image_width",
+    "original_image_height",
+    "resulted_cropped_image_width",
+    "resulted_cropped_image_height",
+    "transformation_matrix",
+    "original_rectangle",
+
+    # ---- Crop / transform QA ----
+    "crop_info_found",
+    "crop_info_error",
+    "matrix_shape_ok",
+    "rectangle_shape_ok",
+    "crop_field_error",
+    "transformed_rectangle",
+    "transform_ok",
+    "transform_error",
+
+    # ---- On-disk image metadata / QA ----
+    "image_width",
+    "image_height",
+    "exif_orientation",
+    "image_metadata_ok",
+    "image_metadata_error",
+    "dims_match_declared_crop",
+
+    # ---- Region summary / QA ----
+    "region_count",
+    "regions_found",
+    "regions_structure_ok",
+    "regions_error",
+]
+
+
+REGION_COLUMN_ORDER = [
+    # ---- Parent image ----
+    "split",
+    "traffic_type",
+    "variant",
+    "hardware_source",
+    "file_stem",
+    "image_path",
+    "image_sha256",
+    "json_path",
+    "json_sha256",
+
+    # ---- Annotation identity ----
+    "region_index",
+    "shape_name",
+    "field_name",
+    "region_provenance_raw",
+
+    # ---- Raw annotation attributes ----
+    "language",
+    "val",
+    "org_value",
+    "new_value",
+    "source",
+    "target",
+
+    # ---- Raw geometry ----
+    "x",
+    "y",
+    "width",
+    "height",
+    "right",
+    "bottom",
+
+    # ---- Boundary QA ----
+    "disk_bounds_status",
+    "declared_bounds_status",
+    "outside_left",
+    "outside_top",
+    "outside_right",
+    "outside_bottom",
+
+    # ---- Visible geometry ----
+    "visible_left",
+    "visible_top",
+    "visible_right",
+    "visible_bottom",
+    "visible_width",
+    "visible_height",
+    "original_area",
+    "visible_area",
+    "visible_fraction",
+    "outside_right_fraction",
+]
+
+
+# ================================================================
+# EXCEL VALUE CONVERSION
+# ================================================================
+
+def make_excel_value(
+    value,
+    dataset_root: Path,
+    column_name: str,
+):
+    """
+    Convert a Python value into an Excel-friendly representation.
+
+    IMPORTANT:
+    Scientific QA is performed BEFORE this conversion.
+    """
+
+    # ------------------------------------------------------------
+    # Missing values
+    # ------------------------------------------------------------
+
+    if value is None:
+
+        if column_name in NULL_MARKER_COLUMNS:
+            return NULL_MARKER
+
+        return None
+
+    # ------------------------------------------------------------
+    # Paths
+    # ------------------------------------------------------------
 
     if isinstance(value, Path):
+
         try:
-            return value.relative_to(dataset_root).as_posix()
+            return value.relative_to(
+                dataset_root
+            ).as_posix()
+
         except ValueError:
             return value.as_posix()
 
-    if isinstance(value, tuple):
-        return json.dumps(value)
+    # ------------------------------------------------------------
+    # Structured values
+    #
+    # Stored as valid JSON text.
+    # json.loads() reconstructs the nested values as lists/dicts.
+    # ------------------------------------------------------------
+
+    if isinstance(
+        value,
+        (tuple, list, dict),
+    ):
+
+        return json.dumps(
+            value,
+            ensure_ascii=False,
+        )
 
     return value
 
-#Function create excel
-#Function to export the image-level and region-level inventories to a workbook
+
+# ================================================================
+# COLUMN ORDERING
+# ================================================================
+
+def reorder_columns(
+    dataframe: pd.DataFrame,
+    preferred_order: list[str],
+) -> pd.DataFrame:
+
+    ordered = [
+        column
+        for column in preferred_order
+        if column in dataframe.columns
+    ]
+
+    extra = [
+        column
+        for column in dataframe.columns
+        if column not in ordered
+    ]
+
+    return dataframe[
+        ordered + extra
+    ]
+
+
+# ================================================================
+# EXCEL FORMULA PROTECTION
+# ================================================================
+
+def count_formula_like_source_cells(
+    *dataframes: pd.DataFrame,
+) -> int:
+    """
+    Count raw strings beginning with '='.
+
+    In XLSX output, openpyxl may otherwise interpret these
+    as formulas.
+    """
+
+    count = 0
+
+    for dataframe in dataframes:
+
+        for column in dataframe.columns:
+
+            for value in dataframe[column]:
+
+                if (
+                    isinstance(value, str)
+                    and value.startswith("=")
+                ):
+                    count += 1
+
+    return count
+
+
+def force_formula_cells_to_text(
+    worksheet,
+) -> int:
+    """
+    Convert Excel formula-typed cells back into literal text cells.
+
+    The original source string is preserved exactly.
+    """
+
+    converted = 0
+
+    for row in worksheet.iter_rows(
+        min_row=2
+    ):
+
+        for cell in row:
+
+            if (
+                cell.data_type == "f"
+                and isinstance(
+                    cell.value,
+                    str,
+                )
+            ):
+                cell.data_type = "s"
+                converted += 1
+
+    return converted
+
+
+# ================================================================
+# QA SUMMARY
+# ================================================================
+
+def build_qa_summary(
+    images_df: pd.DataFrame,
+    regions_df: pd.DataFrame,
+    config: dict,
+    provenance: dict,
+    formula_like_source_cells: int,
+) -> pd.DataFrame:
+    """
+    Build QA from RAW DataFrames.
+
+    Descriptive QA reports values/rates only.
+
+    PASS / FAIL is emitted ONLY by:
+        - Release Gate
+        - Regression QA
+
+    Regression semantics:
+        0     = check ran and found zero
+        None  = check did NOT run
+    """
+
+    rows = []
+
+    # ============================================================
+    # General row helper
+    # ============================================================
+
+    def add_row(
+        section,
+        metric,
+        value,
+        expected=None,
+        total=None,
+        notes="",
+    ):
+
+        if (
+            total is not None
+            and total != 0
+            and isinstance(
+                value,
+                (int, float),
+            )
+        ):
+            rate = value / total
+
+        else:
+            rate = None
+
+        if expected is None:
+            status = None
+
+        else:
+            status = (
+                "PASS"
+                if value == expected
+                else "FAIL"
+            )
+
+        rows.append({
+            "section": section,
+            "metric": metric,
+            "value": value,
+            "expected": expected,
+            "total": total,
+            "rate": rate,
+            "status": status,
+            "notes": notes,
+        })
+
+    # ============================================================
+    # Descriptive boolean QA
+    #
+    # These rows deliberately DO NOT produce PASS / FAIL.
+    # ============================================================
+
+    def add_boolean_check(
+        section,
+        metric,
+        dataframe,
+        column,
+    ):
+
+        if column not in dataframe.columns:
+            return
+
+        passed = int(
+            dataframe[column]
+            .eq(True)
+            .sum()
+        )
+
+        total = len(dataframe)
+
+        add_row(
+            section=section,
+            metric=metric,
+            value=passed,
+            total=total,
+            notes=(
+                f"{total - passed} "
+                f"record(s) did not satisfy check"
+            ),
+        )
+
+    # ============================================================
+    # Descriptive distribution helper
+    # ============================================================
+
+    def add_distribution(
+        section,
+        column,
+        dataframe,
+    ):
+
+        if column not in dataframe.columns:
+            return
+
+        counts = (
+            dataframe[column]
+            .value_counts(
+                dropna=False
+            )
+        )
+
+        total = len(dataframe)
+
+        for value, count in counts.items():
+
+            if pd.isna(value):
+                label = "(missing)"
+
+            elif value == "":
+                label = "(empty)"
+
+            else:
+                label = str(value)
+
+            add_row(
+                section=section,
+                metric=f"{column} = {label}",
+                value=int(count),
+                total=total,
+            )
+
+    # ============================================================
+    # PROVENANCE
+    # ============================================================
+
+    add_row(
+        "Provenance",
+        "Run timestamp",
+        provenance["run_timestamp"],
+    )
+
+    add_row(
+        "Provenance",
+        "Config file",
+        provenance["config_file"],
+    )
+
+    add_row(
+        "Provenance",
+        "Config SHA-256",
+        provenance["config_sha256"],
+    )
+
+    add_row(
+        "Provenance",
+        "Discovery script",
+        provenance["script_file"],
+    )
+
+    add_row(
+        "Provenance",
+        "Discovery script SHA-256",
+        provenance["script_sha256"],
+    )
+
+    add_row(
+        "Provenance",
+        "Workbook filename",
+        provenance["workbook_file"],
+    )
+
+    # ============================================================
+    # DATASET COUNTS
+    # ============================================================
+
+    add_row(
+        "Dataset",
+        "Image records",
+        len(images_df),
+    )
+
+    add_row(
+        "Dataset",
+        "Region records",
+        len(regions_df),
+    )
+
+    # ============================================================
+    # FILE INTEGRITY - DESCRIPTIVE
+    # ============================================================
+
+    if "match_status" in images_df.columns:
+
+        matched = int(
+            images_df[
+                "match_status"
+            ]
+            .eq("matched")
+            .sum()
+        )
+
+        add_row(
+            "File integrity",
+            "Image / JSON pairs matched",
+            matched,
+            total=len(images_df),
+            notes=(
+                f"{len(images_df) - matched} "
+                f"record(s) not uniquely matched"
+            ),
+        )
+
+    if "image_sha256" in images_df.columns:
+
+        unique_images = int(
+            images_df[
+                "image_sha256"
+            ]
+            .nunique(
+                dropna=True
+            )
+        )
+
+        add_row(
+            "File integrity",
+            "Unique image SHA-256 values",
+            unique_images,
+            total=len(images_df),
+            notes=(
+                f"{len(images_df) - unique_images} "
+                f"duplicate value(s)"
+            ),
+        )
+
+    if "json_sha256" in images_df.columns:
+
+        unique_jsons = int(
+            images_df[
+                "json_sha256"
+            ]
+            .nunique(
+                dropna=True
+            )
+        )
+
+        add_row(
+            "File integrity",
+            "Unique JSON SHA-256 values",
+            unique_jsons,
+            total=len(images_df),
+            notes=(
+                f"{len(images_df) - unique_jsons} "
+                f"duplicate value(s)"
+            ),
+        )
+
+    # ============================================================
+    # JSON / PERSON QA - DESCRIPTIVE
+    # ============================================================
+
+    add_boolean_check(
+        "JSON QA",
+        "JSON parsed successfully",
+        images_df,
+        "json_parse_ok",
+    )
+
+    add_boolean_check(
+        "Person-info QA",
+        "person_info found",
+        images_df,
+        "person_info_found",
+    )
+
+    add_boolean_check(
+        "Person-info QA",
+        "person_info structure valid",
+        images_df,
+        "person_info_structure_ok",
+    )
+
+    # ============================================================
+    # CROP QA - DESCRIPTIVE
+    # ============================================================
+
+    add_boolean_check(
+        "Crop QA",
+        "Crop information found",
+        images_df,
+        "crop_info_found",
+    )
+
+    add_boolean_check(
+        "Crop QA",
+        "Transformation matrix is 3 x 3",
+        images_df,
+        "matrix_shape_ok",
+    )
+
+    add_boolean_check(
+        "Crop QA",
+        "Original rectangle is 4 x 2",
+        images_df,
+        "rectangle_shape_ok",
+    )
+
+    add_boolean_check(
+        "Crop QA",
+        "Homography transform successful",
+        images_df,
+        "transform_ok",
+    )
+
+    # ============================================================
+    # IMAGE QA - DESCRIPTIVE
+    # ============================================================
+
+    add_boolean_check(
+        "Image QA",
+        "Image metadata read successfully",
+        images_df,
+        "image_metadata_ok",
+    )
+
+    add_boolean_check(
+        "Image QA",
+        "On-disk dimensions match declared crop",
+        images_df,
+        "dims_match_declared_crop",
+    )
+
+    # ============================================================
+    # REGION QA - DESCRIPTIVE
+    # ============================================================
+
+    add_boolean_check(
+        "Region QA",
+        "Regions found",
+        images_df,
+        "regions_found",
+    )
+
+    add_boolean_check(
+        "Region QA",
+        "Region structure valid",
+        images_df,
+        "regions_structure_ok",
+    )
+
+    # ============================================================
+    # REGION-BOUND DISTRIBUTION
+    # ============================================================
+
+    if "disk_bounds_status" in regions_df.columns:
+
+        counts = (
+            regions_df[
+                "disk_bounds_status"
+            ]
+            .value_counts(
+                dropna=False
+            )
+        )
+
+        for status, count in counts.items():
+
+            add_row(
+                "Region bounds",
+                (
+                    "disk_bounds_status = "
+                    f"{status}"
+                ),
+                int(count),
+                total=len(regions_df),
+            )
+
+    # ============================================================
+    # COMPOUND VALUES USED LATER BY REGRESSION QA
+    #
+    # IMPORTANT:
+    # None = check did not run
+    # ============================================================
+
+    altered_partially_outside = None
+    images_with_partial_region = None
+    face_group_total = None
+    face_multi_region_groups = None
+
+    # ------------------------------------------------------------
+    # Altered partially-outside regions
+    # ------------------------------------------------------------
+
+    if {
+        "region_provenance_raw",
+        "disk_bounds_status",
+    }.issubset(
+        regions_df.columns
+    ):
+
+        altered_mask = (
+            regions_df[
+                "region_provenance_raw"
+            ]
+            .eq("altered")
+        )
+
+        altered_total = int(
+            altered_mask.sum()
+        )
+
+        altered_partially_outside = int(
+            (
+                altered_mask
+                & regions_df[
+                    "disk_bounds_status"
+                ]
+                .eq(
+                    "partially_outside"
+                )
+            )
+            .sum()
+        )
+
+        add_row(
+            "Region bounds",
+            (
+                "Altered regions partially "
+                "outside image"
+            ),
+            altered_partially_outside,
+            total=altered_total,
+            notes=(
+                "Raw annotation retained; "
+                "visible intersection stored separately"
+            ),
+        )
+
+    # ------------------------------------------------------------
+    # Images containing any partial region
+    # ------------------------------------------------------------
+
+    if {
+        "image_path",
+        "disk_bounds_status",
+    }.issubset(
+        regions_df.columns
+    ):
+
+        images_with_partial_region = int(
+            regions_df.loc[
+                regions_df[
+                    "disk_bounds_status"
+                ]
+                .eq(
+                    "partially_outside"
+                ),
+                "image_path",
+            ]
+            .nunique()
+        )
+
+        add_row(
+            "Region bounds",
+            (
+                "Images containing "
+                "partially-outside region"
+            ),
+            images_with_partial_region,
+            total=len(images_df),
+        )
+
+    # ------------------------------------------------------------
+    # Multiple face regions
+    #
+    # Group by image_path so this check is independent of SHA
+    # uniqueness.
+    # ------------------------------------------------------------
+
+    required_face_columns = {
+        "image_path",
+        "field_name",
+        "region_provenance_raw",
+    }
+
+    if required_face_columns.issubset(
+        regions_df.columns
+    ):
+
+        face_regions = regions_df[
+            regions_df[
+                "field_name"
+            ]
+            .eq("face")
+        ]
+
+        if not face_regions.empty:
+
+            face_group_sizes = (
+                face_regions
+                .groupby(
+                    [
+                        "image_path",
+                        "field_name",
+                        "region_provenance_raw",
+                    ],
+                    dropna=False,
+                )
+                .size()
+            )
+
+            face_group_total = int(
+                len(face_group_sizes)
+            )
+
+            face_multi_region_groups = int(
+                (
+                    face_group_sizes > 1
+                )
+                .sum()
+            )
+
+            add_row(
+                "Region structure",
+                (
+                    "Face field/provenance "
+                    "groups with >1 rectangle"
+                ),
+                face_multi_region_groups,
+                total=face_group_total,
+                notes=(
+                    "Legitimate primary and "
+                    "secondary/hologram portraits"
+                ),
+            )
+
+    # ============================================================
+    # HUMAN-READABLE DISTRIBUTIONS
+    # ============================================================
+
+    for column in (
+        "split",
+        "traffic_type",
+        "variant",
+        "hardware_source",
+        "crop_info_key",
+        "face_db",
+        "gender",
+    ):
+
+        add_distribution(
+            "Image distribution",
+            column,
+            images_df,
+        )
+
+    add_distribution(
+        "Region distribution",
+        "region_provenance_raw",
+        regions_df,
+    )
+
+    # ============================================================
+    # RELEASE GATE
+    #
+    # Only this section and Regression QA emit PASS / FAIL.
+    # ============================================================
+
+    expected_counts = config.get(
+        "expected_counts"
+    )
+
+    if not isinstance(
+        expected_counts,
+        dict,
+    ):
+
+        add_row(
+            "Release Gate",
+            "expected_counts configuration present",
+            False,
+            expected=True,
+            notes=(
+                "No expected_counts dictionary "
+                "found in configuration"
+            ),
+        )
+
+    else:
+
+        # --------------------------------------------------------
+        # Overall totals
+        # --------------------------------------------------------
+
+        expected_images = (
+            expected_counts.get(
+                "images_total"
+            )
+        )
+
+        if expected_images is None:
+
+            add_row(
+                "Release Gate",
+                "Expected total image count configured",
+                False,
+                expected=True,
+            )
+
+        else:
+
+            add_row(
+                "Release Gate",
+                "Expected total images",
+                len(images_df),
+                expected=expected_images,
+            )
+
+        expected_regions = (
+            expected_counts.get(
+                "regions_total"
+            )
+        )
+
+        if expected_regions is None:
+
+            add_row(
+                "Release Gate",
+                "Expected total region count configured",
+                False,
+                expected=True,
+            )
+
+        else:
+
+            add_row(
+                "Release Gate",
+                "Expected total regions",
+                len(regions_df),
+                expected=expected_regions,
+            )
+
+        # --------------------------------------------------------
+        # Partition expectations
+        # --------------------------------------------------------
+
+        partition_specs = (
+            expected_counts.get(
+                "partitions"
+            )
+        )
+
+        if not isinstance(
+            partition_specs,
+            dict,
+        ):
+
+            add_row(
+                "Release Gate",
+                "Partition expectations configured",
+                False,
+                expected=True,
+            )
+
+            partition_specs = {}
+
+        # --------------------------------------------------------
+        # Missing split column means partition gates cannot run.
+        # Every configured partition/group still gets a FAIL row.
+        # --------------------------------------------------------
+
+        if "split" not in images_df.columns:
+
+            add_row(
+                "Release Gate",
+                "Required source column: split",
+                False,
+                expected=True,
+                notes=(
+                    "Partition release checks "
+                    "cannot run"
+                ),
+            )
+
+            for (
+                partition_name,
+                partition_spec,
+            ) in partition_specs.items():
+
+                add_row(
+                    "Release Gate",
+                    f"{partition_name} image count",
+                    None,
+                    expected=(
+                        partition_spec.get(
+                            "total"
+                        )
+                    ),
+                    notes=(
+                        "Source column split missing - "
+                        "check did not run"
+                    ),
+                )
+
+                for group in partition_spec.get(
+                    "groups",
+                    [],
+                ):
+
+                    add_row(
+                        "Release Gate",
+                        (
+                            f"{partition_name} / "
+                            f"{group.get('name', '(unnamed group)')}"
+                        ),
+                        None,
+                        expected=group.get(
+                            "expected"
+                        ),
+                        notes=(
+                            "Source column split missing - "
+                            "check did not run"
+                        ),
+                    )
+
+        else:
+
+            configured_partitions = set(
+                partition_specs.keys()
+            )
+
+            discovered_partitions = set(
+                images_df[
+                    "split"
+                ]
+                .dropna()
+                .unique()
+            )
+
+            # ====================================================
+            # FORWARD PASS:
+            # every expected partition/group must run.
+            # ====================================================
+
+            for (
+                partition_name,
+                partition_spec,
+            ) in partition_specs.items():
+
+                if not isinstance(
+                    partition_spec,
+                    dict,
+                ):
+
+                    add_row(
+                        "Release Gate",
+                        (
+                            f"{partition_name} "
+                            "partition configuration valid"
+                        ),
+                        False,
+                        expected=True,
+                    )
+
+                    continue
+
+                partition_mask = (
+                    images_df[
+                        "split"
+                    ]
+                    .eq(
+                        partition_name
+                    )
+                )
+
+                actual_partition_total = int(
+                    partition_mask.sum()
+                )
+
+                expected_partition_total = (
+                    partition_spec.get(
+                        "total"
+                    )
+                )
+
+                if expected_partition_total is None:
+
+                    add_row(
+                        "Release Gate",
+                        (
+                            f"{partition_name} "
+                            "expected total configured"
+                        ),
+                        False,
+                        expected=True,
+                    )
+
+                else:
+
+                    add_row(
+                        "Release Gate",
+                        (
+                            f"{partition_name} "
+                            "image count"
+                        ),
+                        actual_partition_total,
+                        expected=(
+                            expected_partition_total
+                        ),
+                    )
+
+                groups = partition_spec.get(
+                    "groups",
+                    [],
+                )
+
+                if not isinstance(
+                    groups,
+                    list,
+                ):
+
+                    add_row(
+                        "Release Gate",
+                        (
+                            f"{partition_name} "
+                            "group configuration valid"
+                        ),
+                        False,
+                        expected=True,
+                    )
+
+                    groups = []
+
+                # ------------------------------------------------
+                # Validate expectation policy itself.
+                # ------------------------------------------------
+
+                if (
+                    groups
+                    and expected_partition_total
+                    is not None
+                ):
+
+                    missing_group_expectations = [
+                        group.get(
+                            "name",
+                            "(unnamed group)",
+                        )
+                        for group in groups
+                        if group.get(
+                            "expected"
+                        ) is None
+                    ]
+
+                    if missing_group_expectations:
+
+                        add_row(
+                            "Release Gate",
+                            (
+                                f"{partition_name} "
+                                "configured group totals reconcile"
+                            ),
+                            None,
+                            expected=(
+                                expected_partition_total
+                            ),
+                            notes=(
+                                "Expected count missing for: "
+                                + ", ".join(
+                                    missing_group_expectations
+                                )
+                            ),
+                        )
+
+                    else:
+
+                        expected_group_sum = sum(
+                            group[
+                                "expected"
+                            ]
+                            for group in groups
+                        )
+
+                        add_row(
+                            "Release Gate",
+                            (
+                                f"{partition_name} "
+                                "configured group totals reconcile"
+                            ),
+                            expected_group_sum,
+                            expected=(
+                                expected_partition_total
+                            ),
+                            notes=(
+                                "Checks expectation "
+                                "policy itself"
+                            ),
+                        )
+
+                # ------------------------------------------------
+                # Count how many configured groups cover each row.
+                # ------------------------------------------------
+
+                coverage_count = pd.Series(
+                    0,
+                    index=images_df.index,
+                    dtype="int64",
+                )
+
+                for group in groups:
+
+                    if not isinstance(
+                        group,
+                        dict,
+                    ):
+
+                        add_row(
+                            "Release Gate",
+                            (
+                                f"{partition_name} / "
+                                "invalid group definition"
+                            ),
+                            False,
+                            expected=True,
+                        )
+
+                        continue
+
+                    group_name = group.get(
+                        "name",
+                        "(unnamed group)",
+                    )
+
+                    selector = group.get(
+                        "selector",
+                        {},
+                    )
+
+                    expected = group.get(
+                        "expected"
+                    )
+
+                    if expected is None:
+
+                        add_row(
+                            "Release Gate",
+                            (
+                                f"{partition_name} / "
+                                f"{group_name}"
+                            ),
+                            None,
+                            expected=0,
+                            notes=(
+                                "Expected count missing "
+                                "from configuration"
+                            ),
+                        )
+
+                        continue
+
+                    if not isinstance(
+                        selector,
+                        dict,
+                    ):
+
+                        add_row(
+                            "Release Gate",
+                            (
+                                f"{partition_name} / "
+                                f"{group_name}"
+                            ),
+                            None,
+                            expected=expected,
+                            notes=(
+                                "Selector is not a dictionary - "
+                                "check did not run"
+                            ),
+                        )
+
+                        continue
+
+                    missing_selector_columns = [
+                        column
+                        for column
+                        in selector.keys()
+                        if column
+                        not in images_df.columns
+                    ]
+
+                    if missing_selector_columns:
+
+                        add_row(
+                            "Release Gate",
+                            (
+                                f"{partition_name} / "
+                                f"{group_name}"
+                            ),
+                            None,
+                            expected=expected,
+                            notes=(
+                                "Selector column(s) missing: "
+                                + ", ".join(
+                                    missing_selector_columns
+                                )
+                                + " - check did not run"
+                            ),
+                        )
+
+                        continue
+
+                    group_mask = (
+                        partition_mask.copy()
+                    )
+
+                    for (
+                        column,
+                        expected_value,
+                    ) in selector.items():
+
+                        if expected_value is None:
+
+                            group_mask &= (
+                                images_df[
+                                    column
+                                ]
+                                .isna()
+                            )
+
+                        else:
+
+                            group_mask &= (
+                                images_df[
+                                    column
+                                ]
+                                .eq(
+                                    expected_value
+                                )
+                            )
+
+                    actual = int(
+                        group_mask.sum()
+                    )
+
+                    add_row(
+                        "Release Gate",
+                        (
+                            f"{partition_name} / "
+                            f"{group_name}"
+                        ),
+                        actual,
+                        expected=expected,
+                    )
+
+                    coverage_count += (
+                        group_mask.astype(
+                            "int64"
+                        )
+                    )
+
+                # ------------------------------------------------
+                # Reverse gate within configured partition.
+                #
+                # Every row must be covered by exactly one
+                # configured group when groups are supplied.
+                # ------------------------------------------------
+
+                if groups:
+
+                    uncovered_mask = (
+                        partition_mask
+                        & coverage_count.eq(0)
+                    )
+
+                    overlapping_mask = (
+                        partition_mask
+                        & coverage_count.gt(1)
+                    )
+
+                    uncovered_count = int(
+                        uncovered_mask.sum()
+                    )
+
+                    overlapping_count = int(
+                        overlapping_mask.sum()
+                    )
+
+                    uncovered_notes = ""
+
+                    if uncovered_count:
+
+                        description_columns = [
+                            column
+                            for column in (
+                                "traffic_type",
+                                "variant",
+                            )
+                            if column
+                            in images_df.columns
+                        ]
+
+                        if description_columns:
+
+                            combinations = (
+                                images_df.loc[
+                                    uncovered_mask,
+                                    description_columns,
+                                ]
+                                .drop_duplicates()
+                                .head(10)
+                            )
+
+                            descriptions = []
+
+                            for _, row in (
+                                combinations.iterrows()
+                            ):
+
+                                values = []
+
+                                for column in (
+                                    description_columns
+                                ):
+
+                                    value = row[
+                                        column
+                                    ]
+
+                                    if pd.isna(value):
+                                        value = "(missing)"
+
+                                    elif value == "":
+                                        value = "(empty)"
+
+                                    values.append(
+                                        str(value)
+                                    )
+
+                                descriptions.append(
+                                    " / ".join(
+                                        values
+                                    )
+                                )
+
+                            uncovered_notes = (
+                                "Unexpected discovered "
+                                "group(s): "
+                                + "; ".join(
+                                    descriptions
+                                )
+                            )
+
+                    add_row(
+                        "Release Gate",
+                        (
+                            f"{partition_name} "
+                            "rows not covered by "
+                            "configured groups"
+                        ),
+                        uncovered_count,
+                        expected=0,
+                        notes=uncovered_notes,
+                    )
+
+                    add_row(
+                        "Release Gate",
+                        (
+                            f"{partition_name} "
+                            "rows matched by >1 "
+                            "configured group"
+                        ),
+                        overlapping_count,
+                        expected=0,
+                        notes=(
+                            "Configured group selectors "
+                            "must not overlap"
+                        ),
+                    )
+
+            # ====================================================
+            # REVERSE PASS:
+            # discovered split absent from config -> FAIL.
+            # ====================================================
+
+            unexpected_partitions = (
+                discovered_partitions
+                - configured_partitions
+            )
+
+            for partition_name in sorted(
+                unexpected_partitions,
+                key=str,
+            ):
+
+                count = int(
+                    images_df[
+                        "split"
+                    ]
+                    .eq(
+                        partition_name
+                    )
+                    .sum()
+                )
+
+                add_row(
+                    "Release Gate",
+                    (
+                        "Unexpected discovered split: "
+                        f"{partition_name}"
+                    ),
+                    count,
+                    expected=0,
+                    notes=(
+                        "Dataset contains a split "
+                        "not represented in expected_counts"
+                    ),
+                )
+
+    # ============================================================
+    # REGRESSION QA
+    #
+    # 0    = check ran and found zero
+    # None = check did not run
+    # ============================================================
+
+    regression_actuals = {}
+    regression_notes = {}
+
+    # ------------------------------------------------------------
+    # JSON parse failures
+    # ------------------------------------------------------------
+
+    if "json_parse_ok" in images_df.columns:
+
+        regression_actuals[
+            "json_parse_failures"
+        ] = int(
+            images_df[
+                "json_parse_ok"
+            ]
+            .eq(False)
+            .sum()
+        )
+
+        regression_notes[
+            "json_parse_failures"
+        ] = ""
+
+    else:
+
+        regression_actuals[
+            "json_parse_failures"
+        ] = None
+
+        regression_notes[
+            "json_parse_failures"
+        ] = (
+            "Source column json_parse_ok missing - "
+            "check did not run"
+        )
+
+    # ------------------------------------------------------------
+    # Dimension mismatches
+    # ------------------------------------------------------------
+
+    if (
+        "dims_match_declared_crop"
+        in images_df.columns
+    ):
+
+        regression_actuals[
+            "dimension_mismatches"
+        ] = int(
+            images_df[
+                "dims_match_declared_crop"
+            ]
+            .eq(False)
+            .sum()
+        )
+
+        regression_notes[
+            "dimension_mismatches"
+        ] = ""
+
+    else:
+
+        regression_actuals[
+            "dimension_mismatches"
+        ] = None
+
+        regression_notes[
+            "dimension_mismatches"
+        ] = (
+            "Source column "
+            "dims_match_declared_crop missing - "
+            "check did not run"
+        )
+
+    # ------------------------------------------------------------
+    # Region bounds
+    # ------------------------------------------------------------
+
+    if "disk_bounds_status" in regions_df.columns:
+
+        regression_actuals[
+            "partially_outside_regions"
+        ] = int(
+            regions_df[
+                "disk_bounds_status"
+            ]
+            .eq(
+                "partially_outside"
+            )
+            .sum()
+        )
+
+        regression_actuals[
+            "completely_outside_regions"
+        ] = int(
+            regions_df[
+                "disk_bounds_status"
+            ]
+            .eq(
+                "completely_outside"
+            )
+            .sum()
+        )
+
+        regression_notes[
+            "partially_outside_regions"
+        ] = ""
+
+        regression_notes[
+            "completely_outside_regions"
+        ] = ""
+
+    else:
+
+        regression_actuals[
+            "partially_outside_regions"
+        ] = None
+
+        regression_actuals[
+            "completely_outside_regions"
+        ] = None
+
+        regression_notes[
+            "partially_outside_regions"
+        ] = (
+            "Source column disk_bounds_status "
+            "missing - check did not run"
+        )
+
+        regression_notes[
+            "completely_outside_regions"
+        ] = (
+            "Source column disk_bounds_status "
+            "missing - check did not run"
+        )
+
+    # ------------------------------------------------------------
+    # Compound checks
+    # ------------------------------------------------------------
+
+    regression_actuals[
+        "altered_partially_outside_regions"
+    ] = altered_partially_outside
+
+    regression_actuals[
+        "images_with_partially_outside_region"
+    ] = images_with_partial_region
+
+    regression_actuals[
+        "face_field_provenance_groups_total"
+    ] = face_group_total
+
+    regression_actuals[
+        "face_multi_region_groups"
+    ] = face_multi_region_groups
+
+    if altered_partially_outside is None:
+
+        regression_notes[
+            "altered_partially_outside_regions"
+        ] = (
+            "Required provenance/bounds columns "
+            "missing - check did not run"
+        )
+
+    else:
+
+        regression_notes[
+            "altered_partially_outside_regions"
+        ] = ""
+
+    if images_with_partial_region is None:
+
+        regression_notes[
+            "images_with_partially_outside_region"
+        ] = (
+            "Required image_path/bounds columns "
+            "missing - check did not run"
+        )
+
+    else:
+
+        regression_notes[
+            "images_with_partially_outside_region"
+        ] = ""
+
+    if face_group_total is None:
+
+        regression_notes[
+            "face_field_provenance_groups_total"
+        ] = (
+            "Required face-group columns "
+            "missing - check did not run"
+        )
+
+        regression_notes[
+            "face_multi_region_groups"
+        ] = (
+            "Required face-group columns "
+            "missing - check did not run"
+        )
+
+    else:
+
+        regression_notes[
+            "face_field_provenance_groups_total"
+        ] = ""
+
+        regression_notes[
+            "face_multi_region_groups"
+        ] = ""
+
+    # ------------------------------------------------------------
+    # Formula-like source strings
+    # ------------------------------------------------------------
+
+    regression_actuals[
+        "formula_like_source_cells"
+    ] = formula_like_source_cells
+
+    regression_notes[
+        "formula_like_source_cells"
+    ] = ""
+
+    # ------------------------------------------------------------
+    # Human-readable labels
+    # ------------------------------------------------------------
+
+    regression_labels = {
+        "json_parse_failures":
+            "JSON parse failures",
+
+        "dimension_mismatches":
+            (
+                "Image / declared-crop "
+                "dimension mismatches"
+            ),
+
+        "partially_outside_regions":
+            "Partially-outside regions",
+
+        "altered_partially_outside_regions":
+            (
+                "Altered partially-outside "
+                "regions"
+            ),
+
+        "images_with_partially_outside_region":
+            (
+                "Images with partially-outside "
+                "region"
+            ),
+
+        "completely_outside_regions":
+            "Completely-outside regions",
+
+        "face_field_provenance_groups_total":
+            (
+                "Total face field/provenance "
+                "groups"
+            ),
+
+        "face_multi_region_groups":
+            (
+                "Face field/provenance groups "
+                "with >1 rectangle"
+            ),
+
+        "formula_like_source_cells":
+            (
+                "Source cells requiring "
+                "formula-to-text protection"
+            ),
+    }
+
+    # ------------------------------------------------------------
+    # Frozen regression expectations
+    # ------------------------------------------------------------
+
+    expected_regression = config.get(
+        "regression_checks"
+    )
+
+    if not isinstance(
+        expected_regression,
+        dict,
+    ):
+
+        add_row(
+            "Regression QA",
+            (
+                "regression_checks "
+                "configuration present"
+            ),
+            False,
+            expected=True,
+        )
+
+        expected_regression = {}
+
+    # ------------------------------------------------------------
+    # Forward regression pass:
+    # every configured expectation emits a row.
+    # ------------------------------------------------------------
+
+    for (
+        check_name,
+        expected_value,
+    ) in expected_regression.items():
+
+        if check_name not in regression_actuals:
+
+            add_row(
+                "Regression QA",
+                (
+                    "Unknown configured "
+                    "regression check: "
+                    f"{check_name}"
+                ),
+                None,
+                expected=expected_value,
+                notes=(
+                    "No calculation exists for "
+                    "this configured check"
+                ),
+            )
+
+            continue
+
+        add_row(
+            "Regression QA",
+            regression_labels[
+                check_name
+            ],
+            regression_actuals[
+                check_name
+            ],
+            expected=expected_value,
+            notes=(
+                regression_notes.get(
+                    check_name,
+                    ""
+                )
+            ),
+        )
+
+    # ------------------------------------------------------------
+    # Calculated checks that have no frozen expectation
+    # remain visible but do not PASS / FAIL.
+    # ------------------------------------------------------------
+
+    unconfigured_regressions = (
+        set(
+            regression_actuals.keys()
+        )
+        - set(
+            expected_regression.keys()
+        )
+    )
+
+    for check_name in sorted(
+        unconfigured_regressions
+    ):
+
+        add_row(
+            "Regression QA",
+            regression_labels[
+                check_name
+            ],
+            regression_actuals[
+                check_name
+            ],
+            notes=(
+                regression_notes.get(
+                    check_name,
+                    ""
+                )
+                or
+                "No frozen expectation configured"
+            ),
+        )
+
+    return pd.DataFrame(
+        rows
+    )
+
+
+# ================================================================
+# MAIN EXCEL EXPORTER
+# ================================================================
+
 def export_inventory_to_excel(
     matched_records: list[dict],
     region_records: list[dict],
     config: dict,
+    config_path: Path,
 ) -> None:
 
-    func_name = inspect.currentframe().f_code.co_name
-    log_entries = [f"********************{func_name}: ********************"]
+    func_name = (
+        inspect.currentframe()
+        .f_code.co_name
+    )
 
-    dataset_root = Path(config["dataset"]["root"])
-    output_dir = Path(config["output"]["directory"])
-    output_dir.mkdir(parents=True, exist_ok=True)
+    log_entries = [
+        f"********************"
+        f"{func_name}: "
+        f"********************"
+    ]
 
-    base_name = Path(config["output"]["workbook_name"])
-    current_date = datetime.now().strftime("%Y-%m-%d")
-    output_path = output_dir / f"{base_name.stem}_{current_date}{base_name.suffix}"
+    dataset_root = Path(
+        config["dataset"]["root"]
+    )
 
-    def to_rows(records: list[dict]) -> list[dict]:
+    output_dir = Path(
+        config["output"]["directory"]
+    )
+
+    output_dir.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    base_name = Path(
+        config["output"]["workbook_name"]
+    )
+
+    # Timestamped name avoids accidental overwrite of a frozen run.
+    run_timestamp = (
+        datetime.now()
+        .strftime(
+            "%Y-%m-%d_%H%M%S"
+        )
+    )
+
+    output_path = (
+        output_dir
+        / (
+            f"{base_name.stem}_"
+            f"{run_timestamp}"
+            f"{base_name.suffix}"
+        )
+    )
+
+    # Temporary workbook still ends in .xlsx.
+    temp_output_path = (
+        output_dir
+        / (
+            f"{base_name.stem}_"
+            f"{run_timestamp}"
+            f".part"
+            f"{base_name.suffix}"
+        )
+    )
+
+    sidecar_path = Path(
+        str(output_path)
+        + ".sha256"
+    )
+
+    temp_sidecar_path = Path(
+        str(sidecar_path)
+        + ".part"
+    )
+
+    # ------------------------------------------------------------
+    # Never overwrite final artifacts.
+    # ------------------------------------------------------------
+
+    if output_path.exists():
+
+        raise FileExistsError(
+            f"Final workbook already exists: "
+            f"{output_path}"
+        )
+
+    if sidecar_path.exists():
+
+        raise FileExistsError(
+            f"SHA sidecar already exists: "
+            f"{sidecar_path}"
+        )
+
+    # Remove stale temporary files from a previous interrupted run.
+    if temp_output_path.exists():
+        temp_output_path.unlink()
+
+    if temp_sidecar_path.exists():
+        temp_sidecar_path.unlink()
+
+    # ============================================================
+    # PROVENANCE
+    # ============================================================
+
+    config_path = Path(
+        config_path
+    ).resolve()
+
+    script_path = Path(
+        __file__
+    ).resolve()
+
+    config_sha256 = calculate_sha256(
+        config_path
+    )
+
+    script_sha256 = calculate_sha256(
+        script_path
+    )
+
+    provenance = {
+        "run_timestamp":
+            run_timestamp,
+
+        "config_file":
+            config_path.name,
+
+        "config_sha256":
+            config_sha256,
+
+        "script_file":
+            script_path.name,
+
+        "script_sha256":
+            script_sha256,
+
+        "workbook_file":
+            output_path.name,
+    }
+
+    # ============================================================
+    # RAW DATAFRAMES
+    #
+    # These preserve Python values and drive all QA.
+    # ============================================================
+
+    def raw_rows(
+        records: list[dict],
+    ) -> list[dict]:
+
         return [
             {
-                key: make_excel_value(value, dataset_root)
-                for key, value in record.items()
+                key: value
+                for key, value
+                in record.items()
                 if not key.startswith("_")
             }
             for record in records
         ]
 
-    images_df = pd.DataFrame(to_rows(matched_records))
-    regions_df = pd.DataFrame(to_rows(region_records))
+    images_raw_df = pd.DataFrame(
+        raw_rows(
+            matched_records
+        )
+    )
+
+    regions_raw_df = pd.DataFrame(
+        raw_rows(
+            region_records
+        )
+    )
+
+    formula_like_source_cells = (
+        count_formula_like_source_cells(
+            images_raw_df,
+            regions_raw_df,
+        )
+    )
+
+    # ============================================================
+    # QA FROM RAW VALUES
+    # ============================================================
+
+    qa_df = build_qa_summary(
+        images_raw_df,
+        regions_raw_df,
+        config,
+        provenance,
+        formula_like_source_cells,
+    )
+
+    # ============================================================
+    # EXCEL-SAFE COPIES
+    # ============================================================
+
+    def excel_rows(
+        records: list[dict],
+    ) -> list[dict]:
+
+        return [
+            {
+                key: make_excel_value(
+                    value=value,
+                    dataset_root=dataset_root,
+                    column_name=key,
+                )
+                for key, value
+                in record.items()
+                if not key.startswith("_")
+            }
+            for record in records
+        ]
+
+    images_excel_df = pd.DataFrame(
+        excel_rows(
+            matched_records
+        )
+    )
+
+    regions_excel_df = pd.DataFrame(
+        excel_rows(
+            region_records
+        )
+    )
+
+    # ============================================================
+    # LOGICAL COLUMN ORDER
+    #
+    # No data columns are deleted.
+    # ============================================================
+
+    images_excel_df = reorder_columns(
+        images_excel_df,
+        IMAGE_COLUMN_ORDER,
+    )
+
+    regions_excel_df = reorder_columns(
+        regions_excel_df,
+        REGION_COLUMN_ORDER,
+    )
+
+    # ============================================================
+    # PRE-WRITE RECONCILIATION
+    # ============================================================
+
+    if (
+        len(images_excel_df)
+        != len(matched_records)
+    ):
+
+        raise RuntimeError(
+            "Image row count does not reconcile "
+            "before workbook export"
+        )
+
+    if (
+        len(regions_excel_df)
+        != len(region_records)
+    ):
+
+        raise RuntimeError(
+            "Region row count does not reconcile "
+            "before workbook export"
+        )
+
+    # ============================================================
+    # WRITE TEMPORARY WORKBOOK
+    #
+    # A workbook never receives its final name until this entire
+    # section completes successfully.
+    # ============================================================
+
+    formula_cells_converted = 0
 
     try:
-        with pd.ExcelWriter(output_path, engine="openpyxl") as writer:
-            images_df.to_excel(writer, sheet_name="Images", index=False)
-            regions_df.to_excel(writer, sheet_name="Regions", index=False)
-    except (OSError, ValueError) as error:
-        log_entries.append(f"ERROR writing workbook: {error}")
-        write_log(final_log_path, log_entries)
+
+        with pd.ExcelWriter(
+            temp_output_path,
+            engine="openpyxl",
+        ) as writer:
+
+            # ----------------------------------------------------
+            # Worksheets
+            # ----------------------------------------------------
+
+            qa_df.to_excel(
+                writer,
+                sheet_name="QA_Summary",
+                index=False,
+            )
+
+            images_excel_df.to_excel(
+                writer,
+                sheet_name="Images",
+                index=False,
+            )
+
+            regions_excel_df.to_excel(
+                writer,
+                sheet_name="Regions",
+                index=False,
+            )
+
+            # ----------------------------------------------------
+            # Formula protection.
+            #
+            # QA_Summary is not source data, so only Images and
+            # Regions participate in reconciliation.
+            # ----------------------------------------------------
+
+            for sheet_name in (
+                "Images",
+                "Regions",
+            ):
+
+                formula_cells_converted += (
+                    force_formula_cells_to_text(
+                        writer.sheets[
+                            sheet_name
+                        ]
+                    )
+                )
+
+            if (
+                formula_cells_converted
+                != formula_like_source_cells
+            ):
+
+                raise RuntimeError(
+                    "Formula-protection count "
+                    "does not reconcile: "
+                    f"raw="
+                    f"{formula_like_source_cells}, "
+                    f"converted="
+                    f"{formula_cells_converted}"
+                )
+
+            # ----------------------------------------------------
+            # Freeze headers and add filters.
+            # ----------------------------------------------------
+
+            for sheet_name in (
+                "QA_Summary",
+                "Images",
+                "Regions",
+            ):
+
+                worksheet = (
+                    writer.sheets[
+                        sheet_name
+                    ]
+                )
+
+                worksheet.freeze_panes = (
+                    "A2"
+                )
+
+                worksheet.auto_filter.ref = (
+                    worksheet.dimensions
+                )
+
+            # ----------------------------------------------------
+            # QA sheet formatting.
+            # ----------------------------------------------------
+
+            qa_sheet = writer.sheets[
+                "QA_Summary"
+            ]
+
+            qa_widths = {
+                "A": 24,   # section
+                "B": 60,   # metric
+                "C": 18,   # value
+                "D": 18,   # expected
+                "E": 14,   # total
+                "F": 14,   # rate
+                "G": 12,   # status
+                "H": 80,   # notes
+            }
+
+            for (
+                column_letter,
+                width,
+            ) in qa_widths.items():
+
+                qa_sheet.column_dimensions[
+                    column_letter
+                ].width = width
+
+            # Rate column = F.
+            for row_number in range(
+                2,
+                qa_sheet.max_row + 1,
+            ):
+
+                qa_sheet.cell(
+                    row=row_number,
+                    column=6,
+                ).number_format = (
+                    "0.00%"
+                )
+
+    except Exception as error:
+
+        # ExcelWriter may save its temporary file while unwinding.
+        # It must never remain as a candidate discovery artifact.
+        if temp_output_path.exists():
+
+            try:
+                temp_output_path.unlink()
+
+            except OSError:
+                pass
+
+        if temp_sidecar_path.exists():
+
+            try:
+                temp_sidecar_path.unlink()
+
+            except OSError:
+                pass
+
+        log_entries.append(
+            "ERROR writing temporary workbook: "
+            f"{error}"
+        )
+
+        write_log(
+            final_log_path,
+            log_entries,
+        )
+
         raise
 
-    # ---- Diagnostics ----
+    # ============================================================
+    # TEMPORARY WORKBOOK MUST NOW EXIST
+    # ============================================================
+
+    if not temp_output_path.exists():
+
+        raise RuntimeError(
+            "Temporary workbook was not created"
+        )
+
+    # ============================================================
+    # HASH THE COMPLETE TEMPORARY WORKBOOK
+    # ============================================================
+
+    workbook_sha256 = calculate_sha256(
+        temp_output_path
+    )
+
+    # Prepare the matching sidecar before promoting the workbook.
+    temp_sidecar_path.write_text(
+        (
+            f"{workbook_sha256}  "
+            f"{output_path.name}\n"
+        ),
+        encoding="utf-8",
+    )
+
+    # ============================================================
+    # ATOMIC PROMOTION
+    #
+    # A final-named workbook is never created until the temporary
+    # workbook has completely closed and passed export checks.
+    # ============================================================
+
+    workbook_promoted = False
+
+    try:
+
+        # Atomic rename on the same filesystem.
+        os.replace(
+            temp_output_path,
+            output_path,
+        )
+
+        workbook_promoted = True
+
+        os.replace(
+            temp_sidecar_path,
+            sidecar_path,
+        )
+
+    except Exception:
+
+        # Clean remaining temporary files.
+        if temp_output_path.exists():
+
+            try:
+                temp_output_path.unlink()
+
+            except OSError:
+                pass
+
+        if temp_sidecar_path.exists():
+
+            try:
+                temp_sidecar_path.unlink()
+
+            except OSError:
+                pass
+
+        # If the workbook was promoted but the sidecar promotion
+        # failed, remove the workbook where possible.
+        if (
+            workbook_promoted
+            and output_path.exists()
+            and not sidecar_path.exists()
+        ):
+
+            try:
+                output_path.unlink()
+
+            except OSError:
+                pass
+
+        raise
+
+    # ============================================================
+    # POST-PROMOTION HASH VERIFICATION
+    # ============================================================
+
+    final_sha256 = calculate_sha256(
+        output_path
+    )
+
+    if (
+        final_sha256
+        != workbook_sha256
+    ):
+
+        # Do not leave a mismatched final artifact behind.
+        try:
+            output_path.unlink()
+        except OSError:
+            pass
+
+        try:
+            sidecar_path.unlink()
+        except OSError:
+            pass
+
+        raise RuntimeError(
+            "Final workbook hash differs "
+            "from temporary workbook hash"
+        )
+
+    # ============================================================
+    # FINAL EXPORT DIAGNOSTICS
+    # ============================================================
+
+    qa_failures = int(
+        qa_df[
+            "status"
+        ]
+        .eq("FAIL")
+        .sum()
+    )
+
     dropped_image_cols = sorted(
-        k for k in (matched_records[0] if matched_records else {}) if k.startswith("_")
+        key
+        for key in (
+            matched_records[0]
+            if matched_records
+            else {}
+        )
+        if key.startswith("_")
     )
+
     dropped_region_cols = sorted(
-        k for k in (region_records[0] if region_records else {}) if k.startswith("_")
+        key
+        for key in (
+            region_records[0]
+            if region_records
+            else {}
+        )
+        if key.startswith("_")
     )
 
-    log_entries.append(f"Workbook written to: {output_path}")
+    extra_image_cols = [
+        column
+        for column
+        in images_excel_df.columns
+        if column
+        not in IMAGE_COLUMN_ORDER
+    ]
+
+    extra_region_cols = [
+        column
+        for column
+        in regions_excel_df.columns
+        if column
+        not in REGION_COLUMN_ORDER
+    ]
+
     log_entries.append(
-        f"  Images sheet:  {len(images_df)} rows x {len(images_df.columns)} columns"
+        f"Workbook written to: "
+        f"{output_path}"
     )
+
     log_entries.append(
-        f"  Regions sheet: {len(regions_df)} rows x {len(regions_df.columns)} columns"
+        f"Workbook SHA-256: "
+        f"{final_sha256}"
     )
-    log_entries.append(f"  Columns dropped (leading underscore): {dropped_image_cols}")
-    if dropped_region_cols:
-        log_entries.append(f"  Region columns dropped: {dropped_region_cols}")
 
-    log_entries.append("Images sheet columns:")
-    log_entries.append("  " + " | ".join(images_df.columns))
-    log_entries.append("Regions sheet columns:")
-    log_entries.append("  " + " | ".join(regions_df.columns))
-
-    # Reconciliation
     log_entries.append(
-        f"Reconciliation: matched_records={len(matched_records)} "
-        f"images_rows={len(images_df)} "
-        f"region_records={len(region_records)} regions_rows={len(regions_df)}"
+        f"SHA sidecar: "
+        f"{sidecar_path}"
     )
-    if len(images_df) != len(matched_records) or len(regions_df) != len(region_records):
-        log_entries.append("  WARNING: exported row counts do not reconcile")
 
-    write_log(final_log_path, log_entries)
+    log_entries.append(
+        f"Config SHA-256: "
+        f"{config_sha256}"
+    )
+
+    log_entries.append(
+        f"Discovery script SHA-256: "
+        f"{script_sha256}"
+    )
+
+    log_entries.append(
+        f"QA_Summary: "
+        f"{len(qa_df)} rows x "
+        f"{len(qa_df.columns)} columns"
+    )
+
+    log_entries.append(
+        f"Images: "
+        f"{len(images_excel_df)} rows x "
+        f"{len(images_excel_df.columns)} columns"
+    )
+
+    log_entries.append(
+        f"Regions: "
+        f"{len(regions_excel_df)} rows x "
+        f"{len(regions_excel_df.columns)} columns"
+    )
+
+    log_entries.append(
+        f"QA FAIL rows: "
+        f"{qa_failures}"
+    )
+
+    if qa_failures:
+
+        log_entries.append(
+            "NOTE: workbook exported successfully "
+            "but is NOT release-clean because "
+            "Release Gate / Regression QA "
+            "contains FAIL row(s)"
+        )
+
+    else:
+
+        log_entries.append(
+            "Release Gate / Regression QA: "
+            "all configured checks PASS"
+        )
+
+    log_entries.append(
+        "Formula protection:"
+    )
+
+    log_entries.append(
+        f"  Raw '='-leading source cells: "
+        f"{formula_like_source_cells}"
+    )
+
+    log_entries.append(
+        f"  Formula cells converted to text: "
+        f"{formula_cells_converted}"
+    )
+
+    log_entries.append(
+        "Columns dropped from Images "
+        "(leading underscore only): "
+        f"{dropped_image_cols}"
+    )
+
+    log_entries.append(
+        "Columns dropped from Regions "
+        "(leading underscore only): "
+        f"{dropped_region_cols}"
+    )
+
+    if extra_image_cols:
+
+        log_entries.append(
+            "New/unordered image columns "
+            "appended automatically: "
+            f"{extra_image_cols}"
+        )
+
+    if extra_region_cols:
+
+        log_entries.append(
+            "New/unordered region columns "
+            "appended automatically: "
+            f"{extra_region_cols}"
+        )
+
+    log_entries.append(
+        "Images sheet columns:"
+    )
+
+    log_entries.append(
+        "  "
+        + " | ".join(
+            images_excel_df.columns
+        )
+    )
+
+    log_entries.append(
+        "Regions sheet columns:"
+    )
+
+    log_entries.append(
+        "  "
+        + " | ".join(
+            regions_excel_df.columns
+        )
+    )
+
+    log_entries.append(
+        "Reconciliation: "
+        f"matched_records="
+        f"{len(matched_records)} "
+        f"images_rows="
+        f"{len(images_excel_df)} "
+        f"region_records="
+        f"{len(region_records)} "
+        f"regions_rows="
+        f"{len(regions_excel_df)}"
+    )
+
+    write_log(
+        final_log_path,
+        log_entries,
+    )
+
 
 #Main Execution
 if __name__ == "__main__":
@@ -2608,5 +5331,5 @@ if __name__ == "__main__":
     # official validation = 459 → dev_val
     # official test = 1385 → untouched
 
-    export_inventory_to_excel(matched_records,region_records,config,)
+    export_inventory_to_excel(matched_records, region_records, config, CONFIG_FILE,)
 
