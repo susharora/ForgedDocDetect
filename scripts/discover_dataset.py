@@ -1786,6 +1786,7 @@ def validate_full_image_decode(
         except (
             OSError,
             ValueError,
+            Image.DecompressionBombError,
         ) as error:
 
             record[
@@ -5226,11 +5227,16 @@ def build_qa_summary(
             total=len(images_df),
         )
 
+
     # ------------------------------------------------------------
     # Multiple face regions
     #
     # Group by image_path so this check is independent of SHA
     # uniqueness.
+    #
+    # Important:
+    # If the required columns exist but there are zero face rows,
+    # the check DID run and the correct values are 0 / 0.
     # ------------------------------------------------------------
 
     required_face_columns = {
@@ -5250,6 +5256,10 @@ def build_qa_summary(
             .eq("face")
         ]
 
+        # The check has run once the required columns exist.
+        face_group_total = 0
+        face_multi_region_groups = 0
+
         if not face_regions.empty:
 
             face_group_sizes = (
@@ -5266,7 +5276,9 @@ def build_qa_summary(
             )
 
             face_group_total = int(
-                len(face_group_sizes)
+                len(
+                    face_group_sizes
+                )
             )
 
             face_multi_region_groups = int(
@@ -5276,19 +5288,19 @@ def build_qa_summary(
                 .sum()
             )
 
-            add_row(
-                "Region structure",
-                (
-                    "Face field/provenance "
-                    "groups with >1 rectangle"
-                ),
-                face_multi_region_groups,
-                total=face_group_total,
-                notes=(
-                    "Legitimate primary and "
-                    "secondary/hologram portraits"
-                ),
-            )
+        add_row(
+            "Region structure",
+            (
+                "Face field/provenance "
+                "groups with >1 rectangle"
+            ),
+            face_multi_region_groups,
+            total=face_group_total,
+            notes=(
+                "Legitimate primary and "
+                "secondary/hologram portraits"
+            ),
+        )
 
     # ============================================================
     # HUMAN-READABLE DISTRIBUTIONS
@@ -7226,6 +7238,273 @@ def build_qa_summary(
             bad_shared_d3_hardware,
         )
 
+    # ============================================================
+    # TEST FLICKR HARDWARE STRUCTURE
+    #
+    # Raw hardware folder names are deliberately preserved.
+    #
+    # The Flickr component uses:
+    #
+    #   huawei
+    #   iphone15
+    #   scan
+    #
+    # This is intentionally NOT aliased to iphone15pro here.
+    #
+    # We audit two structures:
+    #
+    # 1. Test Flickr bonafide:
+    #       every card should have exactly three captures,
+    #       one from each raw hardware source.
+    #
+    # 2. Test Flickr attacks, combining facedancer and
+    #    textdiffuserft_bfei:
+    #       the same three-capture structure is expected except
+    #       for one known source-release incomplete stem.
+    # ============================================================
+
+    flickr_hardware_columns = {
+        "split",
+        "traffic_type",
+        "variant",
+        "face_db",
+        "file_stem",
+        "hardware_source",
+    }
+
+    flickr_check_names = (
+        (
+            "test_flickr_bonafide_stems_"
+            "bad_hardware_structure"
+        ),
+        (
+            "test_flickr_attack_stems_"
+            "bad_hardware_structure"
+        ),
+    )
+
+    if not flickr_hardware_columns.issubset(
+        images_df.columns
+    ):
+
+        for check_name in flickr_check_names:
+
+            regression_not_run(
+                check_name,
+                (
+                    "Required Flickr hardware "
+                    "audit column missing"
+                ),
+            )
+
+    else:
+
+        expected_flickr_hardware = {
+            "huawei",
+            "iphone15",
+            "scan",
+        }
+
+        def count_bad_flickr_hardware_stems(
+            component_df: pd.DataFrame,
+        ):
+
+            # Empty is NOT equivalent to a clean result.
+            if component_df.empty:
+                return None
+
+            if component_df[
+                [
+                    "file_stem",
+                    "hardware_source",
+                ]
+            ].isna().any().any():
+
+                return None
+
+            bad_stems = []
+
+            for (
+                file_stem,
+                stem_df,
+            ) in component_df.groupby(
+                "file_stem"
+            ):
+
+                hardware = set(
+                    stem_df[
+                        "hardware_source"
+                    ]
+                )
+
+                # Require both:
+                #
+                #   exactly 3 rows
+                #   exactly the expected 3 raw hardware names
+                #
+                # This also catches duplicate-device rows.
+                if (
+                    len(stem_df) != 3
+                    or
+                    hardware
+                    != expected_flickr_hardware
+                ):
+
+                    bad_stems.append(
+                        file_stem
+                    )
+
+            return bad_stems
+
+
+        # --------------------------------------------------------
+        # Test Flickr bonafide
+        # --------------------------------------------------------
+
+        flickr_bonafide_df = images_df[
+            images_df[
+                "split"
+            ].eq(
+                "test"
+            )
+            &
+            images_df[
+                "traffic_type"
+            ].eq(
+                "bonafide"
+            )
+            &
+            images_df[
+                "face_db"
+            ].eq(
+                "flickr-cropped"
+            )
+        ]
+
+        bad_flickr_bonafide_stems = (
+            count_bad_flickr_hardware_stems(
+                flickr_bonafide_df
+            )
+        )
+
+        if bad_flickr_bonafide_stems is None:
+
+            regression_not_run(
+                (
+                    "test_flickr_bonafide_stems_"
+                    "bad_hardware_structure"
+                ),
+                (
+                    "Test Flickr bonafide rows "
+                    "absent or incomplete"
+                ),
+            )
+
+        else:
+
+            regression_ran(
+                (
+                    "test_flickr_bonafide_stems_"
+                    "bad_hardware_structure"
+                ),
+                len(
+                    bad_flickr_bonafide_stems
+                ),
+            )
+
+            regression_notes[
+                (
+                    "test_flickr_bonafide_stems_"
+                    "bad_hardware_structure"
+                )
+            ] = (
+                "Expected raw hardware set: "
+                "huawei, iphone15, scan"
+            )
+
+
+        # --------------------------------------------------------
+        # Combined Flickr attack component
+        #
+        # facedancer and textdiffuserft_bfei are combined because
+        # the individual methods are not complete three-device
+        # triplets for every identity.
+        # --------------------------------------------------------
+
+        flickr_attack_df = images_df[
+            images_df[
+                "split"
+            ].eq(
+                "test"
+            )
+            &
+            images_df[
+                "traffic_type"
+            ].eq(
+                "attack"
+            )
+            &
+            images_df[
+                "face_db"
+            ].eq(
+                "flickr-cropped"
+            )
+            &
+            images_df[
+                "variant"
+            ].isin(
+                [
+                    "facedancer",
+                    "textdiffuserft_bfei",
+                ]
+            )
+        ]
+
+        bad_flickr_attack_stems = (
+            count_bad_flickr_hardware_stems(
+                flickr_attack_df
+            )
+        )
+
+        if bad_flickr_attack_stems is None:
+
+            regression_not_run(
+                (
+                    "test_flickr_attack_stems_"
+                    "bad_hardware_structure"
+                ),
+                (
+                    "Test Flickr attack rows "
+                    "absent or incomplete"
+                ),
+            )
+
+        else:
+
+            regression_ran(
+                (
+                    "test_flickr_attack_stems_"
+                    "bad_hardware_structure"
+                ),
+                len(
+                    bad_flickr_attack_stems
+                ),
+            )
+
+            regression_notes[
+                (
+                    "test_flickr_attack_stems_"
+                    "bad_hardware_structure"
+                )
+            ] = (
+                "Raw hardware names preserved. "
+                "Known source-release exception: "
+                "chinese2-flickr_F_30990251270_6801e68759_c "
+                "has iphone15 + scan attack captures "
+                "but no Huawei attack capture."
+            )
+
+
     # ------------------------------------------------------------
     # Formula-like source strings
     # ------------------------------------------------------------
@@ -7250,6 +7529,24 @@ def build_qa_summary(
             (
                 "Image / declared-crop "
                 "dimension mismatches"
+            ),
+
+        (
+            "test_flickr_bonafide_stems_"
+            "bad_hardware_structure"
+        ):
+            (
+                "Test Flickr bonafide stems with "
+                "unexpected 3-capture hardware structure"
+            ),
+
+        (
+            "test_flickr_attack_stems_"
+            "bad_hardware_structure"
+        ):
+            (
+                "Test Flickr attack stems with "
+                "unexpected combined hardware structure"
             ),
 
         "partially_outside_regions":
@@ -7581,7 +7878,10 @@ def export_inventory_to_excel(
             f"{sidecar_path}"
         )
 
-    # Remove stale temporary files from a previous interrupted run.
+    # Remove temporary files belonging to THIS run identifier.
+    #
+    # We deliberately do not glob-delete .part files from older
+    # runs because those may be useful evidence of a failed run.
     if temp_output_path.exists():
         temp_output_path.unlink()
 
@@ -8425,13 +8725,22 @@ if __name__ == "__main__":
     #
     # In that case the internally generated dev_val split is retired.
 
+    # ------------------------------------------------------------
+    # Final discovery-artifact export
+    #
+    # Any exporter failure must leave an explicit FATAL record in
+    # the run log, including failures that happen before the Excel
+    # writer itself starts.
+    # ------------------------------------------------------------
+
     try:
+
         export_inventory_to_excel(
-        matched_records,
-        region_records,
-        config,
-        CONFIG_FILE,    
-    )
+            matched_records,
+            region_records,
+            config,
+            CONFIG_FILE,
+        )
 
     except Exception as error:
 
@@ -8441,10 +8750,12 @@ if __name__ == "__main__":
                 (
                     "FATAL: "
                     "export_inventory_to_excel failed: "
-                    f"{type(error).__name__}: {error}"
+                    f"{type(error).__name__}: "
+                    f"{error}"
                 )
             ],
         )
 
-    raise
+        # Preserve normal Python failure behaviour and traceback.
+        raise
 

@@ -118,3 +118,7 @@ regression_checks:
   shared_train_test_digital3_images: 633
   shared_train_test_digital3_stems: 211
   shared_digital3_bad_hardware_stems: 0
+
+  # Test Flickr raw-device structure
+  test_flickr_bonafide_stems_bad_hardware_structure: 0
+  test_flickr_attack_stems_bad_hardware_structure: 1
