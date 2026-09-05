@@ -1,0 +1,44 @@
+schema_version: 1
+
+experiment:
+  name: resnet18_gradcam_fantasyid
+  pipeline: resnet18_gradcam
+  task: binary_classification
+
+reproducibility:
+  seeds:
+    python: 8
+    numpy: 8
+    torch: 8
+    dataloader: 8
+
+data:
+  dataset: FantasyID
+
+  source_discovery:
+    workbook: output/fantasyid_inventory_2026-09-05_023126.xlsx
+    sha256: 54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+
+  frozen_split:
+    bundle: output/splits/fantasyid_project_split_2026-09-05_091937_bundle.yaml
+    bundle_sha256: 95cc748a4e520d90c44f68f7e0317711a659a636802debdf78887a10a85383e1
+
+    cards:
+      path: output/splits/fantasyid_project_split_2026-09-05_091937_cards.csv
+      sha256: 414972b290094f6d85ae0fb564bb336b17ffd067c4ac988fa4f74c8950b770fb
+      rows: 211
+
+    project_train:
+      path: output/splits/fantasyid_project_split_2026-09-05_091937_project_train.csv
+      sha256: 6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+      cards: 160
+      images: 1440
+
+    dev_val:
+      path: output/splits/fantasyid_project_split_2026-09-05_091937_dev_val.csv
+      sha256: 46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+      cards: 51
+      images: 459
+
+held_out_test:
+  policy: untouched_until_final_evaluation

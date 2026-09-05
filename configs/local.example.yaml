@@ -1,6 +1,21 @@
-# Copy to configs/local.yaml on each machine and edit. local.yaml is gitignored.
-# Only put things here that genuinely differ per machine.
+# Copy this file to configs/local.yaml on each machine.
+# configs/local.yaml is gitignored.
+#
+# ONLY machine-specific settings belong here.
+# Scientific/model-facing settings must live in a committed experiment config.
 
-training:
-  batch_size: 16     # SUSH-AMD (~31GB usable): smaller; IMTA134/135 (~47GB): larger
-  num_workers: 16     # set to roughly half of `nproc`
+paths:
+  # Absolute path is allowed and expected to differ between machines.
+  dataset_root: /absolute/path/to/FantasyID
+
+  # May be repo-relative on the home machine or an absolute local/scratch
+  # path on the lab machine.
+  runs_root: runs
+
+runtime:
+  device: cuda
+  num_workers: 8
+
+machine:
+  # Use a stable human-readable identifier for the physical machine.
+  id: replace-with-machine-name
