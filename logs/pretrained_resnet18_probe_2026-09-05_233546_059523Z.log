@@ -1,0 +1,10 @@
+2026-09-05T23:35:46Z | ERROR | PRETRAINED RESNET-18 FEATURE PROBE: FAIL
+Traceback (most recent call last):
+  File "/home/sush/ForgedDocDetect/tools/probe_pretrained_resnet18.py", line 969, in main
+    resolve_requested_images(
+  File "/home/sush/ForgedDocDetect/tools/probe_pretrained_resnet18.py", line 227, in resolve_requested_images
+    raise ValueError(
+ValueError: Requested image is not present in the frozen project_train manifest:
+  train/bonafide/digital_1/huawei/arabic-003_03.jpg
+
+This probe deliberately refuses dev_val and held-out test images.
