@@ -1,0 +1,21 @@
+********************PROJECT SPLIT BUILD********************
+Run timestamp: 2026-09-05_073955
+Build config: buildconfig.yaml
+Discovery workbook: fantasyid_inventory_2026-09-05_023126.xlsx
+Frozen discovery artifact verified:
+  workbook: fantasyid_inventory_2026-09-05_023126.xlsx
+  SHA-256:  54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+Frozen Images sheet loaded:
+  rows:    3284
+  columns: 53
+  splits:  ['test', 'train']
+********************validate_source_train_structure********************
+Source-train image rows: 1899
+Source-train unique cards: 211
+Cards with unexpected image count: 0
+Cards with inconsistent identity metadata: 0
+Cards with unexpected variant composition: 0
+Card/version groups with unexpected hardware coverage: 0
+Card-level source-train table rows: 211
+Card/image reconciliation: 211 cards x 9 images = 1899
+SOURCE-TRAIN STRUCTURE: PASS

@@ -1,0 +1,77 @@
+********************PROJECT SPLIT BUILD********************
+Run timestamp: 2026-09-05_074921
+Build config: buildconfig.yaml
+Discovery workbook: fantasyid_inventory_2026-09-05_023126.xlsx
+Frozen discovery artifact verified:
+  workbook: fantasyid_inventory_2026-09-05_023126.xlsx
+  SHA-256:  54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+Frozen Images sheet loaded:
+  rows:    3284
+  columns: 53
+  splits:  ['test', 'train']
+********************validate_source_train_structure********************
+Source-train image rows: 1899
+Source-train unique cards: 211
+Cards with unexpected image count: 0
+Cards with inconsistent identity metadata: 0
+Cards with unexpected variant composition: 0
+Card/version groups with unexpected hardware coverage: 0
+Card-level source-train table rows: 211
+Card/image reconciliation: 211 cards x 9 images = 1899
+SOURCE-TRAIN STRUCTURE: PASS
+********************audit_train_card_strata********************
+Card-level rows: 211
+Unique file_stems: 211
+Source-train cards by face_db:
+  AMFD_Faces_Final: 109 (51.66%)
+  facelab_london: 102 (48.34%)
+Source-train cards by gender:
+  F: 138 (65.40%)
+  M: 73 (34.60%)
+Source-train cards by face_db x gender:
+  AMFD_Faces_Final / F: 89
+  AMFD_Faces_Final / M: 20
+  facelab_london / F: 49
+  facelab_london / M: 53
+Strata reconciliation: 211 cards
+SOURCE-TRAIN CARD STRATA: PASS
+********************load_discovery_regions_for_audit********************
+Frozen Regions rows loaded: 33924
+REGIONS LOAD: PASS
+********************audit_train_language_structure********************
+Source-train region rows: 20343
+Train region stems not in card table: 0
+Train cards with no region rows: 0
+Raw source-train region language values:
+  <NULL>: 8913
+  arabic: 792
+  english: 9225
+  other: 1107
+  persian: 306
+Card-level language rows: 211
+Number of explicit language labels per card:
+  1 language(s): 86 card(s)
+  2 language(s): 125 card(s)
+Source-train cards by language signature:
+  arabic | english: 22
+  english: 86
+  english | other: 86
+  english | persian: 17
+Cards by face_db x gender x language signature:
+  AMFD_Faces_Final / F / arabic | english: 11
+  AMFD_Faces_Final / F / english: 37
+  AMFD_Faces_Final / F / english | other: 33
+  AMFD_Faces_Final / F / english | persian: 8
+  AMFD_Faces_Final / M / arabic | english: 3
+  AMFD_Faces_Final / M / english: 8
+  AMFD_Faces_Final / M / english | other: 6
+  AMFD_Faces_Final / M / english | persian: 3
+  facelab_london / F / arabic | english: 4
+  facelab_london / F / english: 14
+  facelab_london / F / english | other: 27
+  facelab_london / F / english | persian: 4
+  facelab_london / M / arabic | english: 4
+  facelab_london / M / english: 27
+  facelab_london / M / english | other: 20
+  facelab_london / M / english | persian: 2
+SOURCE-TRAIN LANGUAGE AUDIT: PASS

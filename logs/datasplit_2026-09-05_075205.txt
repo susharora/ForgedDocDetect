@@ -1,0 +1,136 @@
+********************PROJECT SPLIT BUILD********************
+Run timestamp: 2026-09-05_075205
+Build config: buildconfig.yaml
+Discovery workbook: fantasyid_inventory_2026-09-05_023126.xlsx
+Frozen discovery artifact verified:
+  workbook: fantasyid_inventory_2026-09-05_023126.xlsx
+  SHA-256:  54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+Frozen Images sheet loaded:
+  rows:    3284
+  columns: 53
+  splits:  ['test', 'train']
+********************validate_source_train_structure********************
+Source-train image rows: 1899
+Source-train unique cards: 211
+Cards with unexpected image count: 0
+Cards with inconsistent identity metadata: 0
+Cards with unexpected variant composition: 0
+Card/version groups with unexpected hardware coverage: 0
+Card-level source-train table rows: 211
+Card/image reconciliation: 211 cards x 9 images = 1899
+SOURCE-TRAIN STRUCTURE: PASS
+********************audit_train_card_strata********************
+Card-level rows: 211
+Unique file_stems: 211
+Source-train cards by face_db:
+  AMFD_Faces_Final: 109 (51.66%)
+  facelab_london: 102 (48.34%)
+Source-train cards by gender:
+  F: 138 (65.40%)
+  M: 73 (34.60%)
+Source-train cards by face_db x gender:
+  AMFD_Faces_Final / F: 89
+  AMFD_Faces_Final / M: 20
+  facelab_london / F: 49
+  facelab_london / M: 53
+Strata reconciliation: 211 cards
+SOURCE-TRAIN CARD STRATA: PASS
+********************load_discovery_regions_for_audit********************
+Frozen Regions rows loaded: 33924
+REGIONS LOAD: PASS
+********************audit_train_language_structure********************
+Source-train region rows: 20343
+Train region stems not in card table: 0
+Train cards with no region rows: 0
+Raw source-train region language values:
+  <NULL>: 8913
+  arabic: 792
+  english: 9225
+  other: 1107
+  persian: 306
+Card-level language rows: 211
+Number of explicit language labels per card:
+  1 language(s): 86 card(s)
+  2 language(s): 125 card(s)
+Source-train cards by language signature:
+  arabic | english: 22
+  english: 86
+  english | other: 86
+  english | persian: 17
+Cards by face_db x gender x language signature:
+  AMFD_Faces_Final / F / arabic | english: 11
+  AMFD_Faces_Final / F / english: 37
+  AMFD_Faces_Final / F / english | other: 33
+  AMFD_Faces_Final / F / english | persian: 8
+  AMFD_Faces_Final / M / arabic | english: 3
+  AMFD_Faces_Final / M / english: 8
+  AMFD_Faces_Final / M / english | other: 6
+  AMFD_Faces_Final / M / english | persian: 3
+  facelab_london / F / arabic | english: 4
+  facelab_london / F / english: 14
+  facelab_london / F / english | other: 27
+  facelab_london / F / english | persian: 4
+  facelab_london / M / arabic | english: 4
+  facelab_london / M / english: 27
+  facelab_london / M / english | other: 20
+  facelab_london / M / english | persian: 2
+SOURCE-TRAIN LANGUAGE AUDIT: PASS
+********************audit_train_stem_family_structure********************
+Distinct derived stem families: 10
+Source-train cards by derived stem family:
+  arabic: 22
+  chinese: 23
+  french: 23
+  indian: 14
+  persian: 17
+  portugal: 28
+  russian: 16
+  turkiye: 25
+  ukraine: 17
+  usa: 26
+Families with >1 raw casing/spelling form: 0
+Stem-family composition:
+  arabic: 22 card(s)
+    face_db: {'AMFD_Faces_Final': 14, 'facelab_london': 8}
+    gender: {'F': 15, 'M': 7}
+    language: {'arabic | english': 22}
+  chinese: 23 card(s)
+    face_db: {'AMFD_Faces_Final': 11, 'facelab_london': 12}
+    gender: {'F': 19, 'M': 4}
+    language: {'english | other': 23}
+  french: 23 card(s)
+    face_db: {'AMFD_Faces_Final': 9, 'facelab_london': 14}
+    gender: {'F': 15, 'M': 8}
+    language: {'english': 10, 'english | other': 13}
+  indian: 14 card(s)
+    face_db: {'AMFD_Faces_Final': 7, 'facelab_london': 7}
+    gender: {'F': 9, 'M': 5}
+    language: {'english': 14}
+  persian: 17 card(s)
+    face_db: {'AMFD_Faces_Final': 11, 'facelab_london': 6}
+    gender: {'F': 12, 'M': 5}
+    language: {'english | persian': 17}
+  portugal: 28 card(s)
+    face_db: {'AMFD_Faces_Final': 14, 'facelab_london': 14}
+    gender: {'F': 14, 'M': 14}
+    language: {'english': 28}
+  russian: 16 card(s)
+    face_db: {'AMFD_Faces_Final': 8, 'facelab_london': 8}
+    gender: {'F': 10, 'M': 6}
+    language: {'english | other': 16}
+  turkiye: 25 card(s)
+    face_db: {'AMFD_Faces_Final': 8, 'facelab_london': 17}
+    gender: {'F': 10, 'M': 15}
+    language: {'english': 8, 'english | other': 17}
+  ukraine: 17 card(s)
+    face_db: {'AMFD_Faces_Final': 12, 'facelab_london': 5}
+    gender: {'F': 15, 'M': 2}
+    language: {'english | other': 17}
+  usa: 26 card(s)
+    face_db: {'AMFD_Faces_Final': 15, 'facelab_london': 11}
+    gender: {'F': 19, 'M': 7}
+    language: {'english': 26}
+Families spanning >1 language signature: 2
+Families spanning >1 face_db: 10
+Stem-family reconciliation: 211 cards
+STEM-FAMILY AUDIT: PASS

@@ -1,0 +1,5 @@
+# Configuration for project train/dev split construction
+
+logging:
+  directory: "../logs"
+  filename: "datasplit.txt"
