@@ -2152,6 +2152,788 @@ def audit_train_stem_family_structure(
 
     return audit_df
 
+# ------------------------------------------------------------
+#Function Calculate proportional internal-dev quota targets.
+#
+# No cards are selected here.
+#
+# The purpose of this stage is only to derive deterministic target
+# counts from the observed 211-card source-train population.
+#
+# Allocation method:
+#
+#   Largest Remainder / Hamilton apportionment
+#
+# For each stratum:
+#
+#   ideal target = source_cards * 51 / 211
+#
+# We first allocate the integer floor, then distribute the
+# remaining cards to the largest fractional remainders.
+#
+# Ties are resolved deterministically by the stratum labels.
+# ------------------------------------------------------------
+
+DEV_CARD_TARGET = 51
+EXPECTED_DEV_IMAGE_ROWS = 459
+
+
+def calculate_proportional_quota(
+    cards_df: pd.DataFrame,
+    group_columns: list[str],
+    target_cards: int,
+) -> pd.DataFrame:
+
+    source_total = len(
+        cards_df
+    )
+
+    if source_total <= 0:
+
+        raise ValueError(
+            "Cannot calculate quota from "
+            "an empty card table"
+        )
+
+    if (
+        target_cards <= 0
+        or target_cards > source_total
+    ):
+
+        raise ValueError(
+            "Invalid target-card count: "
+            f"{target_cards}"
+        )
+
+    # --------------------------------------------------------
+    # Count source cards in each requested stratum.
+    # --------------------------------------------------------
+
+    quota_df = (
+        cards_df
+        .groupby(
+            group_columns,
+            dropna=False,
+        )
+        .size()
+        .reset_index(
+            name="source_cards"
+        )
+    )
+
+    # --------------------------------------------------------
+    # Proportional ideal allocation.
+    # --------------------------------------------------------
+
+    quota_df[
+        "ideal_dev_cards"
+    ] = (
+        quota_df[
+            "source_cards"
+        ]
+        * target_cards
+        / source_total
+    )
+
+    # All values are positive, so integer conversion is
+    # equivalent to floor().
+    quota_df[
+        "floor_dev_cards"
+    ] = (
+        quota_df[
+            "ideal_dev_cards"
+        ]
+        .astype(int)
+    )
+
+    quota_df[
+        "remainder"
+    ] = (
+        quota_df[
+            "ideal_dev_cards"
+        ]
+        - quota_df[
+            "floor_dev_cards"
+        ]
+    )
+
+    quota_df[
+        "dev_target"
+    ] = quota_df[
+        "floor_dev_cards"
+    ].copy()
+
+    cards_remaining = (
+        target_cards
+        - int(
+            quota_df[
+                "dev_target"
+            ]
+            .sum()
+        )
+    )
+
+    # --------------------------------------------------------
+    # Deterministic largest-remainder ordering.
+    #
+    # Primary:
+    #   largest fractional remainder first
+    #
+    # Tie:
+    #   lexical ordering of the group columns
+    # --------------------------------------------------------
+
+    sort_columns = (
+        ["remainder"]
+        + group_columns
+    )
+
+    ascending = (
+        [False]
+        + [True] * len(
+            group_columns
+        )
+    )
+
+    allocation_order = (
+        quota_df
+        .sort_values(
+            sort_columns,
+            ascending=ascending,
+            kind="mergesort",
+        )
+        .index
+        .tolist()
+    )
+
+    for row_index in (
+        allocation_order[
+            :cards_remaining
+        ]
+    ):
+
+        quota_df.loc[
+            row_index,
+            "dev_target",
+        ] += 1
+
+    # --------------------------------------------------------
+    # Final deterministic presentation order.
+    # --------------------------------------------------------
+
+    quota_df = (
+        quota_df
+        .sort_values(
+            group_columns
+        )
+        .reset_index(
+            drop=True
+        )
+    )
+
+    # --------------------------------------------------------
+    # Internal reconciliation.
+    # --------------------------------------------------------
+
+    if (
+        int(
+            quota_df[
+                "source_cards"
+            ]
+            .sum()
+        )
+        != source_total
+    ):
+
+        raise RuntimeError(
+            "Quota source-card counts "
+            "do not reconcile"
+        )
+
+    if (
+        int(
+            quota_df[
+                "dev_target"
+            ]
+            .sum()
+        )
+        != target_cards
+    ):
+
+        raise RuntimeError(
+            "Quota allocation does not "
+            "reconcile to target-card count"
+        )
+
+    if (
+        quota_df[
+            "dev_target"
+        ]
+        .gt(
+            quota_df[
+                "source_cards"
+            ]
+        )
+        .any()
+    ):
+
+        raise RuntimeError(
+            "A dev quota exceeds the available "
+            "source cards in its stratum"
+        )
+
+    return quota_df
+
+
+def log_quota_table(
+    title: str,
+    quota_df: pd.DataFrame,
+    group_columns: list[str],
+    log_entries: list[str],
+) -> None:
+
+    log_entries.append(
+        title
+    )
+
+    for _, row in (
+        quota_df.iterrows()
+    ):
+
+        label = " / ".join(
+            str(
+                row[column]
+            )
+            for column
+            in group_columns
+        )
+
+        log_entries.append(
+            f"  {label}: "
+            f"source={int(row['source_cards'])} "
+            f"ideal={row['ideal_dev_cards']:.3f} "
+            f"target={int(row['dev_target'])}"
+        )
+
+
+def audit_dev_quota_targets(
+    train_card_template_audit_df: pd.DataFrame,
+    log_path: Path,
+) -> dict[str, pd.DataFrame]:
+
+    log_entries = [
+        (
+            "********************"
+            "audit_dev_quota_targets"
+            "********************"
+        )
+    ]
+
+    cards_df = (
+        train_card_template_audit_df
+        .copy()
+    )
+
+    violations = []
+
+    # --------------------------------------------------------
+    # The quota calculation operates on exactly one row/card.
+    # --------------------------------------------------------
+
+    if (
+        len(cards_df)
+        != EXPECTED_SOURCE_TRAIN_CARDS
+    ):
+
+        violations.append(
+            (
+                "Quota input does not contain "
+                f"{EXPECTED_SOURCE_TRAIN_CARDS} cards"
+            )
+        )
+
+    if (
+        cards_df[
+            "file_stem"
+        ]
+        .nunique()
+        != EXPECTED_SOURCE_TRAIN_CARDS
+    ):
+
+        violations.append(
+            "Quota input does not contain 211 unique file_stems"
+        )
+
+    required_columns = {
+        "file_stem",
+        "stem_family",
+        "face_db",
+        "gender",
+        "language_signature",
+    }
+
+    missing_columns = (
+        required_columns
+        - set(
+            cards_df.columns
+        )
+    )
+
+    if missing_columns:
+
+        violations.append(
+            (
+                "Quota input columns missing: "
+                f"{sorted(missing_columns)}"
+            )
+        )
+
+    if violations:
+
+        log_entries.append(
+            "DEV QUOTA AUDIT: FAIL"
+        )
+
+        for violation in violations:
+
+            log_entries.append(
+                f"  {violation}"
+            )
+
+        write_log(
+            log_path,
+            log_entries,
+        )
+
+        raise RuntimeError(
+            "Cannot calculate development quotas"
+        )
+
+    # --------------------------------------------------------
+    # Family quota.
+    #
+    # This is our primary document-structure stratification.
+    # --------------------------------------------------------
+
+    family_quota_df = (
+        calculate_proportional_quota(
+            cards_df,
+            [
+                "stem_family",
+            ],
+            DEV_CARD_TARGET,
+        )
+    )
+
+    # --------------------------------------------------------
+    # Source face database.
+    # --------------------------------------------------------
+
+    face_db_quota_df = (
+        calculate_proportional_quota(
+            cards_df,
+            [
+                "face_db",
+            ],
+            DEV_CARD_TARGET,
+        )
+    )
+
+    # --------------------------------------------------------
+    # Gender.
+    # --------------------------------------------------------
+
+    gender_quota_df = (
+        calculate_proportional_quota(
+            cards_df,
+            [
+                "gender",
+            ],
+            DEV_CARD_TARGET,
+        )
+    )
+
+    # --------------------------------------------------------
+    # Joint source-database x gender quota.
+    #
+    # This is more informative than preserving the two marginals
+    # independently.
+    # --------------------------------------------------------
+
+    face_db_gender_quota_df = (
+        calculate_proportional_quota(
+            cards_df,
+            [
+                "face_db",
+                "gender",
+            ],
+            DEV_CARD_TARGET,
+        )
+    )
+
+    # --------------------------------------------------------
+    # Language-signature quota.
+    # --------------------------------------------------------
+
+    language_quota_df = (
+        calculate_proportional_quota(
+            cards_df,
+            [
+                "language_signature",
+            ],
+            DEV_CARD_TARGET,
+        )
+    )
+
+    # --------------------------------------------------------
+    # Log every calculated target.
+    # --------------------------------------------------------
+
+    log_entries.append(
+        "Internal development-set target:"
+    )
+
+    log_entries.append(
+        f"  cards:  {DEV_CARD_TARGET}"
+    )
+
+    log_entries.append(
+        f"  images: {EXPECTED_DEV_IMAGE_ROWS}"
+    )
+
+    log_entries.append(
+        ""
+    )
+
+    log_quota_table(
+        "Derived stem-family quotas:",
+        family_quota_df,
+        [
+            "stem_family",
+        ],
+        log_entries,
+    )
+
+    log_entries.append(
+        ""
+    )
+
+    log_quota_table(
+        "face_db quotas:",
+        face_db_quota_df,
+        [
+            "face_db",
+        ],
+        log_entries,
+    )
+
+    log_entries.append(
+        ""
+    )
+
+    log_quota_table(
+        "Gender quotas:",
+        gender_quota_df,
+        [
+            "gender",
+        ],
+        log_entries,
+    )
+
+    log_entries.append(
+        ""
+    )
+
+    log_quota_table(
+        "face_db x gender quotas:",
+        face_db_gender_quota_df,
+        [
+            "face_db",
+            "gender",
+        ],
+        log_entries,
+    )
+
+    log_entries.append(
+        ""
+    )
+
+    log_quota_table(
+        "Language-signature quotas:",
+        language_quota_df,
+        [
+            "language_signature",
+        ],
+        log_entries,
+    )
+
+    log_entries.append(
+        "DEV QUOTA AUDIT: PASS"
+    )
+
+    write_log(
+        log_path,
+        log_entries,
+    )
+
+    return {
+        "family":
+            family_quota_df,
+
+        "face_db":
+            face_db_quota_df,
+
+        "gender":
+            gender_quota_df,
+
+        "face_db_gender":
+            face_db_gender_quota_df,
+
+        "language":
+            language_quota_df,
+    }
+
+
+# ------------------------------------------------------------
+# Build the complete joint support table.
+#
+# This still does NOT select cards.
+#
+# Each row describes one actually-observed combination of:
+#
+#   stem_family
+#   face_db
+#   gender
+#   language_signature
+#
+# This table is the input to the next exact-feasibility stage.
+# ------------------------------------------------------------
+
+def build_joint_split_support_table(
+    train_card_template_audit_df: pd.DataFrame,
+    log_path: Path,
+) -> pd.DataFrame:
+
+    log_entries = [
+        (
+            "********************"
+            "build_joint_split_support_table"
+            "********************"
+        )
+    ]
+
+    joint_columns = [
+        "stem_family",
+        "face_db",
+        "gender",
+        "language_signature",
+    ]
+
+    cards_df = (
+        train_card_template_audit_df
+        .copy()
+    )
+
+    missing_columns = (
+        set(
+            joint_columns
+        )
+        - set(
+            cards_df.columns
+        )
+    )
+
+    if missing_columns:
+
+        write_log(
+            log_path,
+            log_entries
+            + [
+                "JOINT SUPPORT AUDIT: FAIL",
+                (
+                    "  Missing columns: "
+                    f"{sorted(missing_columns)}"
+                ),
+            ],
+        )
+
+        raise RuntimeError(
+            "Cannot build joint split support table"
+        )
+
+    # --------------------------------------------------------
+    # Count the number of actual source cards in every observed
+    # four-dimensional cell.
+    # --------------------------------------------------------
+
+    joint_df = (
+        cards_df
+        .groupby(
+            joint_columns,
+            dropna=False,
+        )
+        .size()
+        .reset_index(
+            name="source_cards"
+        )
+        .sort_values(
+            joint_columns
+        )
+        .reset_index(
+            drop=True
+        )
+    )
+
+    # --------------------------------------------------------
+    # Proportional ideal share of the 51-card development set.
+    #
+    # This is descriptive only.
+    #
+    # We are NOT allocating independent quotas to every joint
+    # cell because doing so could conflict with the marginal
+    # targets calculated above.
+    # --------------------------------------------------------
+
+    joint_df[
+        "ideal_dev_cards"
+    ] = (
+        joint_df[
+            "source_cards"
+        ]
+        * DEV_CARD_TARGET
+        / EXPECTED_SOURCE_TRAIN_CARDS
+    )
+
+    # --------------------------------------------------------
+    # Reconciliation.
+    # --------------------------------------------------------
+
+    joint_source_total = int(
+        joint_df[
+            "source_cards"
+        ]
+        .sum()
+    )
+
+    log_entries.append(
+        "Observed joint strata: "
+        f"{len(joint_df)}"
+    )
+
+    log_entries.append(
+        "Joint source-card total: "
+        f"{joint_source_total}"
+    )
+
+    if (
+        joint_source_total
+        != EXPECTED_SOURCE_TRAIN_CARDS
+    ):
+
+        log_entries.append(
+            "JOINT SUPPORT AUDIT: FAIL"
+        )
+
+        write_log(
+            log_path,
+            log_entries,
+        )
+
+        raise RuntimeError(
+            "Joint support table does not "
+            "reconcile to 211 cards"
+        )
+
+    # --------------------------------------------------------
+    # Useful sparsity diagnostics.
+    #
+    # Sparse cells matter because they determine whether all the
+    # requested marginals can be satisfied simultaneously.
+    # --------------------------------------------------------
+
+    singleton_cells = int(
+        joint_df[
+            "source_cards"
+        ]
+        .eq(1)
+        .sum()
+    )
+
+    cells_with_two = int(
+        joint_df[
+            "source_cards"
+        ]
+        .eq(2)
+        .sum()
+    )
+
+    minimum_cell_size = int(
+        joint_df[
+            "source_cards"
+        ]
+        .min()
+    )
+
+    maximum_cell_size = int(
+        joint_df[
+            "source_cards"
+        ]
+        .max()
+    )
+
+    log_entries.append(
+        "Joint-cell source-card sizes:"
+    )
+
+    log_entries.append(
+        f"  minimum: {minimum_cell_size}"
+    )
+
+    log_entries.append(
+        f"  maximum: {maximum_cell_size}"
+    )
+
+    log_entries.append(
+        f"  singleton cells: {singleton_cells}"
+    )
+
+    log_entries.append(
+        f"  two-card cells: {cells_with_two}"
+    )
+
+    # --------------------------------------------------------
+    # Log every actually observed cell.
+    # --------------------------------------------------------
+
+    log_entries.append(
+        "Observed stem_family x face_db x gender "
+        "x language_signature cells:"
+    )
+
+    for _, row in (
+        joint_df.iterrows()
+    ):
+
+        log_entries.append(
+            f"  {row['stem_family']} / "
+            f"{row['face_db']} / "
+            f"{row['gender']} / "
+            f"{row['language_signature']}: "
+            f"source={int(row['source_cards'])} "
+            f"ideal_dev={row['ideal_dev_cards']:.3f}"
+        )
+
+    log_entries.append(
+        "JOINT SUPPORT AUDIT: PASS"
+    )
+
+    write_log(
+        log_path,
+        log_entries,
+    )
+
+    return joint_df
+
 
 #Main function
 if __name__ == "__main__":
@@ -2256,6 +3038,20 @@ if __name__ == "__main__":
     train_card_template_audit_df = (
         audit_train_stem_family_structure(
             train_card_language_df,
+            final_log_path,
+        )
+    )
+
+    dev_quota_tables = (
+        audit_dev_quota_targets(
+            train_card_template_audit_df,
+            final_log_path,
+        )
+    )
+
+    joint_split_support_df = (
+        build_joint_split_support_table(
+            train_card_template_audit_df,
             final_log_path,
         )
     )
