@@ -1,0 +1,520 @@
+********************PROJECT SPLIT BUILD********************
+Run timestamp: 2026-09-05_090420
+Build config: buildconfig.yaml
+Discovery workbook: fantasyid_inventory_2026-09-05_023126.xlsx
+Frozen discovery artifact verified:
+  workbook: fantasyid_inventory_2026-09-05_023126.xlsx
+  SHA-256:  54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+Frozen Images sheet loaded:
+  rows:    3284
+  columns: 53
+  splits:  ['test', 'train']
+********************validate_source_train_structure********************
+Source-train image rows: 1899
+Source-train unique cards: 211
+Cards with unexpected image count: 0
+Cards with inconsistent identity metadata: 0
+Cards with unexpected variant composition: 0
+Card/version groups with unexpected hardware coverage: 0
+Card-level source-train table rows: 211
+Card/image reconciliation: 211 cards x 9 images = 1899
+SOURCE-TRAIN STRUCTURE: PASS
+********************audit_train_card_strata********************
+Card-level rows: 211
+Unique file_stems: 211
+Source-train cards by face_db:
+  AMFD_Faces_Final: 109 (51.66%)
+  facelab_london: 102 (48.34%)
+Source-train cards by gender:
+  F: 138 (65.40%)
+  M: 73 (34.60%)
+Source-train cards by face_db x gender:
+  AMFD_Faces_Final / F: 89
+  AMFD_Faces_Final / M: 20
+  facelab_london / F: 49
+  facelab_london / M: 53
+Strata reconciliation: 211 cards
+SOURCE-TRAIN CARD STRATA: PASS
+********************load_discovery_regions_for_audit********************
+Frozen Regions rows loaded: 33924
+REGIONS LOAD: PASS
+********************audit_train_language_structure********************
+Source-train region rows: 20343
+Train region stems not in card table: 0
+Train cards with no region rows: 0
+Raw source-train region language values:
+  <NULL>: 8913
+  arabic: 792
+  english: 9225
+  other: 1107
+  persian: 306
+Card-level language rows: 211
+Number of explicit language labels per card:
+  1 language(s): 86 card(s)
+  2 language(s): 125 card(s)
+Source-train cards by language signature:
+  arabic | english: 22
+  english: 86
+  english | other: 86
+  english | persian: 17
+Cards by face_db x gender x language signature:
+  AMFD_Faces_Final / F / arabic | english: 11
+  AMFD_Faces_Final / F / english: 37
+  AMFD_Faces_Final / F / english | other: 33
+  AMFD_Faces_Final / F / english | persian: 8
+  AMFD_Faces_Final / M / arabic | english: 3
+  AMFD_Faces_Final / M / english: 8
+  AMFD_Faces_Final / M / english | other: 6
+  AMFD_Faces_Final / M / english | persian: 3
+  facelab_london / F / arabic | english: 4
+  facelab_london / F / english: 14
+  facelab_london / F / english | other: 27
+  facelab_london / F / english | persian: 4
+  facelab_london / M / arabic | english: 4
+  facelab_london / M / english: 27
+  facelab_london / M / english | other: 20
+  facelab_london / M / english | persian: 2
+SOURCE-TRAIN LANGUAGE AUDIT: PASS
+********************audit_train_stem_family_structure********************
+Distinct derived stem families: 10
+Source-train cards by derived stem family:
+  arabic: 22
+  chinese: 23
+  french: 23
+  indian: 14
+  persian: 17
+  portugal: 28
+  russian: 16
+  turkiye: 25
+  ukraine: 17
+  usa: 26
+Families with >1 raw casing/spelling form: 0
+Stem-family composition:
+  arabic: 22 card(s)
+    face_db: {'AMFD_Faces_Final': 14, 'facelab_london': 8}
+    gender: {'F': 15, 'M': 7}
+    language: {'arabic | english': 22}
+  chinese: 23 card(s)
+    face_db: {'AMFD_Faces_Final': 11, 'facelab_london': 12}
+    gender: {'F': 19, 'M': 4}
+    language: {'english | other': 23}
+  french: 23 card(s)
+    face_db: {'AMFD_Faces_Final': 9, 'facelab_london': 14}
+    gender: {'F': 15, 'M': 8}
+    language: {'english': 10, 'english | other': 13}
+  indian: 14 card(s)
+    face_db: {'AMFD_Faces_Final': 7, 'facelab_london': 7}
+    gender: {'F': 9, 'M': 5}
+    language: {'english': 14}
+  persian: 17 card(s)
+    face_db: {'AMFD_Faces_Final': 11, 'facelab_london': 6}
+    gender: {'F': 12, 'M': 5}
+    language: {'english | persian': 17}
+  portugal: 28 card(s)
+    face_db: {'AMFD_Faces_Final': 14, 'facelab_london': 14}
+    gender: {'F': 14, 'M': 14}
+    language: {'english': 28}
+  russian: 16 card(s)
+    face_db: {'AMFD_Faces_Final': 8, 'facelab_london': 8}
+    gender: {'F': 10, 'M': 6}
+    language: {'english | other': 16}
+  turkiye: 25 card(s)
+    face_db: {'AMFD_Faces_Final': 8, 'facelab_london': 17}
+    gender: {'F': 10, 'M': 15}
+    language: {'english': 8, 'english | other': 17}
+  ukraine: 17 card(s)
+    face_db: {'AMFD_Faces_Final': 12, 'facelab_london': 5}
+    gender: {'F': 15, 'M': 2}
+    language: {'english | other': 17}
+  usa: 26 card(s)
+    face_db: {'AMFD_Faces_Final': 15, 'facelab_london': 11}
+    gender: {'F': 19, 'M': 7}
+    language: {'english': 26}
+Families spanning >1 language signature: 2
+Families spanning >1 face_db: 10
+Stem-family reconciliation: 211 cards
+STEM-FAMILY AUDIT: PASS
+********************audit_dev_quota_targets********************
+Internal development-set target:
+  cards:  51
+  images: 459
+
+Derived stem-family quotas:
+  arabic: source=22 ideal=5.318 target=5
+  chinese: source=23 ideal=5.559 target=6
+  french: source=23 ideal=5.559 target=6
+  indian: source=14 ideal=3.384 target=3
+  persian: source=17 ideal=4.109 target=4
+  portugal: source=28 ideal=6.768 target=7
+  russian: source=16 ideal=3.867 target=4
+  turkiye: source=25 ideal=6.043 target=6
+  ukraine: source=17 ideal=4.109 target=4
+  usa: source=26 ideal=6.284 target=6
+
+face_db quotas:
+  AMFD_Faces_Final: source=109 ideal=26.346 target=26
+  facelab_london: source=102 ideal=24.654 target=25
+
+Gender quotas:
+  F: source=138 ideal=33.355 target=33
+  M: source=73 ideal=17.645 target=18
+
+face_db x gender quotas:
+  AMFD_Faces_Final / F: source=89 ideal=21.512 target=21
+  AMFD_Faces_Final / M: source=20 ideal=4.834 target=5
+  facelab_london / F: source=49 ideal=11.844 target=12
+  facelab_london / M: source=53 ideal=12.810 target=13
+
+Language-signature quotas:
+  arabic | english: source=22 ideal=5.318 target=5
+  english: source=86 ideal=20.787 target=21
+  english | other: source=86 ideal=20.787 target=21
+  english | persian: source=17 ideal=4.109 target=4
+DEV QUOTA AUDIT: PASS
+********************build_joint_split_support_table********************
+Observed joint strata: 48
+Joint source-card total: 211
+Joint-cell source-card sizes:
+  minimum: 1
+  maximum: 13
+  singleton cells: 9
+  two-card cells: 9
+Observed stem_family x face_db x gender x language_signature cells:
+  arabic / AMFD_Faces_Final / F / arabic | english: source=11 ideal_dev=2.659
+  arabic / AMFD_Faces_Final / M / arabic | english: source=3 ideal_dev=0.725
+  arabic / facelab_london / F / arabic | english: source=4 ideal_dev=0.967
+  arabic / facelab_london / M / arabic | english: source=4 ideal_dev=0.967
+  chinese / AMFD_Faces_Final / F / english | other: source=10 ideal_dev=2.417
+  chinese / AMFD_Faces_Final / M / english | other: source=1 ideal_dev=0.242
+  chinese / facelab_london / F / english | other: source=9 ideal_dev=2.175
+  chinese / facelab_london / M / english | other: source=3 ideal_dev=0.725
+  french / AMFD_Faces_Final / F / english: source=3 ideal_dev=0.725
+  french / AMFD_Faces_Final / F / english | other: source=4 ideal_dev=0.967
+  french / AMFD_Faces_Final / M / english: source=1 ideal_dev=0.242
+  french / AMFD_Faces_Final / M / english | other: source=1 ideal_dev=0.242
+  french / facelab_london / F / english: source=2 ideal_dev=0.483
+  french / facelab_london / F / english | other: source=6 ideal_dev=1.450
+  french / facelab_london / M / english: source=4 ideal_dev=0.967
+  french / facelab_london / M / english | other: source=2 ideal_dev=0.483
+  indian / AMFD_Faces_Final / F / english: source=6 ideal_dev=1.450
+  indian / AMFD_Faces_Final / M / english: source=1 ideal_dev=0.242
+  indian / facelab_london / F / english: source=3 ideal_dev=0.725
+  indian / facelab_london / M / english: source=4 ideal_dev=0.967
+  persian / AMFD_Faces_Final / F / english | persian: source=8 ideal_dev=1.934
+  persian / AMFD_Faces_Final / M / english | persian: source=3 ideal_dev=0.725
+  persian / facelab_london / F / english | persian: source=4 ideal_dev=0.967
+  persian / facelab_london / M / english | persian: source=2 ideal_dev=0.483
+  portugal / AMFD_Faces_Final / F / english: source=12 ideal_dev=2.900
+  portugal / AMFD_Faces_Final / M / english: source=2 ideal_dev=0.483
+  portugal / facelab_london / F / english: source=2 ideal_dev=0.483
+  portugal / facelab_london / M / english: source=12 ideal_dev=2.900
+  russian / AMFD_Faces_Final / F / english | other: source=7 ideal_dev=1.692
+  russian / AMFD_Faces_Final / M / english | other: source=1 ideal_dev=0.242
+  russian / facelab_london / F / english | other: source=3 ideal_dev=0.725
+  russian / facelab_london / M / english | other: source=5 ideal_dev=1.209
+  turkiye / AMFD_Faces_Final / F / english: source=3 ideal_dev=0.725
+  turkiye / AMFD_Faces_Final / F / english | other: source=1 ideal_dev=0.242
+  turkiye / AMFD_Faces_Final / M / english: source=2 ideal_dev=0.483
+  turkiye / AMFD_Faces_Final / M / english | other: source=2 ideal_dev=0.483
+  turkiye / facelab_london / F / english: source=1 ideal_dev=0.242
+  turkiye / facelab_london / F / english | other: source=5 ideal_dev=1.209
+  turkiye / facelab_london / M / english: source=2 ideal_dev=0.483
+  turkiye / facelab_london / M / english | other: source=9 ideal_dev=2.175
+  ukraine / AMFD_Faces_Final / F / english | other: source=11 ideal_dev=2.659
+  ukraine / AMFD_Faces_Final / M / english | other: source=1 ideal_dev=0.242
+  ukraine / facelab_london / F / english | other: source=4 ideal_dev=0.967
+  ukraine / facelab_london / M / english | other: source=1 ideal_dev=0.242
+  usa / AMFD_Faces_Final / F / english: source=13 ideal_dev=3.142
+  usa / AMFD_Faces_Final / M / english: source=2 ideal_dev=0.483
+  usa / facelab_london / F / english: source=6 ideal_dev=1.450
+  usa / facelab_london / M / english: source=5 ideal_dev=1.209
+JOINT SUPPORT AUDIT: PASS
+********************audit_exact_dev_feasibility********************
+Quota totals entering feasibility solver:
+  family: 51
+  face_db_gender: 51
+  language: 51
+Exact feasibility problem:
+  joint-cell variables: 48
+  equality constraints: 19
+  SciPy version: 1.17.1
+Solver status: 0
+Solver message: Optimization terminated successfully. (HiGHS Status 7: Optimal)
+Maximum solver integer-rounding error: 0
+Exact marginal reconciliation:
+  stem_family = arabic: expected=5 achieved=5
+  stem_family = chinese: expected=6 achieved=6
+  stem_family = french: expected=6 achieved=6
+  stem_family = indian: expected=3 achieved=3
+  stem_family = persian: expected=4 achieved=4
+  stem_family = portugal: expected=7 achieved=7
+  stem_family = russian: expected=4 achieved=4
+  stem_family = turkiye: expected=6 achieved=6
+  stem_family = ukraine: expected=4 achieved=4
+  stem_family = usa: expected=6 achieved=6
+  face_db x gender = AMFD_Faces_Final / F: expected=21 achieved=21
+  face_db x gender = AMFD_Faces_Final / M: expected=5 achieved=5
+  face_db x gender = facelab_london / F: expected=12 achieved=12
+  face_db x gender = facelab_london / M: expected=13 achieved=13
+  language_signature = arabic | english: expected=5 achieved=5
+  language_signature = english: expected=21 achieved=21
+  language_signature = english | other: expected=21 achieved=21
+  language_signature = english | persian: expected=4 achieved=4
+  total development cards: expected=51 achieved=51
+Non-zero cells in feasibility witness: 21
+Feasibility witness allocation:
+  arabic / AMFD_Faces_Final / F / arabic | english: selected=5 of 11
+  chinese / AMFD_Faces_Final / F / english | other: selected=6 of 10
+  french / AMFD_Faces_Final / F / english | other: selected=4 of 4
+  french / AMFD_Faces_Final / M / english | other: selected=1 of 1
+  french / facelab_london / F / english: selected=1 of 2
+  indian / AMFD_Faces_Final / F / english: selected=1 of 6
+  indian / AMFD_Faces_Final / M / english: selected=1 of 1
+  indian / facelab_london / M / english: selected=1 of 4
+  persian / facelab_london / F / english | persian: selected=4 of 4
+  portugal / facelab_london / M / english: selected=7 of 12
+  russian / AMFD_Faces_Final / F / english | other: selected=1 of 7
+  russian / AMFD_Faces_Final / M / english | other: selected=1 of 1
+  russian / facelab_london / M / english | other: selected=2 of 5
+  turkiye / AMFD_Faces_Final / F / english | other: selected=1 of 1
+  turkiye / AMFD_Faces_Final / M / english: selected=2 of 2
+  turkiye / facelab_london / F / english: selected=1 of 1
+  turkiye / facelab_london / M / english: selected=1 of 2
+  turkiye / facelab_london / M / english | other: selected=1 of 9
+  ukraine / AMFD_Faces_Final / F / english | other: selected=3 of 11
+  ukraine / facelab_london / M / english | other: selected=1 of 1
+  usa / facelab_london / F / english: selected=6 of 6
+Feasibility witness total: 51 cards
+EXACT DEV FEASIBILITY: PASS
+  At least one exact 51-card allocation simultaneously satisfies stem-family, face_db x gender, and language targets.
+********************optimize_joint_dev_allocation********************
+Primary optimization problem:
+  joint cells: 48
+  optimization variables: 96
+  hard equality constraints: 19
+  SciPy version: 1.17.1
+Primary solver status: 0
+Primary solver message: Optimization terminated successfully. (HiGHS Status 7: Optimal)
+Primary scaled objective: 2924
+Primary objective rounding error: 0
+Previous feasibility-witness scaled deviation: 12198
+Optimized scaled deviation: 2924
+Optimized hard-margin reconciliation:
+  stem_family = arabic: expected=5 achieved=5
+  stem_family = chinese: expected=6 achieved=6
+  stem_family = french: expected=6 achieved=6
+  stem_family = indian: expected=3 achieved=3
+  stem_family = persian: expected=4 achieved=4
+  stem_family = portugal: expected=7 achieved=7
+  stem_family = russian: expected=4 achieved=4
+  stem_family = turkiye: expected=6 achieved=6
+  stem_family = ukraine: expected=4 achieved=4
+  stem_family = usa: expected=6 achieved=6
+  face_db x gender = AMFD_Faces_Final / F: expected=21 achieved=21
+  face_db x gender = AMFD_Faces_Final / M: expected=5 achieved=5
+  face_db x gender = facelab_london / F: expected=12 achieved=12
+  face_db x gender = facelab_london / M: expected=13 achieved=13
+  language_signature = arabic | english: expected=5 achieved=5
+  language_signature = english: expected=21 achieved=21
+  language_signature = english | other: expected=21 achieved=21
+  language_signature = english | persian: expected=4 achieved=4
+  total development cards: expected=51 achieved=51
+Joint proportional-fit summary:
+  exact scaled L1 objective: 2924
+  total absolute deviation: 13.857820 cards
+  maximum single-cell deviation: 0.758294 cards
+Non-zero optimized joint cells: 37
+Optimized joint-cell allocation:
+  arabic / AMFD_Faces_Final / F / arabic | english: source=11 ideal=2.659 selected=2 abs_dev=0.659
+  arabic / AMFD_Faces_Final / M / arabic | english: source=3 ideal=0.725 selected=1 abs_dev=0.275
+  arabic / facelab_london / F / arabic | english: source=4 ideal=0.967 selected=1 abs_dev=0.033
+  arabic / facelab_london / M / arabic | english: source=4 ideal=0.967 selected=1 abs_dev=0.033
+  chinese / AMFD_Faces_Final / F / english | other: source=10 ideal=2.417 selected=2 abs_dev=0.417
+  chinese / AMFD_Faces_Final / M / english | other: source=1 ideal=0.242 selected=1 abs_dev=0.758
+  chinese / facelab_london / F / english | other: source=9 ideal=2.175 selected=2 abs_dev=0.175
+  chinese / facelab_london / M / english | other: source=3 ideal=0.725 selected=1 abs_dev=0.275
+  french / AMFD_Faces_Final / F / english: source=3 ideal=0.725 selected=1 abs_dev=0.275
+  french / AMFD_Faces_Final / F / english | other: source=4 ideal=0.967 selected=1 abs_dev=0.033
+  french / AMFD_Faces_Final / M / english: source=1 ideal=0.242 selected=0 abs_dev=0.242
+  french / AMFD_Faces_Final / M / english | other: source=1 ideal=0.242 selected=0 abs_dev=0.242
+  french / facelab_london / F / english: source=2 ideal=0.483 selected=1 abs_dev=0.517
+  french / facelab_london / F / english | other: source=6 ideal=1.450 selected=1 abs_dev=0.450
+  french / facelab_london / M / english: source=4 ideal=0.967 selected=1 abs_dev=0.033
+  french / facelab_london / M / english | other: source=2 ideal=0.483 selected=1 abs_dev=0.517
+  indian / AMFD_Faces_Final / F / english: source=6 ideal=1.450 selected=1 abs_dev=0.450
+  indian / AMFD_Faces_Final / M / english: source=1 ideal=0.242 selected=0 abs_dev=0.242
+  indian / facelab_london / F / english: source=3 ideal=0.725 selected=1 abs_dev=0.275
+  indian / facelab_london / M / english: source=4 ideal=0.967 selected=1 abs_dev=0.033
+  persian / AMFD_Faces_Final / F / english | persian: source=8 ideal=1.934 selected=2 abs_dev=0.066
+  persian / AMFD_Faces_Final / M / english | persian: source=3 ideal=0.725 selected=1 abs_dev=0.275
+  persian / facelab_london / F / english | persian: source=4 ideal=0.967 selected=1 abs_dev=0.033
+  persian / facelab_london / M / english | persian: source=2 ideal=0.483 selected=0 abs_dev=0.483
+  portugal / AMFD_Faces_Final / F / english: source=12 ideal=2.900 selected=3 abs_dev=0.100
+  portugal / AMFD_Faces_Final / M / english: source=2 ideal=0.483 selected=0 abs_dev=0.483
+  portugal / facelab_london / F / english: source=2 ideal=0.483 selected=1 abs_dev=0.517
+  portugal / facelab_london / M / english: source=12 ideal=2.900 selected=3 abs_dev=0.100
+  russian / AMFD_Faces_Final / F / english | other: source=7 ideal=1.692 selected=2 abs_dev=0.308
+  russian / AMFD_Faces_Final / M / english | other: source=1 ideal=0.242 selected=0 abs_dev=0.242
+  russian / facelab_london / F / english | other: source=3 ideal=0.725 selected=1 abs_dev=0.275
+  russian / facelab_london / M / english | other: source=5 ideal=1.209 selected=1 abs_dev=0.209
+  turkiye / AMFD_Faces_Final / F / english: source=3 ideal=0.725 selected=1 abs_dev=0.275
+  turkiye / AMFD_Faces_Final / F / english | other: source=1 ideal=0.242 selected=0 abs_dev=0.242
+  turkiye / AMFD_Faces_Final / M / english: source=2 ideal=0.483 selected=0 abs_dev=0.483
+  turkiye / AMFD_Faces_Final / M / english | other: source=2 ideal=0.483 selected=1 abs_dev=0.517
+  turkiye / facelab_london / F / english: source=1 ideal=0.242 selected=0 abs_dev=0.242
+  turkiye / facelab_london / F / english | other: source=5 ideal=1.209 selected=1 abs_dev=0.209
+  turkiye / facelab_london / M / english: source=2 ideal=0.483 selected=1 abs_dev=0.517
+  turkiye / facelab_london / M / english | other: source=9 ideal=2.175 selected=2 abs_dev=0.175
+  ukraine / AMFD_Faces_Final / F / english | other: source=11 ideal=2.659 selected=3 abs_dev=0.341
+  ukraine / AMFD_Faces_Final / M / english | other: source=1 ideal=0.242 selected=0 abs_dev=0.242
+  ukraine / facelab_london / F / english | other: source=4 ideal=0.967 selected=1 abs_dev=0.033
+  ukraine / facelab_london / M / english | other: source=1 ideal=0.242 selected=0 abs_dev=0.242
+  usa / AMFD_Faces_Final / F / english: source=13 ideal=3.142 selected=3 abs_dev=0.142
+  usa / AMFD_Faces_Final / M / english: source=2 ideal=0.483 selected=1 abs_dev=0.517
+  usa / facelab_london / F / english: source=6 ideal=1.450 selected=1 abs_dev=0.450
+  usa / facelab_london / M / english: source=5 ideal=1.209 selected=1 abs_dev=0.209
+Optimized allocation total: 51 cards
+JOINT ALLOCATION OPTIMIZATION: PASS
+  Exact hard margins retained while minimizing deviation from proportional representation across all observed joint cells.
+********************select_dev_cards_deterministically********************
+Selection policy:
+  algorithm: SHA-256 deterministic within-cell ranking
+  seed: fantasyid-dev-v1
+  discovery SHA-256: 54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+Selected card totals:
+  dev_val: 51
+  project_train: 160
+Whole-card image totals:
+  dev_val: 459
+  project_train: 1440
+Project train/dev card overlap: 0
+Selected dev_val cards:
+  arabic-024_03 | family=arabic | face_db=facelab_london | gender=M | language=arabic | english | rank=1 | SHA256=24442e1dd4638b76b56b25e1430028974274e54b5a708d73df22e3fdb78e6d0c
+  arabic-120_03 | family=arabic | face_db=facelab_london | gender=F | language=arabic | english | rank=1 | SHA256=0904eec7f878edd61616197e4be0c7387b03fe26f5037b0f59809d5b6b28c29b
+  arabic-NF-1048 | family=arabic | face_db=AMFD_Faces_Final | gender=F | language=arabic | english | rank=1 | SHA256=170db88f8a5cc91e1ec9de324e6ef401ef77f0550588b97c0f9dfe7465ff2bb1
+  arabic-NF-1098 | family=arabic | face_db=AMFD_Faces_Final | gender=F | language=arabic | english | rank=2 | SHA256=1b0218e4739a0a8998eb5a7c0c41c65d918a0c5a0aed12bf1e5ebbe101c3e55f
+  arabic-NM-1090 | family=arabic | face_db=AMFD_Faces_Final | gender=M | language=arabic | english | rank=1 | SHA256=2d75614d2a92e28a7f34bc5dfdb2c26b6ca60331da4ac1a5d89e138fe8e8f1b2
+  chinese-001_03 | family=chinese | face_db=facelab_london | gender=F | language=english | other | rank=1 | SHA256=164f25b4ddbec67f33787fdca6a0d928c9778e314b11ebdf92942ed7da4751f5
+  chinese-113_03 | family=chinese | face_db=facelab_london | gender=F | language=english | other | rank=2 | SHA256=1a26b6341e853c4967f0d9e46a71464370ea2eea80f49ee9a5855f747f36dc8e
+  chinese-142_03 | family=chinese | face_db=facelab_london | gender=M | language=english | other | rank=1 | SHA256=25509ddf9f8b69b807a16396c311fa870e7712c96a88eb5dc763f3094c380df5
+  chinese-NF-1050 | family=chinese | face_db=AMFD_Faces_Final | gender=F | language=english | other | rank=2 | SHA256=32783240905070c20fedc0e174a705f6b7bf7e6f38c0b7e519ec9492fabb705d
+  chinese-NF-1085 | family=chinese | face_db=AMFD_Faces_Final | gender=F | language=english | other | rank=1 | SHA256=01fd0177d54ac10394e7580441d3f42bdaeaf94617d8f74895f692993325606a
+  chinese-NM-1092 | family=chinese | face_db=AMFD_Faces_Final | gender=M | language=english | other | rank=1 | SHA256=9bb195324534a534fe464c7840eba797843cec0f89d7dacd3fd2b11b97d2b7c7
+  french-019_03 | family=french | face_db=facelab_london | gender=F | language=english | rank=1 | SHA256=7cdc5a66b461047c912a0c925051dc601ab7c5f976481192f67d1e767383186e
+  french-114_03 | family=french | face_db=facelab_london | gender=M | language=english | other | rank=1 | SHA256=4dfa8be1e7e4e74a48f98a487af6bc6d9b1ab5828adf1b7ba5aaa8357b6c6e35
+  french-124_03 | family=french | face_db=facelab_london | gender=F | language=english | other | rank=1 | SHA256=0a7e57852e8b77abc10bf2f0b2ad1ffe1154cddc481f329c8df1367909bbe035
+  french-128_03 | family=french | face_db=facelab_london | gender=M | language=english | rank=1 | SHA256=20de6a6e5bff7a9e42001611f2ea76e447f54ee42804d6e22896be3e32f09964
+  french-NF-1047 | family=french | face_db=AMFD_Faces_Final | gender=F | language=english | other | rank=1 | SHA256=072609dc21a70035793b421e80addde011346472c7a347bb4a6b28e76ba3e4b2
+  french-NF-1082 | family=french | face_db=AMFD_Faces_Final | gender=F | language=english | rank=1 | SHA256=0b6eb1b9fcd2ffcbcfda3d186f22796c7e6a8b2adc5fc4eed8b26ea1d9710415
+  indian-014_03 | family=indian | face_db=facelab_london | gender=F | language=english | rank=1 | SHA256=007957054d3f996a1ebcdba9a3347fc23b8ac56feb43bcc8486a94023b5c7f0f
+  indian-021_03 | family=indian | face_db=facelab_london | gender=M | language=english | rank=1 | SHA256=20e767b4edbf5608636439c1815b74c24b95bd813802cea1949863d4f5d12d00
+  indian-NF-1061 | family=indian | face_db=AMFD_Faces_Final | gender=F | language=english | rank=1 | SHA256=1a5a2fd3f36f55a3464c4c6bd8a8243db17e975985d37e7f38c36be2c26ec453
+  persian-144_03 | family=persian | face_db=facelab_london | gender=F | language=english | persian | rank=1 | SHA256=147dac19da9362dd1a47e80179552cb642d37e6175d9bbf8281bb11ad1a56311
+  persian-NF-1018 | family=persian | face_db=AMFD_Faces_Final | gender=F | language=english | persian | rank=1 | SHA256=5430a92a2e5b0e842461dbc7062fda135f7cf619dac56c0b778759db6c52ea54
+  persian-NF-1097 | family=persian | face_db=AMFD_Faces_Final | gender=F | language=english | persian | rank=2 | SHA256=6e72e1fe84bbc9f5b97a05d3d8f5646b8e51358cda0c38c30545b5a63f4bee49
+  persian-NM-1035 | family=persian | face_db=AMFD_Faces_Final | gender=M | language=english | persian | rank=1 | SHA256=2db8f21043c43bcdb29dbca63663753926622a97690f306100e7f0db3dc09904
+  portugal-013_03 | family=portugal | face_db=facelab_london | gender=F | language=english | rank=1 | SHA256=677da1b99d4385cd523b7e78acdf1484dec860d140e16e90c5b5af6d757eb744
+  portugal-017_03 | family=portugal | face_db=facelab_london | gender=M | language=english | rank=1 | SHA256=0021908f1e0da1d5f8be15c64e3f7ba11f02dd02f078afb46e38400a11a993d9
+  portugal-029_03 | family=portugal | face_db=facelab_london | gender=M | language=english | rank=2 | SHA256=00a179e215749ededcf5efde67f281a145d5d0e86faeee20fe6bfea01b188ac8
+  portugal-119_03 | family=portugal | face_db=facelab_london | gender=M | language=english | rank=3 | SHA256=12336a7d0c380dec8ce5437152599129f60bc49040e6ed1744f2c9e642216bc8
+  portugal-NF-1060 | family=portugal | face_db=AMFD_Faces_Final | gender=F | language=english | rank=3 | SHA256=282e4fc55c5f959ac1d75e59663a0f6d4a8ab09a8cf7266aade74942f1327a9c
+  portugal-NF-1066 | family=portugal | face_db=AMFD_Faces_Final | gender=F | language=english | rank=1 | SHA256=176bac59bcceb38ba21a16c45c6e382f380660f9ad0b97fc93284fa8f2d414f9
+  portugal-NF-1109 | family=portugal | face_db=AMFD_Faces_Final | gender=F | language=english | rank=2 | SHA256=201ab2f5aa8ce6a1ad9d3067d5806adf5c67c4e831b05de7aa1039221a680e8f
+  russian-062_03 | family=russian | face_db=facelab_london | gender=F | language=english | other | rank=1 | SHA256=6b1bca7e1ad67ba028b3b4e12df8a3dd6c33a9d1688ec9cc022e683964f048d3
+  russian-132_03 | family=russian | face_db=facelab_london | gender=M | language=english | other | rank=1 | SHA256=3fe289db4340dcb3b965feefe15421ac7d4e8db523d185d0daf39c2fb886d015
+  russian-NF-1089 | family=russian | face_db=AMFD_Faces_Final | gender=F | language=english | other | rank=1 | SHA256=34fbeb3355ba988a03b549d4df0c3561b57fc2b1b0855748c3559811ab7b3ff4
+  russian-NF-1099 | family=russian | face_db=AMFD_Faces_Final | gender=F | language=english | other | rank=2 | SHA256=89f1bb2ca26373109f456e71251430a55516054aa7cb7e57ca1a450dd849744d
+  turkiye-032_03 | family=turkiye | face_db=facelab_london | gender=F | language=english | other | rank=1 | SHA256=3260f73ae7a43c831f21a970808787d2fa4eb721ede082db6d0028f3d9340f50
+  turkiye-101_03 | family=turkiye | face_db=facelab_london | gender=M | language=english | other | rank=2 | SHA256=1b37a500f3b3ac909dbd5ac085a13ffe5f05e78ab559e905c7457629ebb48960
+  turkiye-104_03 | family=turkiye | face_db=facelab_london | gender=M | language=english | rank=1 | SHA256=634293dfd3f8d5ce6b2d74d9915579d017d68a1b5153418c6e8aea5b220723b4
+  turkiye-115_03 | family=turkiye | face_db=facelab_london | gender=M | language=english | other | rank=1 | SHA256=11ee35f567b18fc2f0a7228964bc840f9a1553f5ae69b94ab577e3450dc437de
+  turkiye-NF-1002 | family=turkiye | face_db=AMFD_Faces_Final | gender=F | language=english | rank=1 | SHA256=ba93a19b7ef611cd20d3d4b9c9493799c10c3127cf7a219419fa2b76649f9b8d
+  turkiye-NM-1055 | family=turkiye | face_db=AMFD_Faces_Final | gender=M | language=english | other | rank=1 | SHA256=72f15e91ba96a948aca7db1bda9f2e77a938fde0efb58703b128ab9722166eff
+  ukraine-025_03 | family=ukraine | face_db=facelab_london | gender=F | language=english | other | rank=1 | SHA256=15b2d06894af83828475dd66899747a68a6d0a051340cfc5f28aad49f1cfe1da
+  ukraine-NF-1068 | family=ukraine | face_db=AMFD_Faces_Final | gender=F | language=english | other | rank=3 | SHA256=4ede08bc7b1f1120d912852bcf46c23eb072c0705a3946921c5b0800cf83ae33
+  ukraine-NF-1073 | family=ukraine | face_db=AMFD_Faces_Final | gender=F | language=english | other | rank=2 | SHA256=1a5eb47932e791f1e77a289aa0f53c49e0fca34087f392b1386edc4b4185a1d1
+  ukraine-NF-1106 | family=ukraine | face_db=AMFD_Faces_Final | gender=F | language=english | other | rank=1 | SHA256=029a8b07d2fc862c174f4033d2312b744b477ebd090f6fe94b8991de0f6ccba5
+  usa-034_03 | family=usa | face_db=facelab_london | gender=F | language=english | rank=1 | SHA256=3390aecc7b7c8f9898bcc7a466855f273422e71d904782071b01a58ff4542621
+  usa-067_03 | family=usa | face_db=facelab_london | gender=M | language=english | rank=1 | SHA256=1e428fc08c650b8d511d8a3c1e9c20dc4fa5a67bcf4deda5c75fa880967b0541
+  usa-NF-1036 | family=usa | face_db=AMFD_Faces_Final | gender=F | language=english | rank=2 | SHA256=0e616a60a00dbd72dacce407422a82ef65dd140437ee4f4298f4950d9f437e5c
+  usa-NF-1065 | family=usa | face_db=AMFD_Faces_Final | gender=F | language=english | rank=1 | SHA256=024cc2680e9634742e4f96e9439526b1cb0b093a17e043468a67e370c6f60b84
+  usa-NF-1076 | family=usa | face_db=AMFD_Faces_Final | gender=F | language=english | rank=3 | SHA256=1f843e9d19a60109229d5bd6a1d2b50a8a1f579c2a23e3ea7ea36593ffca57af
+  usa-NM-1038 | family=usa | face_db=AMFD_Faces_Final | gender=M | language=english | rank=1 | SHA256=68ae577dc92127ae0cb98fab033419dd4452d8fed066a2b875f013369448a2b8
+DETERMINISTIC CARD SELECTION: PASS
+  51 dev_val cards and 160 project_train cards selected with exact optimized joint-cell and marginal quotas.
+********************build_image_level_split_manifests********************
+Source-train images without project role: 0
+Image-level split rows: 1899
+Image-level project roles:
+  project_train: 1440
+  dev_val: 459
+Image-manifest card counts:
+  project_train: 160
+  dev_val: 51
+Cards split incompletely across image manifests: 0
+Image-manifest train/dev card overlap: 0
+Image SHA-256 overlap between project_train and dev_val: 0
+Role-row reconciliation: 1440 + 459 = 1899
+Duplicate image paths in project split: 0
+Duplicate image SHA-256 values in project split: 0
+project_train composition:
+  attack / digital_1: 480
+  attack / digital_2: 480
+  bonafide / (empty): 480
+dev_val composition:
+  attack / digital_1: 153
+  attack / digital_2: 153
+  bonafide / (empty): 153
+IMAGE-LEVEL SPLIT MANIFESTS: PASS
+  Source train partitioned into 160 complete project_train cards (1440 images) and 51 complete dev_val cards (459 images).
+********************export_frozen_split_artifacts********************
+Frozen split artifacts written:
+  cards: fantasyid_project_split_2026-09-05_090420_cards.csv
+    rows: 211
+    SHA-256: 414972b290094f6d85ae0fb564bb336b17ffd067c4ac988fa4f74c8950b770fb
+  project_train: fantasyid_project_split_2026-09-05_090420_project_train.csv
+    rows: 1440
+    SHA-256: 6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+  dev_val: fantasyid_project_split_2026-09-05_090420_dev_val.csv
+    rows: 459
+    SHA-256: 46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+  bundle: fantasyid_project_split_2026-09-05_090420_bundle.yaml
+    SHA-256: 0aa8969778f4a63e4291ba18bb60b7d3c71d7980960e5d7cae55520df77b17fe
+FROZEN SPLIT EXPORT: PASS
+********************verify_frozen_split_artifacts********************
+Disk SHA-256 verification:
+  cards: 414972b290094f6d85ae0fb564bb336b17ffd067c4ac988fa4f74c8950b770fb
+  project_train: 6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+  dev_val: 46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+  bundle: 0aa8969778f4a63e4291ba18bb60b7d3c71d7980960e5d7cae55520df77b17fe
+Discovery lineage:
+  workbook: fantasyid_inventory_2026-09-05_023126.xlsx
+  SHA-256: 54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+Build provenance:
+  script SHA-256: d66ac12773ca475fa56f6b20fec885ddd4a8f7ae2a972eb37361b8c762028d4c
+  config SHA-256: 31c6420468eee8100948b96f33e134931e1e205ca05b73f5a79a769da04bd29b
+  selection seed: fantasyid-dev-v1
+Read-back CSV rows:
+  cards: 211
+  project_train: 1440
+  dev_val: 459
+Read-back card roles:
+  project_train: 160
+  dev_val: 51
+Read-back train/dev card overlap: 0
+project_train cards with image count != 9: 0
+dev_val cards with image count != 9: 0
+Read-back duplicate image paths: 0
+Read-back duplicate image hashes: 0
+Read-back train/dev image SHA-256 overlap: 0
+Read-back project_train composition:
+  attack / digital_1: 480
+  attack / digital_2: 480
+  bonafide / (empty): 480
+Read-back dev_val composition:
+  attack / digital_1: 153
+  attack / digital_2: 153
+  bonafide / (empty): 153
+Read-back card/version hardware mismatches: 0
+FROZEN SPLIT READ-BACK VERIFICATION: PASS
+  Disk artifacts independently reconcile to 211 source-train cards, 160 project_train cards / 1440 images, and 51 dev_val cards / 459 images.

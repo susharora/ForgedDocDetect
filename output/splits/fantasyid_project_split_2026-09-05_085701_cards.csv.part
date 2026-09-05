@@ -1,0 +1,212 @@
+file_stem,face_db,face_id,gender,stem_family,language_signature,source_image_count,selection_hash,selection_rank_within_cell,project_role
+arabic-003_03,facelab_london,003_03,F,arabic,arabic | english,9,ea3e4f24ae2e3095764af6ad5a6b9a98f23e5124860b5b2289e59e6760b0662e,3,project_train
+arabic-005_03,facelab_london,005_03,M,arabic,arabic | english,9,ad775790479bdbe44a96e54a0c810438ef9376877e79e0e17eda3611a7f7ba75,4,project_train
+arabic-024_03,facelab_london,024_03,M,arabic,arabic | english,9,24442e1dd4638b76b56b25e1430028974274e54b5a708d73df22e3fdb78e6d0c,1,dev_val
+arabic-112_03,facelab_london,112_03,F,arabic,arabic | english,9,f5c066c92fb8cb89559d8720bb4718fbb9ef5175f52275b1d32f2df1da87db24,4,project_train
+arabic-120_03,facelab_london,120_03,F,arabic,arabic | english,9,0904eec7f878edd61616197e4be0c7387b03fe26f5037b0f59809d5b6b28c29b,1,dev_val
+arabic-131_03,facelab_london,131_03,M,arabic,arabic | english,9,63f49ba21520d0cd2cea7f8d35beee48c157b4c0d09336d222c327c2379c4ea9,2,project_train
+arabic-139_03,facelab_london,139_03,F,arabic,arabic | english,9,156fe7491ae1e0611eb65705b3f8b7a3abe94dcc3958cc16a4739c008721d888,2,project_train
+arabic-173_03,facelab_london,173_03,M,arabic,arabic | english,9,6a1ae52d1feb98219a5fd57dd1b2653e4982a6de9c125b685165c70842ef0c1e,3,project_train
+arabic-NF-1003,AMFD_Faces_Final,NF-1003,F,arabic,arabic | english,9,7774bfd7ad5ec2d1e747372a8a61e9917b3956abcf361ea6340373188d2b32a6,6,project_train
+arabic-NF-1012,AMFD_Faces_Final,NF-1012,F,arabic,arabic | english,9,e5e2a8dd22037dc728a88b643bd5689e7c9a7191f34421c924bde6ea1532cef9,11,project_train
+arabic-NF-1030,AMFD_Faces_Final,NF-1030,F,arabic,arabic | english,9,95c066ba3fa826ed90f917c8234882eb94596766312d874e678c76c04ff36416,8,project_train
+arabic-NF-1037,AMFD_Faces_Final,NF-1037,F,arabic,arabic | english,9,6877f952091841112dd66cd07ede9fda321923bf4e72e84ede18fc7186ce8948,5,project_train
+arabic-NF-1040,AMFD_Faces_Final,NF-1040,F,arabic,arabic | english,9,8ccc9604a7dc6107a9b253b4c5e06752175c6a509af5473b8b26078c5d680c56,7,project_train
+arabic-NF-1045,AMFD_Faces_Final,NF-1045,F,arabic,arabic | english,9,572d7216245c0ea5cd3052379c35f8614bea406b6bf48e10a41ff8b50157bb86,4,project_train
+arabic-NF-1048,AMFD_Faces_Final,NF-1048,F,arabic,arabic | english,9,170db88f8a5cc91e1ec9de324e6ef401ef77f0550588b97c0f9dfe7465ff2bb1,1,dev_val
+arabic-NF-1049,AMFD_Faces_Final,NF-1049,F,arabic,arabic | english,9,50cf075b6d3b593b40b4eb779e29a291faae10110801a4325b7a9d58c2245baf,3,project_train
+arabic-NF-1053,AMFD_Faces_Final,NF-1053,F,arabic,arabic | english,9,baabb8a53d634275b6f1ba14af7144419aeb409d32c1dc8cf2e100f6d1880c5d,9,project_train
+arabic-NF-1098,AMFD_Faces_Final,NF-1098,F,arabic,arabic | english,9,1b0218e4739a0a8998eb5a7c0c41c65d918a0c5a0aed12bf1e5ebbe101c3e55f,2,dev_val
+arabic-NF-1100,AMFD_Faces_Final,NF-1100,F,arabic,arabic | english,9,c2a58926aeb9e558f530696a02c32f777aa6d5b3cece75af8a0dde0d679d6757,10,project_train
+arabic-NM-1029,AMFD_Faces_Final,NM-1029,M,arabic,arabic | english,9,ec58ce89ced63e697f186dbdc41f5044520165f7310b4d86b112c8d214ae96c3,2,project_train
+arabic-NM-1064,AMFD_Faces_Final,NM-1064,M,arabic,arabic | english,9,f0fade61fd75ae209672371ca72b4a7ba30ad2a7c1856a5122812ec4ce0d1faa,3,project_train
+arabic-NM-1090,AMFD_Faces_Final,NM-1090,M,arabic,arabic | english,9,2d75614d2a92e28a7f34bc5dfdb2c26b6ca60331da4ac1a5d89e138fe8e8f1b2,1,dev_val
+chinese-001_03,facelab_london,001_03,F,chinese,english | other,9,164f25b4ddbec67f33787fdca6a0d928c9778e314b11ebdf92942ed7da4751f5,1,dev_val
+chinese-018_03,facelab_london,018_03,M,chinese,english | other,9,626e6f0f8f3a38dd3fc489a78e6357f55b13da5e639ecf68d98b1b16a4389b59,2,project_train
+chinese-020_03,facelab_london,020_03,F,chinese,english | other,9,539b5845f2437fe63407dc4b4782681176a150c60a0f8b69fc68aeab1f02f6d3,3,project_train
+chinese-039_03,facelab_london,039_03,F,chinese,english | other,9,b826c4e8f25376ba03178fb880f3c239c7470b54d8134afabff24636889dfe88,7,project_train
+chinese-064_03,facelab_london,064_03,F,chinese,english | other,9,b01d1d9464bcb8992de4ecdb29c2da9840c5aae3576462affebdd89a86b09969,6,project_train
+chinese-081_03,facelab_london,081_03,F,chinese,english | other,9,5ddb57fd8ebc3b4a9656e81434c322f5ba17d7dc5629039d27b62289a647a280,4,project_train
+chinese-096_03,facelab_london,096_03,M,chinese,english | other,9,79a67bb282c649c10264ec90a12f0f569ec188971dacf095f83b6f1082e95e95,3,project_train
+chinese-099_03,facelab_london,099_03,F,chinese,english | other,9,840de774d21663bff61bb6dd87305a540e01830e873256e30a48f094e213511a,5,project_train
+chinese-102_03,facelab_london,102_03,F,chinese,english | other,9,ee20020b738f1c1cd4b1731c56500e4e57da0d885b24885bc3812d9faed37491,8,project_train
+chinese-107_03,facelab_london,107_03,F,chinese,english | other,9,f7136a3544c0f65c0f1c66eb5d44a112cb3c64bc8749022c7d307a050683a17d,9,project_train
+chinese-113_03,facelab_london,113_03,F,chinese,english | other,9,1a26b6341e853c4967f0d9e46a71464370ea2eea80f49ee9a5855f747f36dc8e,2,dev_val
+chinese-142_03,facelab_london,142_03,M,chinese,english | other,9,25509ddf9f8b69b807a16396c311fa870e7712c96a88eb5dc763f3094c380df5,1,dev_val
+chinese-NF-1014,AMFD_Faces_Final,NF-1014,F,chinese,english | other,9,6ae1bc52036605a9939dc56de67d607b956e5f5ceb0b10e5f6ca17b71df3dd41,6,project_train
+chinese-NF-1023,AMFD_Faces_Final,NF-1023,F,chinese,english | other,9,32802c29617df9ea507926e23865bda468b7e622e086bc662a965e0bf12da4a4,3,project_train
+chinese-NF-1042,AMFD_Faces_Final,NF-1042,F,chinese,english | other,9,b2fe7f8bd5d3b6290d7502971894c7df4d47acada1d5b9f26cce5f90106d7d5c,7,project_train
+chinese-NF-1050,AMFD_Faces_Final,NF-1050,F,chinese,english | other,9,32783240905070c20fedc0e174a705f6b7bf7e6f38c0b7e519ec9492fabb705d,2,dev_val
+chinese-NF-1059,AMFD_Faces_Final,NF-1059,F,chinese,english | other,9,68414a995fd45889e6f960cfa78986e81371e7a14bfe70b35c030607478b2343,5,project_train
+chinese-NF-1067,AMFD_Faces_Final,NF-1067,F,chinese,english | other,9,4dd68dfa97dc6634491f9b6beed9d880e37fe23070d405fe57f85f932442b8fd,4,project_train
+chinese-NF-1072,AMFD_Faces_Final,NF-1072,F,chinese,english | other,9,c94751464adea88e90ddf5bda9070a1a0976d8c643051afd6616c3a0ddbf35b9,9,project_train
+chinese-NF-1085,AMFD_Faces_Final,NF-1085,F,chinese,english | other,9,01fd0177d54ac10394e7580441d3f42bdaeaf94617d8f74895f692993325606a,1,dev_val
+chinese-NF-1088,AMFD_Faces_Final,NF-1088,F,chinese,english | other,9,ba1e4675c57493503299374812a4d7278e7e9bd144dc9eec877e3fa946b0d44c,8,project_train
+chinese-NF-1101,AMFD_Faces_Final,NF-1101,F,chinese,english | other,9,f0107bf9e58a17e6fc07e4fe99d223c453db7e7bbbb8971b4360d3f43c6c4fd4,10,project_train
+chinese-NM-1092,AMFD_Faces_Final,NM-1092,M,chinese,english | other,9,9bb195324534a534fe464c7840eba797843cec0f89d7dacd3fd2b11b97d2b7c7,1,dev_val
+french-019_03,facelab_london,019_03,F,french,english,9,7cdc5a66b461047c912a0c925051dc601ab7c5f976481192f67d1e767383186e,1,dev_val
+french-022_03,facelab_london,022_03,M,french,english,9,a1a06815deb0b8e23af32fdfc26dfe2f8b2301d3924f9bcf5e06d6cfbebe84a1,3,project_train
+french-033_03,facelab_london,033_03,M,french,english | other,9,e6b57d68c2492bd5273bcfaeb14cba88d4e2dfd890a2195a052abdd694724a6a,2,project_train
+french-044_03,facelab_london,044_03,M,french,english,9,b5855b6f57f22b508d44a2bf1fc639e088752e848e25706482df0c80d0061615,4,project_train
+french-068_03,facelab_london,068_03,M,french,english,9,55040d8f1086af885ebfc622e7836d80cac893de9ac27a21af26be26ab8d00af,2,project_train
+french-090_03,facelab_london,090_03,F,french,english,9,94daab2520e1eb375049513d28a09075473b4c914ed2f4ddda3e54bca1f198c8,2,project_train
+french-091_03,facelab_london,091_03,F,french,english | other,9,0de94fd264e42aac69f82023d1dc74a543e15110f07bdc3557e1ef66b1ac6b50,2,project_train
+french-097_03,facelab_london,097_03,F,french,english | other,9,4bb9ed0a0ad18f86b50f90f3ea7ded7bd593f84609172f94594438d4d619a2c1,3,project_train
+french-100_03,facelab_london,100_03,F,french,english | other,9,debd3f1747c7a4a0d0a4fd742a54c0eeddbf54784646578aa159e8a018f45824,5,project_train
+french-114_03,facelab_london,114_03,M,french,english | other,9,4dfa8be1e7e4e74a48f98a487af6bc6d9b1ab5828adf1b7ba5aaa8357b6c6e35,1,dev_val
+french-118_03,facelab_london,118_03,F,french,english | other,9,e39d24278e69ef8c6c3159e3daa5af4d5562c8673cd9ead6ca8d4f814845d6b8,6,project_train
+french-124_03,facelab_london,124_03,F,french,english | other,9,0a7e57852e8b77abc10bf2f0b2ad1ffe1154cddc481f329c8df1367909bbe035,1,dev_val
+french-128_03,facelab_london,128_03,M,french,english,9,20de6a6e5bff7a9e42001611f2ea76e447f54ee42804d6e22896be3e32f09964,1,dev_val
+french-135_03,facelab_london,135_03,F,french,english | other,9,884dece08b6d02a76df6386633bf78087e617df5deb7f3b73a44f27038188753,4,project_train
+french-NF-1020,AMFD_Faces_Final,NF-1020,F,french,english | other,9,57de602305573cc0dc4c06b8549adb9df88925763e5c96c94b27faf70b7d7478,2,project_train
+french-NF-1047,AMFD_Faces_Final,NF-1047,F,french,english | other,9,072609dc21a70035793b421e80addde011346472c7a347bb4a6b28e76ba3e4b2,1,dev_val
+french-NF-1056,AMFD_Faces_Final,NF-1056,F,french,english | other,9,df82de36b7b2a80a58e0f65306b4cddebc6a53e932b3d3201a7c4ed2819fbb68,4,project_train
+french-NF-1063,AMFD_Faces_Final,NF-1063,F,french,english | other,9,8a7719dd35efa1f3d7b7c82ab31988363b768cc28d745433213d4dbf88e259d1,3,project_train
+french-NF-1082,AMFD_Faces_Final,NF-1082,F,french,english,9,0b6eb1b9fcd2ffcbcfda3d186f22796c7e6a8b2adc5fc4eed8b26ea1d9710415,1,dev_val
+french-NF-1095,AMFD_Faces_Final,NF-1095,F,french,english,9,31d40304d995fba505d8f7226fc95fa7cdd980240bcf20fcc52abc51527adf8f,2,project_train
+french-NF-1110,AMFD_Faces_Final,NF-1110,F,french,english,9,9bb27bc6e93864c498b11c84d3582ab08cb98af8fcbf24949c50938d9685bc90,3,project_train
+french-NM-1070,AMFD_Faces_Final,NM-1070,M,french,english | other,9,0a7552796bd3e23046635af55a915f83c008ad98fe6bfe799eced9ad1bc3b8a2,1,project_train
+french-NM-1104,AMFD_Faces_Final,NM-1104,M,french,english,9,72b6aeb8ef558a8704ae59554b20acfc615e64f20de92390cb5c7474a4467fe3,1,project_train
+indian-012_03,facelab_london,012_03,M,indian,english,9,954e75ddcef8d14fa61b2a8f44ad24c7ed52df9abe3ea3f39ddac41ad29fcc81,4,project_train
+indian-014_03,facelab_london,014_03,F,indian,english,9,007957054d3f996a1ebcdba9a3347fc23b8ac56feb43bcc8486a94023b5c7f0f,1,dev_val
+indian-021_03,facelab_london,021_03,M,indian,english,9,20e767b4edbf5608636439c1815b74c24b95bd813802cea1949863d4f5d12d00,1,dev_val
+indian-037_03,facelab_london,037_03,M,indian,english,9,7cef3342aba2d57edf8e9a3bf74f564fbaac2b7c94c4548b8811c9f62c82a978,3,project_train
+indian-038_03,facelab_london,038_03,F,indian,english,9,7cc83254aa8255dc0723210255852c8f003afb1550406e137a9e4fa5451bdb30,2,project_train
+indian-094_03,facelab_london,094_03,F,indian,english,9,d8ff68b0f16659c87e3b6f07d45c50e572cd6994673896ded5d2ba702c78cc46,3,project_train
+indian-108_03,facelab_london,108_03,M,indian,english,9,381e738b7fa216ee02d41a284f09bc36ff0d91d11129ed558a7ce4548cdb1be1,2,project_train
+indian-NF-1006,AMFD_Faces_Final,NF-1006,F,indian,english,9,6ebf6a6bba1445b483945a850dbb2652690976764ad879b171bf4426bb5c6fb1,4,project_train
+indian-NF-1025,AMFD_Faces_Final,NF-1025,F,indian,english,9,1b0d395b86899bd9e5f89472f69d57979ec38f95fc77d4860149e64acf766494,2,project_train
+indian-NF-1039,AMFD_Faces_Final,NF-1039,F,indian,english,9,d6ed88256b00097affa404000bca5fa19ec14e56c0c30afb8d05b2df9930a314,6,project_train
+indian-NF-1061,AMFD_Faces_Final,NF-1061,F,indian,english,9,1a5a2fd3f36f55a3464c4c6bd8a8243db17e975985d37e7f38c36be2c26ec453,1,dev_val
+indian-NF-1075,AMFD_Faces_Final,NF-1075,F,indian,english,9,7fc5d701bdcbde7a0d59fda6897ce25bf75e53a687a56202b171fe3098bd301d,5,project_train
+indian-NF-1096,AMFD_Faces_Final,NF-1096,F,indian,english,9,4bdc4cd1d97846136d70504836a65bf2681cf800815ec5c1dc4504210974d937,3,project_train
+indian-NM-1058,AMFD_Faces_Final,NM-1058,M,indian,english,9,9cfb72dd710c9ecca65bcce7df1fd77d6e6d031a2975abe8238b5ac2562c8c9b,1,project_train
+persian-010_03,facelab_london,010_03,F,persian,english | persian,9,e4648971bfaf4e8199e4dbb1d461ac84b9815052c259639512d083d9d2b0bb23,4,project_train
+persian-045_03,facelab_london,045_03,M,persian,english | persian,9,7b839407e3c606bf507bccc2b80dd9b3c359f36456d977f692c2becfba8c4c57,1,project_train
+persian-069_03,facelab_london,069_03,M,persian,english | persian,9,fad872c01bf15a977e5d44d26d5402bc93ad070179cdd5010b5b51f1a0fbbac8,2,project_train
+persian-087_03,facelab_london,087_03,F,persian,english | persian,9,67acd78b41a132e81408c90a7ad63a6945fcb2aa760e6c8aa3dd5d4ec4f3e19e,3,project_train
+persian-122_03,facelab_london,122_03,F,persian,english | persian,9,3c4417454b62613c8e5e65e80b43dd6940f0efc511966593154f0c6ff64d2211,2,project_train
+persian-144_03,facelab_london,144_03,F,persian,english | persian,9,147dac19da9362dd1a47e80179552cb642d37e6175d9bbf8281bb11ad1a56311,1,dev_val
+persian-NF-1001,AMFD_Faces_Final,NF-1001,F,persian,english | persian,9,de43463cd0d8709dd51c197ede8ebe91d94d5acd6290a0a7aa3945147f7bd1f3,6,project_train
+persian-NF-1018,AMFD_Faces_Final,NF-1018,F,persian,english | persian,9,5430a92a2e5b0e842461dbc7062fda135f7cf619dac56c0b778759db6c52ea54,1,dev_val
+persian-NF-1031,AMFD_Faces_Final,NF-1031,F,persian,english | persian,9,80daf38b1fc66c19408cd97c1b44b543fbb8eb53ca355ae5a226d4e5b5c4c73f,4,project_train
+persian-NF-1034,AMFD_Faces_Final,NF-1034,F,persian,english | persian,9,7582ac79ce9e0f945ccff1ad7c10c10505bd9b90e4bfcd37bbe509b528dffae8,3,project_train
+persian-NF-1043,AMFD_Faces_Final,NF-1043,F,persian,english | persian,9,b8796e3ee8744204304df224af4721e29e505751fd3f2566db4ebb64a961db08,5,project_train
+persian-NF-1079,AMFD_Faces_Final,NF-1079,F,persian,english | persian,9,e697e5fd9bec670c5e18702e6041dcabbbc6c5e1309764acefb51b44f3752e76,8,project_train
+persian-NF-1097,AMFD_Faces_Final,NF-1097,F,persian,english | persian,9,6e72e1fe84bbc9f5b97a05d3d8f5646b8e51358cda0c38c30545b5a63f4bee49,2,dev_val
+persian-NF-1108,AMFD_Faces_Final,NF-1108,F,persian,english | persian,9,e3387d025fb29cdb98ac13715337670103ed0fb938a48ccc2e9d6501709fedac,7,project_train
+persian-NM-1010,AMFD_Faces_Final,NM-1010,M,persian,english | persian,9,a357eb05bb2f1463ad972853f979bc29bf6af309f2e8500a2a51b52eb5334bd5,2,project_train
+persian-NM-1035,AMFD_Faces_Final,NM-1035,M,persian,english | persian,9,2db8f21043c43bcdb29dbca63663753926622a97690f306100e7f0db3dc09904,1,dev_val
+persian-NM-1074,AMFD_Faces_Final,NM-1074,M,persian,english | persian,9,ac2543278456f30d4b80203eb26c42f7821a1b7b9615757488f8833be3960728,3,project_train
+portugal-004_03,facelab_london,004_03,M,portugal,english,9,1fe7a2f92352a24eb5265627c1b64938ca90c929a27f054ee11d2beb3a951ab3,4,project_train
+portugal-013_03,facelab_london,013_03,F,portugal,english,9,677da1b99d4385cd523b7e78acdf1484dec860d140e16e90c5b5af6d757eb744,1,dev_val
+portugal-017_03,facelab_london,017_03,M,portugal,english,9,0021908f1e0da1d5f8be15c64e3f7ba11f02dd02f078afb46e38400a11a993d9,1,dev_val
+portugal-026_03,facelab_london,026_03,M,portugal,english,9,ccdd80b21205db0b683411d61d2046fe58587890778c5298a18f17cca6de5612,11,project_train
+portugal-029_03,facelab_london,029_03,M,portugal,english,9,00a179e215749ededcf5efde67f281a145d5d0e86faeee20fe6bfea01b188ac8,2,dev_val
+portugal-042_03,facelab_london,042_03,M,portugal,english,9,d12704e8afe94df18ce3dae66861ac9c33dd62b7c51184ce338524fe621a48e6,12,project_train
+portugal-061_03,facelab_london,061_03,M,portugal,english,9,7fa33eefd75284488e591aea1376b90c702291de5ec03113fa7cd4ea4d31d716,7,project_train
+portugal-066_03,facelab_london,066_03,F,portugal,english,9,7e70d247631c2f37207549bd07df606bbb8eeef77f60d547f2f47610a978f88f,2,project_train
+portugal-070_03,facelab_london,070_03,M,portugal,english,9,91d0238f7715ea747ce464ce082482c02f9b83ea9ea1682b0ad48ba0d7e1240c,8,project_train
+portugal-105_03,facelab_london,105_03,M,portugal,english,9,cc2be9c0304ceda8c5bf4c9c9aa0dbc57054f2c9b29fb1bdfc76d2f97316a7b2,10,project_train
+portugal-119_03,facelab_london,119_03,M,portugal,english,9,12336a7d0c380dec8ce5437152599129f60bc49040e6ed1744f2c9e642216bc8,3,dev_val
+portugal-125_03,facelab_london,125_03,M,portugal,english,9,39cf2b69c479f931398b79f769bcc744b7c6fb44a0d8bf9965a50b6793d6be4d,6,project_train
+portugal-143_03,facelab_london,143_03,M,portugal,english,9,224ed17601b0b7c03e76fd59c0d80dc8a248a55a444403c389733ae39d5d2636,5,project_train
+portugal-172_03,facelab_london,172_03,M,portugal,english,9,b4f438af0119929fbc4b6994fcf17f35230bedfa9a4e00a48850a583c3e37b96,9,project_train
+portugal-NF-1016,AMFD_Faces_Final,NF-1016,F,portugal,english,9,92176caabc7a6a9cecfe5c1a7bafd85772fa1a9de9899c7c78a0cc2942f68073,9,project_train
+portugal-NF-1022,AMFD_Faces_Final,NF-1022,F,portugal,english,9,cac5b69da3998f77045a8bfb0d5ce473143ae5c685f3b0caf1da9afe54d50ff8,10,project_train
+portugal-NF-1024,AMFD_Faces_Final,NF-1024,F,portugal,english,9,58c1ff984f4d1fba6d9343e279bc16626cb4cd693e41afb6439417d298f89317,7,project_train
+portugal-NF-1026,AMFD_Faces_Final,NF-1026,F,portugal,english,9,85f4e7a7a17c838dddc594c7aa8af6b6586d11ab5de413b890b6e7cfb7abe277,8,project_train
+portugal-NF-1041,AMFD_Faces_Final,NF-1041,F,portugal,english,9,37cc56708e817d43861a96ea7fc33e1fcfad54ece46a677cdc80d2fc343975d9,5,project_train
+portugal-NF-1060,AMFD_Faces_Final,NF-1060,F,portugal,english,9,282e4fc55c5f959ac1d75e59663a0f6d4a8ab09a8cf7266aade74942f1327a9c,3,dev_val
+portugal-NF-1066,AMFD_Faces_Final,NF-1066,F,portugal,english,9,176bac59bcceb38ba21a16c45c6e382f380660f9ad0b97fc93284fa8f2d414f9,1,dev_val
+portugal-NF-1083,AMFD_Faces_Final,NF-1083,F,portugal,english,9,3378ee8741e9c5dcd728b4844387192268d8ce0135eab1dc3fa7995541a3929e,4,project_train
+portugal-NF-1086,AMFD_Faces_Final,NF-1086,F,portugal,english,9,546c118df0304ae10b52465cec557b4019ccb99ed64e4037deeeca78cddd64b6,6,project_train
+portugal-NF-1105,AMFD_Faces_Final,NF-1105,F,portugal,english,9,f52fe7aa93464da48dea56c746eda57a4e267ba3ee2373fd8e5eb80fea4cb1e1,12,project_train
+portugal-NF-1107,AMFD_Faces_Final,NF-1107,F,portugal,english,9,f01502ba7cf5802148f5b4d0cc8ecf18962ff0f00ffd8f2ca1155098b8421c94,11,project_train
+portugal-NF-1109,AMFD_Faces_Final,NF-1109,F,portugal,english,9,201ab2f5aa8ce6a1ad9d3067d5806adf5c67c4e831b05de7aa1039221a680e8f,2,dev_val
+portugal-NM-1091,AMFD_Faces_Final,NM-1091,M,portugal,english,9,b2b062b645a7b8e34407e66ad234bffc07614b7a93a1a539d43616a68b41c614,2,project_train
+portugal-NM-1102,AMFD_Faces_Final,NM-1102,M,portugal,english,9,a279c1697082b265010e703def17d6544750d77d4923bb859060c6d0715dc217,1,project_train
+russian-002_03,facelab_london,002_03,F,russian,english | other,9,e09226b475c61d1f86f6591e3ff403862f842c27263a89b69a5b39274f6cc0c0,3,project_train
+russian-027_03,facelab_london,027_03,F,russian,english | other,9,acfb1cefa9712581514f9ed744b5a713cc84e0be3473b57adcc78133d46a9feb,2,project_train
+russian-062_03,facelab_london,062_03,F,russian,english | other,9,6b1bca7e1ad67ba028b3b4e12df8a3dd6c33a9d1688ec9cc022e683964f048d3,1,dev_val
+russian-082_03,facelab_london,082_03,M,russian,english | other,9,8883d270e12c12121092bf8c3611e926c7cc4b018caede7ddda25b1427c3561e,2,project_train
+russian-123_03,facelab_london,123_03,M,russian,english | other,9,9f1ad0d43cdc7a9edd6dfa4f6af2da68c22d57b2446986fa9bebc09fa1c9d39f,3,project_train
+russian-132_03,facelab_london,132_03,M,russian,english | other,9,3fe289db4340dcb3b965feefe15421ac7d4e8db523d185d0daf39c2fb886d015,1,dev_val
+russian-140_03,facelab_london,140_03,M,russian,english | other,9,c9d7353d74a745ed1c14248ae8eb3099c377289f5a28323c6984df3baba6f586,4,project_train
+russian-141_03,facelab_london,141_03,M,russian,english | other,9,dc4ab0da9c5b810cedd4bdce6524f5e7fb3ae2da8fb6cb9824d060b395138943,5,project_train
+russian-NF-1013,AMFD_Faces_Final,NF-1013,F,russian,english | other,9,ed1882c47dfc487e6ac17bd5631c49d487b9ae27ace5b60160f2f5c56e4095e8,6,project_train
+russian-NF-1028,AMFD_Faces_Final,NF-1028,F,russian,english | other,9,fb64481ff6358a9ab9f9fe563c7f8bcbf4231bf2fbf19b62b0f34ce7e05af3cb,7,project_train
+russian-NF-1069,AMFD_Faces_Final,NF-1069,F,russian,english | other,9,a68d25dfc53df85111214687a7e79936bbf6a41f0dc6431898e2edbae712d672,4,project_train
+russian-NF-1080,AMFD_Faces_Final,NF-1080,F,russian,english | other,9,eb67e9533d0a2f41e912366399f98b7852802b6aab1ce329f2b45ae529c97efc,5,project_train
+russian-NF-1081,AMFD_Faces_Final,NF-1081,F,russian,english | other,9,9682c743f77ec31951d73e5ed5f62759f2eab3af0996c7a1911ef72d2024ea3e,3,project_train
+russian-NF-1089,AMFD_Faces_Final,NF-1089,F,russian,english | other,9,34fbeb3355ba988a03b549d4df0c3561b57fc2b1b0855748c3559811ab7b3ff4,1,dev_val
+russian-NF-1099,AMFD_Faces_Final,NF-1099,F,russian,english | other,9,89f1bb2ca26373109f456e71251430a55516054aa7cb7e57ca1a450dd849744d,2,dev_val
+russian-NM-1027,AMFD_Faces_Final,NM-1027,M,russian,english | other,9,43ddf01655a2aab71fa9b3e2863d444fd812e856e0d1b27d6a57a3cfaea43360,1,project_train
+turkiye-008_03,facelab_london,008_03,M,turkiye,english | other,9,468a288baa5c67f05f8cb1c44343ba3698728d0677f3fb3fbc6193702313ac00,4,project_train
+turkiye-031_03,facelab_london,031_03,M,turkiye,english,9,aec7144fa579574036094fca757af4fa05143f1ac52513c29ea48666fb5c5a98,2,project_train
+turkiye-032_03,facelab_london,032_03,F,turkiye,english | other,9,3260f73ae7a43c831f21a970808787d2fa4eb721ede082db6d0028f3d9340f50,1,dev_val
+turkiye-036_03,facelab_london,036_03,M,turkiye,english | other,9,dcbba46470549347708b156a688dc2081d0eab299642e393b9c612ce738ec26a,8,project_train
+turkiye-041_03,facelab_london,041_03,M,turkiye,english | other,9,d4caba3aab7a0b952283dfa23d0ece4b14475c0f85034f5e6964249ee4c87ca3,7,project_train
+turkiye-083_03,facelab_london,083_03,F,turkiye,english | other,9,5c88aeeb5ac04f0440eb19af998e2c6698c5132f27b8163000f36fe5ac2065ed,2,project_train
+turkiye-086_03,facelab_london,086_03,F,turkiye,english | other,9,cdda5ca4f3e68c937c72b5ad16e2d6d6141f376c4f78146f0ffef8016fbfd7d7,4,project_train
+turkiye-092_03,facelab_london,092_03,M,turkiye,english | other,9,28c8f5bc53acf4aa8e7f35127cd4d9ad6ee6f645fd0b3e976e1ddf9b04b0b520,3,project_train
+turkiye-101_03,facelab_london,101_03,M,turkiye,english | other,9,1b37a500f3b3ac909dbd5ac085a13ffe5f05e78ab559e905c7457629ebb48960,2,dev_val
+turkiye-104_03,facelab_london,104_03,M,turkiye,english,9,634293dfd3f8d5ce6b2d74d9915579d017d68a1b5153418c6e8aea5b220723b4,1,dev_val
+turkiye-115_03,facelab_london,115_03,M,turkiye,english | other,9,11ee35f567b18fc2f0a7228964bc840f9a1553f5ae69b94ab577e3450dc437de,1,dev_val
+turkiye-121_03,facelab_london,121_03,M,turkiye,english | other,9,b026ba593f9b0911e2a99955cf2a76c656aea75f8bbec12707caf1cb1610b2b8,6,project_train
+turkiye-126_03,facelab_london,126_03,F,turkiye,english | other,9,f94f330d4bf42fd280470c4417f3a359bb2cd6694561d7a053ed6c82c7af312e,5,project_train
+turkiye-127_03,facelab_london,127_03,F,turkiye,english,9,81625687b622921e1bc17dbe60772aaba379c224a6fbebefe77749b868e52db0,1,project_train
+turkiye-129_03,facelab_london,129_03,F,turkiye,english | other,9,5e0558324dca27ea27f918ae050c8ad91f6d74fc159a1c4a862a19d828c35224,3,project_train
+turkiye-130_03,facelab_london,130_03,M,turkiye,english | other,9,a62660e190c4c88d224478936eb224f5dd132fc5ccc3beade1843378620bae30,5,project_train
+turkiye-138_03,facelab_london,138_03,M,turkiye,english | other,9,fe0ac11cb453465c69bc2ebcc77993859fd010bf28614888b1cb601e9dbaf01b,9,project_train
+turkiye-NF-1002,AMFD_Faces_Final,NF-1002,F,turkiye,english,9,ba93a19b7ef611cd20d3d4b9c9493799c10c3127cf7a219419fa2b76649f9b8d,1,dev_val
+turkiye-NF-1008,AMFD_Faces_Final,NF-1008,F,turkiye,english | other,9,221f8e0b86e6117f20f5e94753b7ef975e0cc2420b9bf6a9e52ebe9a3a6f4edb,1,project_train
+turkiye-NF-1054,AMFD_Faces_Final,NF-1054,F,turkiye,english,9,c64d4b640e0e2cb0ccd7c2b2369bec5b56dcddd02e4f131493e29637e11772f4,2,project_train
+turkiye-NF-1103,AMFD_Faces_Final,NF-1103,F,turkiye,english,9,e603f9cb9bd862a44ec92847fb233f1e2d248f1e05935441e4bb2f75af1cae0a,3,project_train
+turkiye-NM-1011,AMFD_Faces_Final,NM-1011,M,turkiye,english,9,a3e9c3c87bdc1821153f5ae5e2c880ca5238394948e6ef83bd7b9b0668984721,1,project_train
+turkiye-NM-1019,AMFD_Faces_Final,NM-1019,M,turkiye,english | other,9,792a3cf6841350c71af962b0fc7cabf35ce25f9e596d590225ec9720e7d91a1a,2,project_train
+turkiye-NM-1033,AMFD_Faces_Final,NM-1033,M,turkiye,english,9,dfe1ba5a3717f3b075dfe28f7b6316c8b51e5f18cf44d99268212383fc354bbe,2,project_train
+turkiye-NM-1055,AMFD_Faces_Final,NM-1055,M,turkiye,english | other,9,72f15e91ba96a948aca7db1bda9f2e77a938fde0efb58703b128ab9722166eff,1,dev_val
+ukraine-006_03,facelab_london,006_03,F,ukraine,english | other,9,f16979bfc93dca9829c2e73d43d2267233ec07029b984ca6d7f9c55212e5aaf6,3,project_train
+ukraine-007_03,facelab_london,007_03,F,ukraine,english | other,9,d928d78bbd2c9d937eefed16a8850f9eda8c108d3232e86859c46dbf465049fa,2,project_train
+ukraine-025_03,facelab_london,025_03,F,ukraine,english | other,9,15b2d06894af83828475dd66899747a68a6d0a051340cfc5f28aad49f1cfe1da,1,dev_val
+ukraine-030_03,facelab_london,030_03,F,ukraine,english | other,9,f70efd0bc526d6849e9bdb004cd8a6426e36131582cc8a011bd320ccffc6c26b,4,project_train
+ukraine-103_03,facelab_london,103_03,M,ukraine,english | other,9,c1fdf7f8e4bf1e675d187f659607f9f64763db35c8ef25bd862a20f35cc3ebbc,1,project_train
+ukraine-NF-1005,AMFD_Faces_Final,NF-1005,F,ukraine,english | other,9,a71671b728625991e31f5e4d6df7a2d043328ff6db7035fca299a90f210d5ff0,8,project_train
+ukraine-NF-1015,AMFD_Faces_Final,NF-1015,F,ukraine,english | other,9,e0eb8390ca27b2dd2424121cdcfd56dccb5c2a8ca63a75e2db101e4180a3c622,9,project_train
+ukraine-NF-1021,AMFD_Faces_Final,NF-1021,F,ukraine,english | other,9,5411ab50e267e80d719686a6f88584a2eafc2051af4790b58b69552a3056167f,5,project_train
+ukraine-NF-1032,AMFD_Faces_Final,NF-1032,F,ukraine,english | other,9,e393a1887bfc74999af7e8dac600216fd175e76ec363ea6eeba0fcd0298653c3,10,project_train
+ukraine-NF-1057,AMFD_Faces_Final,NF-1057,F,ukraine,english | other,9,a29dd137722476fc522f245fef5b980df49da297b0bf5f7ab71733fe21dc2496,7,project_train
+ukraine-NF-1068,AMFD_Faces_Final,NF-1068,F,ukraine,english | other,9,4ede08bc7b1f1120d912852bcf46c23eb072c0705a3946921c5b0800cf83ae33,3,dev_val
+ukraine-NF-1073,AMFD_Faces_Final,NF-1073,F,ukraine,english | other,9,1a5eb47932e791f1e77a289aa0f53c49e0fca34087f392b1386edc4b4185a1d1,2,dev_val
+ukraine-NF-1077,AMFD_Faces_Final,NF-1077,F,ukraine,english | other,9,4fca8e91947983e997c8d31184bc09ab3e7eee68b1c80420abaf3e46de469fbb,4,project_train
+ukraine-NF-1084,AMFD_Faces_Final,NF-1084,F,ukraine,english | other,9,f31472aaeb1cad89c39fd8bdf1f1624767d3b24fd8550dbac970878ff7ee82aa,11,project_train
+ukraine-NF-1087,AMFD_Faces_Final,NF-1087,F,ukraine,english | other,9,9d4c733c34865f46a83269554e007ee9bee5de648ab9572ddecccea0d1122dab,6,project_train
+ukraine-NF-1106,AMFD_Faces_Final,NF-1106,F,ukraine,english | other,9,029a8b07d2fc862c174f4033d2312b744b477ebd090f6fe94b8991de0f6ccba5,1,dev_val
+ukraine-NM-1007,AMFD_Faces_Final,NM-1007,M,ukraine,english | other,9,250c1d6997ac3a5812c6c82161d39904c13dda9f083b3bcad317a7009d16009c,1,project_train
+usa-009_03,facelab_london,009_03,F,usa,english,9,5e5e81e2fca1f275bdb4ef7400b2a4a8f8e86e37134c19fa88c5b92ff82cb0b1,3,project_train
+usa-011_03,facelab_london,011_03,F,usa,english,9,f4c71eb5b796e7743dc179d28066f88c0c01af1e5421f1d4c27873a30a0e1025,5,project_train
+usa-016_03,facelab_london,016_03,F,usa,english,9,fd3d7729777267a118a2c8800e2b132522da5186a38466113ec6f1b9b756e737,6,project_train
+usa-034_03,facelab_london,034_03,F,usa,english,9,3390aecc7b7c8f9898bcc7a466855f273422e71d904782071b01a58ff4542621,1,dev_val
+usa-043_03,facelab_london,043_03,M,usa,english,9,e42c58c021ba7ca697b26e7c132e4582122660f1e9a0c0b2c6ea99fa5f11e39e,3,project_train
+usa-063_03,facelab_london,063_03,M,usa,english,9,ead8de9f7f15bde6e08b3cfeb8767b248d8a4867b6c765a0f1bd36f08daa58e2,4,project_train
+usa-067_03,facelab_london,067_03,M,usa,english,9,1e428fc08c650b8d511d8a3c1e9c20dc4fa5a67bcf4deda5c75fa880967b0541,1,dev_val
+usa-117_03,facelab_london,117_03,M,usa,english,9,526dc7dac53a122d9a78f0211151ae2abc8a245454f418a1f1913cb76f9cbe6e,2,project_train
+usa-134_03,facelab_london,134_03,F,usa,english,9,792b4710b9ef786eb5ebd238851d51649abec4d76faefa9eb0bfb8e38658c42f,4,project_train
+usa-136_03,facelab_london,136_03,F,usa,english,9,4dc4695c4fa3c159d1d40c3e9a2b3a5b383de9930692d14fe7652941f3bb38c0,2,project_train
+usa-137_03,facelab_london,137_03,M,usa,english,9,f48cbb6396414a7000f13a436215d44720615dc8342b600fcc4cb25eae7ae3c5,5,project_train
+usa-NF-1004,AMFD_Faces_Final,NF-1004,F,usa,english,9,2c275183c1e145d587ef06e4e9690306045344de181dfbbb697fd05609607281,5,project_train
+usa-NF-1009,AMFD_Faces_Final,NF-1009,F,usa,english,9,493605298f6b41ef94cf86985fd1f7bc6d740fe11590898e7bd2ea00708f8b2f,7,project_train
+usa-NF-1017,AMFD_Faces_Final,NF-1017,F,usa,english,9,fab131ca896a83dbbb61076381ee564feb82d93f0c8e4aac4b6d421fb3cdb45a,13,project_train
+usa-NF-1036,AMFD_Faces_Final,NF-1036,F,usa,english,9,0e616a60a00dbd72dacce407422a82ef65dd140437ee4f4298f4950d9f437e5c,2,dev_val
+usa-NF-1044,AMFD_Faces_Final,NF-1044,F,usa,english,9,688dd69bc68691e062783608fe4d19a0e685cf7c70f2b44328862137c7cb83bb,9,project_train
+usa-NF-1046,AMFD_Faces_Final,NF-1046,F,usa,english,9,cdb43dba7046bfe50a722fb8fa6a5400835532790ee728bcee030b64300f2cc1,11,project_train
+usa-NF-1051,AMFD_Faces_Final,NF-1051,F,usa,english,9,f9dd05f5f5cc0333dd3b0165cf5278ff39768d3f96a86a7d223b67a9686b239a,12,project_train
+usa-NF-1062,AMFD_Faces_Final,NF-1062,F,usa,english,9,665e93170002012c21f64ce32996f8ec51f606d6c1f4d81927a9ace4a1541b45,8,project_train
+usa-NF-1065,AMFD_Faces_Final,NF-1065,F,usa,english,9,024cc2680e9634742e4f96e9439526b1cb0b093a17e043468a67e370c6f60b84,1,dev_val
+usa-NF-1071,AMFD_Faces_Final,NF-1071,F,usa,english,9,21f95d6d82a74e8ba682d7be6d5c698210d40774dd29c1d9f915e2136f21bfcb,4,project_train
+usa-NF-1076,AMFD_Faces_Final,NF-1076,F,usa,english,9,1f843e9d19a60109229d5bd6a1d2b50a8a1f579c2a23e3ea7ea36593ffca57af,3,dev_val
+usa-NF-1093,AMFD_Faces_Final,NF-1093,F,usa,english,9,37078b704e87fe0b6f4c97c2da8824b4d6bc74bad9f05e4bf757fc4eb488c2ca,6,project_train
+usa-NF-1094,AMFD_Faces_Final,NF-1094,F,usa,english,9,8c2d61a62b1d21ce5f0a71a8b914150a9da8c52c491159acbc67f9329ce1a32e,10,project_train
+usa-NM-1038,AMFD_Faces_Final,NM-1038,M,usa,english,9,68ae577dc92127ae0cb98fab033419dd4452d8fed066a2b875f013369448a2b8,1,dev_val
+usa-NM-1052,AMFD_Faces_Final,NM-1052,M,usa,english,9,d6bda02a721611c71db4a116f72f128c5e12a330735ac9659469c3de60f73654,2,project_train

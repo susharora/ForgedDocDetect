@@ -3,3 +3,10 @@
 logging:
   directory: "../logs"
   filename: "datasplit.txt"
+
+split_policy:
+  selection_seed: "fantasyid-dev-v1"
+
+output:
+  directory: "../output/splits"
+  prefix: "fantasyid_project_split"

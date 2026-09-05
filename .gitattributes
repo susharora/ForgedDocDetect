@@ -1,0 +1,4 @@
+# Keep experiment code/configuration line endings deterministic.
+*.py   text eol=lf
+*.yaml text eol=lf
+*.yml  text eol=lf
