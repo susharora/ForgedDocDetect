@@ -23,3 +23,35 @@ data/FantasyID/*
 !data/FantasyID/.gitkeep
 external/TruFor/
 configs/local.yaml
+
+# ----------------------------------------------------------------------
+# Scientific run artifacts
+#
+# Small provenance/results remain eligible for normal Git:
+#   run.yaml
+#   experiment_config.yaml
+#   logs/
+#   metrics/
+#   predictions/
+#   manifests/
+#   checksums
+#
+# Large/generated binary artifacts remain local by default.
+# Selected figures intended for reports should be copied to a tracked
+# report/documentation location rather than committing whole run folders.
+# ----------------------------------------------------------------------
+
+runs/*/checkpoints/
+runs/*/localisation/maps/
+runs/*/localisation/rendered/
+runs/*/diagnostics/
+
+# Defensive binary-artifact exclusions.
+# Force-add only after an explicit project decision.
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.npy
+*.npz
+*.onnx
