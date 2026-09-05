@@ -1,0 +1,86 @@
+schema_version: 1
+run:
+  run_id: 20260905T094405_276069Z_resnet18_gradcam_fantasyid_IMTA134_e11358ad
+  created_at_utc: '2026-09-05T09:44:05.276069+00:00'
+  stage: phase0_infrastructure
+  status: initialized
+experiment:
+  name: resnet18_gradcam_fantasyid
+  pipeline: resnet18_gradcam
+  task: binary_classification
+git:
+  commit_sha: e11358ad8ec9a23c78428026d0562480b0e1862c
+  branch: main
+  working_tree_clean: true
+scientific_config:
+  path: configs/experiments/resnet18_gradcam.yaml
+  sha256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+  snapshot: experiment_config.yaml
+machine:
+  configured_id: IMTA134
+  hostname: IMTA134
+  platform: Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.43
+  dataset_root: /home/u5757978/ForgedDocDetect/data/FantasyID
+  runs_root: /home/u5757978/ForgedDocDetect/runs
+  runtime_device: cuda
+  num_workers: 16
+runtime:
+  python:
+    version: 3.11.15
+    executable: /home/u5757978/miniforge3/envs/idxai/bin/python
+  packages:
+    torch: 2.11.0+cu128
+    torchvision: 0.26.0+cu128
+  cuda:
+    available: true
+    torch_cuda_version: '12.8'
+    cudnn_version: 91900
+    nvidia_driver_version: '595.71'
+    cuda_visible_devices: null
+  gpu:
+    device_count: 1
+    selected_device: 0
+    devices:
+    - index: 0
+      name: NVIDIA RTX PRO 5000 Blackwell
+      total_vram_bytes: 51311607808
+      total_vram_gib: 47.788
+      compute_capability: '12.0'
+reproducibility:
+  seeds:
+    python: 8
+    numpy: 8
+    torch: 8
+    dataloader: 8
+frozen_data:
+  dataset: FantasyID
+  source_discovery:
+    workbook: fantasyid_inventory_2026-09-05_023126.xlsx
+    sha256: 54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+  split_bundle:
+    filename: fantasyid_project_split_2026-09-05_091937_bundle.yaml
+    sha256: 95cc748a4e520d90c44f68f7e0317711a659a636802debdf78887a10a85383e1
+  project_train:
+    filename: fantasyid_project_split_2026-09-05_091937_project_train.csv
+    sha256: 6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+    cards: 160
+    images: 1440
+  dev_val:
+    filename: fantasyid_project_split_2026-09-05_091937_dev_val.csv
+    sha256: 46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+    cards: 51
+    images: 459
+  held_out_test_policy: untouched_until_final_evaluation
+pretrained_checkpoint:
+  status: not_configured
+  identity: null
+  sha256: null
+artifact_directories:
+- logs
+- metrics
+- predictions
+- checkpoints
+- localisation/maps
+- localisation/rendered
+- diagnostics
+- manifests
