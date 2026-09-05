@@ -1,0 +1,27 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: pretrained_resnet18_probe_{timestamp}.log
+  level: INFO
+
+probe:
+  weights: IMAGENET1K_V1
+
+  # Preserve the entire document.
+  resize_short_side: 256
+  crop: none
+
+  # Explicit project_train paths can also be supplied with --image.
+  images: []
+
+  capture:
+    stem: true
+    internal_convolutions: true
+    residual_block_outputs: true
+    maxpool: true
+
+  visualisation:
+    top_channels_per_layer: 12
+    top_imagenet_predictions: 10
+    dpi: 160

@@ -1,0 +1,260 @@
+2026-09-05T20:03:31Z | INFO | ========================================================================
+2026-09-05T20:03:31Z | INFO | PHASE-1 RAW DECODE / GEOMETRY AUDIT
+2026-09-05T20:03:31Z | INFO | ========================================================================
+2026-09-05T20:03:31Z | INFO | Audit log: /home/sush/ForgedDocDetect/logs/audit_phase1_decode_2026-09-05_200331_854552Z.log
+2026-09-05T20:03:31Z | INFO | Timestamp UTC: 2026-09-05T20:03:31.856651+00:00
+2026-09-05T20:03:31Z | INFO | Git commit SHA: 366fbe72080e8a9e72b5e69cc66fcaafad35b8d2
+2026-09-05T20:03:31Z | INFO | Audit script: tools/audit_phase1_decode.py
+2026-09-05T20:03:31Z | INFO | Audit script SHA-256: 6845b525be37500d8d6e60684366be8fdec520e912bd994df2c4e12c92215d88
+2026-09-05T20:03:31Z | INFO | Audit config: tools/audit_phase1_decode_config.yaml
+2026-09-05T20:03:31Z | INFO | Audit config SHA-256: eec9fe9da31e1d46b2af47b4200b7e74237328a204879c2e55155062727fc553
+2026-09-05T20:03:31Z | INFO | Experiment config: /home/sush/ForgedDocDetect/configs/experiments/resnet18_gradcam.yaml
+2026-09-05T20:03:31Z | INFO | Experiment config SHA-256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+2026-09-05T20:03:31Z | INFO | Machine ID: sush-AMD
+2026-09-05T20:03:31Z | INFO | Dataset root: /home/sush/ForgedDocDetect/data/FantasyID
+2026-09-05T20:03:31Z | INFO | Decoder: Pillow 12.2.0
+2026-09-05T20:03:31Z | INFO | Colour conversion test: RGB
+2026-09-05T20:03:31Z | INFO | Resize: NONE
+2026-09-05T20:03:31Z | INFO | Crop: NONE
+2026-09-05T20:03:31Z | INFO | Augmentation: NONE
+2026-09-05T20:03:31Z | INFO | Held-out test: NOT ACCESSED
+2026-09-05T20:03:31Z | INFO | Running frozen Tech-1 configuration/provenance gate.
+2026-09-05T20:03:31Z | INFO | Frozen provenance validator return code: 0
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | TECH-2 EXPERIMENT CONFIGURATION VALIDATION
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | 
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | Experiment config:
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE |   /home/sush/ForgedDocDetect/configs/experiments/resnet18_gradcam.yaml
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE |   SHA-256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | 
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | Machine config:
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE |   /home/sush/ForgedDocDetect/configs/local.yaml
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE |   SHA-256 intentionally not treated as scientific provenance
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | 
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | --- Machine contract ---
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] dataset_root exists
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE |        /home/sush/ForgedDocDetect/data/FantasyID
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [INFO] runs_root
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE |        /home/sush/ForgedDocDetect/runs
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | 
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | --- Reproducibility contract ---
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] required random seeds are explicitly defined
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | 
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | --- Frozen Tech-1 provenance ---
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] source discovery workbook SHA-256
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE |        54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] frozen split bundle SHA-256
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE |        95cc748a4e520d90c44f68f7e0317711a659a636802debdf78887a10a85383e1
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] bundle source workbook filename
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] bundle source workbook SHA-256
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] cards filename agrees with bundle
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] cards SHA-256 agrees with bundle
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] cards expected rows agree with bundle
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] cards manifest SHA-256
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE |        414972b290094f6d85ae0fb564bb336b17ffd067c4ac988fa4f74c8950b770fb
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] cards manifest rows = 211
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] project_train filename agrees with bundle
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] project_train SHA-256 agrees with bundle
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] project_train expected rows agree with bundle
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] project_train manifest SHA-256
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE |        6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] project_train manifest rows = 1440
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] dev_val filename agrees with bundle
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] dev_val SHA-256 agrees with bundle
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] dev_val expected rows agree with bundle
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] dev_val manifest SHA-256
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE |        46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] dev_val manifest rows = 459
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] project_train card count
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] project_train image count
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] dev_val card count
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] dev_val image count
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | 
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | --- Held-out test contract ---
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | [PASS] held-out test policy
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | 
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | EXPERIMENT CONFIGURATION VALIDATION: PASS
+2026-09-05T20:03:31Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-05T20:03:31Z | INFO | [PASS] Frozen Tech-1 configuration/provenance gate
+2026-09-05T20:03:31Z | INFO | Manifest | split=project_train path=/home/sush/ForgedDocDetect/output/splits/fantasyid_project_split_2026-09-05_091937_project_train.csv sha256=6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-05T20:03:31Z | INFO | Starting split audit: split=project_train manifest=/home/sush/ForgedDocDetect/output/splits/fantasyid_project_split_2026-09-05_091937_project_train.csv rows=1440
+2026-09-05T20:03:34Z | INFO | Progress | split=project_train decoded=250/1440
+2026-09-05T20:03:36Z | INFO | Progress | split=project_train decoded=500/1440
+2026-09-05T20:03:38Z | INFO | Progress | split=project_train decoded=750/1440
+2026-09-05T20:03:41Z | INFO | Progress | split=project_train decoded=1000/1440
+2026-09-05T20:03:43Z | INFO | Progress | split=project_train decoded=1250/1440
+2026-09-05T20:03:45Z | INFO | Progress | split=project_train decoded=1440/1440
+2026-09-05T20:03:45Z | INFO | Manifest | split=dev_val path=/home/sush/ForgedDocDetect/output/splits/fantasyid_project_split_2026-09-05_091937_dev_val.csv sha256=46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+2026-09-05T20:03:45Z | INFO | Starting split audit: split=dev_val manifest=/home/sush/ForgedDocDetect/output/splits/fantasyid_project_split_2026-09-05_091937_dev_val.csv rows=459
+2026-09-05T20:03:47Z | INFO | Progress | split=dev_val decoded=250/459
+2026-09-05T20:03:49Z | INFO | Progress | split=dev_val decoded=459/459
+2026-09-05T20:03:49Z | INFO | ========================================================================
+2026-09-05T20:03:49Z | INFO | SPLIT REPORT: project_train
+2026-09-05T20:03:49Z | INFO | ========================================================================
+2026-09-05T20:03:49Z | INFO | Manifest rows: 1440
+2026-09-05T20:03:49Z | INFO | Traffic type:
+2026-09-05T20:03:49Z | INFO |   attack                            960
+2026-09-05T20:03:49Z | INFO |   bonafide                          480
+2026-09-05T20:03:49Z | INFO | Image format:
+2026-09-05T20:03:49Z | INFO |   JPEG                             1440
+2026-09-05T20:03:49Z | INFO | Decoded colour mode:
+2026-09-05T20:03:49Z | INFO |   RGB                              1440
+2026-09-05T20:03:49Z | INFO | EXIF orientation:
+2026-09-05T20:03:49Z | INFO |   none                             1440
+2026-09-05T20:03:49Z | INFO | Most common decoded dimensions (W x H):
+2026-09-05T20:03:49Z | INFO |   (1997, 1247)                       21
+2026-09-05T20:03:49Z | INFO |   (1995, 1251)                       18
+2026-09-05T20:03:49Z | INFO |   (1993, 1248)                       18
+2026-09-05T20:03:49Z | INFO |   (1994, 1249)                       15
+2026-09-05T20:03:49Z | INFO |   (1996, 1249)                       12
+2026-09-05T20:03:49Z | INFO |   (1996, 1250)                       12
+2026-09-05T20:03:49Z | INFO |   (1998, 1247)                        9
+2026-09-05T20:03:49Z | INFO |   (1994, 1247)                        9
+2026-09-05T20:03:49Z | INFO |   (1999, 1245)                        9
+2026-09-05T20:03:49Z | INFO |   (1998, 1250)                        9
+2026-09-05T20:03:49Z | INFO |   (1996, 1247)                        9
+2026-09-05T20:03:49Z | INFO |   (1994, 1251)                        9
+2026-09-05T20:03:49Z | INFO |   (1992, 1251)                        9
+2026-09-05T20:03:49Z | INFO |   (1995, 1250)                        9
+2026-09-05T20:03:49Z | INFO |   (1997, 1251)                        9
+2026-09-05T20:03:49Z | INFO |   (1995, 1247)                        9
+2026-09-05T20:03:49Z | INFO |   (1992, 1250)                        9
+2026-09-05T20:03:49Z | INFO |   (1992, 1247)                        9
+2026-09-05T20:03:49Z | INFO |   (1995, 1249)                        9
+2026-09-05T20:03:49Z | INFO |   (1993, 1249)                        9
+2026-09-05T20:03:49Z | INFO |   ... 373 additional values
+2026-09-05T20:03:49Z | INFO | Geometry range:
+2026-09-05T20:03:49Z | INFO |   width: 1989 .. 3240
+2026-09-05T20:03:49Z | INFO |   height: 1242 .. 2006
+2026-09-05T20:03:49Z | INFO |   aspect ratio: 1.557542 .. 1.646774
+2026-09-05T20:03:49Z | INFO |   unique sizes: 393
+2026-09-05T20:03:49Z | INFO | Images with non-trivial EXIF orientation: 0
+2026-09-05T20:03:49Z | INFO | Variant:
+2026-09-05T20:03:49Z | INFO |   digital_1                         480
+2026-09-05T20:03:49Z | INFO |   digital_2                         480
+2026-09-05T20:03:49Z | INFO |                                     480
+2026-09-05T20:03:49Z | INFO | Hardware source:
+2026-09-05T20:03:49Z | INFO |   huawei                            480
+2026-09-05T20:03:49Z | INFO |   iphone15pro                       480
+2026-09-05T20:03:49Z | INFO |   scan                              480
+2026-09-05T20:03:49Z | INFO | Decoded dimensions by traffic type:
+2026-09-05T20:03:49Z | INFO |   attack: 393 unique size(s)
+2026-09-05T20:03:49Z | INFO |     (1997, 1247)                 14
+2026-09-05T20:03:49Z | INFO |     (1995, 1251)                 12
+2026-09-05T20:03:49Z | INFO |     (1993, 1248)                 12
+2026-09-05T20:03:49Z | INFO |     (1994, 1249)                 10
+2026-09-05T20:03:49Z | INFO |     (1996, 1249)                  8
+2026-09-05T20:03:49Z | INFO |     (1996, 1250)                  8
+2026-09-05T20:03:49Z | INFO |     (1998, 1247)                  6
+2026-09-05T20:03:49Z | INFO |     (1994, 1247)                  6
+2026-09-05T20:03:49Z | INFO |     (1999, 1245)                  6
+2026-09-05T20:03:49Z | INFO |     (1998, 1250)                  6
+2026-09-05T20:03:49Z | INFO |     ... 383 additional sizes
+2026-09-05T20:03:49Z | INFO |   bonafide: 393 unique size(s)
+2026-09-05T20:03:49Z | INFO |     (1997, 1247)                  7
+2026-09-05T20:03:49Z | INFO |     (1995, 1251)                  6
+2026-09-05T20:03:49Z | INFO |     (1993, 1248)                  6
+2026-09-05T20:03:49Z | INFO |     (1994, 1249)                  5
+2026-09-05T20:03:49Z | INFO |     (1996, 1249)                  4
+2026-09-05T20:03:49Z | INFO |     (1996, 1250)                  4
+2026-09-05T20:03:49Z | INFO |     (1998, 1247)                  3
+2026-09-05T20:03:49Z | INFO |     (1994, 1247)                  3
+2026-09-05T20:03:49Z | INFO |     (1999, 1245)                  3
+2026-09-05T20:03:49Z | INFO |     (1998, 1250)                  3
+2026-09-05T20:03:49Z | INFO |     ... 383 additional sizes
+2026-09-05T20:03:49Z | INFO | Integrity checks:
+2026-09-05T20:03:49Z | INFO | [PASS] missing files: 0
+2026-09-05T20:03:49Z | INFO | [PASS] source SHA-256 mismatches: 0
+2026-09-05T20:03:49Z | INFO | [PASS] decode failures: 0
+2026-09-05T20:03:49Z | INFO | [PASS] RGB conversion failures: 0
+2026-09-05T20:03:49Z | INFO | [PASS] file-stem mismatches: 0
+2026-09-05T20:03:49Z | INFO | [PASS] project-role mismatches: 0
+2026-09-05T20:03:49Z | INFO | ========================================================================
+2026-09-05T20:03:49Z | INFO | SPLIT REPORT: dev_val
+2026-09-05T20:03:49Z | INFO | ========================================================================
+2026-09-05T20:03:49Z | INFO | Manifest rows: 459
+2026-09-05T20:03:49Z | INFO | Traffic type:
+2026-09-05T20:03:49Z | INFO |   attack                            306
+2026-09-05T20:03:49Z | INFO |   bonafide                          153
+2026-09-05T20:03:49Z | INFO | Image format:
+2026-09-05T20:03:49Z | INFO |   JPEG                              459
+2026-09-05T20:03:49Z | INFO | Decoded colour mode:
+2026-09-05T20:03:49Z | INFO |   RGB                               459
+2026-09-05T20:03:49Z | INFO | EXIF orientation:
+2026-09-05T20:03:49Z | INFO |   none                              459
+2026-09-05T20:03:49Z | INFO | Most common decoded dimensions (W x H):
+2026-09-05T20:03:49Z | INFO |   (1992, 1249)                        9
+2026-09-05T20:03:49Z | INFO |   (1995, 1250)                        9
+2026-09-05T20:03:49Z | INFO |   (1994, 1247)                        9
+2026-09-05T20:03:49Z | INFO |   (1993, 1250)                        9
+2026-09-05T20:03:49Z | INFO |   (1996, 1249)                        6
+2026-09-05T20:03:49Z | INFO |   (3192, 1972)                        6
+2026-09-05T20:03:49Z | INFO |   (1998, 1247)                        6
+2026-09-05T20:03:49Z | INFO |   (1995, 1246)                        6
+2026-09-05T20:03:49Z | INFO |   (1997, 1248)                        6
+2026-09-05T20:03:49Z | INFO |   (1995, 1248)                        6
+2026-09-05T20:03:49Z | INFO |   (1995, 1247)                        4
+2026-09-05T20:03:49Z | INFO |   (3211, 1971)                        3
+2026-09-05T20:03:49Z | INFO |   (2769, 1748)                        3
+2026-09-05T20:03:49Z | INFO |   (2003, 1244)                        3
+2026-09-05T20:03:49Z | INFO |   (3181, 1964)                        3
+2026-09-05T20:03:49Z | INFO |   (2768, 1737)                        3
+2026-09-05T20:03:49Z | INFO |   (3045, 1891)                        3
+2026-09-05T20:03:49Z | INFO |   (2629, 1605)                        3
+2026-09-05T20:03:49Z | INFO |   (2005, 1248)                        3
+2026-09-05T20:03:49Z | INFO |   (3037, 1894)                        3
+2026-09-05T20:03:49Z | INFO |   ... 121 additional values
+2026-09-05T20:03:49Z | INFO | Geometry range:
+2026-09-05T20:03:49Z | INFO |   width: 1990 .. 3242
+2026-09-05T20:03:49Z | INFO |   height: 1244 .. 2006
+2026-09-05T20:03:49Z | INFO |   aspect ratio: 1.559444 .. 1.643079
+2026-09-05T20:03:49Z | INFO |   unique sizes: 141
+2026-09-05T20:03:49Z | INFO | Images with non-trivial EXIF orientation: 0
+2026-09-05T20:03:49Z | INFO | Variant:
+2026-09-05T20:03:49Z | INFO |   digital_1                         153
+2026-09-05T20:03:49Z | INFO |   digital_2                         153
+2026-09-05T20:03:49Z | INFO |                                     153
+2026-09-05T20:03:49Z | INFO | Hardware source:
+2026-09-05T20:03:49Z | INFO |   huawei                            153
+2026-09-05T20:03:49Z | INFO |   iphone15pro                       153
+2026-09-05T20:03:49Z | INFO |   scan                              153
+2026-09-05T20:03:49Z | INFO | Decoded dimensions by traffic type:
+2026-09-05T20:03:49Z | INFO |   attack: 141 unique size(s)
+2026-09-05T20:03:49Z | INFO |     (1992, 1249)                  6
+2026-09-05T20:03:49Z | INFO |     (1995, 1250)                  6
+2026-09-05T20:03:49Z | INFO |     (1994, 1247)                  6
+2026-09-05T20:03:49Z | INFO |     (1993, 1250)                  6
+2026-09-05T20:03:49Z | INFO |     (1996, 1249)                  4
+2026-09-05T20:03:49Z | INFO |     (3192, 1972)                  4
+2026-09-05T20:03:49Z | INFO |     (1998, 1247)                  4
+2026-09-05T20:03:49Z | INFO |     (1995, 1246)                  4
+2026-09-05T20:03:49Z | INFO |     (1997, 1248)                  4
+2026-09-05T20:03:49Z | INFO |     (1995, 1248)                  4
+2026-09-05T20:03:49Z | INFO |     ... 131 additional sizes
+2026-09-05T20:03:49Z | INFO |   bonafide: 139 unique size(s)
+2026-09-05T20:03:49Z | INFO |     (1992, 1249)                  3
+2026-09-05T20:03:49Z | INFO |     (1995, 1250)                  3
+2026-09-05T20:03:49Z | INFO |     (1994, 1247)                  3
+2026-09-05T20:03:49Z | INFO |     (1993, 1250)                  3
+2026-09-05T20:03:49Z | INFO |     (1996, 1249)                  2
+2026-09-05T20:03:49Z | INFO |     (3192, 1972)                  2
+2026-09-05T20:03:49Z | INFO |     (1998, 1247)                  2
+2026-09-05T20:03:49Z | INFO |     (1995, 1246)                  2
+2026-09-05T20:03:49Z | INFO |     (1997, 1248)                  2
+2026-09-05T20:03:49Z | INFO |     (1995, 1248)                  2
+2026-09-05T20:03:49Z | INFO |     ... 129 additional sizes
+2026-09-05T20:03:49Z | INFO | Integrity checks:
+2026-09-05T20:03:49Z | INFO | [PASS] missing files: 0
+2026-09-05T20:03:49Z | INFO | [PASS] source SHA-256 mismatches: 0
+2026-09-05T20:03:49Z | INFO | [PASS] decode failures: 0
+2026-09-05T20:03:49Z | INFO | [PASS] RGB conversion failures: 0
+2026-09-05T20:03:49Z | INFO | [PASS] file-stem mismatches: 0
+2026-09-05T20:03:49Z | INFO | [PASS] project-role mismatches: 0
+2026-09-05T20:03:49Z | INFO | ========================================================================
+2026-09-05T20:03:49Z | INFO | PHASE-1 RAW DECODE / GEOMETRY AUDIT: PASS
+2026-09-05T20:03:49Z | INFO | ========================================================================
+2026-09-05T20:03:49Z | INFO | Total frozen images audited: 1899
+2026-09-05T20:03:49Z | INFO | Non-trivial EXIF orientations: 0
+2026-09-05T20:03:49Z | INFO | No resize/crop/augmentation decision has been applied.

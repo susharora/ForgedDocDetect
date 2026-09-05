@@ -1,0 +1,7 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_phase1_decode_{timestamp}.log
+  level: INFO
+  progress_every: 250
