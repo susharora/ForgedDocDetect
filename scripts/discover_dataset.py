@@ -13,6 +13,8 @@ import json
 from PIL import Image
 import pandas as pd
 import os
+import math
+import warnings
 
 
 import yaml
@@ -21,6 +23,13 @@ import inspect
 #Block: Global constants
 
 CONFIG_FILE = Path("dataconfig.yaml")
+
+# One identifier for the entire execution.
+# The log, workbook and workbook provenance all use the same
+# timestamp, so they can be associated unambiguously with one run.
+RUN_TIMESTAMP = datetime.now().strftime(
+    "%Y-%m-%d_%H%M%S"
+)
 
 ORIENTATION_LABELS = {
     None: "no EXIF orientation tag",
@@ -34,141 +43,7 @@ ORIENTATION_LABELS = {
     8: "rotated 270 CW",
 }
 
-NULL_MARKER = "<NULL>"
-
-
-# ------------------------------------------------------------------
-# Preferred column order.
-#
-# IMPORTANT:
-# These lists do NOT control which columns are exported.
-# Any future column not listed here is automatically appended at
-# the end, so the discovery program remains flexible.
-# ------------------------------------------------------------------
-
-IMAGE_COLUMN_ORDER = [
-    # ---- Source identity ----
-    "split",
-    "traffic_type",
-    "variant",
-    "hardware_source",
-    "file_stem",
-
-    # ---- Files / pairing ----
-    "image_path",
-    "image_sha256",
-    "json_path",
-    "json_sha256",
-    "image_count",
-    "json_count",
-    "match_status",
-
-    # ---- JSON QA ----
-    "json_parse_ok",
-    "json_top_level_type",
-    "json_top_level_keys",
-    "json_error",
-
-    # ---- Person metadata ----
-    "face_db",
-    "face_id",
-    "gender",
-
-    # ---- Person-info QA ----
-    "person_info_found",
-    "person_info_structure_ok",
-    "person_info_error",
-
-    # ---- Crop source metadata ----
-    "crop_info_key",
-    "original_image_width",
-    "original_image_height",
-    "resulted_cropped_image_width",
-    "resulted_cropped_image_height",
-    "transformation_matrix",
-    "original_rectangle",
-
-    # ---- Crop / transform QA ----
-    "crop_info_found",
-    "crop_info_error",
-    "matrix_shape_ok",
-    "rectangle_shape_ok",
-    "crop_field_error",
-    "transformed_rectangle",
-    "transform_ok",
-    "transform_error",
-
-    # ---- Actual image metadata / QA ----
-    "image_width",
-    "image_height",
-    "exif_orientation",
-    "image_metadata_ok",
-    "image_metadata_error",
-    "dims_match_declared_crop",
-
-    # ---- Region summary / QA ----
-    "region_count",
-    "regions_found",
-    "regions_structure_ok",
-    "regions_error",
-]
-
-
-REGION_COLUMN_ORDER = [
-    # ---- Parent image ----
-    "split",
-    "traffic_type",
-    "variant",
-    "hardware_source",
-    "file_stem",
-    "image_path",
-    "image_sha256",
-    "json_path",
-    "json_sha256",
-
-    # ---- Annotation identity ----
-    "region_index",
-    "shape_name",
-    "field_name",
-    "region_provenance_raw",
-
-    # ---- Raw annotation attributes ----
-    "language",
-    "val",
-    "org_value",
-    "new_value",
-    "source",
-    "target",
-
-    # ---- Raw geometry ----
-    "x",
-    "y",
-    "width",
-    "height",
-    "right",
-    "bottom",
-
-    # ---- Boundary QA ----
-    "disk_bounds_status",
-    "declared_bounds_status",
-    "outside_left",
-    "outside_top",
-    "outside_right",
-    "outside_bottom",
-
-    # ---- Visible geometry ----
-    "visible_left",
-    "visible_top",
-    "visible_right",
-    "visible_bottom",
-    "visible_width",
-    "visible_height",
-    "original_area",
-    "visible_area",
-    "visible_fraction",
-    "outside_right_fraction",
-]
-
+ZONE_IDENTIFIER_SUFFIX = ":Zone.Identifier"
 
 #Block: Function definitions
 
@@ -188,42 +63,52 @@ def load_config(config_path: Path) -> dict:
     if not root.is_dir():
         raise NotADirectoryError(f"Dataset root is not a directory: {root}")
 
-    #Log file creation based on file path mentioned in dataconfig yaml
-    #Append current date to log filename and creates it
-    log_file_path = dataset_config["log"]
-    base_log = Path(log_file_path)
-    #extract filename components
-    log_dir  = base_log.parent 
-    log_name = base_log.stem
-    log_ext  = base_log.suffix
-    #format date
-    current_date = datetime.now().strftime("%Y-%m-%d")
-    #construct new filename:
-    new_log_name = f"{log_name}_{current_date}{log_ext}"
-    final_log_path = log_dir / new_log_name
-    log_dir.mkdir(parents=True,exist_ok=True)
+    # Build the log path using the single process-wide run timestamp.
+    log_path = build_log_path(config)
+
+    
+    
 
     #debug print (f"{log_file_path} , {type(config)}")
     
     #add log entry
     log_entries = [f"********************{func_name}: ********************"]    
-    write_log(final_log_path,log_entries)
+    write_log(log_path,log_entries)
     log_entries = [f"{func_name}: Configuration loaded successfully from {CONFIG_FILE}", 
                        f"   Dataset name:   {config['dataset']['name']}",
                         f"   Dataset root:   {config['dataset']['root']}",
                         f"   Allowed splits: {config['dataset']['allowed_splits']}"]
     
-    write_log(final_log_path,log_entries)
+    write_log(log_path,log_entries)
     
     return config
 
 # build log path TBD
-def build_log_path(config: dict) -> Path:
-    base_log = Path(config["dataset"]["log"])
-    current_date = datetime.now().strftime("%Y-%m-%d")
-    final_log_path = base_log.parent / f"{base_log.stem}_{current_date}{base_log.suffix}"
-    base_log.parent.mkdir(parents=True, exist_ok=True)
-    return final_log_path 
+def build_log_path(
+    config: dict
+) -> Path:
+
+    base_log = Path(
+        config[
+            "dataset"
+        ][
+            "log"
+        ]
+    )
+
+    base_log.parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    return (
+        base_log.parent
+        / (
+            f"{base_log.stem}_"
+            f"{RUN_TIMESTAMP}"
+            f"{base_log.suffix}"
+        )
+    )
 
 #function to write logs for data ingest
 
@@ -345,147 +230,376 @@ def find_traffic_types(
     return traffic_paths
 
 #Function to traverse traffic type. folder structure in traffic type is different hence code caters to that.
+
 def find_data_folders(
-        traffic_paths: dict[str,dict[str,Path]]
+    traffic_paths: dict[
+        str,
+        dict[str, Path]
+    ]
 ) -> list[dict]:
 
-    func_name = inspect.currentframe().f_code.co_name
-    log_entries = [f"********************{func_name}: ********************"]        
-    write_log(final_log_path,log_entries)
+    func_name = (
+        inspect.currentframe()
+        .f_code.co_name
+    )
+
+    log_entries = [
+        f"********************"
+        f"{func_name}: "
+        f"********************"
+    ]
+
     data_folders = []
 
-    for split_name, traffic_types in traffic_paths.items():
+    ignored_zone_identifiers = 0
 
-        for traffic_type, traffic_path in traffic_types.items():
+    for (
+        split_name,
+        traffic_types,
+    ) in traffic_paths.items():
+
+        for (
+            traffic_type,
+            traffic_path,
+        ) in traffic_types.items():
+
+            # ====================================================
+            # BONAFIDE:
+            #
+            # split / bonafide / hardware
+            # ====================================================
 
             if traffic_type == "bonafide":
 
                 for hardware_path in sorted(
                     traffic_path.iterdir(),
-                    key=lambda path: path.name.lower()
+                    key=lambda path:
+                        path.name.lower(),
                 ):
-                    if not hardware_path.is_dir():
-                        log_entries = [f"{func_name}: Ignoring file: {hardware_path}"]
-                        write_log(final_log_path,log_entries)
+
+                    if is_zone_identifier(
+                        hardware_path
+                    ):
+
+                        ignored_zone_identifiers += 1
                         continue
 
-                    data_folders.append( 
-                        {
-                        "split": split_name,
-                        "traffic_type": traffic_type,
-                        "variant":"",
-                        "hardware_source":hardware_path.name,
-                        "path":hardware_path         
-                        }
-                    )        
+                    if not hardware_path.is_dir():
+
+                        log_entries.append(
+                            f"{func_name}: "
+                            f"Ignoring file: "
+                            f"{hardware_path}"
+                        )
+
+                        continue
+
+                    data_folders.append({
+                        "split":
+                            split_name,
+
+                        "traffic_type":
+                            traffic_type,
+
+                        "variant":
+                            "",
+
+                        "hardware_source":
+                            hardware_path.name,
+
+                        "path":
+                            hardware_path,
+                    })
+
+            # ====================================================
+            # ATTACK:
+            #
+            # split / attack / variant / hardware
+            # ====================================================
 
             elif traffic_type == "attack":
 
                 for variant_path in sorted(
                     traffic_path.iterdir(),
-                    key=lambda path: path.name.lower()
+                    key=lambda path:
+                        path.name.lower(),
                 ):
+
+                    if is_zone_identifier(
+                        variant_path
+                    ):
+
+                        ignored_zone_identifiers += 1
+                        continue
+
                     if not variant_path.is_dir():
-                        log_entries = [f"{func_name}: Ignoring file: {hardware_path}"]
-                        write_log(final_log_path,log_entries)
+
+                        # Correct variable is variant_path.
+                        log_entries.append(
+                            f"{func_name}: "
+                            f"Ignoring file: "
+                            f"{variant_path}"
+                        )
+
                         continue
 
                     for hardware_path in sorted(
                         variant_path.iterdir(),
-                        key=lambda path: path.name.lower()
+                        key=lambda path:
+                            path.name.lower(),
                     ):
+
+                        if is_zone_identifier(
+                            hardware_path
+                        ):
+
+                            ignored_zone_identifiers += 1
+                            continue
+
                         if not hardware_path.is_dir():
-                            log_entries = [f"{func_name}: Ignoring file: {hardware_path}"]
-                            write_log(final_log_path,log_entries)
+
+                            log_entries.append(
+                                f"{func_name}: "
+                                f"Ignoring file: "
+                                f"{hardware_path}"
+                            )
+
                             continue
 
                         data_folders.append({
-                            "split": split_name,
-                            "traffic_type": traffic_type,
-                            "variant": variant_path.name,
-                            "hardware_source":hardware_path.name,
-                            "path":hardware_path
+                            "split":
+                                split_name,
+
+                            "traffic_type":
+                                traffic_type,
+
+                            "variant":
+                                variant_path.name,
+
+                            "hardware_source":
+                                hardware_path.name,
+
+                            "path":
+                                hardware_path,
                         })
 
-    log_entries = [f"{func_name}: Final data folders:"]
-    
-    for folder in data_folders:
-        log_entries.append (f"{func_name}:  {folder['split']},{folder['traffic_type']},{folder['variant']}," 
-                            f"{folder['hardware_source']} ----> {folder['path']}")
+    log_entries.append(
+        f"{func_name}: "
+        "Ignored Zone.Identifier "
+        f"metadata files: "
+        f"{ignored_zone_identifiers}"
+    )
 
-    write_log(final_log_path,log_entries)               
-    
+    log_entries.append(
+        f"{func_name}: "
+        "Final data folders:"
+    )
+
+    for folder in data_folders:
+
+        log_entries.append(
+            f"{func_name}:  "
+            f"{folder['split']},"
+            f"{folder['traffic_type']},"
+            f"{folder['variant']},"
+            f"{folder['hardware_source']} "
+            f"----> "
+            f"{folder['path']}"
+        )
+
+    write_log(
+        final_log_path,
+        log_entries,
+    )
+
     return data_folders
 
 #Function to discover all images and their JSON description files from discovered folders
 def discover_files(
     data_folders: list[dict],
-    config: dict
+    config: dict,
 ) -> list[dict]:
 
-    func_name = inspect.currentframe().f_code.co_name
-    log_entries = [f"********************{func_name}: ********************"]        
-    write_log(final_log_path,log_entries)
+    func_name = (
+        inspect.currentframe()
+        .f_code.co_name
+    )
+
+    log_entries = [
+        f"********************"
+        f"{func_name}: "
+        f"********************"
+    ]
+
     image_extensions = {
         extension.lower()
-        for extension in config["dataset"]["image_extensions"]
+        for extension
+        in config[
+            "dataset"
+        ][
+            "image_extensions"
+        ]
     }
 
-    json_extension = config["dataset"]["json_extension"].lower()
+    json_extension = (
+        config[
+            "dataset"
+        ][
+            "json_extension"
+        ]
+        .lower()
+    )
 
     discovered_files = []
 
+    ignored_zone_identifiers = 0
+    ignored_unsupported_files = 0
+    ignored_nested_folders = 0
+
     for folder in data_folders:
 
-        folder_path = folder["path"]
+        folder_path = folder[
+            "path"
+        ]
 
         for file_path in sorted(
             folder_path.iterdir(),
-            key=lambda path: path.name.lower()
+            key=lambda path:
+                path.name.lower(),
         ):
-            if not file_path.is_file():
-                log_entries = [f"{func_name}: Ignoring nested folder: {file_path}"]
-                write_log(final_log_path,log_entries)
+
+            # ----------------------------------------------------
+            # Windows-origin metadata files are not dataset files.
+            #
+            # Count them, but do not emit thousands of log lines.
+            # ----------------------------------------------------
+
+            if is_zone_identifier(
+                file_path
+            ):
+
+                ignored_zone_identifiers += 1
                 continue
 
-            suffix = file_path.suffix.lower()
+            if not file_path.is_file():
+
+                ignored_nested_folders += 1
+
+                log_entries.append(
+                    f"{func_name}: "
+                    "Ignoring nested folder: "
+                    f"{file_path}"
+                )
+
+                continue
+
+            suffix = (
+                file_path
+                .suffix
+                .lower()
+            )
 
             if suffix in image_extensions:
+
                 file_type = "image"
 
             elif suffix == json_extension:
+
                 file_type = "json"
 
             else:
-                log_entries = [f"{func_name}: Ignoring unsupported file: {file_path}"]
-                write_log(final_log_path,log_entries)
+
+                ignored_unsupported_files += 1
+
+                log_entries.append(
+                    f"{func_name}: "
+                    "Ignoring unsupported file: "
+                    f"{file_path}"
+                )
+
                 continue
 
             discovered_files.append({
-                "split": folder["split"],
-                "traffic_type": folder["traffic_type"],
-                "variant": folder["variant"],
-                "hardware_source": folder["hardware_source"],
-                "file_type": file_type,
-                "file_name": file_path.name,
-                "file_stem": file_path.stem,
-                "file_extension": file_path.suffix,
-                "file_path": file_path,
+                "split":
+                    folder["split"],
+
+                "traffic_type":
+                    folder[
+                        "traffic_type"
+                    ],
+
+                "variant":
+                    folder["variant"],
+
+                "hardware_source":
+                    folder[
+                        "hardware_source"
+                    ],
+
+                "file_type":
+                    file_type,
+
+                "file_name":
+                    file_path.name,
+
+                "file_stem":
+                    file_path.stem,
+
+                "file_extension":
+                    file_path.suffix,
+
+                "file_path":
+                    file_path,
             })
 
-    log_entries = [f"{func_name}: Discovered files totals:--------------"]
-    counts = Counter(f["file_type"] for f in discovered_files)
-    for file_type , n in sorted(counts.items()):
-        log_entries.append(f"   {file_type} : {n}")
-    
-    #debug : uncomment the following code if numbers dont tally in above step
-    # log_entries.append(f"{func_name}: Discovered files:--------------")
-    
-    # for file_record in discovered_files:
-    #     log_entries.append (f"{func_name}: {file_record['file_type']} {file_record['split']} {file_record['traffic_type']}"
-    #                        f"{file_record['variant']} {file_record['hardware_source']} {file_record['file_name']}")
-            
-    write_log(final_log_path,log_entries)
+    counts = Counter(
+        file_record[
+            "file_type"
+        ]
+        for file_record
+        in discovered_files
+    )
+
+    log_entries.append(
+        f"{func_name}: "
+        "Discovered files totals:"
+    )
+
+    for (
+        file_type,
+        count,
+    ) in sorted(
+        counts.items()
+    ):
+
+        log_entries.append(
+            f"   {file_type}: "
+            f"{count}"
+        )
+
+    log_entries.append(
+        f"{func_name}: "
+        "Ignored Zone.Identifier "
+        f"metadata files: "
+        f"{ignored_zone_identifiers}"
+    )
+
+    log_entries.append(
+        f"{func_name}: "
+        "Ignored other unsupported files: "
+        f"{ignored_unsupported_files}"
+    )
+
+    log_entries.append(
+        f"{func_name}: "
+        "Ignored nested folders: "
+        f"{ignored_nested_folders}"
+    )
+
+    write_log(
+        final_log_path,
+        log_entries,
+    )
 
     return discovered_files
 
@@ -834,6 +948,13 @@ def nested_list_to_tuple(value):
 
     return value
 
+def is_zone_identifier(
+    path: Path,
+) -> bool:
+
+    return path.name.endswith(
+        ZONE_IDENTIFIER_SUFFIX
+    )
 
 def has_shape(value, rows: int, columns: int) -> bool:
     if not isinstance(value, (list, tuple)):
@@ -1040,13 +1161,22 @@ def transform_point(
 def transform_rectangles(
     matched_records: list[dict]
 ) -> None:
+
     func_name = inspect.currentframe().f_code.co_name
-    log_entries = [f"********************{func_name}: ********************"]
+
+    log_entries = [
+        f"********************{func_name}: ********************"
+    ]
+
     for record in matched_records:
 
         record["transformed_rectangle"] = None
         record["transform_ok"] = False
         record["transform_error"] = ""
+
+        # New audit field:
+        # maximum Euclidean corner residual for this image.
+        record["max_corner_error_px"] = None
 
         if not (
             record["matrix_shape_ok"]
@@ -1059,11 +1189,18 @@ def transform_rectangles(
 
         try:
             transformed_rectangle = tuple(
-                transform_point(point, matrix)
+                transform_point(
+                    point,
+                    matrix
+                )
                 for point in rectangle
             )
 
-        except (ValueError, TypeError) as error:
+        except (
+            ValueError,
+            TypeError,
+        ) as error:
+
             record["transform_error"] = str(error)
             continue
 
@@ -1073,66 +1210,341 @@ def transform_rectangles(
 
         record["transform_ok"] = True
 
-    # ---- Diagnostics ----
-    
-    # Records that failed to transform
-    transform_error_count = 0
-    error_entries = []
-    for record in matched_records:
-        if not record["transform_ok"]:
-            error_entries.append(
-                f"  {record['file_stem']} -> {record['transform_error']}"
+        # --------------------------------------------------------
+        # Full-dataset corner residual check
+        #
+        # A crop of W x H pixels has corner pixel coordinates:
+        #
+        #   TL = (0, 0)
+        #   TR = (W-1, 0)
+        #   BR = (W-1, H-1)
+        #   BL = (0, H-1)
+        # --------------------------------------------------------
+
+        width = record[
+            "resulted_cropped_image_width"
+        ]
+
+        height = record[
+            "resulted_cropped_image_height"
+        ]
+
+        if (
+            width is None
+            or height is None
+            or width <= 0
+            or height <= 0
+        ):
+            record["transform_ok"] = False
+            record["transform_error"] = (
+                "Invalid resulted crop dimensions "
+                "for corner residual calculation"
             )
-            transform_error_count += 1
-
-    log_entries.append(f"Transformation problems: {transform_error_count}")
-    log_entries.extend(error_entries)
-
-    # One worked example per distinct crop_info_key
-    log_entries.append("Example transformed rectangles:")
-    shown_crop_types = set()
-    for record in matched_records:
-        if not record["transform_ok"]:
             continue
-        crop_key = record["crop_info_key"]
-        if crop_key in shown_crop_types:
-            continue
-        shown_crop_types.add(crop_key)
 
-        width = record["resulted_cropped_image_width"]
-        height = record["resulted_cropped_image_height"]
+        expected_corners = (
+            (0.0, 0.0),
+            (float(width - 1), 0.0),
+            (
+                float(width - 1),
+                float(height - 1),
+            ),
+            (0.0, float(height - 1)),
+        )
+
+        corner_errors = []
+
+        for transformed, expected in zip(
+            transformed_rectangle,
+            expected_corners,
+        ):
+
+            dx = (
+                transformed[0]
+                - expected[0]
+            )
+
+            dy = (
+                transformed[1]
+                - expected[1]
+            )
+
+            error = math.hypot(
+                dx,
+                dy
+            )
+
+            corner_errors.append(
+                error
+            )
+
+        record["max_corner_error_px"] = max(
+            corner_errors
+        )
+
+    # ============================================================
+    # Diagnostics
+    # ============================================================
+
+    transform_error_records = [
+        record
+        for record in matched_records
+        if not record["transform_ok"]
+    ]
+
+    log_entries.append(
+        f"Transformation problems: "
+        f"{len(transform_error_records)}"
+    )
+
+    for record in transform_error_records[:20]:
 
         log_entries.append(
-            f"  Crop type: {crop_key}  (example: {record['file_stem']})"
+            f"  {record['file_stem']} -> "
+            f"{record['transform_error']}"
         )
-        log_entries.append(f"    Declared crop size: {width} x {height}")
-        log_entries.append("    original -> transformed  (expected corner)")
 
-        expected_corners = ((0, 0), (width - 1, 0), (width - 1, height - 1), (0, height - 1))
-        for original, transformed, expected in zip(
+    if len(transform_error_records) > 20:
+
+        log_entries.append(
+            f"  ... "
+            f"{len(transform_error_records) - 20} "
+            f"more not shown"
+        )
+
+    # ------------------------------------------------------------
+    # Full-dataset residual distribution
+    # ------------------------------------------------------------
+
+    corner_residuals = sorted(
+        record["max_corner_error_px"]
+        for record in matched_records
+        if (
+            record["transform_ok"]
+            and record["max_corner_error_px"]
+            is not None
+        )
+    )
+
+    if corner_residuals:
+
+        n = len(
+            corner_residuals
+        )
+
+        if n % 2:
+
+            median = (
+                corner_residuals[
+                    n // 2
+                ]
+            )
+
+        else:
+
+            median = (
+                corner_residuals[
+                    n // 2 - 1
+                ]
+                + corner_residuals[
+                    n // 2
+                ]
+            ) / 2
+
+        log_entries.append(
+            "Maximum corner residual per image:"
+        )
+
+        log_entries.append(
+            f"  n={n}"
+        )
+
+        log_entries.append(
+            f"  min="
+            f"{corner_residuals[0]:.12g} px"
+        )
+
+        log_entries.append(
+            f"  median="
+            f"{median:.12g} px"
+        )
+
+        log_entries.append(
+            f"  max="
+            f"{corner_residuals[-1]:.12g} px"
+        )
+
+    # ------------------------------------------------------------
+    # Explicit tolerance diagnostic
+    # ------------------------------------------------------------
+
+    CORNER_ERROR_TOLERANCE_PX = 0.5
+
+    above_tolerance = [
+        record
+        for record in matched_records
+        if (
+            record["max_corner_error_px"]
+            is not None
+            and record["max_corner_error_px"]
+            > CORNER_ERROR_TOLERANCE_PX
+        )
+    ]
+
+    log_entries.append(
+        "Images with max corner residual "
+        f"> {CORNER_ERROR_TOLERANCE_PX} px: "
+        f"{len(above_tolerance)}"
+    )
+
+    for record in sorted(
+        above_tolerance,
+        key=lambda r: r[
+            "max_corner_error_px"
+        ],
+        reverse=True,
+    )[:20]:
+
+        log_entries.append(
+            f"  {record['split']}/"
+            f"{record['traffic_type']}/"
+            f"{record['variant']} "
+            f"{record['hardware_source']} "
+            f"{record['file_stem']} "
+            f"error="
+            f"{record['max_corner_error_px']:.6f} px"
+        )
+
+    # ------------------------------------------------------------
+    # Keep one worked example per crop schema because it is useful
+    # for a human reviewer alongside the dataset-wide statistics.
+    # ------------------------------------------------------------
+
+    log_entries.append(
+        "Example transformed rectangles:"
+    )
+
+    shown_crop_types = set()
+
+    for record in matched_records:
+
+        if not record["transform_ok"]:
+            continue
+
+        crop_key = record[
+            "crop_info_key"
+        ]
+
+        if crop_key in shown_crop_types:
+            continue
+
+        shown_crop_types.add(
+            crop_key
+        )
+
+        width = record[
+            "resulted_cropped_image_width"
+        ]
+
+        height = record[
+            "resulted_cropped_image_height"
+        ]
+
+        expected_corners = (
+            (0, 0),
+            (width - 1, 0),
+            (
+                width - 1,
+                height - 1,
+            ),
+            (0, height - 1),
+        )
+
+        log_entries.append(
+            f"  Crop type: {crop_key} "
+            f"(example: "
+            f"{record['file_stem']})"
+        )
+
+        log_entries.append(
+            f"    Declared crop size: "
+            f"{width} x {height}"
+        )
+
+        log_entries.append(
+            "    original -> transformed "
+            "(expected corner)"
+        )
+
+        for (
+            original,
+            transformed,
+            expected,
+        ) in zip(
             record["original_rectangle"],
             record["transformed_rectangle"],
             expected_corners,
         ):
+
             log_entries.append(
-                f"      ({original[0]:8.3f}, {original[1]:8.3f})"
-                f"  ->  ({transformed[0]:9.3f}, {transformed[1]:9.3f})"
-                f"   (expect {expected[0]}, {expected[1]})"
+                f"      "
+                f"({original[0]:8.3f}, "
+                f"{original[1]:8.3f})"
+                f"  ->  "
+                f"({transformed[0]:9.3f}, "
+                f"{transformed[1]:9.3f})"
+                f"   "
+                f"(expect "
+                f"{expected[0]}, "
+                f"{expected[1]})"
             )
 
+        log_entries.append(
+            f"    max corner residual: "
+            f"{record['max_corner_error_px']:.12g} px"
+        )
+
+    # ------------------------------------------------------------
     # Reconciliation
-    n_total = len(matched_records)
+    # ------------------------------------------------------------
+
     n_eligible = sum(
-        1 for r in matched_records
-        if r["matrix_shape_ok"] and r["rectangle_shape_ok"]
-    )
-    n_ok = sum(1 for r in matched_records if r["transform_ok"])
-    log_entries.append(
-        f"Reconciliation: total={n_total} eligible={n_eligible} "
-        f"transformed_ok={n_ok} failed={transform_error_count}"
+        1
+        for record in matched_records
+        if (
+            record["matrix_shape_ok"]
+            and record["rectangle_shape_ok"]
+        )
     )
 
-    write_log(final_log_path, log_entries)
+    n_transformed = sum(
+        1
+        for record in matched_records
+        if record["transform_ok"]
+    )
+
+    n_residuals = sum(
+        1
+        for record in matched_records
+        if record[
+            "max_corner_error_px"
+        ] is not None
+    )
+
+    log_entries.append(
+        "Reconciliation: "
+        f"total={len(matched_records)} "
+        f"eligible={n_eligible} "
+        f"transformed_ok={n_transformed} "
+        f"corner_residuals={n_residuals} "
+        f"failed="
+        f"{len(transform_error_records)}"
+    )
+
+    write_log(
+        final_log_path,
+        log_entries
+    )
 
 #Function to extract image width height from header and exif orientation and check for errors
 def extract_image_metadata(
@@ -1254,6 +1666,489 @@ def extract_image_metadata(
 
 # Final writing of the logs.        
     write_log(final_log_path, log_entries)
+
+def validate_full_image_decode(
+    matched_records: list[dict]
+) -> None:
+
+    func_name = inspect.currentframe().f_code.co_name
+
+    log_entries = [
+        f"********************{func_name}: ********************"
+    ]
+
+    for record in matched_records:
+
+        record["image_decode_ok"] = False
+        record["image_decode_error"] = ""
+
+        record["image_decode_warning_count"] = 0
+        record["image_decode_warnings"] = ""
+
+        record["decoded_pixel_sha256"] = ""
+
+        image_path = record["image_path"]
+
+        if image_path is None:
+            record["image_decode_error"] = (
+                "No unique image path available"
+            )
+            continue
+
+        try:
+
+            # ----------------------------------------------------
+            # Warnings are captured as evidence.
+            #
+            # They are NOT converted into exceptions.
+            # ----------------------------------------------------
+
+            with warnings.catch_warnings(
+                record=True
+            ) as caught_warnings:
+
+                warnings.simplefilter(
+                    "always"
+                )
+
+                with Image.open(
+                    image_path
+                ) as image:
+
+                    # --------------------------------------------
+                    # Force a complete image decode.
+                    #
+                    # convert("RGB") also gives both pipelines a
+                    # useful common decoded representation for
+                    # duplicate checking.
+                    # --------------------------------------------
+
+                    rgb_image = image.convert(
+                        "RGB"
+                    )
+
+                    rgb_image.load()
+
+                    # --------------------------------------------
+                    # Build a decoded-pixel hash.
+                    #
+                    # Include dimensions and mode before the pixel
+                    # bytes so differently-shaped images cannot
+                    # accidentally have the same semantic hash
+                    # merely because their byte sequence matches.
+                    # --------------------------------------------
+
+                    pixel_hash = hashlib.sha256()
+
+                    pixel_hash.update(
+                        (
+                            f"{rgb_image.width}x"
+                            f"{rgb_image.height}|RGB|"
+                        ).encode(
+                            "ascii"
+                        )
+                    )
+
+                    pixel_hash.update(
+                        rgb_image.tobytes()
+                    )
+
+                    record[
+                        "decoded_pixel_sha256"
+                    ] = pixel_hash.hexdigest()
+
+                    record[
+                        "image_decode_ok"
+                    ] = True
+
+                # -----------------------------------------------
+                # Save warning text after successful/failed decode.
+                # -----------------------------------------------
+
+                warning_messages = [
+                    str(warning.message)
+                    for warning
+                    in caught_warnings
+                ]
+
+                record[
+                    "image_decode_warning_count"
+                ] = len(
+                    warning_messages
+                )
+
+                record[
+                    "image_decode_warnings"
+                ] = " | ".join(
+                    warning_messages
+                )
+
+        except (
+            OSError,
+            ValueError,
+        ) as error:
+
+            record[
+                "image_decode_error"
+            ] = str(
+                error
+            )
+
+    # ============================================================
+    # DECODE DIAGNOSTICS
+    # ============================================================
+
+    decode_ok = [
+        record
+        for record in matched_records
+        if record["image_decode_ok"]
+    ]
+
+    decode_failed = [
+        record
+        for record in matched_records
+        if not record["image_decode_ok"]
+    ]
+
+    warning_records = [
+        record
+        for record in matched_records
+        if (
+            record[
+                "image_decode_warning_count"
+            ] > 0
+        )
+    ]
+
+    log_entries.append(
+        "Full-image decode:"
+    )
+
+    log_entries.append(
+        f"  total images: "
+        f"{len(matched_records)}"
+    )
+
+    log_entries.append(
+        f"  decode OK: "
+        f"{len(decode_ok)}"
+    )
+
+    log_entries.append(
+        f"  decode failed: "
+        f"{len(decode_failed)}"
+    )
+
+    log_entries.append(
+        f"  images with Pillow warnings: "
+        f"{len(warning_records)}"
+    )
+
+    total_warnings = sum(
+        record[
+            "image_decode_warning_count"
+        ]
+        for record
+        in matched_records
+    )
+
+    log_entries.append(
+        f"  total Pillow warnings: "
+        f"{total_warnings}"
+    )
+
+    # ------------------------------------------------------------
+    # Show failed images
+    # ------------------------------------------------------------
+
+    if decode_failed:
+
+        log_entries.append(
+            "Decode failures:"
+        )
+
+        for record in decode_failed[:20]:
+
+            log_entries.append(
+                f"  "
+                f"{record['split']}/"
+                f"{record['traffic_type']}/"
+                f"{record['variant']} "
+                f"{record['hardware_source']} "
+                f"{record['file_stem']} "
+                f"-> "
+                f"{record['image_decode_error']}"
+            )
+
+        if len(decode_failed) > 20:
+
+            log_entries.append(
+                f"  ... "
+                f"{len(decode_failed) - 20} "
+                f"more not shown"
+            )
+
+    # ------------------------------------------------------------
+    # Show warning examples
+    # ------------------------------------------------------------
+
+    if warning_records:
+
+        log_entries.append(
+            "Images with decode warnings:"
+        )
+
+        for record in warning_records[:20]:
+
+            log_entries.append(
+                f"  "
+                f"{record['split']}/"
+                f"{record['traffic_type']}/"
+                f"{record['variant']} "
+                f"{record['hardware_source']} "
+                f"{record['file_stem']} "
+                f"warnings="
+                f"{record['image_decode_warning_count']} "
+                f"-> "
+                f"{record['image_decode_warnings']}"
+            )
+
+        if len(warning_records) > 20:
+
+            log_entries.append(
+                f"  ... "
+                f"{len(warning_records) - 20} "
+                f"more not shown"
+            )
+
+    # ============================================================
+    # AUTHORITATIVE FILE-HASH DUPLICATES
+    # ============================================================
+
+    file_hash_groups = defaultdict(
+        list
+    )
+
+    for record in matched_records:
+
+        image_hash = record[
+            "image_sha256"
+        ]
+
+        if image_hash:
+
+            file_hash_groups[
+                image_hash
+            ].append(
+                record
+            )
+
+    duplicate_file_hash_groups = {
+        image_hash: records
+        for image_hash, records
+        in file_hash_groups.items()
+        if len(records) > 1
+    }
+
+    log_entries.append(
+        "Exact-file SHA-256 duplicate groups: "
+        f"{len(duplicate_file_hash_groups)}"
+    )
+
+    # ============================================================
+    # DECODED-PIXEL DUPLICATES
+    # ============================================================
+
+    pixel_hash_groups = defaultdict(
+        list
+    )
+
+    for record in matched_records:
+
+        pixel_hash = record[
+            "decoded_pixel_sha256"
+        ]
+
+        if pixel_hash:
+
+            pixel_hash_groups[
+                pixel_hash
+            ].append(
+                record
+            )
+
+    duplicate_pixel_hash_groups = {
+        pixel_hash: records
+        for pixel_hash, records
+        in pixel_hash_groups.items()
+        if len(records) > 1
+    }
+
+    log_entries.append(
+        "Decoded-RGB duplicate groups: "
+        f"{len(duplicate_pixel_hash_groups)}"
+    )
+
+    # ============================================================
+    # TRAIN ↔ TEST FILE-HASH INTERSECTION
+    # ============================================================
+
+    train_file_hashes = {
+        record["image_sha256"]
+        for record
+        in matched_records
+        if (
+            record["split"] == "train"
+            and record["image_sha256"]
+        )
+    }
+
+    test_file_hashes = {
+        record["image_sha256"]
+        for record
+        in matched_records
+        if (
+            record["split"] == "test"
+            and record["image_sha256"]
+        )
+    }
+
+    shared_file_hashes = (
+        train_file_hashes
+        & test_file_hashes
+    )
+
+    log_entries.append(
+        "Train / test exact-file SHA-256 overlap: "
+        f"{len(shared_file_hashes)}"
+    )
+
+    # ============================================================
+    # TRAIN ↔ TEST DECODED-PIXEL INTERSECTION
+    # ============================================================
+
+    train_pixel_hashes = {
+        record[
+            "decoded_pixel_sha256"
+        ]
+        for record
+        in matched_records
+        if (
+            record["split"] == "train"
+            and record[
+                "decoded_pixel_sha256"
+            ]
+        )
+    }
+
+    test_pixel_hashes = {
+        record[
+            "decoded_pixel_sha256"
+        ]
+        for record
+        in matched_records
+        if (
+            record["split"] == "test"
+            and record[
+                "decoded_pixel_sha256"
+            ]
+        )
+    }
+
+    shared_pixel_hashes = (
+        train_pixel_hashes
+        & test_pixel_hashes
+    )
+
+    log_entries.append(
+        "Train / test decoded-RGB overlap: "
+        f"{len(shared_pixel_hashes)}"
+    )
+
+    # ------------------------------------------------------------
+    # Show examples if overlap exists
+    # ------------------------------------------------------------
+
+    if shared_file_hashes:
+
+        log_entries.append(
+            "WARNING: exact-byte image overlap "
+            "between train and test:"
+        )
+
+        for image_hash in sorted(
+            shared_file_hashes
+        )[:20]:
+
+            records = file_hash_groups[
+                image_hash
+            ]
+
+            log_entries.append(
+                f"  SHA={image_hash}"
+            )
+
+            for record in records:
+
+                log_entries.append(
+                    f"    "
+                    f"{record['split']} "
+                    f"{record['image_path']}"
+                )
+
+    if shared_pixel_hashes:
+
+        log_entries.append(
+            "WARNING: decoded-pixel image overlap "
+            "between train and test:"
+        )
+
+        for pixel_hash in sorted(
+            shared_pixel_hashes
+        )[:20]:
+
+            records = pixel_hash_groups[
+                pixel_hash
+            ]
+
+            log_entries.append(
+                f"  pixel_SHA="
+                f"{pixel_hash}"
+            )
+
+            for record in records:
+
+                log_entries.append(
+                    f"    "
+                    f"{record['split']} "
+                    f"{record['image_path']}"
+                )
+
+    # ============================================================
+    # RECONCILIATION
+    # ============================================================
+
+    pixel_hash_count = sum(
+        1
+        for record
+        in matched_records
+        if record[
+            "decoded_pixel_sha256"
+        ]
+    )
+
+    log_entries.append(
+        "Reconciliation: "
+        f"total={len(matched_records)} "
+        f"decode_ok={len(decode_ok)} "
+        f"decode_failed={len(decode_failed)} "
+        f"pixel_hashes={pixel_hash_count}"
+    )
+
+    write_log(
+        final_log_path,
+        log_entries
+    )
 
 #Function to check for errors in regions specified with JSON files to match they exist within the bounded images
 def inspect_regions(
@@ -1506,6 +2401,28 @@ def extract_region_records(
     write_log(final_log_path, log_entries)
     return region_records
 
+def is_finite_number(
+    value,
+) -> bool:
+
+    # bool is technically a subclass of int in Python,
+    # but True/False are not valid geometry coordinates.
+    if isinstance(
+        value,
+        bool,
+    ):
+        return False
+
+    if not isinstance(
+        value,
+        (int, float),
+    ):
+        return False
+
+    return math.isfinite(
+        value
+    )
+
 #Function helper to evaluate if altered regions are within the image width x height dimensions
 def classify_region_bounds(
     x,
@@ -1557,129 +2474,525 @@ def validate_region_bounds(
     matched_records: list[dict],
 ) -> None:
 
-    func_name = inspect.currentframe().f_code.co_name
+    func_name = (
+        inspect.currentframe()
+        .f_code.co_name
+    )
 
     log_entries = [
-        f"********************{func_name}: ********************"
+        f"********************"
+        f"{func_name}: "
+        f"********************"
     ]
 
     image_lookup = {
-        record["image_path"]: record
-        for record in matched_records
-        if record["image_path"] is not None
+        record[
+            "image_path"
+        ]: record
+
+        for record
+        in matched_records
+
+        if record[
+            "image_path"
+        ] is not None
     }
 
     for region in region_records:
 
+        # --------------------------------------------------------
+        # Always initialise outputs.
+        #
+        # An empty bounds status now means:
+        # "bounds check did not complete"
+        # rather than causing an arithmetic crash.
+        # --------------------------------------------------------
+
+        region[
+            "disk_bounds_status"
+        ] = ""
+
+        region[
+            "declared_bounds_status"
+        ] = ""
+
+        region["right"] = None
+        region["bottom"] = None
+
+        region[
+            "bounds_check_error"
+        ] = ""
+
         parent = image_lookup.get(
-            region["image_path"]
+            region[
+                "image_path"
+            ]
         )
 
-        region["disk_bounds_status"] = ""
-        region["declared_bounds_status"] = ""
+        # ========================================================
+        # Validate region geometry before arithmetic.
+        # ========================================================
 
+        geometry_values = {
+            "x":
+                region["x"],
+
+            "y":
+                region["y"],
+
+            "width":
+                region["width"],
+
+            "height":
+                region["height"],
+        }
+
+        invalid_geometry = [
+            name
+            for name, value
+            in geometry_values.items()
+            if not is_finite_number(
+                value
+            )
+        ]
+
+        if invalid_geometry:
+
+            region[
+                "bounds_check_error"
+            ] = (
+                "Missing/non-numeric/non-finite "
+                "region geometry: "
+                + ", ".join(
+                    invalid_geometry
+                )
+            )
+
+            continue
+
+        if (
+            region["width"] <= 0
+            or region["height"] <= 0
+        ):
+
+            region[
+                "bounds_check_error"
+            ] = (
+                "Region width/height "
+                "must be positive"
+            )
+
+            continue
+
+        # Safe only after validation above.
         region["right"] = (
-            region["x"] + region["width"]
+            region["x"]
+            + region["width"]
         )
 
         region["bottom"] = (
-            region["y"] + region["height"]
+            region["y"]
+            + region["height"]
         )
 
         if parent is None:
+
+            region[
+                "bounds_check_error"
+            ] = (
+                "Parent image record "
+                "not found"
+            )
+
             continue
 
-        # -------------------------
+        # ========================================================
+        # Validate actual image dimensions.
+        # ========================================================
+
+        disk_dimensions = (
+            parent[
+                "image_width"
+            ],
+            parent[
+                "image_height"
+            ],
+        )
+
+        if not all(
+            is_finite_number(
+                value
+            )
+            for value
+            in disk_dimensions
+        ):
+
+            region[
+                "bounds_check_error"
+            ] = (
+                "Actual image dimensions "
+                "missing/non-numeric"
+            )
+
+            continue
+
+        if (
+            parent[
+                "image_width"
+            ] <= 0
+            or parent[
+                "image_height"
+            ] <= 0
+        ):
+
+            region[
+                "bounds_check_error"
+            ] = (
+                "Actual image dimensions "
+                "are non-positive"
+            )
+
+            continue
+
+        # ========================================================
+        # Validate declared crop dimensions.
+        # ========================================================
+
+        declared_dimensions = (
+            parent[
+                "resulted_cropped_image_width"
+            ],
+            parent[
+                "resulted_cropped_image_height"
+            ],
+        )
+
+        if not all(
+            is_finite_number(
+                value
+            )
+            for value
+            in declared_dimensions
+        ):
+
+            region[
+                "bounds_check_error"
+            ] = (
+                "Declared crop dimensions "
+                "missing/non-numeric"
+            )
+
+            continue
+
+        if (
+            parent[
+                "resulted_cropped_image_width"
+            ] <= 0
+            or parent[
+                "resulted_cropped_image_height"
+            ] <= 0
+        ):
+
+            region[
+                "bounds_check_error"
+            ] = (
+                "Declared crop dimensions "
+                "are non-positive"
+            )
+
+            continue
+
+        # ========================================================
         # Actual on-disk image
-        # -------------------------
-        region["disk_bounds_status"] = (
-            classify_region_bounds(
-                region["x"],
-                region["y"],
-                region["width"],
-                region["height"],
-                parent["image_width"],
-                parent["image_height"],
-            )
+        # ========================================================
+
+        region[
+            "disk_bounds_status"
+        ] = classify_region_bounds(
+            region["x"],
+            region["y"],
+            region["width"],
+            region["height"],
+            parent[
+                "image_width"
+            ],
+            parent[
+                "image_height"
+            ],
         )
 
-        # -------------------------
-        # JSON-declared crop size
-        # -------------------------
-        region["declared_bounds_status"] = (
-            classify_region_bounds(
-                region["x"],
-                region["y"],
-                region["width"],
-                region["height"],
-                parent[
-                    "resulted_cropped_image_width"
-                ],
-                parent[
-                    "resulted_cropped_image_height"
-                ],
-            )
+        # ========================================================
+        # JSON-declared crop
+        # ========================================================
+
+        region[
+            "declared_bounds_status"
+        ] = classify_region_bounds(
+            region["x"],
+            region["y"],
+            region["width"],
+            region["height"],
+            parent[
+                "resulted_cropped_image_width"
+            ],
+            parent[
+                "resulted_cropped_image_height"
+            ],
         )
 
-        # ---- Diagnostics ----
-    disk_status_counts = Counter(r["disk_bounds_status"] for r in region_records)
-    declared_status_counts = Counter(r["declared_bounds_status"] for r in region_records)
+    # ============================================================
+    # Diagnostics
+    # ============================================================
 
-    for title, counts in (
-        ("actual on-disk image", disk_status_counts),
-        ("JSON-declared crop", declared_status_counts),
-    ):
-        log_entries.append(f"Region bounds against {title}:")
-        for status, count in sorted(counts.items()):
-            label = status if status else "(not checked - no parent image)"
-            log_entries.append(f"  {label}: {count}")
-
-    # Out-of-bounds regions broken down by provenance — altered boxes are the
-    # ones that become ground-truth mask, so a bad box there costs more.
-    oob_by_provenance = defaultdict(Counter)
-    for r in region_records:
-        if r["disk_bounds_status"] in ("partially_outside", "completely_outside"):
-            oob_by_provenance[r["region_provenance_raw"]][r["disk_bounds_status"]] += 1
-    if oob_by_provenance:
-        log_entries.append("Out-of-bounds regions by provenance:")
-        for provenance in sorted(oob_by_provenance, key=str):
-            log_entries.append(f"  {provenance}: {dict(oob_by_provenance[provenance])}")
-        n_altered_oob = sum(oob_by_provenance.get("altered", Counter()).values())
-        if n_altered_oob:
-            log_entries.append(
-                f"  WARNING: {n_altered_oob} altered regions fall outside the image"
-            )
-
-    # Where the two frames disagree
-    disagreements = [
-        r for r in region_records
-        if r["disk_bounds_status"] != r["declared_bounds_status"]
-    ]
-    log_entries.append(f"Disk / declared bounds disagreements: {len(disagreements)}")
-    for region in disagreements[:20]:
-        parent = image_lookup[region["image_path"]]
-        log_entries.append(
-            f"  {region['file_stem']} region={region['region_index']} "
-            f"field={region['field_name']} "
-            f"box=({region['x']}, {region['y']}, {region['width']}, {region['height']}) "
-            f"disk={parent['image_width']}x{parent['image_height']} "
-            f"declared={parent['resulted_cropped_image_width']}"
-            f"x{parent['resulted_cropped_image_height']} "
-            f"{region['disk_bounds_status']} vs {region['declared_bounds_status']}"
-        )
-    if len(disagreements) > 20:
-        log_entries.append(f"  ... {len(disagreements) - 20} more not shown")
-
-    # Reconciliation
-    n_no_parent = sum(1 for r in region_records if not r["disk_bounds_status"])
-    log_entries.append(
-        f"Reconciliation: total_regions={len(region_records)} "
-        f"with_parent={len(region_records) - n_no_parent} "
-        f"no_parent={n_no_parent} "
-        f"disagreements={len(disagreements)}"
+    disk_status_counts = Counter(
+        region[
+            "disk_bounds_status"
+        ]
+        for region
+        in region_records
     )
 
-    write_log(final_log_path, log_entries)
+    declared_status_counts = Counter(
+        region[
+            "declared_bounds_status"
+        ]
+        for region
+        in region_records
+    )
+
+    for (
+        title,
+        counts,
+    ) in (
+        (
+            "actual on-disk image",
+            disk_status_counts,
+        ),
+        (
+            "JSON-declared crop",
+            declared_status_counts,
+        ),
+    ):
+
+        log_entries.append(
+            f"Region bounds against "
+            f"{title}:"
+        )
+
+        for (
+            status,
+            count,
+        ) in sorted(
+            counts.items()
+        ):
+
+            label = (
+                status
+                if status
+                else "(not checked)"
+            )
+
+            log_entries.append(
+                f"  {label}: "
+                f"{count}"
+            )
+
+    # ------------------------------------------------------------
+    # Bounds checks that could not run
+    # ------------------------------------------------------------
+
+    failed_checks = [
+        region
+        for region
+        in region_records
+        if not region[
+            "disk_bounds_status"
+        ]
+    ]
+
+    log_entries.append(
+        "Bounds checks not completed: "
+        f"{len(failed_checks)}"
+    )
+
+    for region in failed_checks[:20]:
+
+        log_entries.append(
+            f"  "
+            f"{region['split']}/"
+            f"{region['traffic_type']}/"
+            f"{region['variant']} "
+            f"{region['hardware_source']} "
+            f"{region['file_stem']} "
+            f"region="
+            f"{region['region_index']} "
+            f"-> "
+            f"{region['bounds_check_error']}"
+        )
+
+    if len(
+        failed_checks
+    ) > 20:
+
+        log_entries.append(
+            f"  ... "
+            f"{len(failed_checks) - 20} "
+            f"more not shown"
+        )
+
+    # ------------------------------------------------------------
+    # Out-of-bounds regions by provenance
+    # ------------------------------------------------------------
+
+    oob_by_provenance = defaultdict(
+        Counter
+    )
+
+    for region in region_records:
+
+        if region[
+            "disk_bounds_status"
+        ] in (
+            "partially_outside",
+            "completely_outside",
+        ):
+
+            oob_by_provenance[
+                region[
+                    "region_provenance_raw"
+                ]
+            ][
+                region[
+                    "disk_bounds_status"
+                ]
+            ] += 1
+
+    if oob_by_provenance:
+
+        log_entries.append(
+            "Out-of-bounds regions "
+            "by provenance:"
+        )
+
+        for provenance in sorted(
+            oob_by_provenance,
+            key=str,
+        ):
+
+            log_entries.append(
+                f"  {provenance}: "
+                f"{dict(oob_by_provenance[provenance])}"
+            )
+
+        n_altered_oob = sum(
+            oob_by_provenance
+            .get(
+                "altered",
+                Counter(),
+            )
+            .values()
+        )
+
+        if n_altered_oob:
+
+            log_entries.append(
+                f"  WARNING: "
+                f"{n_altered_oob} "
+                "altered regions fall "
+                "outside the image"
+            )
+
+    # ------------------------------------------------------------
+    # Only compare rows where BOTH checks actually ran.
+    # ------------------------------------------------------------
+
+    disagreements = [
+        region
+        for region
+        in region_records
+        if (
+            region[
+                "disk_bounds_status"
+            ]
+            and
+            region[
+                "declared_bounds_status"
+            ]
+            and
+            region[
+                "disk_bounds_status"
+            ]
+            !=
+            region[
+                "declared_bounds_status"
+            ]
+        )
+    ]
+
+    log_entries.append(
+        "Disk / declared bounds "
+        f"disagreements: "
+        f"{len(disagreements)}"
+    )
+
+    for region in (
+        disagreements[:20]
+    ):
+
+        parent = image_lookup[
+            region[
+                "image_path"
+            ]
+        ]
+
+        log_entries.append(
+            f"  {region['file_stem']} "
+            f"region="
+            f"{region['region_index']} "
+            f"field="
+            f"{region['field_name']} "
+            f"box=("
+            f"{region['x']}, "
+            f"{region['y']}, "
+            f"{region['width']}, "
+            f"{region['height']}) "
+            f"disk="
+            f"{parent['image_width']}x"
+            f"{parent['image_height']} "
+            f"declared="
+            f"{parent['resulted_cropped_image_width']}x"
+            f"{parent['resulted_cropped_image_height']} "
+            f"{region['disk_bounds_status']} "
+            f"vs "
+            f"{region['declared_bounds_status']}"
+        )
+
+    if len(
+        disagreements
+    ) > 20:
+
+        log_entries.append(
+            f"  ... "
+            f"{len(disagreements) - 20} "
+            f"more not shown"
+        )
+
+    log_entries.append(
+        "Reconciliation: "
+        f"total_regions="
+        f"{len(region_records)} "
+        f"checked="
+        f"{len(region_records) - len(failed_checks)} "
+        f"not_checked="
+        f"{len(failed_checks)} "
+        f"disagreements="
+        f"{len(disagreements)}"
+    )
+
+    write_log(
+        final_log_path,
+        log_entries,
+    )
 
 #Function helper to extract information about altered regions which are outside boundary based on results of previous functio
                 # ********************validate_region_bounds: ********************
@@ -1800,7 +3113,14 @@ def analyse_region_visibility(
         if parent is None:
             continue
 
+            # validate_region_bounds() is the upstream authority.
+            # Empty status means the bounds/geometry check did not
+            # complete, so visibility arithmetic must not run.
+        if not region["disk_bounds_status"]:
+            continue
+
         visibility = calculate_visible_region(
+
             region["x"],
             region["y"],
             region["width"],
@@ -2076,9 +3396,10 @@ def analyse_right_edge_truncation(
             )
 
     log_entries.append(
-        "Same stem/field truncated across >=2 hardware sources: "
-        f"{len(multi_hardware_groups)}"
-    )
+    "Same stem/field/provenance truncated "
+    "across >=2 hardware sources: "
+    f"{len(multi_hardware_groups)}"
+    )   
 
     # --------------------------------------------------
     # Measure how similar truncation fraction is
@@ -2118,7 +3439,8 @@ def analyse_right_edge_truncation(
 
             log_entries.append(
                 f"  {split}/{traffic}/{variant} "
-                f"{stem} field={field} prov={provenance}"
+                f"{stem} field={field} "
+                f"prov={provenance} "
                 f"spread={spread:.4f}"
             )
 
@@ -2418,6 +3740,587 @@ def extract_person_info(
         log_entries
     )
 
+def audit_base_card_structure(
+    matched_records: list[dict],
+) -> None:
+
+    func_name = inspect.currentframe().f_code.co_name
+
+    log_entries = [
+        f"********************{func_name}: ********************"
+    ]
+
+    # ============================================================
+    # 1. file_stem -> face identity
+    #
+    # A valid base-card key should not point to multiple different
+    # (face_db, face_id) identities.
+    # ============================================================
+
+    stem_to_identities = defaultdict(set)
+
+    for record in matched_records:
+
+        identity = (
+            record["face_db"],
+            record["face_id"],
+        )
+
+        stem_to_identities[
+            record["file_stem"]
+        ].add(identity)
+
+    stems_with_multiple_identities = {
+        stem: identities
+        for stem, identities
+        in stem_to_identities.items()
+        if len(identities) > 1
+    }
+
+    log_entries.append(
+        "file_stem -> face identity:"
+    )
+
+    log_entries.append(
+        f"  unique file_stems: "
+        f"{len(stem_to_identities)}"
+    )
+
+    log_entries.append(
+        f"  stems mapping to >1 face identity: "
+        f"{len(stems_with_multiple_identities)}"
+    )
+
+    for stem, identities in list(
+        sorted(
+            stems_with_multiple_identities.items()
+        )
+    )[:20]:
+
+        log_entries.append(
+            f"    {stem}: "
+            f"{sorted(identities, key=str)}"
+        )
+
+
+    # ============================================================
+    # 2. face identity -> file_stem
+    #
+    # This checks the reverse direction.
+    #
+    # If one identity maps to multiple stems, then face identity
+    # and card identity are not interchangeable.
+    # ============================================================
+
+    identity_to_stems = defaultdict(set)
+
+    for record in matched_records:
+
+        identity = (
+            record["face_db"],
+            record["face_id"],
+        )
+
+        identity_to_stems[
+            identity
+        ].add(
+            record["file_stem"]
+        )
+
+    identities_with_multiple_stems = {
+        identity: stems
+        for identity, stems
+        in identity_to_stems.items()
+        if len(stems) > 1
+    }
+
+    log_entries.append(
+        "face identity -> file_stem:"
+    )
+
+    log_entries.append(
+        f"  unique identities: "
+        f"{len(identity_to_stems)}"
+    )
+
+    log_entries.append(
+        f"  identities mapping to >1 file_stem: "
+        f"{len(identities_with_multiple_stems)}"
+    )
+
+    for identity, stems in list(
+        sorted(
+            identities_with_multiple_stems.items(),
+            key=lambda item: str(item[0]),
+        )
+    )[:20]:
+
+        log_entries.append(
+            f"    {identity}: "
+            f"{sorted(stems)}"
+        )
+
+
+    # ============================================================
+    # 3. Training-card cardinality
+    #
+    # We expect the available train partition to contain:
+    #
+    #   3 bonafide
+    #   3 digital_1
+    #   3 digital_2
+    #
+    # = 9 images per underlying card.
+    # ============================================================
+
+    train_records = [
+        record
+        for record in matched_records
+        if record["split"] == "train"
+    ]
+
+    train_by_stem = defaultdict(list)
+
+    for record in train_records:
+
+        train_by_stem[
+            record["file_stem"]
+        ].append(record)
+
+    train_stem_sizes = Counter(
+        len(records)
+        for records in train_by_stem.values()
+    )
+
+    log_entries.append(
+        "Training images per file_stem:"
+    )
+
+    for count, number_of_stems in sorted(
+        train_stem_sizes.items()
+    ):
+
+        log_entries.append(
+            f"  {count} image(s): "
+            f"{number_of_stems} stem(s)"
+        )
+
+    train_stems_not_nine = {
+        stem: records
+        for stem, records
+        in train_by_stem.items()
+        if len(records) != 9
+    }
+
+    log_entries.append(
+        f"  train stems not containing exactly "
+        f"9 images: "
+        f"{len(train_stems_not_nine)}"
+    )
+
+
+    # ============================================================
+    # 4. Training composition per stem
+    #
+    # Every training card should contribute exactly:
+    #
+    #   bonafide  = 3
+    #   digital_1 = 3
+    #   digital_2 = 3
+    # ============================================================
+
+    bad_train_composition = []
+
+    for stem, records in train_by_stem.items():
+
+        composition = Counter()
+
+        for record in records:
+
+            if record["traffic_type"] == "bonafide":
+                label = "bonafide"
+
+            else:
+                label = record["variant"]
+
+            composition[label] += 1
+
+        expected = {
+            "bonafide": 3,
+            "digital_1": 3,
+            "digital_2": 3,
+        }
+
+        if dict(composition) != expected:
+
+            bad_train_composition.append(
+                (
+                    stem,
+                    dict(composition),
+                )
+            )
+
+    log_entries.append(
+        "Training-card composition:"
+    )
+
+    log_entries.append(
+        f"  stems with expected "
+        f"3 bonafide + 3 digital_1 + "
+        f"3 digital_2: "
+        f"{len(train_by_stem) - len(bad_train_composition)}"
+    )
+
+    log_entries.append(
+        f"  stems with unexpected composition: "
+        f"{len(bad_train_composition)}"
+    )
+
+    for stem, composition in (
+        bad_train_composition[:20]
+    ):
+
+        log_entries.append(
+            f"    {stem}: {composition}"
+        )
+
+
+    # ============================================================
+    # 5. Hardware coverage per training card
+    #
+    # Each of the three versions should occur once for each of:
+    #
+    #   huawei
+    #   iphone15pro
+    #   scan
+    # ============================================================
+
+    expected_train_hardware = {
+        "huawei",
+        "iphone15pro",
+        "scan",
+    }
+
+    bad_hardware_groups = []
+
+    for stem, records in train_by_stem.items():
+
+        by_variant = defaultdict(set)
+
+        for record in records:
+
+            if record["traffic_type"] == "bonafide":
+                label = "bonafide"
+
+            else:
+                label = record["variant"]
+
+            by_variant[label].add(
+                record["hardware_source"]
+            )
+
+        for label in (
+            "bonafide",
+            "digital_1",
+            "digital_2",
+        ):
+
+            hardware = by_variant.get(
+                label,
+                set(),
+            )
+
+            if hardware != expected_train_hardware:
+
+                bad_hardware_groups.append(
+                    (
+                        stem,
+                        label,
+                        hardware,
+                    )
+                )
+
+    log_entries.append(
+        "Training hardware coverage:"
+    )
+
+    log_entries.append(
+        f"  stem/variant groups with "
+        f"unexpected hardware set: "
+        f"{len(bad_hardware_groups)}"
+    )
+
+    for (
+        stem,
+        label,
+        hardware,
+    ) in bad_hardware_groups[:20]:
+
+        log_entries.append(
+            f"    {stem} / {label}: "
+            f"{sorted(hardware)}"
+        )
+
+
+    # ============================================================
+    # 6. Train / test stem overlap
+    # ============================================================
+
+    train_stems = set(
+        train_by_stem.keys()
+    )
+
+    test_records = [
+        record
+        for record in matched_records
+        if record["split"] == "test"
+    ]
+
+    test_stems = {
+        record["file_stem"]
+        for record in test_records
+    }
+
+    shared_stems = (
+        train_stems
+        & test_stems
+    )
+
+    log_entries.append(
+        "Train / test base-card overlap:"
+    )
+
+    log_entries.append(
+        f"  train stems: "
+        f"{len(train_stems)}"
+    )
+
+    log_entries.append(
+        f"  test stems: "
+        f"{len(test_stems)}"
+    )
+
+    log_entries.append(
+        f"  shared stems: "
+        f"{len(shared_stems)}"
+    )
+
+
+    # ============================================================
+    # 7. Which test variants contain the shared train stems?
+    #
+    # This formally checks the earlier inference that train-card
+    # overlap occurs through digital_3.
+    # ============================================================
+
+    shared_test_records = [
+        record
+        for record in test_records
+        if record["file_stem"] in shared_stems
+    ]
+
+    shared_variant_counts = Counter(
+        (
+            record["traffic_type"],
+            record["variant"],
+        )
+        for record in shared_test_records
+    )
+
+    log_entries.append(
+        "Test records belonging to train-seen stems:"
+    )
+
+    for (
+        traffic_type,
+        variant,
+    ), count in sorted(
+        shared_variant_counts.items(),
+        key=lambda item: str(item[0]),
+    ):
+
+        variant_label = (
+            variant
+            if variant
+            else "(empty)"
+        )
+
+        log_entries.append(
+            f"  {traffic_type} / "
+            f"{variant_label}: "
+            f"{count}"
+        )
+
+
+    # ============================================================
+    # 8. Shared stem coverage inside digital_3
+    #
+    # We want to distinguish:
+    #
+    #   number of images
+    #   number of stems
+    #   hardware coverage
+    # ============================================================
+
+    shared_digital3 = [
+        record
+        for record in shared_test_records
+        if (
+            record["traffic_type"] == "attack"
+            and record["variant"] == "digital_3"
+        )
+    ]
+
+    shared_digital3_stems = {
+        record["file_stem"]
+        for record in shared_digital3
+    }
+
+    log_entries.append(
+        "Seen-card digital_3 summary:"
+    )
+
+    log_entries.append(
+        f"  images: "
+        f"{len(shared_digital3)}"
+    )
+
+    log_entries.append(
+        f"  unique stems: "
+        f"{len(shared_digital3_stems)}"
+    )
+
+    # Expected if every one of the 211 train cards has
+    # one Huawei, iPhone15Pro and scan digital_3 image.
+    digital3_bad_hardware = []
+
+    d3_by_stem = defaultdict(set)
+
+    for record in shared_digital3:
+
+        d3_by_stem[
+            record["file_stem"]
+        ].add(
+            record["hardware_source"]
+        )
+
+    for stem, hardware in (
+        d3_by_stem.items()
+    ):
+
+        if (
+            hardware
+            != expected_train_hardware
+        ):
+
+            digital3_bad_hardware.append(
+                (
+                    stem,
+                    hardware,
+                )
+            )
+
+    log_entries.append(
+        f"  shared digital_3 stems with "
+        f"unexpected hardware coverage: "
+        f"{len(digital3_bad_hardware)}"
+    )
+
+    for stem, hardware in (
+        digital3_bad_hardware[:20]
+    ):
+
+        log_entries.append(
+            f"    {stem}: "
+            f"{sorted(hardware)}"
+        )
+
+
+    # ============================================================
+    # 9. Test-only stems
+    #
+    # These are useful later for the unseen-card reporting stratum.
+    # ============================================================
+
+    unseen_test_stems = (
+        test_stems
+        - train_stems
+    )
+
+    log_entries.append(
+        "Test-only stems:"
+    )
+
+    log_entries.append(
+        f"  unique unseen stems: "
+        f"{len(unseen_test_stems)}"
+    )
+
+    unseen_variant_counts = Counter(
+        (
+            record["traffic_type"],
+            record["variant"],
+        )
+        for record in test_records
+        if (
+            record["file_stem"]
+            in unseen_test_stems
+        )
+    )
+
+    for (
+        traffic_type,
+        variant,
+    ), count in sorted(
+        unseen_variant_counts.items(),
+        key=lambda item: str(item[0]),
+    ):
+
+        variant_label = (
+            variant
+            if variant
+            else "(empty)"
+        )
+
+        log_entries.append(
+            f"  {traffic_type} / "
+            f"{variant_label}: "
+            f"{count}"
+        )
+
+
+    # ============================================================
+    # 10. Reconciliation
+    # ============================================================
+
+    total_train_rows = sum(
+        len(records)
+        for records in train_by_stem.values()
+    )
+
+    log_entries.append(
+        "Reconciliation:"
+    )
+
+    log_entries.append(
+        f"  train records="
+        f"{len(train_records)} "
+        f"grouped train records="
+        f"{total_train_rows}"
+    )
+
+    log_entries.append(
+        f"  all records="
+        f"{len(matched_records)} "
+        f"train={len(train_records)} "
+        f"test={len(test_records)}"
+    )
+
+    write_log(
+        final_log_path,
+        log_entries
+    )
+
 # Function to release JSON objects not needed from memory
 def release_json_memory(
     matched_records: list[dict]
@@ -2600,6 +4503,7 @@ IMAGE_COLUMN_ORDER = [
     "rectangle_shape_ok",
     "crop_field_error",
     "transformed_rectangle",
+    "max_corner_error_px",
     "transform_ok",
     "transform_error",
 
@@ -2609,6 +4513,15 @@ IMAGE_COLUMN_ORDER = [
     "exif_orientation",
     "image_metadata_ok",
     "image_metadata_error",
+
+    # ---- Full decode / pixel QA ----
+    "image_decode_ok",
+    "image_decode_error",
+    "image_decode_warning_count",
+    "image_decode_warnings",
+    "decoded_pixel_sha256",
+
+    # ---- Dimension QA ----
     "dims_match_declared_crop",
 
     # ---- Region summary / QA ----
@@ -2656,6 +4569,7 @@ REGION_COLUMN_ORDER = [
     # ---- Boundary QA ----
     "disk_bounds_status",
     "declared_bounds_status",
+    "bounds_check_error",
     "outside_left",
     "outside_top",
     "outside_right",
@@ -4139,9 +6053,41 @@ def build_qa_summary(
 
     # ------------------------------------------------------------
     # Region bounds
+    #
+    # A bounds regression check is valid only if EVERY region has
+    # one of the recognised completed statuses.
+    #
+    # This prevents an unprocessed/invalid region from being
+    # confused with "zero completely-outside regions".
     # ------------------------------------------------------------
 
-    if "disk_bounds_status" in regions_df.columns:
+    valid_bounds_statuses = {
+        "fully_inside",
+        "inside_touching_boundary",
+        "partially_outside",
+        "completely_outside",
+    }
+
+    if (
+        "disk_bounds_status"
+        in regions_df.columns
+    ):
+
+        bounds_complete = (
+            regions_df[
+                "disk_bounds_status"
+            ]
+            .isin(
+                valid_bounds_statuses
+            )
+            .all()
+        )
+
+    else:
+
+        bounds_complete = False
+
+    if bounds_complete:
 
         regression_actuals[
             "partially_outside_regions"
@@ -4185,18 +6131,48 @@ def build_qa_summary(
             "completely_outside_regions"
         ] = None
 
+        if (
+            "disk_bounds_status"
+            not in regions_df.columns
+        ):
+
+            reason = (
+                "Source column "
+                "disk_bounds_status missing"
+            )
+
+        else:
+
+            incomplete_count = int(
+                (
+                    ~regions_df[
+                        "disk_bounds_status"
+                    ]
+                    .isin(
+                        valid_bounds_statuses
+                    )
+                )
+                .sum()
+            )
+
+            reason = (
+                f"{incomplete_count} region "
+                "bounds check(s) incomplete "
+                "or invalid"
+            )
+
         regression_notes[
             "partially_outside_regions"
         ] = (
-            "Source column disk_bounds_status "
-            "missing - check did not run"
+            f"{reason} - "
+            "check did not run"
         )
 
         regression_notes[
             "completely_outside_regions"
         ] = (
-            "Source column disk_bounds_status "
-            "missing - check did not run"
+            f"{reason} - "
+            "check did not run"
         )
 
     # ------------------------------------------------------------
@@ -4275,6 +6251,981 @@ def build_qa_summary(
             "face_multi_region_groups"
         ] = ""
 
+    # ============================================================
+    # NEW FREEZE CHECKS
+    #
+    # These convert the recently completed discovery audits into
+    # actual Regression QA gates.
+    #
+    # Important invariant:
+    #
+    #   numeric value = check ran
+    #   0             = check ran and found none
+    #   None          = check did not run completely
+    #
+    # None must therefore FAIL any configured expectation.
+    # ============================================================
+
+    def regression_ran(
+        check_name,
+        value,
+    ):
+
+        regression_actuals[
+            check_name
+        ] = value
+
+        regression_notes[
+            check_name
+        ] = ""
+
+
+    def regression_not_run(
+        check_name,
+        reason,
+    ):
+
+        regression_actuals[
+            check_name
+        ] = None
+
+        regression_notes[
+            check_name
+        ] = (
+            f"{reason} - check did not run"
+        )
+
+
+    # ============================================================
+    # HOMOGRAPHY AUDIT
+    # ============================================================
+
+    # ------------------------------------------------------------
+    # Transformation failures
+    # ------------------------------------------------------------
+
+    if "transform_ok" not in images_df.columns:
+
+        regression_not_run(
+            "homography_transform_failures",
+            "Source column transform_ok missing",
+        )
+
+    elif not images_df[
+        "transform_ok"
+    ].isin(
+        [True, False]
+    ).all():
+
+        regression_not_run(
+            "homography_transform_failures",
+            (
+                "transform_ok contains "
+                "missing/non-boolean values"
+            ),
+        )
+
+    else:
+
+        regression_ran(
+            "homography_transform_failures",
+            int(
+                images_df[
+                    "transform_ok"
+                ]
+                .eq(False)
+                .sum()
+            ),
+        )
+
+
+    # ------------------------------------------------------------
+    # Corner residual > 0.5 px
+    #
+    # We only allow this check to run if EVERY image has a
+    # successfully calculated residual.
+    # ------------------------------------------------------------
+
+    if (
+        "transform_ok"
+        not in images_df.columns
+        or
+        "max_corner_error_px"
+        not in images_df.columns
+    ):
+
+        regression_not_run(
+            "homography_corner_residual_over_0_5px",
+            (
+                "Required transform/residual "
+                "column missing"
+            ),
+        )
+
+    elif not images_df[
+        "transform_ok"
+    ].eq(True).all():
+
+        regression_not_run(
+            "homography_corner_residual_over_0_5px",
+            (
+                "Not every image completed "
+                "homography transformation"
+            ),
+        )
+
+    else:
+
+        residuals = pd.to_numeric(
+            images_df[
+                "max_corner_error_px"
+            ],
+            errors="coerce",
+        )
+
+        if residuals.isna().any():
+
+            regression_not_run(
+                "homography_corner_residual_over_0_5px",
+                (
+                    "One or more corner residuals "
+                    "are missing/non-numeric"
+                ),
+            )
+
+        else:
+
+            regression_ran(
+                "homography_corner_residual_over_0_5px",
+                int(
+                    residuals.gt(
+                        0.5
+                    ).sum()
+                ),
+            )
+
+
+    # ============================================================
+    # FULL IMAGE DECODE AUDIT
+    # ============================================================
+
+    # ------------------------------------------------------------
+    # Decode failures
+    # ------------------------------------------------------------
+
+    if (
+        "image_decode_ok"
+        not in images_df.columns
+    ):
+
+        regression_not_run(
+            "image_decode_failures",
+            (
+                "Source column "
+                "image_decode_ok missing"
+            ),
+        )
+
+    elif not images_df[
+        "image_decode_ok"
+    ].isin(
+        [True, False]
+    ).all():
+
+        regression_not_run(
+            "image_decode_failures",
+            (
+                "image_decode_ok contains "
+                "missing/non-boolean values"
+            ),
+        )
+
+    else:
+
+        regression_ran(
+            "image_decode_failures",
+            int(
+                images_df[
+                    "image_decode_ok"
+                ]
+                .eq(False)
+                .sum()
+            ),
+        )
+
+
+    # ------------------------------------------------------------
+    # Pillow warning count
+    # ------------------------------------------------------------
+
+    if (
+        "image_decode_warning_count"
+        not in images_df.columns
+    ):
+
+        regression_not_run(
+            "images_with_decode_warnings",
+            (
+                "Source column "
+                "image_decode_warning_count missing"
+            ),
+        )
+
+    else:
+
+        warning_counts = pd.to_numeric(
+            images_df[
+                "image_decode_warning_count"
+            ],
+            errors="coerce",
+        )
+
+        if warning_counts.isna().any():
+
+            regression_not_run(
+                "images_with_decode_warnings",
+                (
+                    "Decode warning count contains "
+                    "missing/non-numeric values"
+                ),
+            )
+
+        else:
+
+            regression_ran(
+                "images_with_decode_warnings",
+                int(
+                    warning_counts.gt(
+                        0
+                    ).sum()
+                ),
+            )
+
+
+    # ============================================================
+    # HASH DUPLICATE AUDIT
+    # ============================================================
+
+    def complete_hash_series(
+        column_name,
+    ):
+
+        if (
+            column_name
+            not in images_df.columns
+        ):
+            return None
+
+        values = (
+            images_df[
+                column_name
+            ]
+            .replace(
+                "",
+                pd.NA,
+            )
+        )
+
+        if values.isna().any():
+            return None
+
+        return values
+
+
+    # ------------------------------------------------------------
+    # Exact source-file duplicates
+    # ------------------------------------------------------------
+
+    image_hashes = complete_hash_series(
+        "image_sha256"
+    )
+
+    if image_hashes is None:
+
+        regression_not_run(
+            "duplicate_image_sha256_groups",
+            (
+                "image_sha256 missing or "
+                "incomplete"
+            ),
+        )
+
+    else:
+
+        hash_counts = (
+            image_hashes
+            .value_counts()
+        )
+
+        regression_ran(
+            "duplicate_image_sha256_groups",
+            int(
+                hash_counts.gt(
+                    1
+                ).sum()
+            ),
+        )
+
+
+    # ------------------------------------------------------------
+    # Decoded RGB pixel duplicates
+    # ------------------------------------------------------------
+
+    decoded_hashes = complete_hash_series(
+        "decoded_pixel_sha256"
+    )
+
+    if decoded_hashes is None:
+
+        regression_not_run(
+            "duplicate_decoded_pixel_sha256_groups",
+            (
+                "decoded_pixel_sha256 missing "
+                "or incomplete"
+            ),
+        )
+
+    else:
+
+        decoded_hash_counts = (
+            decoded_hashes
+            .value_counts()
+        )
+
+        regression_ran(
+            "duplicate_decoded_pixel_sha256_groups",
+            int(
+                decoded_hash_counts.gt(
+                    1
+                ).sum()
+            ),
+        )
+
+
+    # ============================================================
+    # TRAIN / TEST HASH OVERLAP
+    # ============================================================
+
+    if (
+        "split"
+        not in images_df.columns
+    ):
+
+        regression_not_run(
+            "train_test_exact_file_overlap",
+            "Source column split missing",
+        )
+
+        regression_not_run(
+            "train_test_decoded_pixel_overlap",
+            "Source column split missing",
+        )
+
+    else:
+
+        # --------------------------------------------------------
+        # Exact source bytes
+        # --------------------------------------------------------
+
+        if image_hashes is None:
+
+            regression_not_run(
+                "train_test_exact_file_overlap",
+                (
+                    "image_sha256 missing "
+                    "or incomplete"
+                ),
+            )
+
+        else:
+
+            train_hashes = set(
+                images_df.loc[
+                    images_df[
+                        "split"
+                    ].eq(
+                        "train"
+                    ),
+                    "image_sha256",
+                ]
+            )
+
+            test_hashes = set(
+                images_df.loc[
+                    images_df[
+                        "split"
+                    ].eq(
+                        "test"
+                    ),
+                    "image_sha256",
+                ]
+            )
+
+            regression_ran(
+                "train_test_exact_file_overlap",
+                len(
+                    train_hashes
+                    & test_hashes
+                ),
+            )
+
+        # --------------------------------------------------------
+        # Decoded RGB pixels
+        # --------------------------------------------------------
+
+        if decoded_hashes is None:
+
+            regression_not_run(
+                "train_test_decoded_pixel_overlap",
+                (
+                    "decoded_pixel_sha256 "
+                    "missing or incomplete"
+                ),
+            )
+
+        else:
+
+            train_pixel_hashes = set(
+                images_df.loc[
+                    images_df[
+                        "split"
+                    ].eq(
+                        "train"
+                    ),
+                    "decoded_pixel_sha256",
+                ]
+            )
+
+            test_pixel_hashes = set(
+                images_df.loc[
+                    images_df[
+                        "split"
+                    ].eq(
+                        "test"
+                    ),
+                    "decoded_pixel_sha256",
+                ]
+            )
+
+            regression_ran(
+                "train_test_decoded_pixel_overlap",
+                len(
+                    train_pixel_hashes
+                    & test_pixel_hashes
+                ),
+            )
+
+
+    # ============================================================
+    # BASE-CARD IDENTITY AUDIT
+    # ============================================================
+
+    identity_columns = {
+        "file_stem",
+        "face_db",
+        "face_id",
+    }
+
+    if not identity_columns.issubset(
+        images_df.columns
+    ):
+
+        regression_not_run(
+            "file_stems_with_multiple_identities",
+            (
+                "Required card/identity "
+                "column missing"
+            ),
+        )
+
+        regression_not_run(
+            "identities_with_multiple_file_stems",
+            (
+                "Required card/identity "
+                "column missing"
+            ),
+        )
+
+    elif images_df[
+        [
+            "file_stem",
+            "face_db",
+            "face_id",
+        ]
+    ].isna().any().any():
+
+        regression_not_run(
+            "file_stems_with_multiple_identities",
+            (
+                "Card/identity columns "
+                "contain missing values"
+            ),
+        )
+
+        regression_not_run(
+            "identities_with_multiple_file_stems",
+            (
+                "Card/identity columns "
+                "contain missing values"
+            ),
+        )
+
+    else:
+
+        # --------------------------------------------------------
+        # file_stem -> identity
+        # --------------------------------------------------------
+
+        unique_stem_identity_pairs = (
+            images_df[
+                [
+                    "file_stem",
+                    "face_db",
+                    "face_id",
+                ]
+            ]
+            .drop_duplicates()
+        )
+
+        identities_per_stem = (
+            unique_stem_identity_pairs
+            .groupby(
+                "file_stem"
+            )
+            .size()
+        )
+
+        regression_ran(
+            "file_stems_with_multiple_identities",
+            int(
+                identities_per_stem.gt(
+                    1
+                ).sum()
+            ),
+        )
+
+        # --------------------------------------------------------
+        # identity -> file_stem
+        # --------------------------------------------------------
+
+        stems_per_identity = (
+            unique_stem_identity_pairs
+            .groupby(
+                [
+                    "face_db",
+                    "face_id",
+                ]
+            )[
+                "file_stem"
+            ]
+            .nunique()
+        )
+
+        regression_ran(
+            "identities_with_multiple_file_stems",
+            int(
+                stems_per_identity.gt(
+                    1
+                ).sum()
+            ),
+        )
+
+
+    # ============================================================
+    # TRAINING CARD STRUCTURE
+    # ============================================================
+
+    train_structure_columns = {
+        "split",
+        "file_stem",
+        "traffic_type",
+        "variant",
+        "hardware_source",
+    }
+
+    if not train_structure_columns.issubset(
+        images_df.columns
+    ):
+
+        for check_name in (
+            "train_stems_not_nine_images",
+            "train_stems_bad_composition",
+            "train_stem_variant_hardware_mismatches",
+        ):
+
+            regression_not_run(
+                check_name,
+                (
+                    "Required training-card "
+                    "column missing"
+                ),
+            )
+
+    else:
+
+        train_df = images_df[
+            images_df[
+                "split"
+            ].eq(
+                "train"
+            )
+        ]
+
+        if (
+            train_df.empty
+            or train_df[
+                [
+                    "file_stem",
+                    "traffic_type",
+                    "variant",
+                    "hardware_source",
+                ]
+            ].isna().any().any()
+        ):
+
+            for check_name in (
+                "train_stems_not_nine_images",
+                "train_stems_bad_composition",
+                "train_stem_variant_hardware_mismatches",
+            ):
+
+                regression_not_run(
+                    check_name,
+                    (
+                        "Training rows absent or "
+                        "required values missing"
+                    ),
+                )
+
+        else:
+
+            # ----------------------------------------------------
+            # Exactly nine images per train stem
+            # ----------------------------------------------------
+
+            train_stem_sizes = (
+                train_df
+                .groupby(
+                    "file_stem"
+                )
+                .size()
+            )
+
+            regression_ran(
+                "train_stems_not_nine_images",
+                int(
+                    train_stem_sizes.ne(
+                        9
+                    ).sum()
+                ),
+            )
+
+            # ----------------------------------------------------
+            # Exactly:
+            #
+            #   bonafide  = 3
+            #   digital_1 = 3
+            #   digital_2 = 3
+            # ----------------------------------------------------
+
+            expected_composition = Counter({
+                "bonafide": 3,
+                "digital_1": 3,
+                "digital_2": 3,
+            })
+
+            bad_composition = 0
+
+            expected_hardware = {
+                "huawei",
+                "iphone15pro",
+                "scan",
+            }
+
+            bad_hardware_groups = 0
+
+            for (
+                file_stem,
+                stem_df,
+            ) in train_df.groupby(
+                "file_stem"
+            ):
+
+                composition = Counter()
+
+                hardware_by_group = defaultdict(
+                    set
+                )
+
+                for _, row in (
+                    stem_df.iterrows()
+                ):
+
+                    if (
+                        row[
+                            "traffic_type"
+                        ]
+                        == "bonafide"
+                    ):
+
+                        group_name = (
+                            "bonafide"
+                        )
+
+                    else:
+
+                        group_name = row[
+                            "variant"
+                        ]
+
+                    composition[
+                        group_name
+                    ] += 1
+
+                    hardware_by_group[
+                        group_name
+                    ].add(
+                        row[
+                            "hardware_source"
+                        ]
+                    )
+
+                if (
+                    composition
+                    != expected_composition
+                ):
+
+                    bad_composition += 1
+
+                for group_name in (
+                    "bonafide",
+                    "digital_1",
+                    "digital_2",
+                ):
+
+                    if (
+                        hardware_by_group.get(
+                            group_name,
+                            set(),
+                        )
+                        != expected_hardware
+                    ):
+
+                        bad_hardware_groups += 1
+
+            regression_ran(
+                "train_stems_bad_composition",
+                bad_composition,
+            )
+
+            regression_ran(
+                "train_stem_variant_hardware_mismatches",
+                bad_hardware_groups,
+            )
+
+
+    # ============================================================
+    # INTENTIONAL TRAIN / TEST CARD REUSE
+    #
+    # This formally freezes the observed FantasyID structure:
+    #
+    # 211 train card stems recur in test, and those reused cards
+    # appear ONLY through digital_3.
+    # ============================================================
+
+    overlap_columns = {
+        "split",
+        "file_stem",
+        "traffic_type",
+        "variant",
+        "hardware_source",
+    }
+
+    if not overlap_columns.issubset(
+        images_df.columns
+    ):
+
+        for check_name in (
+            "shared_train_test_stems",
+            "shared_train_test_non_digital3_records",
+            "shared_train_test_digital3_images",
+            "shared_train_test_digital3_stems",
+            "shared_digital3_bad_hardware_stems",
+        ):
+
+            regression_not_run(
+                check_name,
+                (
+                    "Required train/test card "
+                    "column missing"
+                ),
+            )
+
+    elif images_df[
+        [
+            "split",
+            "file_stem",
+            "traffic_type",
+            "variant",
+            "hardware_source",
+        ]
+    ].isna().any().any():
+
+        for check_name in (
+            "shared_train_test_stems",
+            "shared_train_test_non_digital3_records",
+            "shared_train_test_digital3_images",
+            "shared_train_test_digital3_stems",
+            "shared_digital3_bad_hardware_stems",
+        ):
+
+            regression_not_run(
+                check_name,
+                (
+                    "Train/test card columns "
+                    "contain missing values"
+                ),
+            )
+
+    else:
+
+        train_stems = set(
+            images_df.loc[
+                images_df[
+                    "split"
+                ].eq(
+                    "train"
+                ),
+                "file_stem",
+            ]
+        )
+
+        test_df = images_df[
+            images_df[
+                "split"
+            ].eq(
+                "test"
+            )
+        ]
+
+        test_stems = set(
+            test_df[
+                "file_stem"
+            ]
+        )
+
+        shared_stems = (
+            train_stems
+            & test_stems
+        )
+
+        regression_ran(
+            "shared_train_test_stems",
+            len(
+                shared_stems
+            ),
+        )
+
+        shared_test_df = test_df[
+            test_df[
+                "file_stem"
+            ].isin(
+                shared_stems
+            )
+        ]
+
+        shared_digital3_mask = (
+            shared_test_df[
+                "traffic_type"
+            ].eq(
+                "attack"
+            )
+            &
+            shared_test_df[
+                "variant"
+            ].eq(
+                "digital_3"
+            )
+        )
+
+        # --------------------------------------------------------
+        # Any reused-card test record outside digital_3 would
+        # contradict the structure we just established.
+        # --------------------------------------------------------
+
+        regression_ran(
+            "shared_train_test_non_digital3_records",
+            int(
+                (
+                    ~shared_digital3_mask
+                ).sum()
+            ),
+        )
+
+        shared_digital3_df = (
+            shared_test_df[
+                shared_digital3_mask
+            ]
+        )
+
+        regression_ran(
+            "shared_train_test_digital3_images",
+            len(
+                shared_digital3_df
+            ),
+        )
+
+        digital3_shared_stems = set(
+            shared_digital3_df[
+                "file_stem"
+            ]
+        )
+
+        regression_ran(
+            "shared_train_test_digital3_stems",
+            len(
+                digital3_shared_stems
+            ),
+        )
+
+        # --------------------------------------------------------
+        # Every reused digital_3 stem should contain exactly
+        # Huawei + iPhone15Pro + scan.
+        # --------------------------------------------------------
+
+        expected_hardware = {
+            "huawei",
+            "iphone15pro",
+            "scan",
+        }
+
+        bad_shared_d3_hardware = 0
+
+        for (
+            file_stem,
+            stem_df,
+        ) in shared_digital3_df.groupby(
+            "file_stem"
+        ):
+
+            hardware = set(
+                stem_df[
+                    "hardware_source"
+                ]
+            )
+
+            if (
+                hardware
+                != expected_hardware
+            ):
+
+                bad_shared_d3_hardware += 1
+
+        regression_ran(
+            "shared_digital3_bad_hardware_stems",
+            bad_shared_d3_hardware,
+        )
+
     # ------------------------------------------------------------
     # Formula-like source strings
     # ------------------------------------------------------------
@@ -4335,6 +7286,96 @@ def build_qa_summary(
             (
                 "Source cells requiring "
                 "formula-to-text protection"
+            ),
+
+        "homography_transform_failures":
+            "Homography transformation failures",
+
+        "homography_corner_residual_over_0_5px":
+            (
+                "Images with homography corner "
+                "residual > 0.5 px"
+            ),
+
+        "image_decode_failures":
+            "Full RGB image decode failures",
+
+        "images_with_decode_warnings":
+            "Images producing Pillow decode warnings",
+
+        "duplicate_image_sha256_groups":
+            "Duplicate source-image SHA-256 groups",
+
+        "duplicate_decoded_pixel_sha256_groups":
+            "Duplicate decoded-RGB pixel-hash groups",
+
+        "train_test_exact_file_overlap":
+            (
+                "Train/test exact source-image "
+                "SHA-256 overlap"
+            ),
+
+        "train_test_decoded_pixel_overlap":
+            (
+                "Train/test decoded-RGB "
+                "pixel-hash overlap"
+            ),
+
+        "file_stems_with_multiple_identities":
+            (
+                "file_stems mapping to "
+                ">1 face identity"
+            ),
+
+        "identities_with_multiple_file_stems":
+            (
+                "Face identities mapping to "
+                ">1 file_stem"
+            ),
+
+        "train_stems_not_nine_images":
+            (
+                "Training file_stems not "
+                "containing exactly 9 images"
+            ),
+
+        "train_stems_bad_composition":
+            (
+                "Training file_stems with "
+                "unexpected variant composition"
+            ),
+
+        "train_stem_variant_hardware_mismatches":
+            (
+                "Training stem/variant groups "
+                "with unexpected hardware coverage"
+            ),
+
+        "shared_train_test_stems":
+            "file_stems shared between train and test",
+
+        "shared_train_test_non_digital3_records":
+            (
+                "Test records from train-seen "
+                "stems outside digital_3"
+            ),
+
+        "shared_train_test_digital3_images":
+            (
+                "digital_3 images belonging "
+                "to train-seen stems"
+            ),
+
+        "shared_train_test_digital3_stems":
+            (
+                "Train-seen stems represented "
+                "in test digital_3"
+            ),
+
+        "shared_digital3_bad_hardware_stems":
+            (
+                "Shared digital_3 stems with "
+                "unexpected hardware coverage"
             ),
     }
 
@@ -4490,12 +7531,7 @@ def export_inventory_to_excel(
     )
 
     # Timestamped name avoids accidental overwrite of a frozen run.
-    run_timestamp = (
-        datetime.now()
-        .strftime(
-            "%Y-%m-%d_%H%M%S"
-        )
-    )
+    run_timestamp = RUN_TIMESTAMP
 
     output_path = (
         output_dir
@@ -5258,6 +8294,9 @@ if __name__ == "__main__":
 
     #Get each images exif orientation and validate its height and width 
     extract_image_metadata(matched_records) 
+
+    #Validate full image
+    validate_full_image_decode(matched_records)
     
     #Extract regions which has labelled information on altered areas in attack images
     inspect_regions(matched_records)
@@ -5286,25 +8325,69 @@ if __name__ == "__main__":
     #clear fields of JSOn not required. 
     release_json_memory(matched_records)
 
+    #Audit base card 
+    audit_base_card_structure(matched_records)
+
     #Audit function
     audit_image_metadata(matched_records)
 
-    #     TEST
-    # ├── existing-card component
-    # │   └── digital_3 = 786
-    # │       262 identities × 3 captures
-    # │
-    # └── altered/recaptured Flickr component
-    #     ├── bonafide = 300
-    #     ├── facedancer = 150
-    #     └── textdiffuserft_bfei = 149
-    #         total = 599
+    # ------------------------------------------------------------
+    # SOURCE TEST STRUCTURE DISCOVERED
+    # ------------------------------------------------------------
+    #
+    # Total test images = 1385
+    #
+    # digital_3 = 786
+    #
+    #   211 cards already represented in source train:
+    #
+    #       211 cards x 3 hardware captures = 633 images
+    #
+    #   51 test-only HQ-WMCA-HFACE cards:
+    #
+    #       51 cards x 3 hardware captures = 153 images
+    #
+    #       633 + 153 = 786 digital_3 images
+    #
+    # Altered/recaptured Flickr component = 599:
+    #
+    #   bonafide             = 300
+    #   facedancer           = 150
+    #   textdiffuserft_bfei  = 149
+    #
+    #   total                = 599
+    #
+    # Test structure may be audited for integrity and reporting.
+    # Test labels, distributions or model outputs must not be used
+    # for fitting, threshold selection, hyperparameter selection,
+    # model selection, or model-facing semantic-policy decisions.
 
 
-
-    # The official 459-image FantasyID validation set was unavailable under the applicable EULA. 
-    # We therefore constructed a card-disjoint internal validation set of 51 cards (459 images). 
-    # It wasfrom the provided training data, preserving the official val-set size while preventing card-level leakage.
+    # ------------------------------------------------------------
+    # INTERNAL VALIDATION PLAN
+    # ------------------------------------------------------------
+    #
+    # The official 459-image FantasyID validation set is unavailable
+    # under the applicable access conditions for this project.
+    #
+    # Discovery has established that every source-train card contains
+    # exactly 9 images:
+    #
+    #   3 bonafide
+    #   3 digital_1
+    #   3 digital_2
+    #
+    # Therefore:
+    #
+    #   51 whole cards x 9 images = exactly 459 images
+    #
+    # A deterministic, card-disjoint 51-card internal validation set
+    # can therefore reproduce the official validation-set SIZE without
+    # splitting an underlying card across project train and dev_val.
+    #
+    # The 51 cards have NOT yet been selected at discovery stage.
+    # Selection policy belongs to the downstream split-construction
+    # stage.
 
     #training identifies:
         # AMFD_Faces_Final: 109 identities
@@ -5312,24 +8395,56 @@ if __name__ == "__main__":
 
     # RAW AVAILABLE DATA
 
-    # official train = 1899
+    # SOURCE DATA AVAILABLE TO THE PROJECT
+    #
+    # source train = 1899 images
+    #              = 211 cards x 9 images
+    #
     #         │
-    #         ├── internal project train
+    #         ├── project train
     #         │
     #         └── internal dev_val
-    #             grouped by whole card
-    #             deterministic
-    #             approximately/possibly exactly 459 images
+    #             51 whole cards
+    #             exactly 459 images
+    #             deterministic selection
+    #             card-disjoint from project train
+    #
+    # source test = 1385 images
+    #
+    #         structurally audited during discovery,
+    #         but reserved from all fitting/model-selection decisions.
 
-    # official test = 1385
-    #         └── remains completely untouched
 
+    # ------------------------------------------------------------
+    # IF THE OFFICIAL VALIDATION SET LATER BECOMES AVAILABLE
+    # ------------------------------------------------------------
+    #
+    # source train       = 1899 -> project training
+    # official validation = 459 -> development / threshold selection
+    # source test         = 1385 -> final held-out evaluation
+    #
+    # In that case the internally generated dev_val split is retired.
 
-    # IF OFFICIAL VALIDATION LATER ARRIVES:
+    try:
+        export_inventory_to_excel(
+        matched_records,
+        region_records,
+        config,
+        CONFIG_FILE,    
+    )
 
-    # official train = 1899 → all training
-    # official validation = 459 → dev_val
-    # official test = 1385 → untouched
+    except Exception as error:
 
-    export_inventory_to_excel(matched_records, region_records, config, CONFIG_FILE,)
+        write_log(
+            final_log_path,
+            [
+                (
+                    "FATAL: "
+                    "export_inventory_to_excel failed: "
+                    f"{type(error).__name__}: {error}"
+                )
+            ],
+        )
+
+    raise
 

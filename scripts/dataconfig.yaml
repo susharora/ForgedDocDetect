@@ -78,6 +78,7 @@ expected_counts:
 
 
 regression_checks:
+  # Existing frozen checks
   json_parse_failures: 0
   dimension_mismatches: 3
   partially_outside_regions: 514
@@ -87,3 +88,33 @@ regression_checks:
   face_field_provenance_groups_total: 4700
   face_multi_region_groups: 3335
   formula_like_source_cells: 0
+
+  # Full homography audit
+  homography_transform_failures: 0
+  homography_corner_residual_over_0_5px: 0
+
+  # Full image decode audit
+  image_decode_failures: 0
+  images_with_decode_warnings: 0
+
+  # Duplicate / leakage audit
+  duplicate_image_sha256_groups: 0
+  duplicate_decoded_pixel_sha256_groups: 0
+  train_test_exact_file_overlap: 0
+  train_test_decoded_pixel_overlap: 0
+
+  # Base-card identity audit
+  file_stems_with_multiple_identities: 0
+  identities_with_multiple_file_stems: 0
+
+  # Training-card structure
+  train_stems_not_nine_images: 0
+  train_stems_bad_composition: 0
+  train_stem_variant_hardware_mismatches: 0
+
+  # Intentional train/test card reuse
+  shared_train_test_stems: 211
+  shared_train_test_non_digital3_records: 0
+  shared_train_test_digital3_images: 633
+  shared_train_test_digital3_stems: 211
+  shared_digital3_bad_hardware_stems: 0
