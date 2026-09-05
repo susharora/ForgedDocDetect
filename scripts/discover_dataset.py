@@ -1599,8 +1599,15 @@ def extract_image_metadata(
                         "transformed_rectangle": record["transformed_rectangle"],
                     })
 
-        except (OSError, ValueError) as error:
-            record["image_metadata_error"] = str(error)
+        except (
+            OSError,
+            ValueError,
+            Image.DecompressionBombError,
+        ) as error:
+
+            record["image_metadata_error"] = str(
+                error
+            )       
 
 #Diagnostics
     n_no_image = sum(1 for r in matched_records if r["image_path"] is None)
