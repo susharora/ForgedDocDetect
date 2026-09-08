@@ -2223,12 +2223,13 @@ def main() -> int:
                 # ----------------------------------------------
                 # Mechanistic spatial-roll control.
                 # ----------------------------------------------
-                
+                                
                 roll_metrics = spatial_roll_metrics(
                     representation=representation,
                     shift_y=shift_y,
                     shift_x=shift_x,
-                    pooled_atol=pooled_atol,
+                    float64_invariance_atol=float64_invariance_atol,
+                    model_avgpool_atol=model_avgpool_atol,
                 )
 
                 roll_rows.append(
