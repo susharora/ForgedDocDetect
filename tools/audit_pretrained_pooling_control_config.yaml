@@ -51,3 +51,14 @@ control:
     shift_y: 1
     shift_x: 1
     pooled_invariance_atol: 1.0e-6
+
+  spatial_roll:
+    shift_y: 1
+    shift_x: 1
+
+    # Mathematical invariance check is performed in float64.
+    float64_invariance_atol: 1.0e-12
+
+    # Independent float32 pooling of the original tensor should agree
+    # with the model's avgpool output within normal numerical precision.
+    model_avgpool_atol: 1.0e-6

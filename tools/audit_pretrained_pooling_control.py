@@ -1058,8 +1058,44 @@ def spatial_roll_metrics(
     ],
     shift_y: int,
     shift_x: int,
-    pooled_atol: float,
+    float64_invariance_atol: float,
+    model_avgpool_atol: float,
 ) -> dict[str, float]:
+    """
+    Mechanistic test of global-average-pooling spatial invariance.
+
+    Two distinct numerical questions are kept separate.
+
+    1. Mathematical spatial-permutation invariance
+       ------------------------------------------------
+       Convert layer4.1 to float64 and compare:
+
+           mean(A)
+           mean(roll(A))
+
+       Rolling changes spatial arrangement but preserves exactly the
+       same set of activation values.
+
+       Any residual difference here should be near float64 numerical
+       precision.
+
+    2. Actual float32 implementation behaviour
+       ------------------------------------------------
+       Also compute pooling in the model's native float32 precision.
+
+       A tiny difference between:
+
+           pool(A)
+           pool(roll(A))
+
+       is recorded as a diagnostic because floating-point reductions
+       may accumulate the same values in a different order.
+
+       It is NOT used as the mathematical invariance gate.
+
+    The model's captured avgpool output is separately checked against
+    independently computed pooling of the unmodified layer4.1 tensor.
+    """
 
     layer4 = representation[
         "layer4.1"
@@ -1072,8 +1108,13 @@ def spatial_roll_metrics(
     if layer4.ndim != 4:
 
         raise ValueError(
-            "layer4.1 must be N x C x H x W."
+            "layer4.1 must have shape N x C x H x W, got "
+            f"{tuple(layer4.shape)}"
         )
+
+    # --------------------------------------------------------------
+    # Spatial permutation.
+    # --------------------------------------------------------------
 
     rolled = torch.roll(
         layer4,
@@ -1087,7 +1128,13 @@ def spatial_roll_metrics(
         ),
     )
 
-    original_pooled = (
+    # --------------------------------------------------------------
+    # Native float32 pooling.
+    #
+    # This reproduces the precision used by the actual network.
+    # --------------------------------------------------------------
+
+    original_pool_float32 = (
         F.adaptive_avg_pool2d(
             layer4,
             output_size=(
@@ -1097,7 +1144,7 @@ def spatial_roll_metrics(
         )
     )
 
-    rolled_pooled = (
+    rolled_pool_float32 = (
         F.adaptive_avg_pool2d(
             rolled,
             output_size=(
@@ -1107,11 +1154,13 @@ def spatial_roll_metrics(
         )
     )
 
-    # Confirm our independently computed pooling agrees with the
-    # model's actual avgpool output.
+    # --------------------------------------------------------------
+    # Confirm independent pooling agrees with model.avgpool.
+    # --------------------------------------------------------------
+
     model_pool_error = float(
         (
-            original_pooled
+            original_pool_float32
             - model_avgpool
         )
         .abs()
@@ -1119,33 +1168,94 @@ def spatial_roll_metrics(
         .item()
     )
 
-    pooled_roll_error = float(
+    if (
+        model_pool_error
+        > model_avgpool_atol
+    ):
+
+        raise RuntimeError(
+            "Independent float32 pooling disagrees with "
+            "model.avgpool:\n"
+            f"  max_abs_error={model_pool_error}\n"
+            f"  tolerance={model_avgpool_atol}"
+        )
+
+    # --------------------------------------------------------------
+    # Record float32 roll discrepancy.
+    #
+    # This is deliberately diagnostic only.
+    # --------------------------------------------------------------
+
+    roll_pool_error_float32 = float(
         (
-            original_pooled
-            - rolled_pooled
+            original_pool_float32
+            - rolled_pool_float32
         )
         .abs()
         .max()
         .item()
     )
 
-    if model_pool_error > pooled_atol:
+    # --------------------------------------------------------------
+    # Float64 mathematical invariance control.
+    #
+    # Compute the mean explicitly in float64 so the invariance
+    # assertion is not governed by float32 accumulation noise.
+    # --------------------------------------------------------------
+
+    layer4_float64 = (
+        layer4.double()
+    )
+
+    rolled_float64 = (
+        rolled.double()
+    )
+
+    original_pool_float64 = (
+        layer4_float64.mean(
+            dim=(
+                -2,
+                -1,
+            ),
+            keepdim=True,
+        )
+    )
+
+    rolled_pool_float64 = (
+        rolled_float64.mean(
+            dim=(
+                -2,
+                -1,
+            ),
+            keepdim=True,
+        )
+    )
+
+    roll_pool_error_float64 = float(
+        (
+            original_pool_float64
+            - rolled_pool_float64
+        )
+        .abs()
+        .max()
+        .item()
+    )
+
+    if (
+        roll_pool_error_float64
+        > float64_invariance_atol
+    ):
 
         raise RuntimeError(
-            "Independent adaptive pooling disagrees with "
-            "model.avgpool:\n"
-            f"  max_abs_error={model_pool_error}\n"
-            f"  tolerance={pooled_atol}"
+            "Float64 global-average-pooling invariance "
+            "check failed:\n"
+            f"  max_abs_error={roll_pool_error_float64}\n"
+            f"  tolerance={float64_invariance_atol}"
         )
 
-    if pooled_roll_error > pooled_atol:
-
-        raise RuntimeError(
-            "Global average pooling was not invariant to the "
-            "configured spatial roll:\n"
-            f"  max_abs_error={pooled_roll_error}\n"
-            f"  tolerance={pooled_atol}"
-        )
+    # --------------------------------------------------------------
+    # Representation-level effect of the spatial roll.
+    # --------------------------------------------------------------
 
     return {
         "layer4_original_vs_roll_cosine":
@@ -1160,24 +1270,30 @@ def spatial_roll_metrics(
                 rolled,
             ),
 
+        # These describe the native float32 representation that
+        # the actual model would expose.
         "avgpool_original_vs_roll_cosine":
             cosine_similarity(
-                original_pooled,
-                rolled_pooled,
+                original_pool_float32,
+                rolled_pool_float32,
             ),
 
         "avgpool_original_vs_roll_relative_l2":
             relative_l2_distance(
-                original_pooled,
-                rolled_pooled,
+                original_pool_float32,
+                rolled_pool_float32,
             ),
 
-        "model_avgpool_max_abs_error":
+        "model_avgpool_float32_max_abs_error":
             model_pool_error,
 
-        "roll_avgpool_max_abs_error":
-            pooled_roll_error,
+        "roll_avgpool_float32_max_abs_error":
+            roll_pool_error_float32,
+
+        "roll_avgpool_float64_max_abs_error":
+            roll_pool_error_float64,
     }
+
 
 
 # ======================================================================
@@ -1675,10 +1791,16 @@ def main() -> int:
                 "shift_x"
             ]
         )
-
-        pooled_atol = float(
+        
+        float64_invariance_atol = float(
             roll_cfg[
-                "pooled_invariance_atol"
+                "float64_invariance_atol"
+            ]
+        )
+
+        model_avgpool_atol = float(
+            roll_cfg[
+                "model_avgpool_atol"
             ]
         )
 
@@ -1743,8 +1865,13 @@ def main() -> int:
         )
 
         logger.info(
-            "Pooled invariance tolerance: %.3e",
-            pooled_atol,
+            "Float64 pooling-invariance tolerance: %.3e",
+            float64_invariance_atol,
+        )
+
+        logger.info(
+            "Model-vs-independent float32 avgpool tolerance: %.3e",
+            model_avgpool_atol,
         )
 
         logger.info(
@@ -2096,7 +2223,7 @@ def main() -> int:
                 # ----------------------------------------------
                 # Mechanistic spatial-roll control.
                 # ----------------------------------------------
-
+                
                 roll_metrics = spatial_roll_metrics(
                     representation=representation,
                     shift_y=shift_y,
@@ -2455,8 +2582,9 @@ def main() -> int:
             "layer4_original_vs_roll_relative_l2",
             "avgpool_original_vs_roll_cosine",
             "avgpool_original_vs_roll_relative_l2",
-            "model_avgpool_max_abs_error",
-            "roll_avgpool_max_abs_error",
+            "model_avgpool_float32_max_abs_error",
+            "roll_avgpool_float32_max_abs_error",
+            "roll_avgpool_float64_max_abs_error",
         )
 
         append_group_summary(
@@ -2615,16 +2743,23 @@ def main() -> int:
         )
 
         logger.info(
-            "Maximum roll pooling absolute error: %.9e",
+            "Maximum float32 roll-pooling discrepancy: %.9e",
             roll_df[
-                "roll_avgpool_max_abs_error"
+                "roll_avgpool_float32_max_abs_error"
             ].max(),
         )
 
         logger.info(
-            "Maximum model-vs-independent avgpool error: %.9e",
+            "Maximum float64 roll-pooling discrepancy: %.9e",
             roll_df[
-                "model_avgpool_max_abs_error"
+                "roll_avgpool_float64_max_abs_error"
+            ].max(),
+        )
+
+        logger.info(
+            "Maximum model-vs-independent float32 avgpool error: %.9e",
+            roll_df[
+                "model_avgpool_float32_max_abs_error"
             ].max(),
         )
 

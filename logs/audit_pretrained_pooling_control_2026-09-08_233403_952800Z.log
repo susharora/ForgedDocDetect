@@ -1,0 +1,97 @@
+2026-09-08T23:34:03Z | INFO | ========================================================================
+2026-09-08T23:34:03Z | INFO | PRETRAINED RESNET-18 POOLING CONTROL AUDIT
+2026-09-08T23:34:03Z | INFO | ========================================================================
+2026-09-08T23:34:03Z | INFO | Git commit: 7f0d722baef1482e5b98f21702b53ff62aca1b01
+2026-09-08T23:34:03Z | INFO | Script SHA-256: 71176a736157cc7bcccddb23a2524634b08f96c61f70c518628c6bfc82377391
+2026-09-08T23:34:03Z | INFO | Control config SHA-256: 119d72ad35beb34d61e7947bca5a5c1227da7d8eeee4fad26bdd530119f3c3ae
+2026-09-08T23:34:03Z | INFO | Experiment config SHA-256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+2026-09-08T23:34:03Z | INFO | Machine ID: sush-AMD
+2026-09-08T23:34:03Z | INFO | Dataset root: /home/sush/ForgedDocDetect/data/FantasyID
+2026-09-08T23:34:03Z | INFO | Spatial roll: dy=1 dx=1
+2026-09-08T23:34:03Z | INFO | Pooled invariance tolerance: 1.000e-06
+2026-09-08T23:34:03Z | INFO | dev_val: NOT USED
+2026-09-08T23:34:03Z | INFO | held-out test: NOT ACCESSED
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | TECH-2 EXPERIMENT CONFIGURATION VALIDATION
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | Experiment config:
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE |   /home/sush/ForgedDocDetect/configs/experiments/resnet18_gradcam.yaml
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE |   SHA-256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | Machine config:
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE |   /home/sush/ForgedDocDetect/configs/local.yaml
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE |   SHA-256 intentionally not treated as scientific provenance
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | --- Machine contract ---
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] dataset_root exists
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE |        /home/sush/ForgedDocDetect/data/FantasyID
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [INFO] runs_root
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE |        /home/sush/ForgedDocDetect/runs
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | --- Reproducibility contract ---
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] required random seeds are explicitly defined
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | --- Frozen Tech-1 provenance ---
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] source discovery workbook SHA-256
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE |        54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] frozen split bundle SHA-256
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE |        95cc748a4e520d90c44f68f7e0317711a659a636802debdf78887a10a85383e1
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] bundle source workbook filename
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] bundle source workbook SHA-256
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] cards filename agrees with bundle
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] cards SHA-256 agrees with bundle
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] cards expected rows agree with bundle
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] cards manifest SHA-256
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE |        414972b290094f6d85ae0fb564bb336b17ffd067c4ac988fa4f74c8950b770fb
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] cards manifest rows = 211
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] project_train filename agrees with bundle
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] project_train SHA-256 agrees with bundle
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] project_train expected rows agree with bundle
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] project_train manifest SHA-256
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE |        6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] project_train manifest rows = 1440
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] dev_val filename agrees with bundle
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] dev_val SHA-256 agrees with bundle
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] dev_val expected rows agree with bundle
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] dev_val manifest SHA-256
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE |        46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] dev_val manifest rows = 459
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] project_train card count
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] project_train image count
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] dev_val card count
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] dev_val image count
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | --- Held-out test contract ---
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | [PASS] held-out test policy
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | EXPERIMENT CONFIGURATION VALIDATION: PASS
+2026-09-08T23:34:03Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-08T23:34:03Z | INFO | [PASS] Frozen Tech-1 provenance gate
+2026-09-08T23:34:03Z | INFO | project_train manifest: /home/sush/ForgedDocDetect/output/splits/fantasyid_project_split_2026-09-05_091937_project_train.csv
+2026-09-08T23:34:03Z | INFO | project_train manifest SHA-256: 6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-08T23:34:03Z | INFO | Cards: 160
+2026-09-08T23:34:03Z | INFO | Capture groups: 480
+2026-09-08T23:34:04Z | INFO | Weights: ResNet18_Weights.IMAGENET1K_V1
+2026-09-08T23:34:04Z | INFO | Weights URL: https://download.pytorch.org/models/resnet18-f37072fd.pth
+2026-09-08T23:34:04Z | INFO | Checkpoint path: /home/sush/.cache/torch/hub/checkpoints/resnet18-f37072fd.pth
+2026-09-08T23:34:04Z | INFO | Checkpoint SHA-256: f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+2026-09-08T23:34:04Z | INFO | Preprocessing: RGB -> resize short side 256 with aspect ratio preserved -> ImageNet normalization
+2026-09-08T23:34:04Z | INFO | Crop: NONE
+2026-09-08T23:34:07Z | INFO | Progress: 60 / 480 capture groups
+2026-09-08T23:34:10Z | INFO | Progress: 120 / 480 capture groups
+2026-09-08T23:34:14Z | INFO | Progress: 180 / 480 capture groups
+2026-09-08T23:34:17Z | INFO | Progress: 240 / 480 capture groups
+2026-09-08T23:34:20Z | INFO | Progress: 300 / 480 capture groups
+2026-09-08T23:34:23Z | INFO | Progress: 360 / 480 capture groups
+2026-09-08T23:34:26Z | ERROR | PRETRAINED RESNET-18 POOLING CONTROL AUDIT: FAIL
+Traceback (most recent call last):
+  File "/home/sush/ForgedDocDetect/tools/audit_pretrained_pooling_control.py", line 2100, in main
+    roll_metrics = spatial_roll_metrics(
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sush/ForgedDocDetect/tools/audit_pretrained_pooling_control.py", line 1143, in spatial_roll_metrics
+    raise RuntimeError(
+RuntimeError: Global average pooling was not invariant to the configured spatial roll:
+  max_abs_error=1.430511474609375e-06
+  tolerance=1e-06
