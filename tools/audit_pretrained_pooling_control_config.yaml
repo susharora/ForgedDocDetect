@@ -1,0 +1,53 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_pretrained_pooling_control_{timestamp}.log
+  level: INFO
+  progress_every_captures: 60
+
+output:
+  directory: logs
+
+  capture_pairs:
+    audit_pretrained_pooling_control_pairs_{timestamp}.csv
+
+  card_summary:
+    audit_pretrained_pooling_control_cards_{timestamp}.csv
+
+  spatial_roll:
+    audit_pretrained_pooling_control_spatial_roll_{timestamp}.csv
+
+  group_summary:
+    audit_pretrained_pooling_control_groups_{timestamp}.csv
+
+control:
+  weights: IMAGENET1K_V1
+
+  resize_short_side: 256
+  crop: none
+
+  expected_cards: 160
+  expected_capture_groups: 480
+
+  expected_attack_variants:
+    - digital_1
+    - digital_2
+
+  expected_hardware_sources:
+    - huawei
+    - iphone15pro
+    - scan
+
+  require_same_original_size: true
+  require_same_model_input_size: true
+
+  # Representation-level mechanistic control.
+  #
+  # torch.roll changes WHERE layer4 responses occur but preserves
+  # every activation value. Global average pooling should therefore
+  # be invariant except for floating-point tolerance.
+  spatial_roll:
+    shift_y: 1
+    shift_x: 1
+    pooled_invariance_atol: 1.0e-6
