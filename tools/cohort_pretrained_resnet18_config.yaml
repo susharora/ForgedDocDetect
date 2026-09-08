@@ -1,0 +1,74 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: cohort_pretrained_resnet18_{timestamp}.log
+  level: INFO
+  progress_every_pairs: 60
+
+output:
+  directory: logs
+
+  pair_summary:
+    cohort_pretrained_resnet18_pairs_{timestamp}.csv
+
+  pair_stage_metrics:
+    cohort_pretrained_resnet18_pair_stages_{timestamp}.csv
+
+  card_variant_summary:
+    cohort_pretrained_resnet18_card_variants_{timestamp}.csv
+
+  card_variant_stage_metrics:
+    cohort_pretrained_resnet18_card_variant_stages_{timestamp}.csv
+
+  group_summary:
+    cohort_pretrained_resnet18_groups_{timestamp}.csv
+
+  layer4_channel_frequency:
+    cohort_pretrained_resnet18_layer4_channel_frequency_{timestamp}.csv
+
+cohort:
+  weights: IMAGENET1K_V1
+
+  # Same exploratory preprocessing used in the single-pair probe.
+  #
+  # Full document is retained.
+  resize_short_side: 256
+  crop: none
+
+  top_k_features: 32
+
+  expected_attack_pairs: 960
+  expected_bonafide_captures: 480
+
+  expected_attack_variants:
+    - digital_1
+    - digital_2
+
+  expected_hardware_sources:
+    - huawei
+    - iphone15pro
+    - scan
+
+  # Pairwise spatial representation comparison requires
+  # matching tensor geometry.
+  require_same_original_size: true
+  require_same_model_input_size: true
+
+channel_concentration:
+  # For each stage and attack/bona-fide pair:
+  #
+  #   d_c = mean_H,W |A_attack[c] - A_bonafide[c]|
+  #
+  # We then ask what fraction of the total channel difference
+  # is carried by the strongest k channels.
+  top_k_shares:
+    - 1
+    - 5
+    - 10
+    - 32
+
+  # Additionally record WHICH layer4.1 channels repeatedly
+  # occur among the strongest attack/bona-fide differences.
+  recurrence_stage: layer4.1
+  recurrence_top_k: 10
