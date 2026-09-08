@@ -1,0 +1,10 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_train_manipulation_types_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: audit_train_manipulation_types_{timestamp}.csv

@@ -1,0 +1,113 @@
+2026-09-08T18:01:11Z | INFO | ========================================================================
+2026-09-08T18:01:11Z | INFO | FROZEN PROJECT_TRAIN MANIPULATION-TYPE AUDIT
+2026-09-08T18:01:11Z | INFO | ========================================================================
+2026-09-08T18:01:11Z | INFO | Git commit: d0e540aeb8a466cf55786411acffa4a73de1f328
+2026-09-08T18:01:11Z | INFO | Audit script SHA-256: 4fd9fa5d22e1a5d36ed70e1341278975929791841b66e2d87df9591a460bbe7a
+2026-09-08T18:01:11Z | INFO | Audit config SHA-256: 3d54d26ed72bc29ec7912ca6b65034fc1c3d43c7b7cf7d74dc13ea778ef8c3e7
+2026-09-08T18:01:11Z | INFO | Experiment config SHA-256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+2026-09-08T18:01:11Z | INFO | Definition | altered region: region_provenance_raw == 'altered'
+2026-09-08T18:01:11Z | INFO | Definition | face field: field_name == 'face'
+2026-09-08T18:01:11Z | INFO | Definition | text field: non-empty altered field_name != 'face'
+2026-09-08T18:01:11Z | INFO | dev_val: NOT USED
+2026-09-08T18:01:11Z | INFO | held-out test: NOT ACCESSED
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | TECH-2 EXPERIMENT CONFIGURATION VALIDATION
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | 
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | Experiment config:
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE |   /home/sush/ForgedDocDetect/configs/experiments/resnet18_gradcam.yaml
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE |   SHA-256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | 
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | Machine config:
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE |   /home/sush/ForgedDocDetect/configs/local.yaml
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE |   SHA-256 intentionally not treated as scientific provenance
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | 
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | --- Machine contract ---
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] dataset_root exists
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE |        /home/sush/ForgedDocDetect/data/FantasyID
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [INFO] runs_root
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE |        /home/sush/ForgedDocDetect/runs
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | 
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | --- Reproducibility contract ---
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] required random seeds are explicitly defined
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | 
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | --- Frozen Tech-1 provenance ---
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] source discovery workbook SHA-256
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE |        54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] frozen split bundle SHA-256
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE |        95cc748a4e520d90c44f68f7e0317711a659a636802debdf78887a10a85383e1
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] bundle source workbook filename
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] bundle source workbook SHA-256
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] cards filename agrees with bundle
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] cards SHA-256 agrees with bundle
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] cards expected rows agree with bundle
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] cards manifest SHA-256
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE |        414972b290094f6d85ae0fb564bb336b17ffd067c4ac988fa4f74c8950b770fb
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] cards manifest rows = 211
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] project_train filename agrees with bundle
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] project_train SHA-256 agrees with bundle
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] project_train expected rows agree with bundle
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] project_train manifest SHA-256
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE |        6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] project_train manifest rows = 1440
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] dev_val filename agrees with bundle
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] dev_val SHA-256 agrees with bundle
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] dev_val expected rows agree with bundle
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] dev_val manifest SHA-256
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE |        46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] dev_val manifest rows = 459
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] project_train card count
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] project_train image count
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] dev_val card count
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] dev_val image count
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | 
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | --- Held-out test contract ---
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | [PASS] held-out test policy
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | 
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | EXPERIMENT CONFIGURATION VALIDATION: PASS
+2026-09-08T18:01:11Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-08T18:01:11Z | INFO | [PASS] Frozen Tech-1 provenance gate
+2026-09-08T18:01:15Z | INFO | Frozen workbook: /home/sush/ForgedDocDetect/output/fantasyid_inventory_2026-09-05_023126.xlsx
+2026-09-08T18:01:15Z | INFO | Frozen workbook SHA-256: 54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+2026-09-08T18:01:15Z | INFO | project_train manifest: /home/sush/ForgedDocDetect/output/splits/fantasyid_project_split_2026-09-05_091937_project_train.csv
+2026-09-08T18:01:15Z | INFO | project_train manifest SHA-256: 6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-08T18:01:15Z | INFO | project_train manifest images: 1440
+2026-09-08T18:01:15Z | INFO | project_train attack images: 960
+2026-09-08T18:01:15Z | INFO | project_train bona-fide images: 480
+2026-09-08T18:01:15Z | INFO | Regions belonging to project_train images: 15463
+2026-09-08T18:01:15Z | INFO | ------------------------------------------------------------------------
+2026-09-08T18:01:15Z | INFO | MANIPULATION COMPOSITION
+2026-09-08T18:01:15Z | INFO |   face_and_text          960
+2026-09-08T18:01:15Z | INFO | Composition by attack variant:
+2026-09-08T18:01:15Z | INFO |   digital_1: {'face_and_text': 480}
+2026-09-08T18:01:15Z | INFO |   digital_2: {'face_and_text': 480}
+2026-09-08T18:01:15Z | INFO | ------------------------------------------------------------------------
+2026-09-08T18:01:15Z | INFO | ALTERED FIELD PRESENCE
+2026-09-08T18:01:15Z | INFO |   doe                            960 images
+2026-09-08T18:01:15Z | INFO |   face                           960 images
+2026-09-08T18:01:15Z | INFO |   dob                            897 images
+2026-09-08T18:01:15Z | INFO |   name                           624 images
+2026-09-08T18:01:15Z | INFO |   name_en                        252 images
+2026-09-08T18:01:15Z | INFO |   alternative                    60 images
+2026-09-08T18:01:15Z | INFO |   name_other                     24 images
+2026-09-08T18:01:15Z | INFO | ------------------------------------------------------------------------
+2026-09-08T18:01:15Z | INFO | DISTINCT ALTERED FIELD SETS
+2026-09-08T18:01:15Z | INFO |   dob|doe|face|name                                            561
+2026-09-08T18:01:15Z | INFO |   dob|doe|face|name_en                                         252
+2026-09-08T18:01:15Z | INFO |   doe|face|name                                                63
+2026-09-08T18:01:15Z | INFO |   alternative|dob|doe|face                                     60
+2026-09-08T18:01:15Z | INFO |   dob|doe|face|name_other                                      24
+2026-09-08T18:01:15Z | INFO | ------------------------------------------------------------------------
+2026-09-08T18:01:15Z | INFO | FINAL CHECKS
+2026-09-08T18:01:15Z | INFO | Attack images with altered face: 960 / 960
+2026-09-08T18:01:15Z | INFO | Attack images with altered text: 960 / 960
+2026-09-08T18:01:15Z | INFO | Attack images classified face_and_text: 960 / 960
+2026-09-08T18:01:15Z | INFO | Attack images with unknown/blank altered field: 0
+2026-09-08T18:01:15Z | INFO | Attack images with aligned bona-fide capture: 960 / 960
+2026-09-08T18:01:15Z | INFO | [PASS] Every frozen project_train attack contains altered face + altered text.
+2026-09-08T18:01:15Z | INFO | [PASS] Every frozen project_train attack has an aligned bona-fide capture.
+2026-09-08T18:01:15Z | INFO | Audit CSV: /home/sush/ForgedDocDetect/logs/audit_train_manipulation_types_2026-09-08_180111_072180Z.csv
+2026-09-08T18:01:15Z | INFO | ========================================================================
+2026-09-08T18:01:15Z | INFO | FROZEN PROJECT_TRAIN MANIPULATION-TYPE AUDIT: PASS
+2026-09-08T18:01:15Z | INFO | ========================================================================

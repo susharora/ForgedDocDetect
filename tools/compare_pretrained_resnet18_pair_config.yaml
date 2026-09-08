@@ -1,0 +1,20 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: pretrained_resnet18_pair_{timestamp}.log
+  level: INFO
+
+comparison:
+  weights: IMAGENET1K_V1
+  resize_short_side: 256
+  crop: none
+
+  top_k_features: 32
+  top_k_predictions: 10
+  dpi: 160
+
+  # Require spatial alignment for difference maps.
+  require_same_file_stem: true
+  require_same_hardware_source: true
+  require_same_original_size: true

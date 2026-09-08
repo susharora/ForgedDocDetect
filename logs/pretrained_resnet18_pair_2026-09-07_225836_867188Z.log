@@ -1,0 +1,58 @@
+2026-09-07T22:58:37Z | INFO | ========================================================================
+2026-09-07T22:58:37Z | INFO | PRETRAINED RESNET-18 PAIRED REPRESENTATION COMPARISON
+2026-09-07T22:58:37Z | INFO | ========================================================================
+2026-09-07T22:58:37Z | INFO | Git commit: d0e540aeb8a466cf55786411acffa4a73de1f328
+2026-09-07T22:58:37Z | INFO | Experiment config SHA-256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+2026-09-07T22:58:37Z | INFO | Comparison config SHA-256: a3b19d2d425a2b26578a2d8944a111109b4951dd89713a47d1164f32a0b2ded4
+2026-09-07T22:58:37Z | INFO | project_train manifest SHA-256: 6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-07T22:58:37Z | INFO | Attack: train/attack/digital_1/huawei/arabic-003_03.jpg
+2026-09-07T22:58:37Z | INFO | Attack SHA-256: 656ff1b4dd0cdaef972c7edf4101876841753d9c3a5dc28b65ba54a1483a35bf
+2026-09-07T22:58:37Z | INFO | Bona fide: train/bonafide/huawei/arabic-003_03.jpg
+2026-09-07T22:58:37Z | INFO | Bona-fide SHA-256: 0a2f985ead79169ead378f14d1af08f4d22f35641bb9e2ad37e9d5d3730be007
+2026-09-07T22:58:37Z | INFO | Original dimensions: (3023, 1884)
+2026-09-07T22:58:37Z | INFO | Model-input dimensions: (410, 256)
+2026-09-07T22:58:37Z | INFO | Resize short side=256, aspect ratio preserved
+2026-09-07T22:58:37Z | INFO | Crop=NONE
+2026-09-07T22:58:37Z | INFO | Held-out test=NOT ACCESSED
+2026-09-07T22:58:37Z | INFO | ------------------------------------------------------------------------
+2026-09-07T22:58:37Z | INFO | STAGE REPRESENTATION SIMILARITY
+2026-09-07T22:58:37Z | INFO | stem_relu  shape=(1, 64, 128, 205)  cos=0.986185 corr=0.974678 relL2=0.166264 mean|delta|=0.010708
+2026-09-07T22:58:37Z | INFO | maxpool    shape=(1, 64, 64, 103)   cos=0.994099 corr=0.987535 relL2=0.108658 mean|delta|=0.011868
+2026-09-07T22:58:37Z | INFO | layer1.0   shape=(1, 64, 64, 103)   cos=0.990900 corr=0.982194 relL2=0.134920 mean|delta|=0.021281
+2026-09-07T22:58:37Z | INFO | layer1.1   shape=(1, 64, 64, 103)   cos=0.986037 corr=0.974636 relL2=0.167121 mean|delta|=0.038189
+2026-09-07T22:58:37Z | INFO | layer2.0   shape=(1, 128, 32, 52)   cos=0.983151 corr=0.976245 relL2=0.183583 mean|delta|=0.018814
+2026-09-07T22:58:37Z | INFO | layer2.1   shape=(1, 128, 32, 52)   cos=0.979816 corr=0.972391 relL2=0.200925 mean|delta|=0.020881
+2026-09-07T22:58:37Z | INFO | layer3.0   shape=(1, 256, 16, 26)   cos=0.982332 corr=0.975526 relL2=0.188041 mean|delta|=0.013556
+2026-09-07T22:58:37Z | INFO | layer3.1   shape=(1, 256, 16, 26)   cos=0.983731 corr=0.977922 relL2=0.180560 mean|delta|=0.013773
+2026-09-07T22:58:37Z | INFO | layer4.0   shape=(1, 512, 8, 13)    cos=0.970861 corr=0.967193 relL2=0.241518 mean|delta|=0.010222
+2026-09-07T22:58:37Z | INFO | layer4.1   shape=(1, 512, 8, 13)    cos=0.947852 corr=0.931940 relL2=0.323658 mean|delta|=0.144132
+2026-09-07T22:58:37Z | INFO | avgpool    shape=(1, 512, 1, 1)     cos=0.986040 corr=0.971506 relL2=0.168553 mean|delta|=0.094080
+2026-09-07T22:58:37Z | INFO | ------------------------------------------------------------------------
+2026-09-07T22:58:37Z | INFO | FINAL 512-DIMENSIONAL REPRESENTATION
+2026-09-07T22:58:37Z | INFO | cosine_similarity            0.98604012
+2026-09-07T22:58:37Z | INFO | pearson_correlation          0.97150586
+2026-09-07T22:58:37Z | INFO | euclidean_distance           3.00913072
+2026-09-07T22:58:37Z | INFO | relative_l2_distance         0.16855255
+2026-09-07T22:58:37Z | INFO | mean_absolute_difference     0.09407985
+2026-09-07T22:58:37Z | INFO | max_absolute_difference      0.69800425
+2026-09-07T22:58:37Z | INFO | Top-32 pooled-feature overlap: 0.8125 (26/32)
+2026-09-07T22:58:37Z | INFO | ------------------------------------------------------------------------
+2026-09-07T22:58:37Z | INFO | IMAGENET TOP-1 DIAGNOSTIC
+2026-09-07T22:58:37Z | INFO | Attack: class=921 name=book jacket probability=0.154752
+2026-09-07T22:58:37Z | INFO | Bona fide: class=921 name=book jacket probability=0.244477
+2026-09-07T22:58:37Z | INFO | Both inputs share top-1 ImageNet class: book jacket
+2026-09-07T22:58:37Z | INFO | Largest changes in actual FC contribution (activation x class weight):
+2026-09-07T22:58:37Z | INFO |   feature= 33 attack= 0.461761 bonafide= 0.548425 delta=-0.086664
+2026-09-07T22:58:37Z | INFO |   feature=113 attack= 0.605830 bonafide= 0.688254 delta=-0.082423
+2026-09-07T22:58:37Z | INFO |   feature=401 attack= 0.120649 bonafide= 0.195981 delta=-0.075332
+2026-09-07T22:58:37Z | INFO |   feature= 19 attack= 0.205664 bonafide= 0.273890 delta=-0.068227
+2026-09-07T22:58:37Z | INFO |   feature=183 attack= 0.405705 bonafide= 0.454312 delta=-0.048607
+2026-09-07T22:58:37Z | INFO |   feature=468 attack=-0.017151 bonafide=-0.053557 delta= 0.036406
+2026-09-07T22:58:37Z | INFO |   feature=302 attack= 0.198241 bonafide= 0.230340 delta=-0.032099
+2026-09-07T22:58:37Z | INFO |   feature= 94 attack= 0.185348 bonafide= 0.213216 delta=-0.027868
+2026-09-07T22:58:37Z | INFO |   feature=175 attack= 0.535955 bonafide= 0.509389 delta= 0.026566
+2026-09-07T22:58:37Z | INFO |   feature=276 attack= 0.131148 bonafide= 0.155672 delta=-0.024524
+2026-09-07T22:58:38Z | INFO | ========================================================================
+2026-09-07T22:58:38Z | INFO | PRETRAINED RESNET-18 PAIRED REPRESENTATION COMPARISON: PASS
+2026-09-07T22:58:38Z | INFO | ========================================================================
+2026-09-07T22:58:38Z | INFO | Output directory: /home/sush/ForgedDocDetect/runs/exploratory_pretrained_resnet18_pair_2026-09-07_225836_867188Z/diagnostics
