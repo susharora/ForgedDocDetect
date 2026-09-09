@@ -1,0 +1,199 @@
+schema_version: 1
+status: PASS
+machine:
+  id: IMTA134
+  device: cuda
+provenance:
+  git_commit: 99a10a95f9ad8c332919c29fd57974398b997a6f
+  audit_script_sha256: f83ac29c67a76fece2f52b54d9194f207a38f4d621b81fa423336fd0d792ca8b
+  audit_config_sha256: 32891f1b6f86477aea3e6ab426aaa4a5fb6a56550045c03c229483eaba34e77f
+  experiment_config_sha256: 63a0b561dff3dd37b80dba2f60301daacf178fb7656737fa59f0438e254df803
+  objective_module_sha256: b4f307081bfb88736e419ee5c2152c1f1ed0fcff6241196b07463b48b9323755
+  optimization_module_sha256: b8f713f48447f79700552cbeca2a1b7fa4d3ec77e28fa9f968cf929fa386298e
+  modeling_module_sha256: b3cb73aa3d33d7938fe7a0e6b751721cddb049f8d6cddebc54181b9abbaf3d63
+  reproducibility_module_sha256: 33bbb093c3bbb16379f0d27e72fa5b0c80a2b14d699b8f16d62d1d0ef5ef8608
+  validator_log: /home/u5757978/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_195226_122121Z.log
+  validator_log_sha256: 236b381f89b1db9c9f329978c6bc9c5ee89874f36b4f338b6aad246579fd384e
+class_weight_contract:
+  project_train_counts:
+    bonafide: 480
+    attack: 960
+    total: 1440
+  weights:
+    bonafide: 1.5
+    attack: 0.75
+  project_train_weight_denominator: 1440.0
+  dev_val_weight_denominator: 459.0
+  dev_count_negative_control: PASS
+batch_objective:
+  explicit_loss: 0.28731662034988403
+  reference_loss: 0.28731659054756165
+  loss_abs_error: 2.9802322387695312e-08
+  gradient_max_abs_error: 0.0
+  epoch_weighted_numerator: 2.154874462634325
+  epoch_weight_denominator: 7.5
+epoch_reduction:
+  expected_weighted_numerator: 12.755525201559067
+  expected_weight_denominator: 18.0
+  expected_loss: 0.7086402889755037
+  partitions:
+    single_batch:
+      sizes:
+      - 17
+      weighted_numerator: 12.755525201559067
+      weight_denominator: 18.0
+      loss: 0.7086402889755037
+      sample_count: 17
+    uneven_three_batches:
+      sizes:
+      - 3
+      - 5
+      - 9
+      weighted_numerator: 12.755525201559067
+      weight_denominator: 18.0
+      loss: 0.7086402889755037
+      sample_count: 17
+    mixed_five_batches:
+      sizes:
+      - 2
+      - 7
+      - 1
+      - 4
+      - 3
+      weighted_numerator: 12.755525201559067
+      weight_denominator: 18.0
+      loss: 0.7086402889755037
+      sample_count: 17
+    singleton_batches:
+      sizes:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      weighted_numerator: 12.755525201559067
+      weight_denominator: 18.0
+      loss: 0.7086402889755037
+      sample_count: 17
+optimizer_probe:
+  repeats: 2
+  deterministic_fingerprints:
+    stage_a_fc_after_sha256: fd911172c73fc3a02e6ea744d1acb740917b00d1ab5f48807a13a864f603ce63
+    stage_a_optimizer_state_sha256: 99da477ee7e9b76e2812ab60a9f275900e963cddc5b968f38fb8c980b638ce2f
+    stage_b_backbone_after_sha256: 948d4c1891ff0c92eaca0102987fbf59881e9961b516474f4573e3cf5cfe8367
+    stage_b_fc_after_sha256: ed7179cc9fbe49521252729c14fced1a373e11d7d0797d9b746f08a1c7da66da
+    stage_b_optimizer_state_sha256: eddcaa303a1cb5e0f805a77170048fb25c641f67d3d9c087c4b27eee5e2cd34c
+    final_model_parameters_sha256: 413cd33f1f8098ad005a2e2e7fbd4bc556ff3eb9223445c827a6b3b54e74053a
+  reference_run:
+    input_shape:
+    - 2
+    - 3
+    - 256
+    - 432
+    stage_a:
+      loss: 0.7515515089035034
+      optimizer_structure:
+        defaults:
+          lr: 0.001
+          betas:
+          - 0.9
+          - 0.999
+          eps: 1.0e-08
+          weight_decay: 0.0001
+          amsgrad: false
+          foreach: false
+          maximize: false
+          capturable: false
+          differentiable: false
+          fused: false
+        groups:
+          fc_decay:
+            parameter_tensors: 1
+            parameter_elements: 1024
+            lr: 0.001
+            weight_decay: 0.0001
+          fc_no_decay:
+            parameter_tensors: 1
+            parameter_elements: 2
+            lr: 0.001
+            weight_decay: 0.0
+      optimizer_state:
+        state_entries: 2
+        state_keys:
+        - step
+        - exp_avg
+        - exp_avg_sq
+        amsgrad_extra_state: false
+      backbone_before_sha256: d044ed10c4575bc2b12921460a7287055b3955e2186b24d72b2f5e0203915083
+      backbone_after_sha256: d044ed10c4575bc2b12921460a7287055b3955e2186b24d72b2f5e0203915083
+      fc_before_sha256: 7f56b1258c9d3b2d77789e41379e218f4471070f1096afc3d49dadcb185372d4
+      fc_after_sha256: fd911172c73fc3a02e6ea744d1acb740917b00d1ab5f48807a13a864f603ce63
+      optimizer_state_sha256: 99da477ee7e9b76e2812ab60a9f275900e963cddc5b968f38fb8c980b638ce2f
+    stage_b:
+      loss: 0.6411717534065247
+      backbone_lr: 0.0001
+      optimizer_structure:
+        defaults:
+          lr: 0.001
+          betas:
+          - 0.9
+          - 0.999
+          eps: 1.0e-08
+          weight_decay: 0.0001
+          amsgrad: false
+          foreach: false
+          maximize: false
+          capturable: false
+          differentiable: false
+          fused: false
+        groups:
+          backbone_decay:
+            parameter_tensors: 20
+            parameter_elements: 11166912
+            lr: 0.0001
+            weight_decay: 0.0001
+          backbone_no_decay:
+            parameter_tensors: 40
+            parameter_elements: 9600
+            lr: 0.0001
+            weight_decay: 0.0
+          fc_decay:
+            parameter_tensors: 1
+            parameter_elements: 1024
+            lr: 0.001
+            weight_decay: 0.0001
+          fc_no_decay:
+            parameter_tensors: 1
+            parameter_elements: 2
+            lr: 0.001
+            weight_decay: 0.0
+      optimizer_state:
+        state_entries: 62
+        state_keys:
+        - step
+        - exp_avg
+        - exp_avg_sq
+        amsgrad_extra_state: false
+      backbone_before_sha256: d044ed10c4575bc2b12921460a7287055b3955e2186b24d72b2f5e0203915083
+      backbone_after_sha256: 948d4c1891ff0c92eaca0102987fbf59881e9961b516474f4573e3cf5cfe8367
+      fc_before_sha256: fd911172c73fc3a02e6ea744d1acb740917b00d1ab5f48807a13a864f603ce63
+      fc_after_sha256: ed7179cc9fbe49521252729c14fced1a373e11d7d0797d9b746f08a1c7da66da
+      optimizer_state_sha256: eddcaa303a1cb5e0f805a77170048fb25c641f67d3d9c087c4b27eee5e2cd34c
+    final_model_parameters_sha256: 413cd33f1f8098ad005a2e2e7fbd4bc556ff3eb9223445c827a6b3b54e74053a
+interpretation: PASS establishes that the frozen project_train-derived weighted cross-entropy
+  algebra, dataset-level epoch reduction, Stage-A classifier-only AdamW, fresh Stage-B
+  AdamW, optimizer hyperparameters, first-step Adam state, and deterministic same-seed
+  optimizer behavior match the frozen Tech-2 development protocol. This audit is not
+  a training run and accesses no dataset images.
