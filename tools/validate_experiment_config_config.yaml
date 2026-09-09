@@ -1,0 +1,6 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: validate_experiment_config_{timestamp}.log
+  level: INFO
