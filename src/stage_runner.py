@@ -79,6 +79,16 @@ import torch.nn as nn
 from torch.optim import Optimizer
 from torch.utils.data import DataLoader
 
+import logging
+import time
+from dataclasses import dataclass
+from typing import Any, Literal, Mapping
+
+
+PROGRESS_LOGGER = logging.getLogger(
+    "tech2.resnet18"
+)
+
 from src.development_metrics import (
     DevAUROCResult,
     compute_dev_auroc,
@@ -852,11 +862,79 @@ def run_training_stage(
         .maximum_epochs
     )
 
+    PROGRESS_LOGGER.info(
+        "Stage start | stage=%s | maximum_epochs=%d | patience=%d",
+        validated_stage,
+        maximum_epochs,
+        controller.contract.patience_epochs,
+        )
+
+
     for epoch in range(
         1,
         maximum_epochs
         + 1,
     ):
+
+        epoch_started = (
+        time.perf_counter()
+    )
+
+    # ==============================================================
+    # Complete project_train epoch
+    # ==============================================================
+
+        train_started = (
+            time.perf_counter()
+        )
+
+        train_result: TrainingEpochResult = (
+            train_one_epoch(
+                model=model,
+                loader=project_train_loader,
+                optimizer=optimizer,
+                objective=objective,
+                device=execution_device,
+                stage=validated_stage,
+            )
+        )
+
+        train_seconds = (
+            time.perf_counter()
+            - train_started
+        )
+
+        if (
+            train_result.stage
+            != validated_stage
+        ):
+
+            raise RuntimeError(
+                "Training epoch reported wrong stage."
+            )
+
+        # ==============================================================
+        # Complete dev_val evaluation
+        # ==============================================================
+
+        dev_started = (
+            time.perf_counter()
+        )
+
+        dev_result = (
+            evaluate_dev_one_epoch(
+                model=model,
+                loader=dev_val_loader,
+                objective=objective,
+                device=execution_device,
+            )
+        )
+
+        dev_seconds = (
+            time.perf_counter()
+            - dev_started
+        )
+
 
         # ==============================================================
         # Complete project_train epoch
@@ -991,6 +1069,46 @@ def run_training_stage(
                 ),
             )
         )
+
+        epoch_seconds = (
+            time.perf_counter()
+            - epoch_started
+            )
+
+        PROGRESS_LOGGER.info(
+            "Epoch complete | stage=%s | epoch=%d/%d | "
+            "train_loss=%.12f | dev_loss=%.12f | AUROC=%.12f | "
+            "raw_best_epoch=%d | raw_best_loss=%.12f | "
+            "checkpoint_updated=%s | patience=%d/%d | "
+            "meaningful_improvement=%s | stop=%s | "
+            "train_seconds=%.3f | dev_seconds=%.3f | epoch_seconds=%.3f",
+            validated_stage,
+            epoch,
+            maximum_epochs,
+            train_result.loss.weighted_loss,
+            dev_result.loss.weighted_loss,
+            dev_auroc.auroc,
+            decision.raw_best_epoch,
+            decision.raw_best_loss,
+            decision.raw_checkpoint_updated,
+            decision.patience_counter,
+            decision.patience_epochs,
+            decision.meaningful_improvement,
+            decision.should_stop,
+            train_seconds,
+            dev_seconds,
+            epoch_seconds,
+        )
+
+        if epoch_note is not None:
+
+            PROGRESS_LOGGER.info(
+                "Stage transition | stage=%s | epoch=%d | %s",
+                validated_stage,
+                epoch,
+                epoch_note,
+            )
+
 
         final_decision = (
             decision
@@ -1162,6 +1280,24 @@ def run_training_stage(
     stop_reason = _stop_reason(
         final_decision
     )
+
+    PROGRESS_LOGGER.info(
+        "Stage complete | stage=%s | epochs=%d | stop=%s | "
+        "raw_best_epoch=%d | raw_best_loss=%.12f | "
+        "AUROC_at_raw_best=%.12f | best_AUROC=%.12f | "
+        "best_AUROC_epoch=%d",
+        validated_stage,
+        len(
+            history
+        ),
+        stop_reason,
+        controller.raw_best_epoch,
+        controller.raw_best_loss,
+        selected_checkpoint_auroc,
+        best_dev_auroc,
+        best_dev_auroc_epoch,
+    )
+
 
     return StageRunResult(
         stage=validated_stage,

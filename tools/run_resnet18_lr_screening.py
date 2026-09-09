@@ -174,7 +174,7 @@ VALIDATION_HANDOFF_PATTERN = re.compile(
 
 
 LOGGER = logging.getLogger(
-    "run_resnet18_lr_screening"
+    "tech2.resnet18"
 )
 
 
@@ -1277,10 +1277,9 @@ def main() -> int:
             "  Stage A once, then Stage B for backbone LRs "
             "[3e-5, 1e-4, 3e-4]."
         )
-
+        
         LOGGER.info(
-            "  This command may be quiet while GPU epochs execute; "
-            "complete epoch histories are persisted at successful end."
+           "  Live epoch timing/loss/AUROC progress will be logged below."
         )
 
         # ==============================================================

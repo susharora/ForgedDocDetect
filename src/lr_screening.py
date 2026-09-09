@@ -54,8 +54,16 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping
 
+import gc
+import logging
+from dataclasses import dataclass
+
 import torch
 import torch.nn as nn
+
+PROGRESS_LOGGER = logging.getLogger(
+    "tech2.resnet18"
+)
 
 from src.dataloading import (
     DevelopmentDataLoaders,
@@ -960,6 +968,21 @@ def run_resolution_lr_screening(
         repo_root
     ).resolve()
 
+
+    PROGRESS_LOGGER.info(
+        "Resolution screen start | resolution=%s | seed=%d | "
+        "stage_b_backbone_lrs=%s",
+        resolution_name,
+        run_seed,
+        contract.backbone_lr_candidates,
+    )
+
+    PROGRESS_LOGGER.info(
+        "Stage A start | resolution=%s | seed=%d",
+        resolution_name,
+        run_seed,
+    )
+
     # ==================================================================
     # Stage A — ONCE for this resolution + seed.
     # ==================================================================
@@ -993,6 +1016,17 @@ def run_resolution_lr_screening(
         objective=stage_a_objective,
         device=device,
     )
+
+    PROGRESS_LOGGER.info(
+        "Stage A selected checkpoint | resolution=%s | seed=%d | "
+        "epoch=%d | weighted_dev_loss=%.12f | model_sha256=%s",
+        resolution_name,
+        run_seed,
+        stage_a_result.raw_best_epoch,
+        stage_a_result.raw_best_weighted_dev_loss,
+        stage_a_result.raw_best_checkpoint.model_state_sha256,
+    )
+
 
     if stage_a_result.stage != "stage_a":
 
@@ -1049,6 +1083,14 @@ def run_resolution_lr_screening(
     for backbone_lr in (
         contract.backbone_lr_candidates
     ):
+
+        PROGRESS_LOGGER.info(
+            "Stage B branch start | resolution=%s | seed=%d | "
+            "backbone_lr=%.8g",
+            resolution_name,
+            run_seed,
+            backbone_lr,
+        )
 
         branch = build_stage_b_branch(
             experiment_cfg=experiment_cfg,
@@ -1119,6 +1161,36 @@ def run_resolution_lr_screening(
             )
         )
 
+        disagreement = (
+            stage_b_result
+            .stage_b_auroc_disagreement
+        )
+
+        if disagreement is None:
+
+            raise RuntimeError(
+                "Stage-B candidate is missing AUROC disagreement result."
+            )
+
+        PROGRESS_LOGGER.info(
+            "Stage B branch complete | resolution=%s | seed=%d | "
+            "backbone_lr=%.8g | epochs=%d | raw_best_epoch=%d | "
+            "raw_best_dev_loss=%.12f | AUROC_at_raw_best=%.12f | "
+            "best_AUROC=%.12f | AUROC_difference=%.12f | "
+            "protocol_review=%s",
+            resolution_name,
+            run_seed,
+            backbone_lr,
+            stage_b_result.epochs_completed,
+            stage_b_result.raw_best_epoch,
+            stage_b_result.raw_best_weighted_dev_loss,
+            stage_b_result.dev_auroc_at_raw_best_checkpoint,
+            stage_b_result.best_dev_auroc,
+            disagreement.difference,
+            disagreement.protocol_review_flag,
+        )
+        
+
         if stage_b_result.stage != "stage_b":
 
             raise RuntimeError(
@@ -1135,12 +1207,7 @@ def run_resolution_lr_screening(
             raise RuntimeError(
                 "Stage-B candidate did not produce a Stage-B checkpoint."
             )
-
-        disagreement = (
-            stage_b_result
-            .stage_b_auroc_disagreement
-        )
-
+        
         if disagreement is None:
 
             raise RuntimeError(
@@ -1262,6 +1329,19 @@ def run_resolution_lr_screening(
         for candidate
         in candidates
     )
+
+    PROGRESS_LOGGER.info(
+        "Resolution screen selection | resolution=%s | seed=%d | "
+        "selected_backbone_lr=%.8g | selected_dev_loss=%.12f | "
+        "exact_loss_tie=%s | protocol_review_required=%s",
+        resolution_name,
+        run_seed,
+        selected.backbone_lr,
+        selected_loss,
+        exact_tie,
+        protocol_review_required,
+    )
+
 
     # Independent selection check:
     expected_selected_lr = min(
