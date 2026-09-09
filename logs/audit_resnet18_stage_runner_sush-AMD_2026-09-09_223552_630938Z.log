@@ -1,0 +1,59 @@
+2026-09-09T22:35:52Z | INFO | ========================================================================
+2026-09-09T22:35:52Z | INFO | RESNET-18 MULTI-EPOCH STAGE-RUNNER ORCHESTRATION AUDIT
+2026-09-09T22:35:52Z | INFO | ========================================================================
+2026-09-09T22:35:52Z | INFO | Git commit: 60c628a1ad44cf0d44c69201dc706bc8bdf047be
+2026-09-09T22:35:52Z | INFO | Git working tree clean before evidence generation: True
+2026-09-09T22:35:52Z | INFO | Machine ID: sush-AMD
+2026-09-09T22:35:52Z | INFO | Execution device: CPU only
+2026-09-09T22:35:52Z | INFO | Experiment config SHA-256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-09T22:35:52Z | INFO | Validator log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_223552_598604Z.log
+2026-09-09T22:35:52Z | INFO | Validator log SHA-256: 2f6d124849032a6dca0ae6c47e7c44e5f2c5238fa2dedb440c72f474f4358182
+2026-09-09T22:35:52Z | INFO | Audit script SHA-256: 0258e777856f717eb478e3b9326df79268b672914746c10d0963f0bd7e2308b1
+2026-09-09T22:35:52Z | INFO | Audit config SHA-256: f65fb58568f0c258356b6c68acd2ecf256c2dd8a3ef8d6340129aa7380cad337
+2026-09-09T22:35:52Z | INFO | src/stage_runner.py SHA-256: 96583d3732a7a1cabb0acead10f075e13ec8acda8bc6aa2b1ced81e7ea9be027
+2026-09-09T22:35:52Z | INFO | src/training_control.py SHA-256: 2801d00601f737ca133b8e5621966fb642f8d7f46ac627dee58aedb1d546d749
+2026-09-09T22:35:52Z | INFO | src/development_metrics.py SHA-256: cee65d2fc5c9dc448dd3d1296811525978b01d5f39039c11bcb9fe620884fc3f
+2026-09-09T22:35:52Z | INFO | src/engine.py SHA-256: d4a48dfc50d9a242f4a0b75b9fd3d867b9f9736ccbd2f195e45be51aca6d42d5
+2026-09-09T22:35:52Z | INFO | One-epoch engine: SYNTHETICALLY STUBBED
+2026-09-09T22:35:52Z | INFO | AUROC computation: SYNTHETICALLY STUBBED
+2026-09-09T22:35:52Z | INFO | Stopping/checkpoint controller: REAL PRODUCTION IMPLEMENTATION
+2026-09-09T22:35:52Z | INFO | Stage runner: REAL PRODUCTION IMPLEMENTATION
+2026-09-09T22:35:52Z | INFO | FantasyID Dataset construction: NONE
+2026-09-09T22:35:52Z | INFO | Image decoding: NONE
+2026-09-09T22:35:52Z | INFO | Forward/backward/optimizer step: NONE
+2026-09-09T22:35:52Z | INFO | FPR10 threshold derivation: NONE
+2026-09-09T22:35:52Z | INFO | Held-out test: NOT ACCESSED
+2026-09-09T22:35:52Z | INFO | 
+2026-09-09T22:35:52Z | INFO | --- Synthetic orchestration cases ---
+2026-09-09T22:35:52Z | INFO | [PASS] stage_a_patience_restore | stage=stage_a | epochs=3 | stop=patience | raw_best_epoch=2 | best_auroc_epoch=3
+2026-09-09T22:35:52Z | INFO | [PASS] stage_b_patience_auroc_flag | stage=stage_b | epochs=6 | stop=patience | raw_best_epoch=2 | best_auroc_epoch=6
+2026-09-09T22:35:52Z | INFO | [PASS] stage_b_no_auroc_flag | stage=stage_b | epochs=6 | stop=patience | raw_best_epoch=2 | best_auroc_epoch=1
+2026-09-09T22:35:52Z | INFO | [PASS] stage_a_maximum_epochs | stage=stage_a | epochs=10 | stop=maximum_epochs | raw_best_epoch=10 | best_auroc_epoch=1
+2026-09-09T22:35:52Z | INFO | 
+2026-09-09T22:35:52Z | INFO | --- Invalid-stage guard ---
+2026-09-09T22:35:52Z | INFO | [PASS] invalid stage 'stage_c' rejected
+2026-09-09T22:35:52Z | INFO | 
+2026-09-09T22:35:52Z | INFO | ========================================================================
+2026-09-09T22:35:52Z | INFO | AUDIT SUMMARY
+2026-09-09T22:35:52Z | INFO | ========================================================================
+2026-09-09T22:35:52Z | INFO | [PASS] train -> dev -> AUROC ordering
+2026-09-09T22:35:52Z | INFO | [PASS] Stage-A patience stopping
+2026-09-09T22:35:52Z | INFO | [PASS] Stage-B patience stopping
+2026-09-09T22:35:52Z | INFO | [PASS] maximum-epoch stopping
+2026-09-09T22:35:52Z | INFO | [PASS] weighted dev loss alone selects raw checkpoint
+2026-09-09T22:35:52Z | INFO | [PASS] AUROC cannot switch selected checkpoint
+2026-09-09T22:35:52Z | INFO | [PASS] Stage-B >0.01 disagreement flags review
+2026-09-09T22:35:52Z | INFO | [PASS] Stage-B zero disagreement does not flag
+2026-09-09T22:35:52Z | INFO | [PASS] Stage-B transition note at epoch 1 only
+2026-09-09T22:35:52Z | INFO | [PASS] Stage-A contains no Stage-B transition note
+2026-09-09T22:35:52Z | INFO | [PASS] raw-best model restored exactly
+2026-09-09T22:35:52Z | INFO | [PASS] completed model left in eval mode
+2026-09-09T22:35:52Z | INFO | [PASS] optimizer reuse forbidden after selected-state restore
+2026-09-09T22:35:52Z | INFO | [PASS] invalid stage rejected
+2026-09-09T22:35:52Z | INFO | [PASS] no FantasyID data/images accessed
+2026-09-09T22:35:52Z | INFO | [PASS] held-out test NOT ACCESSED
+2026-09-09T22:35:52Z | INFO | Audit result: /home/sush/ForgedDocDetect/logs/audit_resnet18_stage_runner_sush-AMD_2026-09-09_223552_630938Z.yaml
+2026-09-09T22:35:52Z | INFO | Audit result SHA-256: 836d3df824a85ade98b96492e0b694143a8bad09df2fc0e66618a685313cad1e
+2026-09-09T22:35:52Z | INFO | ========================================================================
+2026-09-09T22:35:52Z | INFO | RESNET-18 MULTI-EPOCH STAGE-RUNNER ORCHESTRATION AUDIT: PASS
+2026-09-09T22:35:52Z | INFO | ========================================================================
