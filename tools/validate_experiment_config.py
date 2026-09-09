@@ -981,6 +981,226 @@ def validate_machine_config(
     )
 
 
+# ========================
+# validate branch init
+# ========================
+
+def validate_stage_b_branch_initialisation(
+    experiment_cfg: dict[str, Any],
+) -> None:
+    """
+    Validate the frozen Stage-A -> Stage-B branch-reset contract.
+
+    Scientific intent:
+    - carry only the Stage-A raw-best MODEL state;
+    - reset mutable RNG/DataLoader state from run_seed;
+    - create a fresh Stage-B optimizer;
+    - keep corresponding Stage-B batch ordering identical across
+      backbone-LR candidates.
+    """
+
+    expected_values = {
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.policy"
+        ):
+            (
+                "reset_from_run_seed_before_each_stage_b_branch"
+            ),
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.ordered_steps"
+        ):
+            [
+                "configure_run_reproducibility_from_run_seed",
+                "build_fresh_development_dataloaders_from_run_seed",
+                "build_fresh_resnet18_classifier",
+                "restore_exact_stage_a_raw_argmin_model_state",
+                "apply_stage_b_train_contract",
+                "construct_fresh_stage_b_optimizer",
+            ],
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.model_checkpoint.source"
+        ):
+            "exact_stage_a_raw_argmin_checkpoint",
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.model_checkpoint."
+            "contents_carried.model_parameters_and_buffers"
+        ):
+            True,
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.model_checkpoint."
+            "contents_carried.optimizer_state"
+        ):
+            False,
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.model_checkpoint."
+            "contents_carried.global_rng_state"
+        ):
+            False,
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.model_checkpoint."
+            "contents_carried.dataloader_generator_state"
+        ):
+            False,
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.global_rng.policy"
+        ):
+            "reset_from_run_seed",
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.global_rng.carry_stage_a_state"
+        ):
+            False,
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.dataloader_rng.policy"
+        ):
+            "fresh_generators_seeded_from_run_seed",
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.dataloader_rng."
+            "project_train_generator"
+        ):
+            "run_seed",
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.dataloader_rng."
+            "dev_val_generator"
+        ):
+            "run_seed",
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.dataloader_rng."
+            "carry_stage_a_project_train_generator_state"
+        ):
+            False,
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.dataloader_rng."
+            "carry_stage_a_dev_val_generator_state"
+        ):
+            False,
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.lr_branch_comparability."
+            "all_lr_candidates_same_stage_a_model_checkpoint"
+        ):
+            True,
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.lr_branch_comparability."
+            "all_lr_candidates_same_initial_global_rng_state"
+        ):
+            True,
+
+        (
+            "transfer_learning.stage_b."
+            "branch_initialisation.lr_branch_comparability."
+            "same_project_train_order_for_corresponding_stage_b_epochs"
+        ):
+            True,
+    }
+
+    for (
+        dotted_path,
+        expected,
+    ) in expected_values.items():
+
+        check_config_value(
+            experiment_cfg,
+            dotted_path,
+            expected,
+        )
+
+    # --------------------------------------------------------------
+    # Cross-check against the already-frozen Stage-B model source.
+    # --------------------------------------------------------------
+
+    existing_source = config_value(
+        experiment_cfg,
+        (
+            "transfer_learning."
+            "stage_b."
+            "initial_checkpoint."
+            "source"
+        ),
+    )
+
+    branch_source = config_value(
+        experiment_cfg,
+        (
+            "transfer_learning."
+            "stage_b."
+            "branch_initialisation."
+            "model_checkpoint."
+            "source"
+        ),
+    )
+
+    check_equal(
+        "Stage-B initial checkpoint vs branch model source",
+        branch_source,
+        existing_source,
+    )
+
+    # --------------------------------------------------------------
+    # Cross-check against the already-frozen fresh-optimizer rule.
+    # --------------------------------------------------------------
+
+    check_equal(
+        "Stage-B branch reset requires fresh optimizer",
+        config_value(
+            experiment_cfg,
+            (
+                "transfer_learning."
+                "stage_b."
+                "optimizer."
+                "fresh_optimizer_instance"
+            ),
+        ),
+        True,
+    )
+
+    # --------------------------------------------------------------
+    # Cross-check against seed binding.
+    # --------------------------------------------------------------
+
+    check_equal(
+        "Stage-B train-generator seed vs run-seed binding",
+        config_value(
+            experiment_cfg,
+            (
+                "reproducibility."
+                "seed_plan."
+                "seed_binding."
+                "dataloader_generator"
+            ),
+        ),
+        "run_seed",
+    )
+
 # ======================================================================
 # Seed contract
 # ======================================================================
@@ -1983,7 +2203,7 @@ def validate_scientific_protocol(
         # --------------------------------------------------------------
 
         "schema_version":
-            2,
+            3,
 
         "experiment.name":
             "resnet18_gradcam_fantasyid",
@@ -3282,6 +3502,14 @@ def validate_scientific_protocol(
             dotted_path,
             expected,
         )
+
+    # ------------------------------------------------------------------
+    # Stage-A -> Stage-B branch/RNG reset contract
+    # ------------------------------------------------------------------
+
+    validate_stage_b_branch_initialisation(
+        config
+    )
 
     # ------------------------------------------------------------------
     # Protocol status can advance from validation-ready to frozen later.

@@ -1,4 +1,4 @@
-schema_version: 2
+schema_version: 3
 
 
 # ======================================================================
@@ -498,6 +498,75 @@ transfer_learning:
 
     initial_checkpoint:
       source: exact_stage_a_raw_argmin_checkpoint
+
+    # ------------------------------------------------------------------
+    # Stage-A -> Stage-B branch initialisation
+    #
+    # Stage B is a new optimisation stage.
+    #
+    # The exact Stage-A raw-argmin MODEL state is restored, but
+    # optimizer/RNG/DataLoader mutable state is not continued from
+    # Stage A.
+    #
+    # Every Stage-B LR candidate is restarted from the same run_seed.
+    # Therefore corresponding Stage-B epochs see the same training
+    # sample order across LR candidates.
+    # ------------------------------------------------------------------
+
+    branch_initialisation:
+
+      policy:
+        reset_from_run_seed_before_each_stage_b_branch
+
+      ordered_steps:
+        - configure_run_reproducibility_from_run_seed
+        - build_fresh_development_dataloaders_from_run_seed
+        - build_fresh_resnet18_classifier
+        - restore_exact_stage_a_raw_argmin_model_state
+        - apply_stage_b_train_contract
+        - construct_fresh_stage_b_optimizer
+
+      model_checkpoint:
+
+        source:
+          exact_stage_a_raw_argmin_checkpoint
+
+        contents_carried:
+          model_parameters_and_buffers: true
+
+          optimizer_state: false
+          global_rng_state: false
+          dataloader_generator_state: false
+
+      global_rng:
+
+        policy:
+          reset_from_run_seed
+
+        carry_stage_a_state: false
+
+      dataloader_rng:
+
+        policy:
+          fresh_generators_seeded_from_run_seed
+
+        project_train_generator:
+          run_seed
+
+        dev_val_generator:
+          run_seed
+
+        carry_stage_a_project_train_generator_state: false
+        carry_stage_a_dev_val_generator_state: false
+
+      lr_branch_comparability:
+
+        all_lr_candidates_same_stage_a_model_checkpoint: true
+
+        all_lr_candidates_same_initial_global_rng_state: true
+
+        same_project_train_order_for_corresponding_stage_b_epochs: true
+
 
     optimizer:
       fresh_optimizer_instance: true

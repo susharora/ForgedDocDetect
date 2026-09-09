@@ -874,3 +874,60 @@ Changes to any FROZEN item after this boundary require:
 
 The optional/deferred experiments do not become active merely by being
 listed here.
+
+---
+
+## D25 — Restart Stage-B branch RNG state from the run seed
+
+**Status:** FROZEN
+
+**Decision**
+
+For every Stage-B branch for a given resolution + run seed + backbone
+learning rate:
+
+1. reapply the frozen run-level reproducibility configuration using the
+   same `run_seed`;
+2. construct fresh project_train and dev_val DataLoaders whose generators
+   are seeded from that `run_seed`;
+3. construct a fresh ResNet-18 instance;
+4. restore the exact raw-argmin Stage-A model parameters and buffers;
+5. apply the Stage-B full-backbone training contract;
+6. construct a fresh Stage-B AdamW optimizer.
+
+The Stage-A -> Stage-B boundary carries only the selected model state.
+
+Do not carry:
+
+- Stage-A AdamW state;
+- Python RNG state;
+- NumPy RNG state;
+- torch CPU/CUDA RNG state;
+- project_train DataLoader-generator state;
+- dev_val DataLoader-generator state.
+
+All Stage-B LR candidates for a given resolution and seed must therefore
+begin with:
+
+- the same Stage-A raw-best model state;
+- the same run-level RNG initialization;
+- the same project_train ordering for corresponding Stage-B epochs.
+
+**Reason**
+
+The backbone learning rate is the variable being compared during the
+Stage-B screening experiment.
+
+Continuing mutable Stage-A RNG/DataLoader state would make the Stage-B
+batch sequence depend on how many Stage-A epochs happened to execute and
+on which Stage-A epoch became the raw-best checkpoint.
+
+Resetting every Stage-B branch from the frozen `run_seed` isolates the LR
+comparison from Stage-A stopping duration and gives all LR candidates the
+same minibatch-order exposure.
+
+This is also consistent with Stage B already being defined as a new
+optimization stage with a fresh AdamW optimizer.
+
+The selected Stage-A model state remains the only scientific state
+carried across the stage boundary.
