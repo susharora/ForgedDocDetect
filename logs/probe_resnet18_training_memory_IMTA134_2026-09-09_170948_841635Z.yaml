@@ -1,0 +1,50 @@
+schema_version: 1
+status: PASS
+machine:
+  id: IMTA134
+  gpu: NVIDIA RTX PRO 5000 Blackwell
+  compute_capability: '12.0'
+  total_vram_gib: 47.78765869140625
+  initial_global_free_gib: 46.3623046875
+  initial_global_free_fraction: 0.9701731777003217
+provenance:
+  git_commit: 996b55e71bb37f94df73ec0c28b9aab8f2a67f73
+  script_sha256: 19f02e8bcd2ff203e1f0f58411d44cbbda8be575c7d05f87a6087995d6cfb35b
+  probe_config_sha256: 78b488700f2309bbfb7428305f9f64232040e91cb1d58df95a1200dcd8d95a60
+  experiment_config_sha256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+probe:
+  architecture: resnet18
+  weights: IMAGENET1K_V1
+  batch_size: 32
+  input_shape_nchw:
+  - 32
+  - 3
+  - 512
+  - 864
+  dtype: float32
+  amp: false
+  model_mode: train
+  full_backbone_trainable: true
+  training_steps: 3
+  optimizer: AdamW
+  optimizer_foreach: false
+  optimizer_fused: false
+memory:
+  allocated_before_step_gib: 0.19989442825317383
+  reserved_before_step_gib: 0.220703125
+  peak_allocated_gib: 6.669209957122803
+  peak_reserved_gib: 8.88671875
+  peak_allocated_fraction: 0.13955925315759696
+  peak_reserved_fraction: 0.18596263121796583
+  reserved_headroom_gib: 38.90093994140625
+  max_allowed_peak_reserved_fraction: 0.8
+runtime:
+  elapsed_seconds: 2.7655928769963793
+  mean_step_seconds: 0.9218642923321264
+  synthetic_losses:
+  - 0.7140496969223022
+  - 0.1235615462064743
+  - 0.022704873234033585
+interpretation: PASS establishes that this machine can execute the proposed worst-case
+  FP32 Stage-B tensor shape with the configured VRAM safety margin. It does not validate
+  image preprocessing or classifier performance.
