@@ -1,0 +1,93 @@
+2026-09-09T16:40:53Z | INFO | ========================================================================
+2026-09-09T16:40:53Z | INFO | FROZEN TRAIN/DEV STEM-FAMILY AUDIT
+2026-09-09T16:40:53Z | INFO | ========================================================================
+2026-09-09T16:40:53Z | INFO | Git commit: b659b9a6d18dc1bf6a249776da65a4b1c66d46b5
+2026-09-09T16:40:53Z | INFO | Script SHA-256: fd59a5c6a370e9d584f2161c6e9440c62d478a0e2735dc6e68715d4688f48cd9
+2026-09-09T16:40:53Z | INFO | Audit config SHA-256: ad271d68e96575f0339ae157f353009dc80aae56a50c21c5e87c0c43d765a8a6
+2026-09-09T16:40:53Z | INFO | Experiment config SHA-256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+2026-09-09T16:40:53Z | INFO | Terminology: auditing Tech-1 'stem_family', not asserting formal template identity.
+2026-09-09T16:40:53Z | INFO | Held-out test: NOT ACCESSED
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | TECH-2 EXPERIMENT CONFIGURATION VALIDATION
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | 
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | Experiment config:
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE |   /home/sush/ForgedDocDetect/configs/experiments/resnet18_gradcam.yaml
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE |   SHA-256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | 
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | Machine config:
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE |   /home/sush/ForgedDocDetect/configs/local.yaml
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE |   SHA-256 intentionally not treated as scientific provenance
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | 
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | --- Machine contract ---
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] dataset_root exists
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE |        /home/sush/ForgedDocDetect/data/FantasyID
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [INFO] runs_root
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE |        /home/sush/ForgedDocDetect/runs
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | 
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | --- Reproducibility contract ---
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] required random seeds are explicitly defined
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | 
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | --- Frozen Tech-1 provenance ---
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] source discovery workbook SHA-256
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE |        54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] frozen split bundle SHA-256
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE |        95cc748a4e520d90c44f68f7e0317711a659a636802debdf78887a10a85383e1
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] bundle source workbook filename
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] bundle source workbook SHA-256
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] cards filename agrees with bundle
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] cards SHA-256 agrees with bundle
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] cards expected rows agree with bundle
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] cards manifest SHA-256
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE |        414972b290094f6d85ae0fb564bb336b17ffd067c4ac988fa4f74c8950b770fb
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] cards manifest rows = 211
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] project_train filename agrees with bundle
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] project_train SHA-256 agrees with bundle
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] project_train expected rows agree with bundle
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] project_train manifest SHA-256
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE |        6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] project_train manifest rows = 1440
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] dev_val filename agrees with bundle
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] dev_val SHA-256 agrees with bundle
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] dev_val expected rows agree with bundle
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] dev_val manifest SHA-256
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE |        46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] dev_val manifest rows = 459
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] project_train card count
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] project_train image count
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] dev_val card count
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] dev_val image count
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | 
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | --- Held-out test contract ---
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | [PASS] held-out test policy
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | 
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | EXPERIMENT CONFIGURATION VALIDATION: PASS
+2026-09-09T16:40:53Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-09T16:40:53Z | INFO | [PASS] Frozen Tech-1 provenance gate
+2026-09-09T16:40:53Z | INFO | Frozen cards manifest: /home/sush/ForgedDocDetect/output/splits/fantasyid_project_split_2026-09-05_091937_cards.csv
+2026-09-09T16:40:53Z | INFO | Frozen cards SHA-256: 414972b290094f6d85ae0fb564bb336b17ffd067c4ac988fa4f74c8950b770fb
+2026-09-09T16:40:53Z | INFO | [PASS] Card counts: total=211 project_train=160 dev_val=51
+2026-09-09T16:40:53Z | INFO | [PASS] Expected stem-family set: 10 families
+2026-09-09T16:40:53Z | INFO | ------------------------------------------------------------------------
+2026-09-09T16:40:53Z | INFO | STEM-FAMILY DISTRIBUTION
+2026-09-09T16:40:53Z | INFO |   arabic     source= 22 train= 17 dev= 5 target= 5 delta=+0 dev-source=-0.623 pp
+2026-09-09T16:40:53Z | INFO |   chinese    source= 23 train= 17 dev= 6 target= 6 delta=+0 dev-source=+0.864 pp
+2026-09-09T16:40:53Z | INFO |   french     source= 23 train= 17 dev= 6 target= 6 delta=+0 dev-source=+0.864 pp
+2026-09-09T16:40:53Z | INFO |   indian     source= 14 train= 11 dev= 3 target= 3 delta=+0 dev-source=-0.753 pp
+2026-09-09T16:40:53Z | INFO |   persian    source= 17 train= 13 dev= 4 target= 4 delta=+0 dev-source=-0.214 pp
+2026-09-09T16:40:53Z | INFO |   portugal   source= 28 train= 21 dev= 7 target= 7 delta=+0 dev-source=+0.455 pp
+2026-09-09T16:40:53Z | INFO |   russian    source= 16 train= 12 dev= 4 target= 4 delta=+0 dev-source=+0.260 pp
+2026-09-09T16:40:53Z | INFO |   turkiye    source= 25 train= 19 dev= 6 target= 6 delta=+0 dev-source=-0.084 pp
+2026-09-09T16:40:53Z | INFO |   ukraine    source= 17 train= 13 dev= 4 target= 4 delta=+0 dev-source=-0.214 pp
+2026-09-09T16:40:53Z | INFO |   usa        source= 26 train= 20 dev= 6 target= 6 delta=+0 dev-source=-0.558 pp
+2026-09-09T16:40:53Z | INFO | ------------------------------------------------------------------------
+2026-09-09T16:40:53Z | INFO | Maximum absolute dev-vs-source stem-family proportion difference: 0.864 percentage points
+2026-09-09T16:40:53Z | INFO | [PASS] All 10 stem families occur in project_train.
+2026-09-09T16:40:53Z | INFO | [PASS] All 10 stem families occur in dev_val.
+2026-09-09T16:40:53Z | INFO | [PASS] dev_val exactly matches reconstructed largest-remainder stem-family quotas.
+2026-09-09T16:40:53Z | INFO | Audit CSV: /home/sush/ForgedDocDetect/logs/audit_split_stem_family_2026-09-09_164053_260036Z.csv
+2026-09-09T16:40:53Z | INFO | Audit CSV SHA-256: 1b9b77a00c1fd3588430b81cdefe446a944886946077fc2623a334019b162ed8
+2026-09-09T16:40:53Z | INFO | ========================================================================
+2026-09-09T16:40:53Z | INFO | FROZEN TRAIN/DEV STEM-FAMILY AUDIT: PASS
+2026-09-09T16:40:53Z | INFO | ========================================================================
