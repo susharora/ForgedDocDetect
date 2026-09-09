@@ -1,0 +1,61 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_resnet18_development_metrics_{machine_id}_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: audit_resnet18_development_metrics_{machine_id}_{timestamp}.yaml
+
+audit:
+
+  expected_experiment_config_sha256:
+    c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+
+  expected_contract:
+
+    positive_class_name: attack
+    positive_class_index: 1
+
+    diagnostic_enabled: true
+    participates_in_checkpoint_selection: false
+
+    stage_b_disagreement_guard_enabled: true
+    stage_b_disagreement_threshold: 0.01
+
+    automatically_switch_checkpoint: false
+
+    guard_definition:
+      "best_dev_auroc_over_run - dev_auroc_at_loss_argmin_checkpoint"
+
+  expected_dev:
+
+    total: 459
+    bonafide: 153
+    attack: 306
+
+    positive_negative_pairs: 46818
+
+  expected_cases:
+
+    perfect:
+      auroc: 1.0
+      strict_attack_wins: 46818
+      tied_pairs: 0
+
+    reversed:
+      auroc: 0.0
+      strict_attack_wins: 0
+      tied_pairs: 0
+
+    all_tied:
+      auroc: 0.5
+      strict_attack_wins: 0
+      tied_pairs: 46818
+
+    mixed_ties:
+      auroc: 0.5
+      strict_attack_wins: 15606
+      tied_pairs: 15606
