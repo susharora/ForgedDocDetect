@@ -1,0 +1,72 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_resnet18_model_contract_{machine_id}_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: audit_resnet18_model_contract_{machine_id}_{timestamp}.yaml
+
+audit:
+
+  seeds:
+    - 8
+    - 9
+    - 10
+
+  repeated_builds_per_seed: 2
+
+  stage_probe:
+    seed: 8
+    resolution: r256
+    batch_size: 2
+    stage_b_backbone_lr: 0.0001
+    require_cuda: true
+
+  expected_model:
+    total_parameters: 11177538
+    backbone_parameters: 11176512
+    classifier_parameters: 1026
+    batchnorm_modules: 20
+
+  expected_stage_a_groups:
+
+    fc_decay:
+      parameter_tensors: 1
+      parameter_elements: 1024
+      learning_rate: 0.001
+      weight_decay: 0.0001
+
+    fc_no_decay:
+      parameter_tensors: 1
+      parameter_elements: 2
+      learning_rate: 0.001
+      weight_decay: 0.0
+
+  expected_stage_b_groups:
+
+    backbone_decay:
+      parameter_tensors: 20
+      parameter_elements: 11166912
+      learning_rate: 0.0001
+      weight_decay: 0.0001
+
+    backbone_no_decay:
+      parameter_tensors: 40
+      parameter_elements: 9600
+      learning_rate: 0.0001
+      weight_decay: 0.0
+
+    fc_decay:
+      parameter_tensors: 1
+      parameter_elements: 1024
+      learning_rate: 0.001
+      weight_decay: 0.0001
+
+    fc_no_decay:
+      parameter_tensors: 1
+      parameter_elements: 2
+      learning_rate: 0.001
+      weight_decay: 0.0
