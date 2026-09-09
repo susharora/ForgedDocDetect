@@ -11,7 +11,7 @@ experiment:
   task: binary_classification
 
   protocol_stage: transfer_learning_development
-  protocol_status: ready_for_validation
+  protocol_status: frozen
 
   primary_model_scope:
     supervision: image_level_labels_only
