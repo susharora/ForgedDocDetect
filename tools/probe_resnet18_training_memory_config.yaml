@@ -1,0 +1,80 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: probe_resnet18_training_memory_{machine_id}_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: probe_resnet18_training_memory_{machine_id}_{timestamp}.yaml
+
+probe:
+  architecture: resnet18
+  weights: IMAGENET1K_V1
+
+  # Worst-case candidate resolution.
+  batch_size: 32
+  input_channels: 3
+  input_height: 512
+  input_width: 864
+
+  # FP32 means no autocast / AMP.
+  dtype: float32
+  amp: false
+
+  # Full Stage-B behaviour: backbone + head trainable and
+  # BatchNorm in train mode.
+  full_backbone_trainable: true
+  model_mode: train
+
+  # More than one step is intentional:
+  # AdamW moment buffers are first materialised on step 1.
+  training_steps: 3
+
+  # Synthetic targets contain both binary classes.
+  num_classes: 2
+
+  # Memory footprint is independent of these exact values, but the
+  # optimizer structure mirrors the proposed Stage-B recipe.
+  optimizer:
+    name: AdamW
+
+    backbone_lr: 0.0003
+    fc_lr: 0.001
+
+    weight_decay: 0.0001
+
+    betas:
+      - 0.9
+      - 0.999
+
+    eps: 1.0e-8
+    amsgrad: false
+
+    # Explicit for reproducibility / memory behaviour.
+    foreach: false
+    fused: false
+
+    # Biases and BatchNorm affine parameters receive no decay.
+    exclude_bias_from_decay: true
+    exclude_batchnorm_from_decay: true
+
+  determinism:
+    seed: 8
+    cudnn_benchmark: false
+    cudnn_deterministic: true
+    deterministic_algorithms: true
+    allow_tf32_matmul: false
+    allow_tf32_cudnn: false
+    cublas_workspace_config: ":4096:8"
+
+  # Operational memory guard.
+  #
+  # The probe must both execute successfully AND leave at least
+  # 20% of total device VRAM outside this process's peak reserved
+  # CUDA memory.
+  max_peak_reserved_fraction: 0.80
+
+  # Avoid treating a heavily occupied shared GPU as valid evidence.
+  minimum_initial_global_free_fraction: 0.80
