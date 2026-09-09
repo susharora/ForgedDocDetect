@@ -1,0 +1,46 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_resnet18_epoch_engine_{machine_id}_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: audit_resnet18_epoch_engine_{machine_id}_{timestamp}.yaml
+
+audit:
+
+  seed: 8
+  resolution: r256
+
+  stages:
+    - stage_a
+    - stage_b
+
+  repeats_per_stage: 2
+
+  stage_b_backbone_lr: 0.0001
+
+  require_cuda: true
+
+  expected:
+
+    project_train:
+      rows: 1440
+      batches: 45
+      bonafide: 480
+      attack: 960
+      weight_denominator: 1440.0
+      optimizer_steps: 45
+
+    dev_val:
+      rows: 459
+      batches: 15
+      bonafide: 153
+      attack: 306
+      weight_denominator: 459.0
+
+    optimizer_state_entries:
+      stage_a: 2
+      stage_b: 62
