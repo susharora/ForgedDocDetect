@@ -214,6 +214,42 @@ def _require_dataset_role(
 
     return dataset
 
+def _device_matches(
+    *,
+    actual: torch.device,
+    requested: torch.device,
+) -> bool:
+    """
+    Match a concrete tensor/device location against a requested device.
+
+    In machine config:
+
+        cuda
+
+    intentionally means "the current/default CUDA device".
+
+    PyTorch tensors placed there report the concrete device:
+
+        cuda:0
+
+    Therefore cuda(index=None) is compatible with any single concrete
+    CUDA device selected by the current process, while an explicitly
+    indexed request such as cuda:1 must match exactly.
+    """
+
+    if actual.type != requested.type:
+
+        return False
+
+    if requested.index is None:
+
+        return True
+
+    return (
+        actual.index
+        == requested.index
+    )
+
 
 # ======================================================================
 # Device contract
@@ -242,14 +278,34 @@ def _validate_execution_device(
         in parameters
     }
 
-    if parameter_devices != {
-        device
-    }:
+    # All model parameters must still reside on exactly one concrete
+    # device. This prevents an unindexed `cuda` request from accidentally
+    # accepting a model split across multiple GPUs.
+    if len(
+        parameter_devices
+    ) != 1:
 
         raise RuntimeError(
-            "Model parameters are not entirely on the requested device:\n"
+            "Model parameters are distributed across multiple devices:\n"
+            f"  actual="
+            f"{sorted(str(value) for value in parameter_devices)}"
+        )
+
+    actual_model_device = next(
+        iter(
+            parameter_devices
+        )
+    )
+
+    if not _device_matches(
+        actual=actual_model_device,
+        requested=device,
+    ):
+
+        raise RuntimeError(
+            "Model parameters are not on the requested device:\n"
             f"  requested={device}\n"
-            f"  actual={sorted(str(value) for value in parameter_devices)}"
+            f"  actual={actual_model_device}"
         )
 
     parameter_dtypes = {
@@ -268,12 +324,17 @@ def _validate_execution_device(
             f"  actual={parameter_dtypes}"
         )
 
-    if objective.class_weights.device != device:
+    # Once the concrete model device is known, objective tensors should
+    # agree with it exactly.
+    if (
+        objective.class_weights.device
+        != actual_model_device
+    ):
 
         raise RuntimeError(
             "Objective class weights are on the wrong device:\n"
-            f"  requested={device}\n"
-            f"  actual={objective.class_weights.device}"
+            f"  model={actual_model_device}\n"
+            f"  weights={objective.class_weights.device}"
         )
 
     if objective.class_weights.dtype != torch.float32:
@@ -528,11 +589,17 @@ def _validate_logits(
             "Frozen model logits must be float32."
         )
 
-    if logits.device != device:
+    if not _device_matches(
+    actual=logits.device,
+    requested=device,
+    ):
 
         raise RuntimeError(
-            "Model logits are on the wrong device."
+            "Model logits are on the wrong device:\n"
+            f"  requested={device}\n"
+            f"  actual={logits.device}"
         )
+    
 
     if not bool(
         torch.isfinite(
