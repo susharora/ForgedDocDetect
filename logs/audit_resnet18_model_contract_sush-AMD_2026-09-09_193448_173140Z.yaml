@@ -1,0 +1,169 @@
+schema_version: 1
+status: PASS
+machine:
+  id: sush-AMD
+  device: cuda
+provenance:
+  git_commit: 93f8b20458420820411d659579470d2be5110618
+  audit_script_sha256: f298e491d1e302679593b2103b2c51479e6646e6a04053b759e83ece7c28d508
+  audit_config_sha256: 16f6e52f1669b7e608599f4b63136f6d0d8fe9221dce95018d081b183b974d97
+  experiment_config_sha256: 63a0b561dff3dd37b80dba2f60301daacf178fb7656737fa59f0438e254df803
+  modeling_module_sha256: b3cb73aa3d33d7938fe7a0e6b751721cddb049f8d6cddebc54181b9abbaf3d63
+  reproducibility_module_sha256: 33bbb093c3bbb16379f0d27e72fa5b0c80a2b14d699b8f16d62d1d0ef5ef8608
+  validator_log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_193448_141622Z.log
+  validator_log_sha256: acb0bbf250477e72e061d9d6814c3fd0f23bc4bf9a19e7e6a249486aa97ba4e5
+initialization:
+  checkpoint_path: /home/sush/.cache/torch/hub/checkpoints/resnet18-f37072fd.pth
+  pretrained_checkpoint_sha256: f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+  backbone_state_sha256: 8790a574be17cc019a0925ad37e774eaf6e1484b6609cbfe74cbebda7d38e920
+  seeds:
+    '8':
+      classifier_sha256: 7f56b1258c9d3b2d77789e41379e218f4471070f1096afc3d49dadcb185372d4
+      backbone_state_sha256: 8790a574be17cc019a0925ad37e774eaf6e1484b6609cbfe74cbebda7d38e920
+      repeated_builds: 2
+    '9':
+      classifier_sha256: 99742d99b87a758dd9b4fd6efde3147f082dee83320e91eecaac46321aadac1e
+      backbone_state_sha256: 8790a574be17cc019a0925ad37e774eaf6e1484b6609cbfe74cbebda7d38e920
+      repeated_builds: 2
+    '10':
+      classifier_sha256: 239483f78320821979c0e097d5a7d878e39a381dd8a7c8fa0dc26334b4cb918b
+      backbone_state_sha256: 8790a574be17cc019a0925ad37e774eaf6e1484b6609cbfe74cbebda7d38e920
+      repeated_builds: 2
+stage_contracts:
+  device: cuda
+  seed: 8
+  resolution: r256
+  input_shape:
+  - 2
+  - 3
+  - 256
+  - 432
+  model_provenance:
+    total_parameters: 11177538
+    backbone_parameters: 11176512
+    classifier_parameters: 1026
+    batchnorm_modules: 20
+    pretrained_checkpoint_path: /home/sush/.cache/torch/hub/checkpoints/resnet18-f37072fd.pth
+    pretrained_checkpoint_sha256: f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+  stage_a:
+    groups:
+      fc_decay:
+        parameter_tensors: 1
+        parameter_elements: 1024
+        learning_rate: 0.001
+        weight_decay: 0.0001
+        parameter_names:
+        - fc.weight
+      fc_no_decay:
+        parameter_tensors: 1
+        parameter_elements: 2
+        learning_rate: 0.001
+        weight_decay: 0.0
+        parameter_names:
+        - fc.bias
+    backbone_state_before_sha256: 8790a574be17cc019a0925ad37e774eaf6e1484b6609cbfe74cbebda7d38e920
+    backbone_state_after_sha256: 8790a574be17cc019a0925ad37e774eaf6e1484b6609cbfe74cbebda7d38e920
+    batchnorm_state_unchanged: true
+  stage_b:
+    groups:
+      backbone_decay:
+        parameter_tensors: 20
+        parameter_elements: 11166912
+        learning_rate: 0.0001
+        weight_decay: 0.0001
+        parameter_names:
+        - conv1.weight
+        - layer1.0.conv1.weight
+        - layer1.0.conv2.weight
+        - layer1.1.conv1.weight
+        - layer1.1.conv2.weight
+        - layer2.0.conv1.weight
+        - layer2.0.conv2.weight
+        - layer2.0.downsample.0.weight
+        - layer2.1.conv1.weight
+        - layer2.1.conv2.weight
+        - layer3.0.conv1.weight
+        - layer3.0.conv2.weight
+        - layer3.0.downsample.0.weight
+        - layer3.1.conv1.weight
+        - layer3.1.conv2.weight
+        - layer4.0.conv1.weight
+        - layer4.0.conv2.weight
+        - layer4.0.downsample.0.weight
+        - layer4.1.conv1.weight
+        - layer4.1.conv2.weight
+      backbone_no_decay:
+        parameter_tensors: 40
+        parameter_elements: 9600
+        learning_rate: 0.0001
+        weight_decay: 0.0
+        parameter_names:
+        - bn1.weight
+        - bn1.bias
+        - layer1.0.bn1.weight
+        - layer1.0.bn1.bias
+        - layer1.0.bn2.weight
+        - layer1.0.bn2.bias
+        - layer1.1.bn1.weight
+        - layer1.1.bn1.bias
+        - layer1.1.bn2.weight
+        - layer1.1.bn2.bias
+        - layer2.0.bn1.weight
+        - layer2.0.bn1.bias
+        - layer2.0.bn2.weight
+        - layer2.0.bn2.bias
+        - layer2.0.downsample.1.weight
+        - layer2.0.downsample.1.bias
+        - layer2.1.bn1.weight
+        - layer2.1.bn1.bias
+        - layer2.1.bn2.weight
+        - layer2.1.bn2.bias
+        - layer3.0.bn1.weight
+        - layer3.0.bn1.bias
+        - layer3.0.bn2.weight
+        - layer3.0.bn2.bias
+        - layer3.0.downsample.1.weight
+        - layer3.0.downsample.1.bias
+        - layer3.1.bn1.weight
+        - layer3.1.bn1.bias
+        - layer3.1.bn2.weight
+        - layer3.1.bn2.bias
+        - layer4.0.bn1.weight
+        - layer4.0.bn1.bias
+        - layer4.0.bn2.weight
+        - layer4.0.bn2.bias
+        - layer4.0.downsample.1.weight
+        - layer4.0.downsample.1.bias
+        - layer4.1.bn1.weight
+        - layer4.1.bn1.bias
+        - layer4.1.bn2.weight
+        - layer4.1.bn2.bias
+      fc_decay:
+        parameter_tensors: 1
+        parameter_elements: 1024
+        learning_rate: 0.001
+        weight_decay: 0.0001
+        parameter_names:
+        - fc.weight
+      fc_no_decay:
+        parameter_tensors: 1
+        parameter_elements: 2
+        learning_rate: 0.001
+        weight_decay: 0.0
+        parameter_names:
+        - fc.bias
+    backbone_state_before_sha256: 8790a574be17cc019a0925ad37e774eaf6e1484b6609cbfe74cbebda7d38e920
+    backbone_state_after_sha256: 1e6c3e65dddea25b00412e5531f99e2dff5a314e12bc33731ce798f0b41ca5f9
+    batchnorm:
+      batchnorm_modules: 20
+      modules_with_changed_running_statistics: 20
+    accepted_backbone_lrs:
+    - 3.0e-05
+    - 0.0001
+    - 0.0003
+    invalid_lr_rejected: true
+interpretation: PASS establishes the exact pretrained ResNet-18 identity, run-seed-controlled
+  binary classifier initialization, architecture counts, Stage-A backbone/BatchNorm
+  freeze behavior, Stage-B full-backbone/BatchNorm adaptation behavior, and exact
+  AdamW-ready parameter grouping. No optimizer step or scientific training loss was
+  executed.

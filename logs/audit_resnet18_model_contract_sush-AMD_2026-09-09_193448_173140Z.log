@@ -1,0 +1,61 @@
+2026-09-09T19:34:48Z | INFO | ========================================================================
+2026-09-09T19:34:48Z | INFO | RESNET-18 MODEL + TRANSFER-LEARNING CONTRACT AUDIT
+2026-09-09T19:34:48Z | INFO | ========================================================================
+2026-09-09T19:34:48Z | INFO | Git commit: 93f8b20458420820411d659579470d2be5110618
+2026-09-09T19:34:48Z | INFO | Git working tree clean before evidence generation: True
+2026-09-09T19:34:48Z | INFO | Audit script SHA-256: f298e491d1e302679593b2103b2c51479e6646e6a04053b759e83ece7c28d508
+2026-09-09T19:34:48Z | INFO | src/modeling.py SHA-256: b3cb73aa3d33d7938fe7a0e6b751721cddb049f8d6cddebc54181b9abbaf3d63
+2026-09-09T19:34:48Z | INFO | src/reproducibility.py SHA-256: 33bbb093c3bbb16379f0d27e72fa5b0c80a2b14d699b8f16d62d1d0ef5ef8608
+2026-09-09T19:34:48Z | INFO | Audit config SHA-256: 16f6e52f1669b7e608599f4b63136f6d0d8fe9221dce95018d081b183b974d97
+2026-09-09T19:34:48Z | INFO | Experiment config SHA-256: 63a0b561dff3dd37b80dba2f60301daacf178fb7656737fa59f0438e254df803
+2026-09-09T19:34:48Z | INFO | Machine ID: sush-AMD
+2026-09-09T19:34:48Z | INFO | Configured device: cuda
+2026-09-09T19:34:48Z | INFO | Validator log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_193448_141622Z.log
+2026-09-09T19:34:48Z | INFO | Validator log SHA-256: acb0bbf250477e72e061d9d6814c3fd0f23bc4bf9a19e7e6a249486aa97ba4e5
+2026-09-09T19:34:48Z | INFO | Held-out test: NOT ACCESSED
+2026-09-09T19:34:48Z | INFO | Scientific training loss: NOT USED
+2026-09-09T19:34:48Z | INFO | optimizer.step(): NOT USED
+2026-09-09T19:34:48Z | INFO | 
+2026-09-09T19:34:48Z | INFO | --- Model construction / seed-controlled FC initialization ---
+2026-09-09T19:34:48Z | INFO | [PASS] model initialization | seed=8 | classifier=7f56b1258c9d3b2d77789e41379e218f4471070f1096afc3d49dadcb185372d4 | backbone=8790a574be17cc019a0925ad37e774eaf6e1484b6609cbfe74cbebda7d38e920
+2026-09-09T19:34:48Z | INFO | [PASS] model initialization | seed=9 | classifier=99742d99b87a758dd9b4fd6efde3147f082dee83320e91eecaac46321aadac1e | backbone=8790a574be17cc019a0925ad37e774eaf6e1484b6609cbfe74cbebda7d38e920
+2026-09-09T19:34:49Z | INFO | [PASS] model initialization | seed=10 | classifier=239483f78320821979c0e097d5a7d878e39a381dd8a7c8fa0dc26334b4cb918b | backbone=8790a574be17cc019a0925ad37e774eaf6e1484b6609cbfe74cbebda7d38e920
+2026-09-09T19:34:49Z | INFO | [PASS] same seed reproduces classifier initialization
+2026-09-09T19:34:49Z | INFO | [PASS] seeds 8/9/10 produce distinct classifier initialization
+2026-09-09T19:34:49Z | INFO | [PASS] pretrained backbone is identical across all seed builds
+2026-09-09T19:34:49Z | INFO | 
+2026-09-09T19:34:49Z | INFO | --- Stage-A / Stage-B runtime contract ---
+2026-09-09T19:34:49Z | INFO | [PASS] Stage A forward/backward: classifier-only gradients
+2026-09-09T19:34:49Z | INFO | [PASS] Stage A BatchNorm running state exactly unchanged
+2026-09-09T19:34:49Z | INFO | [PASS] Stage A backbone state exactly unchanged
+2026-09-09T19:34:49Z | INFO | [PASS] Stage A -> evaluation -> Stage A mode round-trip
+2026-09-09T19:34:49Z | INFO | [PASS] Stage B forward/backward reaches all parameters
+2026-09-09T19:34:49Z | INFO | [PASS] Stage B BatchNorm counters advance exactly once
+2026-09-09T19:34:49Z | INFO | [PASS] Stage B running statistics adapt
+2026-09-09T19:34:49Z | INFO | [PASS] No parameter changes without optimizer.step()
+2026-09-09T19:34:49Z | INFO | [PASS] Stage B -> evaluation -> Stage B mode round-trip
+2026-09-09T19:34:49Z | INFO | [PASS] Frozen Stage-B LR candidates accepted: [3e-05, 0.0001, 0.0003]
+2026-09-09T19:34:49Z | INFO | [PASS] Non-frozen Stage-B LR rejected
+2026-09-09T19:34:49Z | INFO | 
+2026-09-09T19:34:49Z | INFO | ========================================================================
+2026-09-09T19:34:49Z | INFO | AUDIT SUMMARY
+2026-09-09T19:34:49Z | INFO | ========================================================================
+2026-09-09T19:34:49Z | INFO | [PASS] actual IMAGENET1K_V1 checkpoint full SHA-256
+2026-09-09T19:34:49Z | INFO | [PASS] ResNet-18 binary-classifier parameter counts
+2026-09-09T19:34:49Z | INFO | [PASS] pretrained backbone identical across seeds
+2026-09-09T19:34:49Z | INFO | [PASS] same seed reproduces FC initialization
+2026-09-09T19:34:49Z | INFO | [PASS] seeds 8/9/10 produce distinct FC initialization
+2026-09-09T19:34:49Z | INFO | [PASS] Stage-A backbone frozen and BatchNorm invariant
+2026-09-09T19:34:49Z | INFO | [PASS] Stage-A classifier-only gradients
+2026-09-09T19:34:49Z | INFO | [PASS] Stage-A exact parameter groups
+2026-09-09T19:34:49Z | INFO | [PASS] Stage-B complete network trainable
+2026-09-09T19:34:49Z | INFO | [PASS] Stage-B BatchNorm running statistics adapt
+2026-09-09T19:34:49Z | INFO | [PASS] Stage-B gradients reach every parameter
+2026-09-09T19:34:49Z | INFO | [PASS] Stage-B exact parameter groups
+2026-09-09T19:34:49Z | INFO | [PASS] bias and BatchNorm affine decay exclusions
+2026-09-09T19:34:49Z | INFO | [PASS] frozen Stage-B LR candidate restriction
+2026-09-09T19:34:49Z | INFO | Audit result: /home/sush/ForgedDocDetect/logs/audit_resnet18_model_contract_sush-AMD_2026-09-09_193448_173140Z.yaml
+2026-09-09T19:34:49Z | INFO | Audit result SHA-256: 9ecbb9288766d3d502dc2f8d2f38f56e800855684eb6e7d71148249258bef1cd
+2026-09-09T19:34:49Z | INFO | ========================================================================
+2026-09-09T19:34:49Z | INFO | RESNET-18 MODEL + TRANSFER-LEARNING CONTRACT AUDIT: PASS
+2026-09-09T19:34:49Z | INFO | ========================================================================
