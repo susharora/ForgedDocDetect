@@ -1,0 +1,110 @@
+schema_version: 1
+status: PASS
+machine:
+  id: sush-AMD
+provenance:
+  git_commit: d5e626ed0a1f1858060db9a0af662d2c271db5dc
+  experiment_config_sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+  development_metrics_module_sha256: cee65d2fc5c9dc448dd3d1296811525978b01d5f39039c11bcb9fe620884fc3f
+  audit_script_sha256: 4bf5917765a5d6dfd33d927dbcda47287320fc6f5ef035c28f20b58f4ac7bafb
+  audit_config_sha256: 7cd2e681b1cf277591699b523f9f02552c3d57b7a84d1736bc5181b6e66e8051
+  validator_log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_221643_542337Z.log
+  validator_log_sha256: 5ed7eac2af25c5424f2f4af0cff19b996a89fc587f5a714d18a567cea8e3a6c7
+scope:
+  execution_device: cpu
+  synthetic_only: true
+  fantasyid_images_accessed: false
+  scientific_training_performed: false
+  fpr10_thresholding_performed: false
+  held_out_test_accessed: false
+contract:
+  contract:
+    positive_class_name: attack
+    positive_class_index: 1
+    diagnostic_enabled: true
+    participates_in_checkpoint_selection: false
+    stage_b_disagreement_guard_enabled: true
+    stage_b_disagreement_threshold: 0.01
+    automatically_switch_checkpoint: false
+  guard_definition: best_dev_auroc_over_run - dev_auroc_at_loss_argmin_checkpoint
+  guard_boundary:
+    below_threshold:
+      difference: 0.009999999999999998
+      flag: false
+    exact_threshold:
+      difference: 0.01
+      flag: false
+    above_threshold:
+      difference: 0.010000000000000002
+      flag: true
+full_dev_cases:
+  perfect:
+    auroc: 1.0
+    independent_rank_sum_auroc: 1.0
+    sample_count: 459
+    bonafide_count: 153
+    attack_count: 306
+    positive_negative_pair_count: 46818
+    strict_attack_wins: 46818
+    tied_attack_bonafide_pairs: 0
+    score_definition: attack_logit_minus_bonafide_logit
+    input_logits_unchanged: true
+  reversed:
+    auroc: 0.0
+    independent_rank_sum_auroc: 0.0
+    sample_count: 459
+    bonafide_count: 153
+    attack_count: 306
+    positive_negative_pair_count: 46818
+    strict_attack_wins: 0
+    tied_attack_bonafide_pairs: 0
+    score_definition: attack_logit_minus_bonafide_logit
+    input_logits_unchanged: true
+  all_tied:
+    auroc: 0.5
+    independent_rank_sum_auroc: 0.5
+    sample_count: 459
+    bonafide_count: 153
+    attack_count: 306
+    positive_negative_pair_count: 46818
+    strict_attack_wins: 0
+    tied_attack_bonafide_pairs: 46818
+    score_definition: attack_logit_minus_bonafide_logit
+    input_logits_unchanged: true
+  mixed_ties:
+    auroc: 0.5
+    independent_rank_sum_auroc: 0.5
+    sample_count: 459
+    bonafide_count: 153
+    attack_count: 306
+    positive_negative_pair_count: 46818
+    strict_attack_wins: 15606
+    tied_attack_bonafide_pairs: 15606
+    score_definition: attack_logit_minus_bonafide_logit
+    input_logits_unchanged: true
+margin_softmax_equivalence:
+  sample_count: 459
+  margin_auroc: 1.0
+  attack_probability_auroc: 1.0
+  identical_ranking: true
+  strict_wins: 46818
+  ties: 0
+input_guards:
+  partial_dev_rejected: true
+  wrong_class_counts_rejected: true
+  float64_logits_rejected: true
+  int32_targets_rejected: true
+  nan_logits_rejected: true
+  wrong_positive_index_rejected: true
+contract_negative_controls:
+  positive_class_name_drift_rejected: true
+  positive_class_index_drift_rejected: true
+  diagnostic_disable_rejected: true
+  checkpoint_selection_participation_rejected: true
+  guard_threshold_drift_rejected: true
+  automatic_checkpoint_switch_rejected: true
+interpretation: PASS establishes deterministic binary dev AUROC with attack=1 polarity,
+  explicit pairwise tie handling, complete frozen-dev enforcement, agreement with
+  an independent rank-sum reference, ranking equivalence between attack-logit margin
+  and two-class attack softmax probability, and the frozen diagnostic-only Stage-B
+  >0.01 disagreement contract. FPR10 threshold semantics remain deliberately deferred.

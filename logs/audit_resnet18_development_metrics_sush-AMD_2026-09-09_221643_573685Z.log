@@ -1,0 +1,79 @@
+2026-09-09T22:16:43Z | INFO | ========================================================================
+2026-09-09T22:16:43Z | INFO | RESNET-18 DEVELOPMENT AUROC AUDIT
+2026-09-09T22:16:43Z | INFO | ========================================================================
+2026-09-09T22:16:43Z | INFO | Git commit: d5e626ed0a1f1858060db9a0af662d2c271db5dc
+2026-09-09T22:16:43Z | INFO | Git working tree clean before evidence generation: True
+2026-09-09T22:16:43Z | INFO | Machine ID: sush-AMD
+2026-09-09T22:16:43Z | INFO | Experiment config SHA-256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-09T22:16:43Z | INFO | Validator log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_221643_542337Z.log
+2026-09-09T22:16:43Z | INFO | Validator log SHA-256: 5ed7eac2af25c5424f2f4af0cff19b996a89fc587f5a714d18a567cea8e3a6c7
+2026-09-09T22:16:43Z | INFO | Audit script SHA-256: 4bf5917765a5d6dfd33d927dbcda47287320fc6f5ef035c28f20b58f4ac7bafb
+2026-09-09T22:16:43Z | INFO | Audit config SHA-256: 7cd2e681b1cf277591699b523f9f02552c3d57b7a84d1736bc5181b6e66e8051
+2026-09-09T22:16:43Z | INFO | src/development_metrics.py SHA-256: cee65d2fc5c9dc448dd3d1296811525978b01d5f39039c11bcb9fe620884fc3f
+2026-09-09T22:16:43Z | INFO | Execution device: CPU only
+2026-09-09T22:16:43Z | INFO | FantasyID image access: NONE
+2026-09-09T22:16:43Z | INFO | Scientific training: NOT PERFORMED
+2026-09-09T22:16:43Z | INFO | FPR10 thresholding: NOT IMPLEMENTED / NOT PERFORMED
+2026-09-09T22:16:43Z | INFO | Held-out test: NOT ACCESSED
+2026-09-09T22:16:43Z | INFO | 
+2026-09-09T22:16:43Z | INFO | --- Frozen AUROC contract ---
+2026-09-09T22:16:43Z | INFO | [PASS] attack positive-class contract
+2026-09-09T22:16:43Z | INFO | [PASS] dev AUROC is diagnostic-only
+2026-09-09T22:16:43Z | INFO | [PASS] AUROC cannot select checkpoint
+2026-09-09T22:16:43Z | INFO | [PASS] Stage-B disagreement definition
+2026-09-09T22:16:43Z | INFO | [PASS] exact 0.01 disagreement does not flag
+2026-09-09T22:16:43Z | INFO | [PASS] value strictly above 0.01 flags
+2026-09-09T22:16:43Z | INFO | 
+2026-09-09T22:16:43Z | INFO | --- Perfect ranking ---
+2026-09-09T22:16:43Z | INFO | [PASS] case=perfect | auroc=1.000000000000 | wins=46818 | ties=0
+2026-09-09T22:16:43Z | INFO | 
+2026-09-09T22:16:43Z | INFO | --- Reversed ranking ---
+2026-09-09T22:16:43Z | INFO | [PASS] case=reversed | auroc=0.000000000000 | wins=0 | ties=0
+2026-09-09T22:16:43Z | INFO | 
+2026-09-09T22:16:43Z | INFO | --- All ties ---
+2026-09-09T22:16:43Z | INFO | [PASS] case=all_tied | auroc=0.500000000000 | wins=0 | ties=46818
+2026-09-09T22:16:43Z | INFO | 
+2026-09-09T22:16:43Z | INFO | --- Mixed wins / ties / losses ---
+2026-09-09T22:16:43Z | INFO | [PASS] case=mixed_ties | auroc=0.500000000000 | wins=15606 | ties=15606
+2026-09-09T22:16:43Z | INFO | 
+2026-09-09T22:16:43Z | INFO | --- Margin / softmax ranking equivalence ---
+2026-09-09T22:16:43Z | INFO | [PASS] attack margin and attack softmax probability have identical ranking
+2026-09-09T22:16:43Z | INFO | [PASS] attack margin and attack softmax probability have identical AUROC
+2026-09-09T22:16:43Z | INFO | 
+2026-09-09T22:16:43Z | INFO | --- Input guards ---
+2026-09-09T22:16:43Z | INFO | [PASS] partial dev input rejected
+2026-09-09T22:16:43Z | INFO | [PASS] wrong complete-dev class counts rejected
+2026-09-09T22:16:43Z | INFO | [PASS] non-float32 dev logits rejected
+2026-09-09T22:16:43Z | INFO | [PASS] non-int64 targets rejected
+2026-09-09T22:16:43Z | INFO | [PASS] NaN logits rejected
+2026-09-09T22:16:43Z | INFO | [PASS] non-attack positive index rejected
+2026-09-09T22:16:43Z | INFO | 
+2026-09-09T22:16:43Z | INFO | --- Contract drift negative controls ---
+2026-09-09T22:16:43Z | INFO | [PASS] positive-class name drift rejected
+2026-09-09T22:16:43Z | INFO | [PASS] positive-class index drift rejected
+2026-09-09T22:16:43Z | INFO | [PASS] dev AUROC disable drift rejected
+2026-09-09T22:16:43Z | INFO | [PASS] AUROC checkpoint-selection participation rejected
+2026-09-09T22:16:43Z | INFO | [PASS] AUROC guard threshold drift rejected
+2026-09-09T22:16:43Z | INFO | [PASS] automatic checkpoint switching rejected
+2026-09-09T22:16:43Z | INFO | 
+2026-09-09T22:16:43Z | INFO | ========================================================================
+2026-09-09T22:16:43Z | INFO | AUDIT SUMMARY
+2026-09-09T22:16:43Z | INFO | ========================================================================
+2026-09-09T22:16:43Z | INFO | [PASS] attack = positive class = 1
+2026-09-09T22:16:43Z | INFO | [PASS] perfect ranking AUROC = 1
+2026-09-09T22:16:43Z | INFO | [PASS] reversed ranking AUROC = 0
+2026-09-09T22:16:43Z | INFO | [PASS] all ties AUROC = 0.5
+2026-09-09T22:16:43Z | INFO | [PASS] mixed ties receive 0.5 pair credit
+2026-09-09T22:16:43Z | INFO | [PASS] production pairwise AUROC agrees with independent rank-sum reference
+2026-09-09T22:16:43Z | INFO | [PASS] full frozen dev count/class contract enforced
+2026-09-09T22:16:43Z | INFO | [PASS] logit margin and attack softmax ranking equivalent
+2026-09-09T22:16:43Z | INFO | [PASS] AUROC remains diagnostic-only
+2026-09-09T22:16:43Z | INFO | [PASS] exact guard difference 0.01 does not flag
+2026-09-09T22:16:43Z | INFO | [PASS] guard difference strictly >0.01 flags
+2026-09-09T22:16:43Z | INFO | [PASS] FPR10 remains deferred
+2026-09-09T22:16:43Z | INFO | [PASS] held-out test NOT ACCESSED
+2026-09-09T22:16:43Z | INFO | Audit result: /home/sush/ForgedDocDetect/logs/audit_resnet18_development_metrics_sush-AMD_2026-09-09_221643_573685Z.yaml
+2026-09-09T22:16:43Z | INFO | Audit result SHA-256: 985f129dc649c457af4ed1366c25c0f89d325c984bdf10542f29ecc621846a52
+2026-09-09T22:16:43Z | INFO | ========================================================================
+2026-09-09T22:16:43Z | INFO | RESNET-18 DEVELOPMENT AUROC AUDIT: PASS
+2026-09-09T22:16:43Z | INFO | ========================================================================
