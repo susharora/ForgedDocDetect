@@ -1,0 +1,40 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_resnet18_preprocessing_{machine_id}_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: audit_resnet18_preprocessing_{machine_id}_{timestamp}.csv
+
+audit:
+  splits:
+    - project_train
+    - dev_val
+
+  resolutions:
+    - r256
+    - r512
+
+  expected_unique_source_images: 1899
+  expected_preprocessed_rows: 3798
+
+  # Every source file is SHA-256 checked once against the frozen
+  # manifest before preprocessing evidence is accepted.
+  source_hashing: exhaustive_once_per_image
+
+  # Padding uses the exact ImageNet mean before normalization,
+  # therefore its normalized value should be exactly zero.
+  padding_zero_atol: 0.0
+
+  # Integer output-width rounding may differ from the ideal
+  # real-valued aspect-preserving width by < 1 output pixel.
+  aspect_ratio_width_error_lt_pixels: 1.0
+
+  # Diagnostic fingerprint of every resulting float32 tensor.
+  # Not itself a scientific selection criterion.
+  tensor_sha256: true
+
+  progress_every: 100
