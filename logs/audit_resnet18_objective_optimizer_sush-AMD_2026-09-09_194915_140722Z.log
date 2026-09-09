@@ -1,0 +1,72 @@
+2026-09-09T19:49:15Z | INFO | ========================================================================
+2026-09-09T19:49:15Z | INFO | RESNET-18 WEIGHTED OBJECTIVE + ADAMW CONTRACT AUDIT
+2026-09-09T19:49:15Z | INFO | ========================================================================
+2026-09-09T19:49:15Z | INFO | Git commit: 502142b9ee316d2b5bc923c03454da8d23740e08
+2026-09-09T19:49:15Z | INFO | Git working tree clean before evidence generation: True
+2026-09-09T19:49:15Z | INFO | Audit script SHA-256: f83ac29c67a76fece2f52b54d9194f207a38f4d621b81fa423336fd0d792ca8b
+2026-09-09T19:49:15Z | INFO | src/objective.py SHA-256: b4f307081bfb88736e419ee5c2152c1f1ed0fcff6241196b07463b48b9323755
+2026-09-09T19:49:15Z | INFO | src/optimization.py SHA-256: b8f713f48447f79700552cbeca2a1b7fa4d3ec77e28fa9f968cf929fa386298e
+2026-09-09T19:49:15Z | INFO | src/modeling.py SHA-256: b3cb73aa3d33d7938fe7a0e6b751721cddb049f8d6cddebc54181b9abbaf3d63
+2026-09-09T19:49:15Z | INFO | src/reproducibility.py SHA-256: 33bbb093c3bbb16379f0d27e72fa5b0c80a2b14d699b8f16d62d1d0ef5ef8608
+2026-09-09T19:49:15Z | INFO | Audit config SHA-256: 32891f1b6f86477aea3e6ab426aaa4a5fb6a56550045c03c229483eaba34e77f
+2026-09-09T19:49:15Z | INFO | Experiment config SHA-256: 63a0b561dff3dd37b80dba2f60301daacf178fb7656737fa59f0438e254df803
+2026-09-09T19:49:15Z | INFO | Machine ID: sush-AMD
+2026-09-09T19:49:15Z | INFO | Configured device: cuda
+2026-09-09T19:49:15Z | INFO | Validator log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_194915_108885Z.log
+2026-09-09T19:49:15Z | INFO | Validator log SHA-256: 8f489c6f36236dcd940102e65eba144b319f3cf272cd5ad823b6e9a555ee6bf2
+2026-09-09T19:49:15Z | INFO | Dataset access: NONE
+2026-09-09T19:49:15Z | INFO | Held-out test: NOT ACCESSED
+2026-09-09T19:49:15Z | INFO | 
+2026-09-09T19:49:15Z | INFO | --- Frozen class-weight contract ---
+2026-09-09T19:49:15Z | INFO | [PASS] project_train class counts = {'bonafide': 480, 'attack': 960, 'total': 1440}
+2026-09-09T19:49:15Z | INFO | [PASS] class weights | bonafide=1.5 | attack=0.75
+2026-09-09T19:49:15Z | INFO | [PASS] project_train weighted denominator = 1440
+2026-09-09T19:49:15Z | INFO | [PASS] dev_val reuses project_train weights | denominator=459
+2026-09-09T19:49:15Z | INFO | [PASS] in-memory dev-count perturbation cannot change weights
+2026-09-09T19:49:15Z | INFO | 
+2026-09-09T19:49:15Z | INFO | --- Weighted CE algebra / gradients ---
+2026-09-09T19:49:15Z | INFO | [PASS] explicit weighted CE agrees with PyTorch reference
+2026-09-09T19:49:15Z | INFO | [PASS] weighted-CE gradient equivalence | max_abs_error=0
+2026-09-09T19:49:15Z | INFO | 
+2026-09-09T19:49:15Z | INFO | --- Dataset-level epoch reduction algebra ---
+2026-09-09T19:49:15Z | INFO | [PASS] dataset-level weighted loss agrees across tested batch partitions
+2026-09-09T19:49:15Z | INFO | [PASS] epoch loss is numerator/denominator based, not mean-of-batch-means
+2026-09-09T19:49:15Z | INFO | 
+2026-09-09T19:49:15Z | INFO | --- Real Stage-A -> Stage-B AdamW probe ---
+2026-09-09T19:49:15Z | INFO | Two-stage optimizer probe repeat 1 / 2
+2026-09-09T19:49:15Z | INFO | [PASS] Stage-A AdamW step | loss=0.751551508904 | state_entries=2
+2026-09-09T19:49:15Z | INFO | [PASS] Stage-A optimizer changes FC and leaves backbone unchanged
+2026-09-09T19:49:15Z | INFO | [PASS] Stage-B AdamW step | loss=0.641171753407 | state_entries=62
+2026-09-09T19:49:15Z | INFO | [PASS] Stage-B optimizer is fresh and does not inherit Stage-A Adam moments
+2026-09-09T19:49:15Z | INFO | [PASS] Stage-B optimizer updates backbone and classifier
+2026-09-09T19:49:15Z | INFO | Two-stage optimizer probe repeat 2 / 2
+2026-09-09T19:49:15Z | INFO | [PASS] Stage-A AdamW step | loss=0.751551508904 | state_entries=2
+2026-09-09T19:49:15Z | INFO | [PASS] Stage-A optimizer changes FC and leaves backbone unchanged
+2026-09-09T19:49:16Z | INFO | [PASS] Stage-B AdamW step | loss=0.641171753407 | state_entries=62
+2026-09-09T19:49:16Z | INFO | [PASS] Stage-B optimizer is fresh and does not inherit Stage-A Adam moments
+2026-09-09T19:49:16Z | INFO | [PASS] Stage-B optimizer updates backbone and classifier
+2026-09-09T19:49:16Z | INFO | [PASS] repeated same-seed Stage-A -> Stage-B optimizer sequence is deterministic
+2026-09-09T19:49:16Z | INFO | 
+2026-09-09T19:49:16Z | INFO | ========================================================================
+2026-09-09T19:49:16Z | INFO | AUDIT SUMMARY
+2026-09-09T19:49:16Z | INFO | ========================================================================
+2026-09-09T19:49:16Z | INFO | [PASS] class weights independently derived from project_train only
+2026-09-09T19:49:16Z | INFO | [PASS] bonafide=1.5 / attack=0.75
+2026-09-09T19:49:16Z | INFO | [PASS] explicit weighted CE algebra
+2026-09-09T19:49:16Z | INFO | [PASS] explicit weighted CE gradient algebra
+2026-09-09T19:49:16Z | INFO | [PASS] dataset-level epoch reduction
+2026-09-09T19:49:16Z | INFO | [PASS] tested epoch reduction invariant to batch partitioning
+2026-09-09T19:49:16Z | INFO | [PASS] exact AdamW defaults and group hyperparameters
+2026-09-09T19:49:16Z | INFO | [PASS] Stage-A optimizer starts fresh
+2026-09-09T19:49:16Z | INFO | [PASS] Stage-A first step changes FC only
+2026-09-09T19:49:16Z | INFO | [PASS] Stage-A Adam state = 2 parameter entries
+2026-09-09T19:49:16Z | INFO | [PASS] Stage-B optimizer starts fresh after Stage A
+2026-09-09T19:49:16Z | INFO | [PASS] Stage-B first step changes backbone + FC
+2026-09-09T19:49:16Z | INFO | [PASS] Stage-B Adam state = 62 parameter entries
+2026-09-09T19:49:16Z | INFO | [PASS] amsgrad=false state structure
+2026-09-09T19:49:16Z | INFO | [PASS] repeated same-seed two-stage optimizer sequence deterministic
+2026-09-09T19:49:16Z | INFO | Audit result: /home/sush/ForgedDocDetect/logs/audit_resnet18_objective_optimizer_sush-AMD_2026-09-09_194915_140722Z.yaml
+2026-09-09T19:49:16Z | INFO | Audit result SHA-256: 46819f9a09c38e14b12d776ba8d983469c4b906523904eab4c476a551b66a2ef
+2026-09-09T19:49:16Z | INFO | ========================================================================
+2026-09-09T19:49:16Z | INFO | RESNET-18 WEIGHTED OBJECTIVE + ADAMW CONTRACT AUDIT: PASS
+2026-09-09T19:49:16Z | INFO | ========================================================================
