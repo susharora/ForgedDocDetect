@@ -515,8 +515,7 @@ transfer_learning:
 
     branch_initialisation:
 
-      policy:
-        reset_from_run_seed_before_each_stage_b_branch
+      policy: reset_from_run_seed_before_each_stage_b_branch
 
       ordered_steps:
         - configure_run_reproducibility_from_run_seed
@@ -528,8 +527,7 @@ transfer_learning:
 
       model_checkpoint:
 
-        source:
-          exact_stage_a_raw_argmin_checkpoint
+        source: exact_stage_a_raw_argmin_checkpoint
 
         contents_carried:
           model_parameters_and_buffers: true
@@ -540,21 +538,17 @@ transfer_learning:
 
       global_rng:
 
-        policy:
-          reset_from_run_seed
+        policy: reset_from_run_seed
 
         carry_stage_a_state: false
 
       dataloader_rng:
 
-        policy:
-          fresh_generators_seeded_from_run_seed
+        policy: fresh_generators_seeded_from_run_seed
 
-        project_train_generator:
-          run_seed
+        project_train_generator: run_seed
 
-        dev_val_generator:
-          run_seed
+        dev_val_generator: run_seed
 
         carry_stage_a_project_train_generator_state: false
         carry_stage_a_dev_val_generator_state: false
