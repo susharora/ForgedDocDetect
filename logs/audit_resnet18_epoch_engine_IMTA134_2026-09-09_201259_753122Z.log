@@ -1,0 +1,65 @@
+2026-09-09T20:12:59Z | INFO | ========================================================================
+2026-09-09T20:12:59Z | INFO | RESNET-18 REAL FANTASYID EPOCH-ENGINE AUDIT
+2026-09-09T20:12:59Z | INFO | ========================================================================
+2026-09-09T20:12:59Z | INFO | Git commit: 28d60335afc61fe582f2eb7c91c986e46aeeaef6
+2026-09-09T20:12:59Z | INFO | Git working tree clean before evidence generation: True
+2026-09-09T20:12:59Z | INFO | Audit script SHA-256: 83688dd03da80afe693f62ee148ad7f276ceef67f9603985e28f645ce1232b97
+2026-09-09T20:12:59Z | INFO | src/engine.py SHA-256: d4a48dfc50d9a242f4a0b75b9fd3d867b9f9736ccbd2f195e45be51aca6d42d5
+2026-09-09T20:12:59Z | INFO | src/dataloading.py SHA-256: 8573b046523e0533be169a2be5674e8a47437c34151cdf062d929e674df7ad0d
+2026-09-09T20:12:59Z | INFO | src/data.py SHA-256: b9cb486b2a5d2938cfe8d838802c2416cca85fedffe882682ff1c8efd3f742f2
+2026-09-09T20:12:59Z | INFO | src/modeling.py SHA-256: b3cb73aa3d33d7938fe7a0e6b751721cddb049f8d6cddebc54181b9abbaf3d63
+2026-09-09T20:12:59Z | INFO | src/objective.py SHA-256: b4f307081bfb88736e419ee5c2152c1f1ed0fcff6241196b07463b48b9323755
+2026-09-09T20:12:59Z | INFO | src/optimization.py SHA-256: b8f713f48447f79700552cbeca2a1b7fa4d3ec77e28fa9f968cf929fa386298e
+2026-09-09T20:12:59Z | INFO | src/reproducibility.py SHA-256: 33bbb093c3bbb16379f0d27e72fa5b0c80a2b14d699b8f16d62d1d0ef5ef8608
+2026-09-09T20:12:59Z | INFO | Audit config SHA-256: ec288ee6eb967f6c81ab1143d6f5e51e2db76689b2e004c0754ed0f785f65472
+2026-09-09T20:12:59Z | INFO | Experiment config SHA-256: 63a0b561dff3dd37b80dba2f60301daacf178fb7656737fa59f0438e254df803
+2026-09-09T20:12:59Z | INFO | Machine ID: IMTA134
+2026-09-09T20:12:59Z | INFO | Device: cuda
+2026-09-09T20:12:59Z | INFO | Validator log: /home/u5757978/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_201259_658170Z.log
+2026-09-09T20:12:59Z | INFO | Validator log SHA-256: 532e2d0480f7e263a3f73f81b0a6bb1893315e8d15473f1499d8ed191001545d
+2026-09-09T20:12:59Z | INFO | Dataset access: project_train + dev_val only
+2026-09-09T20:12:59Z | INFO | Held-out test: NOT ACCESSED
+2026-09-09T20:12:59Z | INFO | Resolution: r256
+2026-09-09T20:12:59Z | INFO | Run seed: 8
+2026-09-09T20:12:59Z | INFO | Stage probes are independent fresh same-seed runs; no Stage-A -> Stage-B RNG/checkpoint semantics are defined by this audit.
+2026-09-09T20:12:59Z | INFO | 
+2026-09-09T20:12:59Z | INFO | --- Full Stage-A project_train + dev_val probe ---
+2026-09-09T20:12:59Z | INFO | stage_a complete epoch probe | repeat=1/2
+2026-09-09T20:13:26Z | INFO | [PASS] stage_a repeat=1 | train_loss=0.703452051617 | dev_loss=0.696641382796
+2026-09-09T20:13:26Z | INFO | stage_a complete epoch probe | repeat=2/2
+2026-09-09T20:13:49Z | INFO | [PASS] stage_a repeat=2 | train_loss=0.703452051617 | dev_loss=0.696641382796
+2026-09-09T20:13:49Z | INFO | [PASS] stage_a complete train+dev epoch is deterministic across 2 same-seed repeats
+2026-09-09T20:13:49Z | INFO | 
+2026-09-09T20:13:49Z | INFO | --- Full Stage-B project_train + dev_val probe ---
+2026-09-09T20:13:49Z | INFO | stage_b complete epoch probe | repeat=1/2
+2026-09-09T20:14:13Z | INFO | [PASS] stage_b repeat=1 | train_loss=0.580993311732 | dev_loss=0.657588299225
+2026-09-09T20:14:13Z | INFO | stage_b complete epoch probe | repeat=2/2
+2026-09-09T20:14:39Z | INFO | [PASS] stage_b repeat=2 | train_loss=0.580993311732 | dev_loss=0.657588299225
+2026-09-09T20:14:39Z | INFO | [PASS] stage_b complete train+dev epoch is deterministic across 2 same-seed repeats
+2026-09-09T20:14:39Z | INFO | [PASS] independent Stage-A and Stage-B probes begin from identical fresh seed-8 model state
+2026-09-09T20:14:39Z | INFO | 
+2026-09-09T20:14:39Z | INFO | ========================================================================
+2026-09-09T20:14:39Z | INFO | AUDIT SUMMARY
+2026-09-09T20:14:39Z | INFO | ========================================================================
+2026-09-09T20:14:39Z | INFO | [PASS] Stage-A complete project_train epoch: 1440 samples / 45 optimizer steps
+2026-09-09T20:14:39Z | INFO | [PASS] Stage-A complete dev_val pass: 459 samples / 15 batches
+2026-09-09T20:14:39Z | INFO | [PASS] Stage-A weighted denominators: train=1440 / dev=459
+2026-09-09T20:14:39Z | INFO | [PASS] Stage-A backbone parameters and BN counters frozen
+2026-09-09T20:14:39Z | INFO | [PASS] Stage-A FC updated
+2026-09-09T20:14:39Z | INFO | [PASS] Stage-A Adam state has 2 parameter entries at step 45
+2026-09-09T20:14:39Z | INFO | [PASS] Stage-B complete project_train epoch: 1440 samples / 45 optimizer steps
+2026-09-09T20:14:39Z | INFO | [PASS] Stage-B complete dev_val pass: 459 samples / 15 batches
+2026-09-09T20:14:39Z | INFO | [PASS] Stage-B weighted denominators: train=1440 / dev=459
+2026-09-09T20:14:39Z | INFO | [PASS] Stage-B backbone and FC updated
+2026-09-09T20:14:39Z | INFO | [PASS] Stage-B all 20 BN counters advance by 45
+2026-09-09T20:14:39Z | INFO | [PASS] Stage-B Adam state has 62 parameter entries at step 45
+2026-09-09T20:14:39Z | INFO | [PASS] dev evaluation changes no model parameter/buffer state
+2026-09-09T20:14:39Z | INFO | [PASS] dev logits/targets/path order follow frozen manifest
+2026-09-09T20:14:39Z | INFO | [PASS] engine clears gradients after each train epoch
+2026-09-09T20:14:39Z | INFO | [PASS] repeated same-seed Stage-A full epoch deterministic
+2026-09-09T20:14:39Z | INFO | [PASS] repeated same-seed Stage-B full epoch deterministic
+2026-09-09T20:14:39Z | INFO | Audit result: /home/u5757978/ForgedDocDetect/logs/audit_resnet18_epoch_engine_IMTA134_2026-09-09_201259_753122Z.yaml
+2026-09-09T20:14:39Z | INFO | Audit result SHA-256: 19dc2e90613dccf61236d6d0ca38a1b14dd213ec87e8aad86d9a26a0de1b8f6b
+2026-09-09T20:14:39Z | INFO | ========================================================================
+2026-09-09T20:14:39Z | INFO | RESNET-18 REAL FANTASYID EPOCH-ENGINE AUDIT: PASS
+2026-09-09T20:14:39Z | INFO | ========================================================================

@@ -1,0 +1,272 @@
+schema_version: 1
+status: PASS
+machine:
+  id: IMTA134
+  device: cuda
+  num_workers: 16
+provenance:
+  git_commit: 28d60335afc61fe582f2eb7c91c986e46aeeaef6
+  audit_script_sha256: 83688dd03da80afe693f62ee148ad7f276ceef67f9603985e28f645ce1232b97
+  audit_config_sha256: ec288ee6eb967f6c81ab1143d6f5e51e2db76689b2e004c0754ed0f785f65472
+  experiment_config_sha256: 63a0b561dff3dd37b80dba2f60301daacf178fb7656737fa59f0438e254df803
+  engine_module_sha256: d4a48dfc50d9a242f4a0b75b9fd3d867b9f9736ccbd2f195e45be51aca6d42d5
+  validator_log: /home/u5757978/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_201259_658170Z.log
+  validator_log_sha256: 532e2d0480f7e263a3f73f81b0a6bb1893315e8d15473f1499d8ed191001545d
+scope:
+  seed: 8
+  resolution: r256
+  stages_independent: true
+  held_out_test_accessed: false
+stage_a:
+  repeats: 2
+  deterministic_fingerprint:
+    initial_model_state_sha256: 2228a2a4f683e05f2679f4b1fc027ce575e691d72b8bbf1e1f5d1276308e3291
+    train_weighted_numerator: 1012.9709543287754
+    train_weighted_loss: 0.7034520516172051
+    backbone_after_train_sha256: d044ed10c4575bc2b12921460a7287055b3955e2186b24d72b2f5e0203915083
+    fc_after_train_sha256: 71150383fb981a7b96859c81e977b5f4b1d1404837fa584dbea88b049e7e733c
+    optimizer_state_sha256: 1b543effba0a4275b16e32656c11bdd5e55334b76120eb36ce968a26c11da500
+    dev_weighted_numerator: 319.758394703269
+    dev_weighted_loss: 0.696641382795793
+    dev_logits_sha256: f601d95fb927f0427b26b352c0cc92e4a62765cbb7692f76e52e105628908816
+    dev_targets_sha256: 74cbd7eefffb4104d7ee2ffa444026132567e8ec50a4eda4170779dfd35c1ddf
+    dev_paths_sha256: e8d4f489e562398ee6b70f251cca4e2d51c5113b7cf9ba394b0153cdc5d81bf9
+    final_model_state_sha256: 8a2eeb3783f54b8eb92791b2b594d96ebe9a2c2ad0cc79f95704398ed48db0c0
+    train_generator_after_sha256: 44a196b74023f9e4990241ac019739833d2cebe97b6c8fb3ce245759ad27cb60
+  reference_run:
+    stage: stage_a
+    seed: 8
+    resolution: r256
+    model:
+      pretrained_checkpoint_sha256: f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+      initial_state_sha256: 2228a2a4f683e05f2679f4b1fc027ce575e691d72b8bbf1e1f5d1276308e3291
+      backbone_before_sha256: d044ed10c4575bc2b12921460a7287055b3955e2186b24d72b2f5e0203915083
+      backbone_after_train_sha256: d044ed10c4575bc2b12921460a7287055b3955e2186b24d72b2f5e0203915083
+      fc_before_sha256: 7f56b1258c9d3b2d77789e41379e218f4471070f1096afc3d49dadcb185372d4
+      fc_after_train_sha256: 71150383fb981a7b96859c81e977b5f4b1d1404837fa584dbea88b049e7e733c
+      state_before_dev_sha256: 8a2eeb3783f54b8eb92791b2b594d96ebe9a2c2ad0cc79f95704398ed48db0c0
+      state_after_dev_sha256: 8a2eeb3783f54b8eb92791b2b594d96ebe9a2c2ad0cc79f95704398ed48db0c0
+      final_state_sha256: 8a2eeb3783f54b8eb92791b2b594d96ebe9a2c2ad0cc79f95704398ed48db0c0
+    batchnorm:
+      before_train:
+        bn1: 0
+        layer1.0.bn1: 0
+        layer1.0.bn2: 0
+        layer1.1.bn1: 0
+        layer1.1.bn2: 0
+        layer2.0.bn1: 0
+        layer2.0.bn2: 0
+        layer2.0.downsample.1: 0
+        layer2.1.bn1: 0
+        layer2.1.bn2: 0
+        layer3.0.bn1: 0
+        layer3.0.bn2: 0
+        layer3.0.downsample.1: 0
+        layer3.1.bn1: 0
+        layer3.1.bn2: 0
+        layer4.0.bn1: 0
+        layer4.0.bn2: 0
+        layer4.0.downsample.1: 0
+        layer4.1.bn1: 0
+        layer4.1.bn2: 0
+      after_train:
+        bn1: 0
+        layer1.0.bn1: 0
+        layer1.0.bn2: 0
+        layer1.1.bn1: 0
+        layer1.1.bn2: 0
+        layer2.0.bn1: 0
+        layer2.0.bn2: 0
+        layer2.0.downsample.1: 0
+        layer2.1.bn1: 0
+        layer2.1.bn2: 0
+        layer3.0.bn1: 0
+        layer3.0.bn2: 0
+        layer3.0.downsample.1: 0
+        layer3.1.bn1: 0
+        layer3.1.bn2: 0
+        layer4.0.bn1: 0
+        layer4.0.bn2: 0
+        layer4.0.downsample.1: 0
+        layer4.1.bn1: 0
+        layer4.1.bn2: 0
+      after_dev:
+        bn1: 0
+        layer1.0.bn1: 0
+        layer1.0.bn2: 0
+        layer1.1.bn1: 0
+        layer1.1.bn2: 0
+        layer2.0.bn1: 0
+        layer2.0.bn2: 0
+        layer2.0.downsample.1: 0
+        layer2.1.bn1: 0
+        layer2.1.bn2: 0
+        layer3.0.bn1: 0
+        layer3.0.bn2: 0
+        layer3.0.downsample.1: 0
+        layer3.1.bn1: 0
+        layer3.1.bn2: 0
+        layer4.0.bn1: 0
+        layer4.0.bn2: 0
+        layer4.0.downsample.1: 0
+        layer4.1.bn1: 0
+        layer4.1.bn2: 0
+    dataloader:
+      project_train_generator_before_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+      project_train_generator_after_sha256: 44a196b74023f9e4990241ac019739833d2cebe97b6c8fb3ce245759ad27cb60
+    train:
+      weighted_numerator: 1012.9709543287754
+      weight_denominator: 1440.0
+      weighted_loss: 0.7034520516172051
+      sample_count: 1440
+      batch_count: 45
+      bonafide_count: 480
+      attack_count: 960
+      optimizer_steps: 45
+    dev:
+      loss:
+        weighted_numerator: 319.758394703269
+        weight_denominator: 459.0
+        weighted_loss: 0.696641382795793
+        sample_count: 459
+        batch_count: 15
+        bonafide_count: 153
+        attack_count: 306
+      logits_sha256: f601d95fb927f0427b26b352c0cc92e4a62765cbb7692f76e52e105628908816
+      targets_sha256: 74cbd7eefffb4104d7ee2ffa444026132567e8ec50a4eda4170779dfd35c1ddf
+      image_paths_sha256: e8d4f489e562398ee6b70f251cca4e2d51c5113b7cf9ba394b0153cdc5d81bf9
+    optimizer:
+      state_entries: 2
+      step_values:
+      - 45.0
+      state_sha256: 1b543effba0a4275b16e32656c11bdd5e55334b76120eb36ce968a26c11da500
+stage_b:
+  repeats: 2
+  deterministic_fingerprint:
+    initial_model_state_sha256: 2228a2a4f683e05f2679f4b1fc027ce575e691d72b8bbf1e1f5d1276308e3291
+    train_weighted_numerator: 836.630368893384
+    train_weighted_loss: 0.5809933117315167
+    backbone_after_train_sha256: 541ba8c4b028672639d1cabda3c8d7cfcbc9789167f7fcb73eee8e7e6261ca91
+    fc_after_train_sha256: 15c1bdf49a1c4a1de6c73b8e3160417db4dd568fc7235a5a73edd0f5fbab3d6a
+    optimizer_state_sha256: 8a74c98255fd6199414b44d421723f96e7e9046b07e7665de270b57bbab61ab5
+    dev_weighted_numerator: 301.83302934435096
+    dev_weighted_loss: 0.6575882992251655
+    dev_logits_sha256: 853ed11d3893e79a43d9d03e89bdb4f730631612400c7368524554854d97f558
+    dev_targets_sha256: 74cbd7eefffb4104d7ee2ffa444026132567e8ec50a4eda4170779dfd35c1ddf
+    dev_paths_sha256: e8d4f489e562398ee6b70f251cca4e2d51c5113b7cf9ba394b0153cdc5d81bf9
+    final_model_state_sha256: e4f18a945731663667f728a2399e04cc4dd286a1f91ece6e7adea21fb30bf78c
+    train_generator_after_sha256: 44a196b74023f9e4990241ac019739833d2cebe97b6c8fb3ce245759ad27cb60
+  reference_run:
+    stage: stage_b
+    seed: 8
+    resolution: r256
+    model:
+      pretrained_checkpoint_sha256: f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+      initial_state_sha256: 2228a2a4f683e05f2679f4b1fc027ce575e691d72b8bbf1e1f5d1276308e3291
+      backbone_before_sha256: d044ed10c4575bc2b12921460a7287055b3955e2186b24d72b2f5e0203915083
+      backbone_after_train_sha256: 541ba8c4b028672639d1cabda3c8d7cfcbc9789167f7fcb73eee8e7e6261ca91
+      fc_before_sha256: 7f56b1258c9d3b2d77789e41379e218f4471070f1096afc3d49dadcb185372d4
+      fc_after_train_sha256: 15c1bdf49a1c4a1de6c73b8e3160417db4dd568fc7235a5a73edd0f5fbab3d6a
+      state_before_dev_sha256: e4f18a945731663667f728a2399e04cc4dd286a1f91ece6e7adea21fb30bf78c
+      state_after_dev_sha256: e4f18a945731663667f728a2399e04cc4dd286a1f91ece6e7adea21fb30bf78c
+      final_state_sha256: e4f18a945731663667f728a2399e04cc4dd286a1f91ece6e7adea21fb30bf78c
+    batchnorm:
+      before_train:
+        bn1: 0
+        layer1.0.bn1: 0
+        layer1.0.bn2: 0
+        layer1.1.bn1: 0
+        layer1.1.bn2: 0
+        layer2.0.bn1: 0
+        layer2.0.bn2: 0
+        layer2.0.downsample.1: 0
+        layer2.1.bn1: 0
+        layer2.1.bn2: 0
+        layer3.0.bn1: 0
+        layer3.0.bn2: 0
+        layer3.0.downsample.1: 0
+        layer3.1.bn1: 0
+        layer3.1.bn2: 0
+        layer4.0.bn1: 0
+        layer4.0.bn2: 0
+        layer4.0.downsample.1: 0
+        layer4.1.bn1: 0
+        layer4.1.bn2: 0
+      after_train:
+        bn1: 45
+        layer1.0.bn1: 45
+        layer1.0.bn2: 45
+        layer1.1.bn1: 45
+        layer1.1.bn2: 45
+        layer2.0.bn1: 45
+        layer2.0.bn2: 45
+        layer2.0.downsample.1: 45
+        layer2.1.bn1: 45
+        layer2.1.bn2: 45
+        layer3.0.bn1: 45
+        layer3.0.bn2: 45
+        layer3.0.downsample.1: 45
+        layer3.1.bn1: 45
+        layer3.1.bn2: 45
+        layer4.0.bn1: 45
+        layer4.0.bn2: 45
+        layer4.0.downsample.1: 45
+        layer4.1.bn1: 45
+        layer4.1.bn2: 45
+      after_dev:
+        bn1: 45
+        layer1.0.bn1: 45
+        layer1.0.bn2: 45
+        layer1.1.bn1: 45
+        layer1.1.bn2: 45
+        layer2.0.bn1: 45
+        layer2.0.bn2: 45
+        layer2.0.downsample.1: 45
+        layer2.1.bn1: 45
+        layer2.1.bn2: 45
+        layer3.0.bn1: 45
+        layer3.0.bn2: 45
+        layer3.0.downsample.1: 45
+        layer3.1.bn1: 45
+        layer3.1.bn2: 45
+        layer4.0.bn1: 45
+        layer4.0.bn2: 45
+        layer4.0.downsample.1: 45
+        layer4.1.bn1: 45
+        layer4.1.bn2: 45
+    dataloader:
+      project_train_generator_before_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+      project_train_generator_after_sha256: 44a196b74023f9e4990241ac019739833d2cebe97b6c8fb3ce245759ad27cb60
+    train:
+      weighted_numerator: 836.630368893384
+      weight_denominator: 1440.0
+      weighted_loss: 0.5809933117315167
+      sample_count: 1440
+      batch_count: 45
+      bonafide_count: 480
+      attack_count: 960
+      optimizer_steps: 45
+    dev:
+      loss:
+        weighted_numerator: 301.83302934435096
+        weight_denominator: 459.0
+        weighted_loss: 0.6575882992251655
+        sample_count: 459
+        batch_count: 15
+        bonafide_count: 153
+        attack_count: 306
+      logits_sha256: 853ed11d3893e79a43d9d03e89bdb4f730631612400c7368524554854d97f558
+      targets_sha256: 74cbd7eefffb4104d7ee2ffa444026132567e8ec50a4eda4170779dfd35c1ddf
+      image_paths_sha256: e8d4f489e562398ee6b70f251cca4e2d51c5113b7cf9ba394b0153cdc5d81bf9
+    optimizer:
+      state_entries: 62
+      step_values:
+      - 45.0
+      state_sha256: 8a74c98255fd6199414b44d421723f96e7e9046b07e7665de270b57bbab61ab5
+interpretation: PASS establishes that the real FantasyID single-epoch engine consumes
+  complete project_train/dev_val partitions, computes the frozen weighted-loss reductions,
+  performs exactly one AdamW step per project_train batch, preserves the Stage-A backbone/BatchNorm
+  freeze, adapts the Stage-B backbone/BatchNorm state, preserves model state during
+  dev evaluation, returns frozen-order raw dev logits, and is deterministic for repeated
+  same-seed execution on this machine. Stage-A to Stage-B checkpoint/RNG-state semantics
+  are deliberately outside this audit.
