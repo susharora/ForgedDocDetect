@@ -1,0 +1,46 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_resnet18_objective_optimizer_{machine_id}_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: audit_resnet18_objective_optimizer_{machine_id}_{timestamp}.yaml
+
+audit:
+
+  objective:
+
+    expected_project_train_counts:
+      bonafide: 480
+      attack: 960
+      total: 1440
+
+    expected_weights:
+      bonafide: 1.5
+      attack: 0.75
+
+    expected_project_train_weight_denominator: 1440.0
+    expected_dev_val_weight_denominator: 459.0
+
+    loss_abs_tolerance: 0.0000001
+    gradient_abs_tolerance: 0.0000001
+    epoch_abs_tolerance: 0.0000000001
+
+  optimizer_probe:
+
+    seed: 8
+
+    resolution: r256
+    batch_size: 2
+
+    stage_b_backbone_lr: 0.0001
+
+    repeated_full_sequences: 2
+
+    require_cuda: true
+
+    expected_stage_a_state_entries_after_step: 2
+    expected_stage_b_state_entries_after_step: 62
