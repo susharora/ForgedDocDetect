@@ -1,0 +1,45 @@
+2026-09-09T20:01:25Z | INFO | ========================================================================
+2026-09-09T20:01:25Z | INFO | RESNET-18 REAL FANTASYID EPOCH-ENGINE AUDIT
+2026-09-09T20:01:25Z | INFO | ========================================================================
+2026-09-09T20:01:25Z | INFO | Git commit: 9ff3128f16399c065823712acba8d071809ec79d
+2026-09-09T20:01:25Z | INFO | Git working tree clean before evidence generation: True
+2026-09-09T20:01:25Z | INFO | Audit script SHA-256: 83688dd03da80afe693f62ee148ad7f276ceef67f9603985e28f645ce1232b97
+2026-09-09T20:01:25Z | INFO | src/engine.py SHA-256: c9034b7e3b02bf1fa661802ff3131377123456e4f3f7f8d36e2bb2ed8e41b1de
+2026-09-09T20:01:25Z | INFO | src/dataloading.py SHA-256: 8573b046523e0533be169a2be5674e8a47437c34151cdf062d929e674df7ad0d
+2026-09-09T20:01:25Z | INFO | src/data.py SHA-256: b9cb486b2a5d2938cfe8d838802c2416cca85fedffe882682ff1c8efd3f742f2
+2026-09-09T20:01:25Z | INFO | src/modeling.py SHA-256: b3cb73aa3d33d7938fe7a0e6b751721cddb049f8d6cddebc54181b9abbaf3d63
+2026-09-09T20:01:25Z | INFO | src/objective.py SHA-256: b4f307081bfb88736e419ee5c2152c1f1ed0fcff6241196b07463b48b9323755
+2026-09-09T20:01:25Z | INFO | src/optimization.py SHA-256: b8f713f48447f79700552cbeca2a1b7fa4d3ec77e28fa9f968cf929fa386298e
+2026-09-09T20:01:25Z | INFO | src/reproducibility.py SHA-256: 33bbb093c3bbb16379f0d27e72fa5b0c80a2b14d699b8f16d62d1d0ef5ef8608
+2026-09-09T20:01:25Z | INFO | Audit config SHA-256: ec288ee6eb967f6c81ab1143d6f5e51e2db76689b2e004c0754ed0f785f65472
+2026-09-09T20:01:25Z | INFO | Experiment config SHA-256: 63a0b561dff3dd37b80dba2f60301daacf178fb7656737fa59f0438e254df803
+2026-09-09T20:01:25Z | INFO | Machine ID: sush-AMD
+2026-09-09T20:01:25Z | INFO | Device: cuda
+2026-09-09T20:01:25Z | INFO | Validator log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_200125_273894Z.log
+2026-09-09T20:01:25Z | INFO | Validator log SHA-256: de01e6c6c5ecd196f78e8b4775404c108d65a4c582d7b34274091604b1d988ca
+2026-09-09T20:01:25Z | INFO | Dataset access: project_train + dev_val only
+2026-09-09T20:01:25Z | INFO | Held-out test: NOT ACCESSED
+2026-09-09T20:01:25Z | INFO | Resolution: r256
+2026-09-09T20:01:25Z | INFO | Run seed: 8
+2026-09-09T20:01:25Z | INFO | Stage probes are independent fresh same-seed runs; no Stage-A -> Stage-B RNG/checkpoint semantics are defined by this audit.
+2026-09-09T20:01:25Z | INFO | 
+2026-09-09T20:01:25Z | INFO | --- Full Stage-A project_train + dev_val probe ---
+2026-09-09T20:01:25Z | INFO | stage_a complete epoch probe | repeat=1/2
+2026-09-09T20:01:25Z | ERROR | RESNET-18 REAL FANTASYID EPOCH-ENGINE AUDIT: FAIL
+Traceback (most recent call last):
+  File "/home/sush/ForgedDocDetect/tools/audit_resnet18_epoch_engine.py", line 2698, in main
+    stage_a_results = audit_stage_repeats(
+                      ^^^^^^^^^^^^^^^^^^^^
+  File "/home/sush/ForgedDocDetect/tools/audit_resnet18_epoch_engine.py", line 2072, in audit_stage_repeats
+    stage_result = run_stage_probe(
+                   ^^^^^^^^^^^^^^^^
+  File "/home/sush/ForgedDocDetect/tools/audit_resnet18_epoch_engine.py", line 1607, in run_stage_probe
+    train_result = train_one_epoch(
+                   ^^^^^^^^^^^^^^^^
+  File "/home/sush/ForgedDocDetect/src/engine.py", line 803, in train_one_epoch
+    _validate_execution_device(
+  File "/home/sush/ForgedDocDetect/src/engine.py", line 249, in _validate_execution_device
+    raise RuntimeError(
+RuntimeError: Model parameters are not entirely on the requested device:
+  requested=cuda
+  actual=['cuda:0']
