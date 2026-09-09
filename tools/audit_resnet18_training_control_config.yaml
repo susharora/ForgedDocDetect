@@ -1,0 +1,206 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_resnet18_training_control_{machine_id}_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: audit_resnet18_training_control_{machine_id}_{timestamp}.yaml
+
+audit:
+
+  expected_contracts:
+
+    stage_a:
+      patience_epochs: 2
+      maximum_epochs: 10
+      meaningful_relative_improvement_fraction: 0.005
+
+    stage_b:
+      patience_epochs: 5
+      maximum_epochs: 30
+      meaningful_relative_improvement_fraction: 0.005
+
+  trajectories:
+
+    # New raw minima can still consume patience when the improvement is
+    # smaller than the frozen 0.5% meaningful-improvement threshold.
+    stage_a_raw_argmin_vs_patience:
+
+      stage: stage_a
+
+      losses:
+        - 1.000
+        - 0.997
+        - 0.996
+
+      expected:
+        raw_checkpoint_updated:
+          - true
+          - true
+          - true
+
+        meaningful_improvement:
+          - null
+          - false
+          - false
+
+        patience_counter:
+          - 0
+          - 1
+          - 2
+
+        stop_due_to_patience:
+          - false
+          - false
+          - true
+
+        raw_best_epoch:
+          - 1
+          - 2
+          - 3
+
+        final_raw_best_epoch: 3
+        final_stop_epoch: 3
+
+    # Stage B has patience 5.
+    stage_b_raw_argmin_vs_patience:
+
+      stage: stage_b
+
+      losses:
+        - 1.0000
+        - 0.9990
+        - 0.9980
+        - 0.9970
+        - 0.9960
+        - 0.9955
+
+      expected:
+        raw_checkpoint_updated:
+          - true
+          - true
+          - true
+          - true
+          - true
+          - true
+
+        meaningful_improvement:
+          - null
+          - false
+          - false
+          - false
+          - false
+          - false
+
+        patience_counter:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+
+        stop_due_to_patience:
+          - false
+          - false
+          - false
+          - false
+          - false
+          - true
+
+        raw_best_epoch:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+
+        final_raw_best_epoch: 6
+        final_stop_epoch: 6
+
+    # Exact 0.5% relative improvement is equality with the threshold:
+    #
+    #     0.995 == 1.0 * (1 - 0.005)
+    #
+    # Frozen rule is strict "<", so epoch 2 is NOT meaningful.
+    # Epoch 3 at 0.994 is meaningful and resets patience.
+    strict_half_percent_boundary:
+
+      stage: stage_a
+
+      losses:
+        - 1.000
+        - 0.995
+        - 0.994
+
+      expected:
+        raw_checkpoint_updated:
+          - true
+          - true
+          - true
+
+        meaningful_improvement:
+          - null
+          - false
+          - true
+
+        patience_counter:
+          - 0
+          - 1
+          - 0
+
+        stop_due_to_patience:
+          - false
+          - false
+          - false
+
+        raw_best_epoch:
+          - 1
+          - 2
+          - 3
+
+        final_raw_best_epoch: 3
+        final_stop_epoch: null
+
+    # A worse epoch must not overwrite the raw-best checkpoint.
+    raw_argmin_rejects_worse_epoch:
+
+      stage: stage_b
+
+      losses:
+        - 1.000
+        - 0.998
+        - 0.999
+
+      expected:
+        raw_checkpoint_updated:
+          - true
+          - true
+          - false
+
+        meaningful_improvement:
+          - null
+          - false
+          - false
+
+        patience_counter:
+          - 0
+          - 1
+          - 2
+
+        stop_due_to_patience:
+          - false
+          - false
+          - false
+
+        raw_best_epoch:
+          - 1
+          - 2
+          - 2
+
+        final_raw_best_epoch: 2
+        final_stop_epoch: null
