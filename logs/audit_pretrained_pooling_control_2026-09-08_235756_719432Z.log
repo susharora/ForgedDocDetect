@@ -1,0 +1,184 @@
+2026-09-08T23:57:56Z | INFO | ========================================================================
+2026-09-08T23:57:56Z | INFO | PRETRAINED RESNET-18 POOLING CONTROL AUDIT
+2026-09-08T23:57:56Z | INFO | ========================================================================
+2026-09-08T23:57:56Z | INFO | Git commit: e314c1c0ab8f2370337c39fc05003c7d24e45be2
+2026-09-08T23:57:56Z | INFO | Script SHA-256: 09e22397a370c8f41507a5e14033e7c139a83434fa5ab4c5cea5a85ec1fc504b
+2026-09-08T23:57:56Z | INFO | Control config SHA-256: 574ca9e548caf4ff017b41e0db6250f021d4b6e896c65352391425329ed2f98a
+2026-09-08T23:57:56Z | INFO | Experiment config SHA-256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+2026-09-08T23:57:56Z | INFO | Machine ID: sush-AMD
+2026-09-08T23:57:56Z | INFO | Dataset root: /home/sush/ForgedDocDetect/data/FantasyID
+2026-09-08T23:57:56Z | INFO | Spatial roll: dy=1 dx=1
+2026-09-08T23:57:56Z | INFO | Float64 pooling-invariance tolerance: 1.000e-12
+2026-09-08T23:57:56Z | INFO | Model-vs-independent float32 avgpool tolerance: 1.000e-06
+2026-09-08T23:57:56Z | INFO | dev_val: NOT USED
+2026-09-08T23:57:56Z | INFO | held-out test: NOT ACCESSED
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | TECH-2 EXPERIMENT CONFIGURATION VALIDATION
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | Experiment config:
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE |   /home/sush/ForgedDocDetect/configs/experiments/resnet18_gradcam.yaml
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE |   SHA-256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | Machine config:
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE |   /home/sush/ForgedDocDetect/configs/local.yaml
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE |   SHA-256 intentionally not treated as scientific provenance
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | --- Machine contract ---
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] dataset_root exists
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE |        /home/sush/ForgedDocDetect/data/FantasyID
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [INFO] runs_root
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE |        /home/sush/ForgedDocDetect/runs
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | --- Reproducibility contract ---
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] required random seeds are explicitly defined
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | --- Frozen Tech-1 provenance ---
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] source discovery workbook SHA-256
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE |        54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] frozen split bundle SHA-256
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE |        95cc748a4e520d90c44f68f7e0317711a659a636802debdf78887a10a85383e1
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] bundle source workbook filename
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] bundle source workbook SHA-256
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] cards filename agrees with bundle
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] cards SHA-256 agrees with bundle
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] cards expected rows agree with bundle
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] cards manifest SHA-256
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE |        414972b290094f6d85ae0fb564bb336b17ffd067c4ac988fa4f74c8950b770fb
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] cards manifest rows = 211
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] project_train filename agrees with bundle
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] project_train SHA-256 agrees with bundle
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] project_train expected rows agree with bundle
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] project_train manifest SHA-256
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE |        6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] project_train manifest rows = 1440
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] dev_val filename agrees with bundle
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] dev_val SHA-256 agrees with bundle
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] dev_val expected rows agree with bundle
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] dev_val manifest SHA-256
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE |        46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] dev_val manifest rows = 459
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] project_train card count
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] project_train image count
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] dev_val card count
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] dev_val image count
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | --- Held-out test contract ---
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | [PASS] held-out test policy
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | 
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | EXPERIMENT CONFIGURATION VALIDATION: PASS
+2026-09-08T23:57:56Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-08T23:57:56Z | INFO | [PASS] Frozen Tech-1 provenance gate
+2026-09-08T23:57:56Z | INFO | project_train manifest: /home/sush/ForgedDocDetect/output/splits/fantasyid_project_split_2026-09-05_091937_project_train.csv
+2026-09-08T23:57:56Z | INFO | project_train manifest SHA-256: 6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-08T23:57:56Z | INFO | Cards: 160
+2026-09-08T23:57:56Z | INFO | Capture groups: 480
+2026-09-08T23:57:56Z | INFO | Weights: ResNet18_Weights.IMAGENET1K_V1
+2026-09-08T23:57:56Z | INFO | Weights URL: https://download.pytorch.org/models/resnet18-f37072fd.pth
+2026-09-08T23:57:56Z | INFO | Checkpoint path: /home/sush/.cache/torch/hub/checkpoints/resnet18-f37072fd.pth
+2026-09-08T23:57:56Z | INFO | Checkpoint SHA-256: f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+2026-09-08T23:57:56Z | INFO | Preprocessing: RGB -> resize short side 256 with aspect ratio preserved -> ImageNet normalization
+2026-09-08T23:57:56Z | INFO | Crop: NONE
+2026-09-08T23:58:00Z | INFO | Progress: 60 / 480 capture groups
+2026-09-08T23:58:03Z | INFO | Progress: 120 / 480 capture groups
+2026-09-08T23:58:06Z | INFO | Progress: 180 / 480 capture groups
+2026-09-08T23:58:09Z | INFO | Progress: 240 / 480 capture groups
+2026-09-08T23:58:13Z | INFO | Progress: 300 / 480 capture groups
+2026-09-08T23:58:16Z | INFO | Progress: 360 / 480 capture groups
+2026-09-08T23:58:19Z | INFO | Progress: 420 / 480 capture groups
+2026-09-08T23:58:22Z | INFO | Progress: 480 / 480 capture groups
+2026-09-08T23:58:22Z | INFO | ========================================================================
+2026-09-08T23:58:22Z | INFO | EMPIRICAL PAIRING CONTROL
+2026-09-08T23:58:22Z | INFO | ========================================================================
+2026-09-08T23:58:22Z | INFO | digital_1_vs_bonafide | n=480
+2026-09-08T23:58:22Z | INFO |   median layer4.1 cosine: 0.971146
+2026-09-08T23:58:22Z | INFO |   median avgpool cosine: 0.994061
+2026-09-08T23:58:22Z | INFO |   median cosine reconvergence: 0.022778
+2026-09-08T23:58:22Z | INFO |   positive cosine reconvergence: 480 / 480 (100.00%)
+2026-09-08T23:58:22Z | INFO |   median layer4.1 relative-L2: 0.240848
+2026-09-08T23:58:22Z | INFO |   median avgpool relative-L2: 0.110985
+2026-09-08T23:58:22Z | INFO |   median relative-L2 reduction: 0.129592
+2026-09-08T23:58:22Z | INFO |   positive relative-L2 reduction: 480 / 480 (100.00%)
+2026-09-08T23:58:22Z | INFO | digital_2_vs_bonafide | n=480
+2026-09-08T23:58:22Z | INFO |   median layer4.1 cosine: 0.975176
+2026-09-08T23:58:22Z | INFO |   median avgpool cosine: 0.994702
+2026-09-08T23:58:22Z | INFO |   median cosine reconvergence: 0.019701
+2026-09-08T23:58:22Z | INFO |   positive cosine reconvergence: 480 / 480 (100.00%)
+2026-09-08T23:58:22Z | INFO |   median layer4.1 relative-L2: 0.223043
+2026-09-08T23:58:22Z | INFO |   median avgpool relative-L2: 0.104836
+2026-09-08T23:58:22Z | INFO |   median relative-L2 reduction: 0.119987
+2026-09-08T23:58:22Z | INFO |   positive relative-L2 reduction: 480 / 480 (100.00%)
+2026-09-08T23:58:22Z | INFO | digital_1_vs_digital_2 | n=480
+2026-09-08T23:58:22Z | INFO |   median layer4.1 cosine: 0.972401
+2026-09-08T23:58:22Z | INFO |   median avgpool cosine: 0.994282
+2026-09-08T23:58:22Z | INFO |   median cosine reconvergence: 0.021764
+2026-09-08T23:58:22Z | INFO |   positive cosine reconvergence: 480 / 480 (100.00%)
+2026-09-08T23:58:22Z | INFO |   median layer4.1 relative-L2: 0.235718
+2026-09-08T23:58:22Z | INFO |   median avgpool relative-L2: 0.108221
+2026-09-08T23:58:22Z | INFO |   median relative-L2 reduction: 0.126732
+2026-09-08T23:58:22Z | INFO |   positive relative-L2 reduction: 480 / 480 (100.00%)
+2026-09-08T23:58:22Z | INFO | ------------------------------------------------------------------------
+2026-09-08T23:58:22Z | INFO | CARD-LEVEL CONTROL (three hardware captures averaged)
+2026-09-08T23:58:22Z | INFO | digital_1_vs_bonafide | n=160
+2026-09-08T23:58:22Z | INFO |   median layer4.1 cosine: 0.969926
+2026-09-08T23:58:22Z | INFO |   median avgpool cosine: 0.993868
+2026-09-08T23:58:22Z | INFO |   median cosine reconvergence: 0.023220
+2026-09-08T23:58:22Z | INFO |   positive cosine reconvergence: 160 / 160 (100.00%)
+2026-09-08T23:58:22Z | INFO |   median layer4.1 relative-L2: 0.244480
+2026-09-08T23:58:22Z | INFO |   median avgpool relative-L2: 0.113001
+2026-09-08T23:58:22Z | INFO |   median relative-L2 reduction: 0.129265
+2026-09-08T23:58:22Z | INFO |   positive relative-L2 reduction: 160 / 160 (100.00%)
+2026-09-08T23:58:22Z | INFO | digital_2_vs_bonafide | n=160
+2026-09-08T23:58:22Z | INFO |   median layer4.1 cosine: 0.974282
+2026-09-08T23:58:22Z | INFO |   median avgpool cosine: 0.994534
+2026-09-08T23:58:22Z | INFO |   median cosine reconvergence: 0.020249
+2026-09-08T23:58:22Z | INFO |   positive cosine reconvergence: 160 / 160 (100.00%)
+2026-09-08T23:58:22Z | INFO |   median layer4.1 relative-L2: 0.225609
+2026-09-08T23:58:22Z | INFO |   median avgpool relative-L2: 0.105648
+2026-09-08T23:58:22Z | INFO |   median relative-L2 reduction: 0.119664
+2026-09-08T23:58:22Z | INFO |   positive relative-L2 reduction: 160 / 160 (100.00%)
+2026-09-08T23:58:22Z | INFO | digital_1_vs_digital_2 | n=160
+2026-09-08T23:58:22Z | INFO |   median layer4.1 cosine: 0.972485
+2026-09-08T23:58:22Z | INFO |   median avgpool cosine: 0.994151
+2026-09-08T23:58:22Z | INFO |   median cosine reconvergence: 0.021828
+2026-09-08T23:58:22Z | INFO |   positive cosine reconvergence: 160 / 160 (100.00%)
+2026-09-08T23:58:22Z | INFO |   median layer4.1 relative-L2: 0.234888
+2026-09-08T23:58:22Z | INFO |   median avgpool relative-L2: 0.107916
+2026-09-08T23:58:22Z | INFO |   median relative-L2 reduction: 0.127068
+2026-09-08T23:58:22Z | INFO |   positive relative-L2 reduction: 160 / 160 (100.00%)
+2026-09-08T23:58:22Z | INFO | ========================================================================
+2026-09-08T23:58:22Z | INFO | MECHANISTIC SPATIAL-ROLL CONTROL
+2026-09-08T23:58:22Z | INFO | ========================================================================
+2026-09-08T23:58:22Z | INFO | Images tested: 1440
+2026-09-08T23:58:22Z | INFO | Median layer4 original-vs-roll cosine: 0.740833
+2026-09-08T23:58:22Z | INFO | Median layer4 original-vs-roll relative-L2: 0.719955
+2026-09-08T23:58:22Z | INFO | Median avgpool original-vs-roll cosine: 1.000000000
+2026-09-08T23:58:22Z | INFO | Maximum avgpool original-vs-roll relative-L2: 8.651843331e-08
+2026-09-08T23:58:22Z | INFO | Maximum float32 roll-pooling discrepancy: 1.430511475e-06
+2026-09-08T23:58:22Z | INFO | Maximum float64 roll-pooling discrepancy: 0.000000000e+00
+2026-09-08T23:58:22Z | INFO | Maximum model-vs-independent float32 avgpool error: 0.000000000e+00
+2026-09-08T23:58:22Z | INFO | ------------------------------------------------------------------------
+2026-09-08T23:58:22Z | INFO | Capture groups: 480
+2026-09-08T23:58:22Z | INFO | Model forwards: 1440
+2026-09-08T23:58:22Z | INFO | Empirical comparison rows: 1440
+2026-09-08T23:58:22Z | INFO | Card summary rows: 480
+2026-09-08T23:58:22Z | INFO | Spatial-roll rows: 1440
+2026-09-08T23:58:22Z | INFO | Elapsed seconds: 25.564
+2026-09-08T23:58:22Z | INFO | Forward throughput: 56.328 images/s
+2026-09-08T23:58:22Z | INFO | Peak CUDA allocated: 0.071 GiB
+2026-09-08T23:58:22Z | INFO | Peak CUDA reserved: 0.084 GiB
+2026-09-08T23:58:22Z | INFO | ------------------------------------------------------------------------
+2026-09-08T23:58:22Z | INFO | OUTPUT ARTIFACTS
+2026-09-08T23:58:22Z | INFO | capture_pairs: /home/sush/ForgedDocDetect/logs/audit_pretrained_pooling_control_pairs_2026-09-08_235756_719432Z.csv
+2026-09-08T23:58:22Z | INFO | capture_pairs SHA-256: fd9854b171d25b56559dc3578d9d6db50c697067807dfbf587c007427cc87427
+2026-09-08T23:58:22Z | INFO | card_summary: /home/sush/ForgedDocDetect/logs/audit_pretrained_pooling_control_cards_2026-09-08_235756_719432Z.csv
+2026-09-08T23:58:22Z | INFO | card_summary SHA-256: 0453ffbc9931a21874c044e55e416cbb1fb66724100887ea3f8611fed8009654
+2026-09-08T23:58:22Z | INFO | spatial_roll: /home/sush/ForgedDocDetect/logs/audit_pretrained_pooling_control_spatial_roll_2026-09-08_235756_719432Z.csv
+2026-09-08T23:58:22Z | INFO | spatial_roll SHA-256: ef0e88224986390335bcee63ee8a23c3facd44f50f11ea2581d329b7931ffa50
+2026-09-08T23:58:22Z | INFO | group_summary: /home/sush/ForgedDocDetect/logs/audit_pretrained_pooling_control_groups_2026-09-08_235756_719432Z.csv
+2026-09-08T23:58:22Z | INFO | group_summary SHA-256: 3efba75b75b754aea258170e669f90c3e6939010c98e9e7fc12197b8db714d34
+2026-09-08T23:58:22Z | INFO | Audit log: /home/sush/ForgedDocDetect/logs/audit_pretrained_pooling_control_2026-09-08_235756_719432Z.log
+2026-09-08T23:58:22Z | INFO | ========================================================================
+2026-09-08T23:58:22Z | INFO | PRETRAINED RESNET-18 POOLING CONTROL AUDIT: PASS
+2026-09-08T23:58:22Z | INFO | ========================================================================
