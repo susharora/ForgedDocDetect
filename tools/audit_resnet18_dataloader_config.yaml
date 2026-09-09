@@ -1,0 +1,38 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_resnet18_dataloader_{machine_id}_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: audit_resnet18_dataloader_{machine_id}_{timestamp}.yaml
+
+audit:
+  seeds:
+    - 8
+    - 9
+    - 10
+
+  resolutions:
+    - r256
+    - r512
+
+  expected:
+    project_train_rows: 1440
+    dev_val_rows: 459
+
+    batch_size: 32
+
+    project_train_batches: 45
+    project_train_last_batch_size: 32
+
+    dev_val_batches: 15
+    dev_val_last_batch_size: 11
+
+  worker_probe:
+    items_per_worker: 2
+    require_positive_num_workers: true
+
+  require_cuda_rng_probe: true
