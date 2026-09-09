@@ -1,0 +1,57 @@
+2026-09-09T22:50:16Z | INFO | ========================================================================
+2026-09-09T22:50:16Z | INFO | RESNET-18 LR-SCREENING ORCHESTRATION AUDIT
+2026-09-09T22:50:16Z | INFO | ========================================================================
+2026-09-09T22:50:16Z | INFO | Git commit: d99907da1e351e93767421e45ec07bb7a96d28bc
+2026-09-09T22:50:16Z | INFO | Git working tree clean before evidence generation: True
+2026-09-09T22:50:16Z | INFO | Machine ID: sush-AMD
+2026-09-09T22:50:16Z | INFO | Experiment config SHA-256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-09T22:50:16Z | INFO | src/lr_screening.py SHA-256: fa47f7c3a34295ed296266df0c23b45a8912be7b9f3d6fd361a170dbf49a5376
+2026-09-09T22:50:16Z | INFO | Audit script SHA-256: 086ae470858a3c877a4c86e84c7d2076b0595ab2c1abd8d1422745ebd68e451e
+2026-09-09T22:50:16Z | INFO | Audit config SHA-256: 650225fed8b72f32bea4c78cc3bbf2ed0c62f4ca07e74390ac9d578953b23768
+2026-09-09T22:50:16Z | INFO | Validator log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_225016_123688Z.log
+2026-09-09T22:50:16Z | INFO | Validator log SHA-256: 04210a4b285cb4bdbc2982e406bc5c08c3c596142821e285fec9c89317389ddf
+2026-09-09T22:50:16Z | INFO | Execution: synthetic outer orchestration only
+2026-09-09T22:50:16Z | INFO | FantasyID Dataset construction: NONE
+2026-09-09T22:50:16Z | INFO | Image decoding: NONE
+2026-09-09T22:50:16Z | INFO | Real Stage-A/Stage-B training: NONE
+2026-09-09T22:50:16Z | INFO | FPR10 threshold derivation: NONE
+2026-09-09T22:50:16Z | INFO | Held-out test: NOT ACCESSED
+2026-09-09T22:50:16Z | INFO | 
+2026-09-09T22:50:16Z | INFO | --- Development-only screening API ---
+2026-09-09T22:50:16Z | INFO | [PASS] LR-screening API exposes development inputs only
+2026-09-09T22:50:16Z | INFO | [PASS] LR-screening function contains no test-related call route
+2026-09-09T22:50:16Z | INFO | 
+2026-09-09T22:50:16Z | INFO | --- Synthetic LR-screening cases ---
+2026-09-09T22:50:16Z | INFO | [PASS] distinct_losses_with_auroc_flag | selected_lr=0.0001 | loss=0.400000000000 | tie=False | review=True
+2026-09-09T22:50:16Z | INFO | [PASS] exact_loss_tie | selected_lr=3e-05 | loss=0.400000000000 | tie=True | review=False
+2026-09-09T22:50:16Z | INFO | 
+2026-09-09T22:50:16Z | INFO | --- Exact-tie order-independence control ---
+2026-09-09T22:50:16Z | INFO | [PASS] lower-LR exact tie-break is independent of candidate tuple order
+2026-09-09T22:50:16Z | INFO | 
+2026-09-09T22:50:16Z | INFO | --- Screening input guards ---
+2026-09-09T22:50:16Z | INFO | [PASS] non-screening seed 9 rejected before runtime construction
+2026-09-09T22:50:16Z | INFO | [PASS] invalid resolution 'r999' rejected before runtime construction
+2026-09-09T22:50:16Z | INFO | 
+2026-09-09T22:50:16Z | INFO | ========================================================================
+2026-09-09T22:50:16Z | INFO | AUDIT SUMMARY
+2026-09-09T22:50:16Z | INFO | ========================================================================
+2026-09-09T22:50:16Z | INFO | [PASS] Stage A executes exactly once per resolution
+2026-09-09T22:50:16Z | INFO | [PASS] Stage A completes before Stage-B branching
+2026-09-09T22:50:16Z | INFO | [PASS] all three Stage-B branches receive the same Stage-A checkpoint
+2026-09-09T22:50:16Z | INFO | [PASS] Stage-B LR candidate order = [3e-5, 1e-4, 3e-4]
+2026-09-09T22:50:16Z | INFO | [PASS] selection uses raw-best weighted dev CE only
+2026-09-09T22:50:16Z | INFO | [PASS] exact loss tie selects lower backbone LR
+2026-09-09T22:50:16Z | INFO | [PASS] lower-LR tie-break independent of tuple order
+2026-09-09T22:50:16Z | INFO | [PASS] AUROC review flags cannot change LR selection
+2026-09-09T22:50:16Z | INFO | [PASS] protocol-review flags remain surfaced separately
+2026-09-09T22:50:16Z | INFO | [PASS] selected checkpoint belongs to selected LR
+2026-09-09T22:50:16Z | INFO | [PASS] invalid seed rejected before runtime construction
+2026-09-09T22:50:16Z | INFO | [PASS] invalid resolution rejected before runtime construction
+2026-09-09T22:50:16Z | INFO | [PASS] screening API exposes no held-out-test route
+2026-09-09T22:50:16Z | INFO | [PASS] no FantasyID data/images accessed
+2026-09-09T22:50:16Z | INFO | [PASS] held-out test NOT ACCESSED
+2026-09-09T22:50:16Z | INFO | Audit result: /home/sush/ForgedDocDetect/logs/audit_resnet18_lr_screening_sush-AMD_2026-09-09_225016_155128Z.yaml
+2026-09-09T22:50:16Z | INFO | Audit result SHA-256: 05d2dddd2d467aef951bc62a66f26bc28ed382bc29f1cafd21db075034f7858a
+2026-09-09T22:50:16Z | INFO | ========================================================================
+2026-09-09T22:50:16Z | INFO | RESNET-18 LR-SCREENING ORCHESTRATION AUDIT: PASS
+2026-09-09T22:50:16Z | INFO | ========================================================================
