@@ -1,0 +1,267 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_resnet18_stage_runner_{machine_id}_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: audit_resnet18_stage_runner_{machine_id}_{timestamp}.yaml
+
+audit:
+
+  expected_experiment_config_sha256:
+    c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+
+  expected_transition_note:
+    "Backbone unfrozen and BatchNorm running statistics begin FantasyID domain adaptation; transient dev-loss movement is expected."
+
+  invalid_stage: stage_c
+
+  cases:
+
+    stage_a_patience_restore:
+
+      stage: stage_a
+
+      dev_losses:
+        - 1.0
+        - 0.998
+        - 0.999
+
+      dev_aurocs:
+        - 0.5
+        - 0.0
+        - 1.0
+
+      expected:
+        epochs_completed: 3
+        stop_reason: patience
+
+        raw_best_epoch: 2
+        raw_best_weighted_dev_loss: 0.998
+
+        dev_auroc_at_raw_best_checkpoint: 0.0
+        best_dev_auroc: 1.0
+        best_dev_auroc_epoch: 3
+
+        auroc_best_differs_from_selected: true
+
+        raw_checkpoint_updated:
+          - true
+          - true
+          - false
+
+        meaningful_improvement:
+          - null
+          - false
+          - false
+
+        patience_counter:
+          - 0
+          - 1
+          - 2
+
+    stage_b_patience_auroc_flag:
+
+      stage: stage_b
+
+      dev_losses:
+        - 1.0
+        - 0.998
+        - 0.999
+        - 1.0
+        - 1.001
+        - 1.002
+
+      dev_aurocs:
+        - 0.5
+        - 0.0
+        - 0.5
+        - 0.5
+        - 0.5
+        - 1.0
+
+      expected:
+        epochs_completed: 6
+        stop_reason: patience
+
+        raw_best_epoch: 2
+        raw_best_weighted_dev_loss: 0.998
+
+        dev_auroc_at_raw_best_checkpoint: 0.0
+        best_dev_auroc: 1.0
+        best_dev_auroc_epoch: 6
+
+        auroc_best_differs_from_selected: true
+
+        raw_checkpoint_updated:
+          - true
+          - true
+          - false
+          - false
+          - false
+          - false
+
+        meaningful_improvement:
+          - null
+          - false
+          - false
+          - false
+          - false
+          - false
+
+        patience_counter:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+
+        stage_b_guard:
+          difference: 1.0
+          threshold: 0.01
+          protocol_review_flag: true
+          automatically_switch_checkpoint: false
+
+    stage_b_no_auroc_flag:
+
+      stage: stage_b
+
+      dev_losses:
+        - 1.0
+        - 0.998
+        - 0.999
+        - 1.0
+        - 1.001
+        - 1.002
+
+      dev_aurocs:
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.5
+
+      expected:
+        epochs_completed: 6
+        stop_reason: patience
+
+        raw_best_epoch: 2
+        raw_best_weighted_dev_loss: 0.998
+
+        dev_auroc_at_raw_best_checkpoint: 0.5
+        best_dev_auroc: 0.5
+        best_dev_auroc_epoch: 1
+
+        auroc_best_differs_from_selected: true
+
+        raw_checkpoint_updated:
+          - true
+          - true
+          - false
+          - false
+          - false
+          - false
+
+        meaningful_improvement:
+          - null
+          - false
+          - false
+          - false
+          - false
+          - false
+
+        patience_counter:
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+
+        stage_b_guard:
+          difference: 0.0
+          threshold: 0.01
+          protocol_review_flag: false
+          automatically_switch_checkpoint: false
+
+    stage_a_maximum_epochs:
+
+      stage: stage_a
+
+      dev_losses:
+        - 1.0
+        - 0.99
+        - 0.9801
+        - 0.970299
+        - 0.96059601
+        - 0.9509900499
+        - 0.941480149401
+        - 0.93206534790699
+        - 0.9227446944279201
+        - 0.9135172474836409
+
+      dev_aurocs:
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.5
+        - 0.5
+
+      expected:
+        epochs_completed: 10
+        stop_reason: maximum_epochs
+
+        raw_best_epoch: 10
+        raw_best_weighted_dev_loss: 0.9135172474836409
+
+        dev_auroc_at_raw_best_checkpoint: 0.5
+        best_dev_auroc: 0.5
+        best_dev_auroc_epoch: 1
+
+        auroc_best_differs_from_selected: true
+
+        raw_checkpoint_updated:
+          - true
+          - true
+          - true
+          - true
+          - true
+          - true
+          - true
+          - true
+          - true
+          - true
+
+        meaningful_improvement:
+          - null
+          - true
+          - true
+          - true
+          - true
+          - true
+          - true
+          - true
+          - true
+          - true
+
+        patience_counter:
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
+          - 0
