@@ -1,0 +1,65 @@
+2026-09-09T23:02:52Z | INFO | ========================================================================
+2026-09-09T23:02:52Z | INFO | RESNET-18 SCREENING-ARTIFACT PERSISTENCE AUDIT
+2026-09-09T23:02:52Z | INFO | ========================================================================
+2026-09-09T23:02:52Z | INFO | Git commit: 43866426ce90e0a2bdff71cbcf63995222b7d884
+2026-09-09T23:02:52Z | INFO | Git working tree clean before evidence generation: True
+2026-09-09T23:02:52Z | INFO | Machine ID: sush-AMD
+2026-09-09T23:02:52Z | INFO | Experiment config SHA-256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-09T23:02:52Z | INFO | src/screening_artifacts.py SHA-256: 3976ab1c4a63e48b2650b059ee8d076312df63ee323c777b9dd3aedee4ae4db0
+2026-09-09T23:02:52Z | INFO | Audit script SHA-256: 71e8c014f1c3cb41cbf8f46949b90f48324f27525e8be619349b4ea39fa55847
+2026-09-09T23:02:52Z | INFO | Audit config SHA-256: 3a0cd0ffb51b6a7ed8b3750036c580cc152699fb26464a7ab7105fccfd76be41
+2026-09-09T23:02:52Z | INFO | Validator log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_230251_983279Z.log
+2026-09-09T23:02:52Z | INFO | Validator log SHA-256: 2c86c7d72e9d985118c7f9dd28ce5902aa95f54817b45d68463bdb1cd9b56cbb
+2026-09-09T23:02:52Z | INFO | Execution: synthetic persistence only
+2026-09-09T23:02:52Z | INFO | Temporary run directories: system temporary storage
+2026-09-09T23:02:52Z | INFO | FantasyID Dataset construction: NONE
+2026-09-09T23:02:52Z | INFO | Image decoding: NONE
+2026-09-09T23:02:52Z | INFO | Scientific training: NONE
+2026-09-09T23:02:52Z | INFO | CUDA computation: NONE
+2026-09-09T23:02:52Z | INFO | FPR10 threshold derivation: NONE
+2026-09-09T23:02:52Z | INFO | Held-out test: NOT ACCESSED
+2026-09-09T23:02:52Z | INFO | 
+2026-09-09T23:02:52Z | INFO | --- Successful persistence and round-trip verification ---
+2026-09-09T23:02:52Z | INFO | [PASS] successful persistence wrote expected 10 artifacts
+2026-09-09T23:02:52Z | INFO | [PASS] four checkpoint model states round-trip exactly
+2026-09-09T23:02:52Z | INFO | [PASS] checkpoint payloads are model-only
+2026-09-09T23:02:52Z | INFO | [PASS] four history CSV files preserve epoch evidence
+2026-09-09T23:02:52Z | INFO | [PASS] summary preserves selected and losing LR identities
+2026-09-09T23:02:52Z | INFO | [PASS] manifest hashes and sizes reconcile to files
+2026-09-09T23:02:52Z | INFO | [PASS] successful persistence leaves no staging files
+2026-09-09T23:02:52Z | INFO | 
+2026-09-09T23:02:52Z | INFO | --- Strict no-overwrite behavior ---
+2026-09-09T23:02:52Z | INFO | [PASS] second persistence attempt rejected by no-overwrite guard
+2026-09-09T23:02:52Z | INFO | [PASS] no-overwrite rejection preserves every existing file SHA
+2026-09-09T23:02:52Z | INFO | 
+2026-09-09T23:02:52Z | INFO | --- Staged-write failure cleanup ---
+2026-09-09T23:02:52Z | INFO | [PASS] synthetic staged-write failure aborts persistence
+2026-09-09T23:02:52Z | INFO | [PASS] staged-write failure removes all temporary artifacts
+2026-09-09T23:02:52Z | INFO | 
+2026-09-09T23:02:52Z | INFO | --- Mid-promotion failure rollback ---
+2026-09-09T23:02:52Z | INFO | [PASS] mid-promotion failure triggers rollback
+2026-09-09T23:02:52Z | INFO | [PASS] mid-promotion failure rolls back already-promoted files
+2026-09-09T23:02:52Z | INFO | 
+2026-09-09T23:02:52Z | INFO | ========================================================================
+2026-09-09T23:02:52Z | INFO | AUDIT SUMMARY
+2026-09-09T23:02:52Z | INFO | ========================================================================
+2026-09-09T23:02:52Z | INFO | [PASS] four raw-best checkpoints persisted
+2026-09-09T23:02:52Z | INFO | [PASS] all checkpoint model-state SHAs round-trip exactly
+2026-09-09T23:02:52Z | INFO | [PASS] checkpoint scope excludes optimizer/RNG state
+2026-09-09T23:02:52Z | INFO | [PASS] four epoch-history CSV files validated
+2026-09-09T23:02:52Z | INFO | [PASS] Stage-B transition note persisted at epoch 1 only
+2026-09-09T23:02:52Z | INFO | [PASS] summary preserves selected and losing LR identities
+2026-09-09T23:02:52Z | INFO | [PASS] losing-candidate AUROC review flag remains visible
+2026-09-09T23:02:52Z | INFO | [PASS] manifest hashes and file sizes reconcile
+2026-09-09T23:02:52Z | INFO | [PASS] artifact paths remain run-relative
+2026-09-09T23:02:52Z | INFO | [PASS] second persistence attempt rejected
+2026-09-09T23:02:52Z | INFO | [PASS] rejected overwrite changes no existing bytes
+2026-09-09T23:02:52Z | INFO | [PASS] staged-write failure leaves no files
+2026-09-09T23:02:52Z | INFO | [PASS] mid-promotion failure rolls back promoted files
+2026-09-09T23:02:52Z | INFO | [PASS] temporary partial artifacts cleaned after failures
+2026-09-09T23:02:52Z | INFO | [PASS] held-out test NOT ACCESSED
+2026-09-09T23:02:52Z | INFO | Audit result: /home/sush/ForgedDocDetect/logs/audit_resnet18_screening_artifacts_sush-AMD_2026-09-09_230252_014163Z.yaml
+2026-09-09T23:02:52Z | INFO | Audit result SHA-256: 7ef35cda49e8965fa5e4cdbe2ff14a5080078170f7aeb7254a1a353aa5f75e46
+2026-09-09T23:02:52Z | INFO | ========================================================================
+2026-09-09T23:02:52Z | INFO | RESNET-18 SCREENING-ARTIFACT PERSISTENCE AUDIT: PASS
+2026-09-09T23:02:52Z | INFO | ========================================================================

@@ -1,0 +1,150 @@
+schema_version: 1
+status: PASS
+machine:
+  id: sush-AMD
+provenance:
+  git_commit: 43866426ce90e0a2bdff71cbcf63995222b7d884
+  experiment_config_sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+  screening_artifacts_module_sha256: 3976ab1c4a63e48b2650b059ee8d076312df63ee323c777b9dd3aedee4ae4db0
+  audit_script_sha256: 71e8c014f1c3cb41cbf8f46949b90f48324f27525e8be619349b4ea39fa55847
+  audit_config_sha256: 3a0cd0ffb51b6a7ed8b3750036c580cc152699fb26464a7ab7105fccfd76be41
+  validator_log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_230251_983279Z.log
+  validator_log_sha256: 2c86c7d72e9d985118c7f9dd28ce5902aa95f54817b45d68463bdb1cd9b56cbb
+scope:
+  synthetic_only: true
+  temporary_directories_only: true
+  resolution: r256
+  run_seed: 8
+  backbone_lr_candidates:
+  - 3.0e-05
+  - 0.0001
+  - 0.0003
+  fantasyid_dataset_constructed: false
+  images_decoded: false
+  scientific_training_performed: false
+  cuda_computation_performed: false
+  forward_pass_performed: false
+  backward_pass_performed: false
+  optimizer_step_performed: false
+  fpr10_threshold_derived: false
+  held_out_test_accessed: false
+successful_persistence:
+  bundle_artifact_count: 10
+  manifest_listed_artifact_count: 9
+  selected_backbone_lr: 0.0001
+  selected_stage_b_checkpoint_model_state_sha256: 9b91c04eeafd77b68c43b64329743a676649de14c365f0677d1d2adcf8bb3c18
+  checkpoint_evidence:
+    checkpoints/stage_a_raw_best.pt:
+      stage: stage_a
+      backbone_lr: null
+      epoch: 2
+      weighted_dev_loss: 0.998
+      model_state_sha256: 2f3a847ae58980267346070c2d0fc843b40a2dd1c37b7ce881c8cf3f92eaf308
+      file_sha256: 737fc158d2263c11f2e1052f69cecc2909f9e839fdcb5d31c8e6ce88c4757f8e
+    checkpoints/stage_b_lr_3e-05_raw_best.pt:
+      stage: stage_b
+      backbone_lr: 3.0e-05
+      epoch: 2
+      weighted_dev_loss: 0.548
+      model_state_sha256: 0ee5045304d956004c98d6cca58d918451e040732e37cfed566c1b2bd6a5fe77
+      file_sha256: bf9b79698783914c22c2604639348c17182910797e61f04cb20865c7745a04a1
+    checkpoints/stage_b_lr_1e-04_raw_best.pt:
+      stage: stage_b
+      backbone_lr: 0.0001
+      epoch: 2
+      weighted_dev_loss: 0.498
+      model_state_sha256: 9b91c04eeafd77b68c43b64329743a676649de14c365f0677d1d2adcf8bb3c18
+      file_sha256: 1f567aa492d9ce200c9055a35ad8db1b4046fcc1e54ee2ac994c1bc2086fc2cf
+    checkpoints/stage_b_lr_3e-04_raw_best.pt:
+      stage: stage_b
+      backbone_lr: 0.0003
+      epoch: 2
+      weighted_dev_loss: 0.528
+      model_state_sha256: 9ecfdf355f21bd0570d6cfd607bf7220aa5055d85771928813d5e5551a72ca61
+      file_sha256: b684b7e4ef90b620af2a175583f49a8203495d66c881bec151a5e11898f004b2
+  history_evidence:
+    stage_a:
+      path: stage_a_history.csv
+      rows: 3
+      columns: 28
+      raw_best_epoch: 2
+      raw_best_weighted_dev_loss: 0.998
+      transition_note_epoch_1: null
+    3e-05:
+      path: stage_b_lr_3e-05_history.csv
+      rows: 6
+      columns: 28
+      raw_best_epoch: 2
+      raw_best_weighted_dev_loss: 0.548
+      transition_note_epoch_1: Backbone unfrozen and BatchNorm running statistics
+        begin FantasyID domain adaptation; transient dev-loss movement is expected.
+    '0.0001':
+      path: stage_b_lr_1e-04_history.csv
+      rows: 6
+      columns: 28
+      raw_best_epoch: 2
+      raw_best_weighted_dev_loss: 0.498
+      transition_note_epoch_1: Backbone unfrozen and BatchNorm running statistics
+        begin FantasyID domain adaptation; transient dev-loss movement is expected.
+    '0.0003':
+      path: stage_b_lr_3e-04_history.csv
+      rows: 6
+      columns: 28
+      raw_best_epoch: 2
+      raw_best_weighted_dev_loss: 0.528
+      transition_note_epoch_1: Backbone unfrozen and BatchNorm running statistics
+        begin FantasyID domain adaptation; transient dev-loss movement is expected.
+  bundle_file_sha256:
+    checkpoints/stage_a_raw_best.pt: 737fc158d2263c11f2e1052f69cecc2909f9e839fdcb5d31c8e6ce88c4757f8e
+    metrics/stage_a_history.csv: e47eb95db2c1b6bf598de480a47a84da73470f8e6537df8b09d3d1411288b762
+    checkpoints/stage_b_lr_3e-05_raw_best.pt: bf9b79698783914c22c2604639348c17182910797e61f04cb20865c7745a04a1
+    metrics/stage_b_lr_3e-05_history.csv: 3a39b1ca8bc67765b31e6788988af8cac924e871b5cff6deece5a8424f3a7b02
+    checkpoints/stage_b_lr_1e-04_raw_best.pt: 1f567aa492d9ce200c9055a35ad8db1b4046fcc1e54ee2ac994c1bc2086fc2cf
+    metrics/stage_b_lr_1e-04_history.csv: c75041b09882560a4f643b7300abf68147677d4b8c50427248619cbeeb4c07b4
+    checkpoints/stage_b_lr_3e-04_raw_best.pt: b684b7e4ef90b620af2a175583f49a8203495d66c881bec151a5e11898f004b2
+    metrics/stage_b_lr_3e-04_history.csv: 6eeacea2d885db76bad96489e50d771bc62d7b068611218a30c4ca63a30c43ac
+    metrics/lr_screening_summary.yaml: 25606f57dd8620ccee8c9dd145feb7e5f56ee15b3be3e0ead4a464b1986421bc
+    manifests/lr_screening_artifacts.yaml: d8b64df475652285b962bdd126039230b9c4a0bf764c49a1f653a0282747b4ca
+  summary_selection:
+    metric: class_weighted_dev_cross_entropy
+    source: raw_argmin_checkpoint
+    rule: lowest_best_weighted_dev_loss
+    exact_tie_breaker: lower_backbone_learning_rate
+    selected_backbone_lr: 0.0001
+    selected_raw_best_weighted_dev_loss: 0.498
+    selected_stage_b_checkpoint_model_state_sha256: 9b91c04eeafd77b68c43b64329743a676649de14c365f0677d1d2adcf8bb3c18
+    exact_loss_tie_encountered: false
+    protocol_review_required: true
+    auroc_changes_selection: false
+  stage_b_selected_flags:
+  - false
+  - true
+  - false
+  stage_b_protocol_review_flags:
+  - false
+  - false
+  - true
+no_overwrite:
+  rejected: true
+  files_before: 10
+  files_after: 10
+  all_existing_file_hashes_unchanged: true
+  partial_files_created: false
+staged_write_failure:
+  failure_injected_on_history_write_call: 2
+  failure_rejected: true
+  files_remaining_after_failure: 0
+  partial_files_remaining_after_failure: 0
+promotion_failure:
+  promotion_failure_call: 4
+  promotion_calls_observed: 4
+  failure_rejected: true
+  files_remaining_after_rollback: 0
+  partial_files_remaining_after_rollback: 0
+interpretation: PASS establishes durable one-resolution LR-screening artifact persistence
+  using synthetic model states. Four model-only raw-argmin checkpoints round-trip
+  by model-state SHA-256, four epoch histories serialize correctly, summary and manifest
+  evidence preserve LR selection and protocol-review identity, manifest hashes reconcile
+  to persisted bytes, overwrites are rejected without mutation, staged-write failures
+  leave no files, and mid-promotion failures roll back promoted artifacts. No scientific
+  training or held-out-test access occurred.
