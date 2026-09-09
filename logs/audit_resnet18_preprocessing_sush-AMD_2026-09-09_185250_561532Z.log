@@ -1,0 +1,115 @@
+2026-09-09T18:52:50Z | INFO | ========================================================================
+2026-09-09T18:52:50Z | INFO | RESNET-18 DEVELOPMENT PREPROCESSING AUDIT
+2026-09-09T18:52:50Z | INFO | ========================================================================
+2026-09-09T18:52:50Z | INFO | Git commit: 70d65e71061e41caee06121ec95ff6008abe04db
+2026-09-09T18:52:50Z | INFO | Git working tree clean before evidence generation: True
+2026-09-09T18:52:50Z | INFO | Audit script SHA-256: ed0a4bbd1baa3b5d88312c9f4feb4dc58d98a9594e4d7be9f459fd14af6f50e7
+2026-09-09T18:52:50Z | INFO | src/data.py SHA-256: b9cb486b2a5d2938cfe8d838802c2416cca85fedffe882682ff1c8efd3f742f2
+2026-09-09T18:52:50Z | INFO | Audit config SHA-256: 538f7abe647ccc3466de04082ab157b20430f087eb127d2f3f194af910481e8a
+2026-09-09T18:52:50Z | INFO | Experiment config SHA-256: 63a0b561dff3dd37b80dba2f60301daacf178fb7656737fa59f0438e254df803
+2026-09-09T18:52:50Z | INFO | Experiment protocol status: frozen
+2026-09-09T18:52:50Z | INFO | Machine ID: sush-AMD
+2026-09-09T18:52:50Z | INFO | Canonical validator log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_185250_530033Z.log
+2026-09-09T18:52:50Z | INFO | Canonical validator log SHA-256: 8fc01fc020db5bb5bb864ed5b5b61197745fd2ab54df98868648562add78e02d
+2026-09-09T18:52:50Z | INFO | project_train + dev_val only
+2026-09-09T18:52:50Z | INFO | held-out test: NOT ACCESSED
+2026-09-09T18:52:50Z | INFO | Resolutions: ['r256', 'r512']
+2026-09-09T18:52:50Z | INFO | Expected unique source images: 1899
+2026-09-09T18:52:50Z | INFO | Expected preprocessing outputs: 3798
+2026-09-09T18:52:50Z | INFO | Tensor SHA-256 diagnostics: ENABLED
+2026-09-09T18:52:50Z | INFO | [PASS] src.data structurally rejects held-out test access
+2026-09-09T18:52:50Z | INFO | [PASS] Dataset construction | split=project_train | resolution=r256 | rows=1440 | manifest_sha256=6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-09T18:52:50Z | INFO | [PASS] Dataset construction | split=project_train | resolution=r512 | rows=1440 | manifest_sha256=6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-09T18:52:50Z | INFO | [PASS] Dataset construction | split=dev_val | resolution=r256 | rows=459 | manifest_sha256=46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+2026-09-09T18:52:50Z | INFO | [PASS] Dataset construction | split=dev_val | resolution=r512 | rows=459 | manifest_sha256=46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+2026-09-09T18:52:50Z | INFO | ========================================================================
+2026-09-09T18:52:50Z | INFO | SOURCE IMAGE SHA-256 AUDIT
+2026-09-09T18:52:50Z | INFO | ========================================================================
+2026-09-09T18:52:50Z | INFO | Source hashes verified: 100 / 1899
+2026-09-09T18:52:50Z | INFO | Source hashes verified: 200 / 1899
+2026-09-09T18:52:50Z | INFO | Source hashes verified: 300 / 1899
+2026-09-09T18:52:50Z | INFO | Source hashes verified: 400 / 1899
+2026-09-09T18:52:50Z | INFO | Source hashes verified: 500 / 1899
+2026-09-09T18:52:50Z | INFO | Source hashes verified: 600 / 1899
+2026-09-09T18:52:50Z | INFO | Source hashes verified: 700 / 1899
+2026-09-09T18:52:50Z | INFO | Source hashes verified: 800 / 1899
+2026-09-09T18:52:50Z | INFO | Source hashes verified: 900 / 1899
+2026-09-09T18:52:50Z | INFO | Source hashes verified: 1000 / 1899
+2026-09-09T18:52:50Z | INFO | Source hashes verified: 1100 / 1899
+2026-09-09T18:52:50Z | INFO | Source hashes verified: 1200 / 1899
+2026-09-09T18:52:50Z | INFO | Source hashes verified: 1300 / 1899
+2026-09-09T18:52:51Z | INFO | Source hashes verified: 1400 / 1899
+2026-09-09T18:52:51Z | INFO | Source hashes verified: 1500 / 1899
+2026-09-09T18:52:51Z | INFO | Source hashes verified: 1600 / 1899
+2026-09-09T18:52:51Z | INFO | Source hashes verified: 1700 / 1899
+2026-09-09T18:52:51Z | INFO | Source hashes verified: 1800 / 1899
+2026-09-09T18:52:51Z | INFO | [PASS] All 1899 unique development source images match their frozen SHA-256 values.
+2026-09-09T18:52:51Z | INFO | ========================================================================
+2026-09-09T18:52:51Z | INFO | PREPROCESSING AUDIT | split=project_train | resolution=r256
+2026-09-09T18:52:51Z | INFO | ========================================================================
+2026-09-09T18:52:53Z | INFO | Preprocessed tensors audited: 100 / 3798
+2026-09-09T18:52:56Z | INFO | Preprocessed tensors audited: 200 / 3798
+2026-09-09T18:52:58Z | INFO | Preprocessed tensors audited: 300 / 3798
+2026-09-09T18:53:01Z | INFO | Preprocessed tensors audited: 400 / 3798
+2026-09-09T18:53:04Z | INFO | Preprocessed tensors audited: 500 / 3798
+2026-09-09T18:53:06Z | INFO | Preprocessed tensors audited: 600 / 3798
+2026-09-09T18:53:09Z | INFO | Preprocessed tensors audited: 700 / 3798
+2026-09-09T18:53:12Z | INFO | Preprocessed tensors audited: 800 / 3798
+2026-09-09T18:53:14Z | INFO | Preprocessed tensors audited: 900 / 3798
+2026-09-09T18:53:17Z | INFO | Preprocessed tensors audited: 1000 / 3798
+2026-09-09T18:53:19Z | INFO | Preprocessed tensors audited: 1100 / 3798
+2026-09-09T18:53:22Z | INFO | Preprocessed tensors audited: 1200 / 3798
+2026-09-09T18:53:25Z | INFO | Preprocessed tensors audited: 1300 / 3798
+2026-09-09T18:53:27Z | INFO | Preprocessed tensors audited: 1400 / 3798
+2026-09-09T18:53:28Z | INFO | ========================================================================
+2026-09-09T18:53:28Z | INFO | PREPROCESSING AUDIT | split=project_train | resolution=r512
+2026-09-09T18:53:28Z | INFO | ========================================================================
+2026-09-09T18:53:30Z | INFO | Preprocessed tensors audited: 1500 / 3798
+2026-09-09T18:53:32Z | INFO | Preprocessed tensors audited: 1600 / 3798
+2026-09-09T18:53:35Z | INFO | Preprocessed tensors audited: 1700 / 3798
+2026-09-09T18:53:37Z | INFO | Preprocessed tensors audited: 1800 / 3798
+2026-09-09T18:53:40Z | INFO | Preprocessed tensors audited: 1900 / 3798
+2026-09-09T18:53:42Z | INFO | Preprocessed tensors audited: 2000 / 3798
+2026-09-09T18:53:45Z | INFO | Preprocessed tensors audited: 2100 / 3798
+2026-09-09T18:53:47Z | INFO | Preprocessed tensors audited: 2200 / 3798
+2026-09-09T18:53:49Z | INFO | Preprocessed tensors audited: 2300 / 3798
+2026-09-09T18:53:52Z | INFO | Preprocessed tensors audited: 2400 / 3798
+2026-09-09T18:53:54Z | INFO | Preprocessed tensors audited: 2500 / 3798
+2026-09-09T18:53:56Z | INFO | Preprocessed tensors audited: 2600 / 3798
+2026-09-09T18:53:59Z | INFO | Preprocessed tensors audited: 2700 / 3798
+2026-09-09T18:54:01Z | INFO | Preprocessed tensors audited: 2800 / 3798
+2026-09-09T18:54:03Z | INFO | ========================================================================
+2026-09-09T18:54:03Z | INFO | PREPROCESSING AUDIT | split=dev_val | resolution=r256
+2026-09-09T18:54:03Z | INFO | ========================================================================
+2026-09-09T18:54:03Z | INFO | Preprocessed tensors audited: 2900 / 3798
+2026-09-09T18:54:06Z | INFO | Preprocessed tensors audited: 3000 / 3798
+2026-09-09T18:54:08Z | INFO | Preprocessed tensors audited: 3100 / 3798
+2026-09-09T18:54:11Z | INFO | Preprocessed tensors audited: 3200 / 3798
+2026-09-09T18:54:14Z | INFO | Preprocessed tensors audited: 3300 / 3798
+2026-09-09T18:54:14Z | INFO | ========================================================================
+2026-09-09T18:54:14Z | INFO | PREPROCESSING AUDIT | split=dev_val | resolution=r512
+2026-09-09T18:54:14Z | INFO | ========================================================================
+2026-09-09T18:54:16Z | INFO | Preprocessed tensors audited: 3400 / 3798
+2026-09-09T18:54:18Z | INFO | Preprocessed tensors audited: 3500 / 3798
+2026-09-09T18:54:21Z | INFO | Preprocessed tensors audited: 3600 / 3798
+2026-09-09T18:54:23Z | INFO | Preprocessed tensors audited: 3700 / 3798
+2026-09-09T18:54:25Z | INFO | ========================================================================
+2026-09-09T18:54:25Z | INFO | PREPROCESSING SUMMARY
+2026-09-09T18:54:25Z | INFO | ========================================================================
+2026-09-09T18:54:25Z | INFO | project_train / r256 | rows=1440 | resized_width=398..421 | pad_left=5..17 | pad_right=6..17 | max_aspect_error=0.998984255968 px | max_padding_abs=0 | labels={0: 480, 1: 960}
+2026-09-09T18:54:25Z | INFO | project_train / r512 | rows=1440 | resized_width=797..843 | pad_left=10..33 | pad_right=11..34 | max_aspect_error=0.997968511935 px | max_padding_abs=0 | labels={0: 480, 1: 960}
+2026-09-09T18:54:25Z | INFO | dev_val / r256 | rows=459 | resized_width=399..420 | pad_left=6..16 | pad_right=6..17 | max_aspect_error=0.994957983193 px | max_padding_abs=0 | labels={0: 153, 1: 306}
+2026-09-09T18:54:25Z | INFO | dev_val / r512 | rows=459 | resized_width=798..841 | pad_left=11..33 | pad_right=12..33 | max_aspect_error=0.993404363267 px | max_padding_abs=0 | labels={0: 153, 1: 306}
+2026-09-09T18:54:25Z | INFO | ------------------------------------------------------------------------
+2026-09-09T18:54:25Z | INFO | Audit CSV: /home/sush/ForgedDocDetect/logs/audit_resnet18_preprocessing_sush-AMD_2026-09-09_185250_561532Z.csv
+2026-09-09T18:54:25Z | INFO | Audit CSV SHA-256: e51807bcdb866832897f87e5ae6070e82abcde8d4d648c7ebfea1023476ccc46
+2026-09-09T18:54:25Z | INFO | [PASS] Unique development source images audited: 1899
+2026-09-09T18:54:25Z | INFO | [PASS] Development preprocessing tensors audited: 3798
+2026-09-09T18:54:25Z | INFO | [PASS] All tensor shapes/dtypes/finite-value checks
+2026-09-09T18:54:25Z | INFO | [PASS] All source-to-canvas geometry checks
+2026-09-09T18:54:25Z | INFO | [PASS] All aspect-preservation checks
+2026-09-09T18:54:25Z | INFO | [PASS] All normalized padding checks
+2026-09-09T18:54:25Z | INFO | [PASS] Cross-resolution source identity checks
+2026-09-09T18:54:25Z | INFO | ========================================================================
+2026-09-09T18:54:25Z | INFO | RESNET-18 DEVELOPMENT PREPROCESSING AUDIT: PASS
+2026-09-09T18:54:25Z | INFO | ========================================================================
