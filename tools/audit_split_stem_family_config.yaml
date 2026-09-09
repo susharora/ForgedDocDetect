@@ -1,0 +1,33 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_split_stem_family_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: audit_split_stem_family_{timestamp}.csv
+
+audit:
+  expected_cards_total: 211
+  expected_project_train_cards: 160
+  expected_dev_val_cards: 51
+  expected_images_per_card: 9
+
+  # Frozen source-train naming families established in Tech-1.
+  expected_stem_families:
+    - arabic
+    - chinese
+    - french
+    - indian
+    - persian
+    - portugal
+    - russian
+    - turkiye
+    - ukraine
+    - usa
+
+  # Reconstruct the same proportional quota idea used when
+  # the frozen dev split was built.
+  quota_method: largest_remainder
