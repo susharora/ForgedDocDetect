@@ -1,0 +1,120 @@
+2026-09-09T17:06:17Z | INFO | ========================================================================
+2026-09-09T17:06:17Z | INFO | RESNET-18 FP32 TRAINING-MEMORY PROBE
+2026-09-09T17:06:17Z | INFO | ========================================================================
+2026-09-09T17:06:17Z | INFO | Git commit: 996b55e71bb37f94df73ec0c28b9aab8f2a67f73
+2026-09-09T17:06:17Z | INFO | Script SHA-256: 19f02e8bcd2ff203e1f0f58411d44cbbda8be575c7d05f87a6087995d6cfb35b
+2026-09-09T17:06:17Z | INFO | Probe config SHA-256: 78b488700f2309bbfb7428305f9f64232040e91cb1d58df95a1200dcd8d95a60
+2026-09-09T17:06:17Z | INFO | Experiment config SHA-256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+2026-09-09T17:06:17Z | INFO | Machine ID: sush-AMD
+2026-09-09T17:06:17Z | INFO | No project_train images decoded.
+2026-09-09T17:06:17Z | INFO | dev_val: NOT ACCESSED
+2026-09-09T17:06:17Z | INFO | held-out test: NOT ACCESSED
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | TECH-2 EXPERIMENT CONFIGURATION VALIDATION
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | 
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | Experiment config:
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE |   /home/sush/ForgedDocDetect/configs/experiments/resnet18_gradcam.yaml
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE |   SHA-256: 4f7b8055bc63544188d9c1d7a75a625ccfbf653bd45fa902dd90c6252bcc89cb
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | 
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | Machine config:
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE |   /home/sush/ForgedDocDetect/configs/local.yaml
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE |   SHA-256 intentionally not treated as scientific provenance
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | 
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | --- Machine contract ---
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] dataset_root exists
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE |        /home/sush/ForgedDocDetect/data/FantasyID
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [INFO] runs_root
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE |        /home/sush/ForgedDocDetect/runs
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | 
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | --- Reproducibility contract ---
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] required random seeds are explicitly defined
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | 
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | --- Frozen Tech-1 provenance ---
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] source discovery workbook SHA-256
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE |        54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] frozen split bundle SHA-256
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE |        95cc748a4e520d90c44f68f7e0317711a659a636802debdf78887a10a85383e1
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] bundle source workbook filename
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] bundle source workbook SHA-256
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] cards filename agrees with bundle
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] cards SHA-256 agrees with bundle
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] cards expected rows agree with bundle
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] cards manifest SHA-256
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE |        414972b290094f6d85ae0fb564bb336b17ffd067c4ac988fa4f74c8950b770fb
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] cards manifest rows = 211
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] project_train filename agrees with bundle
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] project_train SHA-256 agrees with bundle
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] project_train expected rows agree with bundle
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] project_train manifest SHA-256
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE |        6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] project_train manifest rows = 1440
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] dev_val filename agrees with bundle
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] dev_val SHA-256 agrees with bundle
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] dev_val expected rows agree with bundle
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] dev_val manifest SHA-256
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE |        46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] dev_val manifest rows = 459
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] project_train card count
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] project_train image count
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] dev_val card count
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] dev_val image count
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | 
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | --- Held-out test contract ---
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | [PASS] held-out test policy
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | 
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | EXPERIMENT CONFIGURATION VALIDATION: PASS
+2026-09-09T17:06:17Z | INFO | PROVENANCE_GATE | ========================================================================
+2026-09-09T17:06:17Z | INFO | [PASS] Frozen Tech-1 provenance gate
+2026-09-09T17:06:17Z | INFO | GPU: NVIDIA GeForce RTX 5090
+2026-09-09T17:06:17Z | INFO | Compute capability: 12.0
+2026-09-09T17:06:17Z | INFO | Total VRAM: 31.336 GiB
+2026-09-09T17:06:17Z | INFO | Global free VRAM before model allocation: 28.973 GiB (92.46%)
+2026-09-09T17:06:17Z | INFO | Probe tensor shape: (32, 3, 512, 864)
+2026-09-09T17:06:17Z | INFO | Input dtype: torch.float32
+2026-09-09T17:06:17Z | INFO | AMP/autocast: DISABLED
+2026-09-09T17:06:17Z | INFO | Training mode: FULL BACKBONE + FC
+2026-09-09T17:06:17Z | INFO | BatchNorm mode: TRAIN
+2026-09-09T17:06:17Z | INFO | Training steps: 3
+2026-09-09T17:06:17Z | INFO | Seed: 8
+2026-09-09T17:06:17Z | INFO | cuDNN benchmark: False
+2026-09-09T17:06:17Z | INFO | cuDNN deterministic: True
+2026-09-09T17:06:17Z | INFO | Deterministic algorithms: True
+2026-09-09T17:06:17Z | INFO | TF32 matmul allowed: False
+2026-09-09T17:06:17Z | INFO | TF32 cuDNN allowed: False
+2026-09-09T17:06:17Z | INFO | CUBLAS_WORKSPACE_CONFIG: :4096:8
+2026-09-09T17:06:17Z | INFO | Optimizer: AdamW
+2026-09-09T17:06:17Z | INFO | AdamW backbone LR: 0.0003
+2026-09-09T17:06:17Z | INFO | AdamW FC LR: 0.001
+2026-09-09T17:06:17Z | INFO | AdamW weight decay: 0.0001
+2026-09-09T17:06:17Z | INFO | AdamW betas: (0.9, 0.999)
+2026-09-09T17:06:17Z | INFO | AdamW eps: 1e-08
+2026-09-09T17:06:17Z | INFO | AdamW foreach: False
+2026-09-09T17:06:17Z | INFO | AdamW fused: False
+2026-09-09T17:06:17Z | INFO | Optimizer group backbone_decay       parameters=11166912
+2026-09-09T17:06:17Z | INFO | Optimizer group backbone_no_decay    parameters=9600
+2026-09-09T17:06:17Z | INFO | Optimizer group fc_decay             parameters=1024
+2026-09-09T17:06:17Z | INFO | Optimizer group fc_no_decay          parameters=2
+2026-09-09T17:06:17Z | INFO | Total parameters: 11177538
+2026-09-09T17:06:17Z | INFO | Trainable parameters: 11177538
+2026-09-09T17:06:17Z | INFO | CUDA allocated before first training step: 0.200 GiB
+2026-09-09T17:06:17Z | INFO | CUDA reserved before first training step: 0.221 GiB
+2026-09-09T17:06:17Z | INFO | Step 1/3 | loss=0.714050 | allocated=0.392 GiB | reserved=8.887 GiB | peak_allocated=6.584 GiB | peak_reserved=8.887 GiB
+2026-09-09T17:06:17Z | INFO | Step 2/3 | loss=0.123562 | allocated=0.390 GiB | reserved=8.887 GiB | peak_allocated=6.669 GiB | peak_reserved=8.887 GiB
+2026-09-09T17:06:18Z | INFO | Step 3/3 | loss=0.022705 | allocated=0.390 GiB | reserved=8.887 GiB | peak_allocated=6.669 GiB | peak_reserved=8.887 GiB
+2026-09-09T17:06:18Z | INFO | ------------------------------------------------------------------------
+2026-09-09T17:06:18Z | INFO | MEMORY RESULT
+2026-09-09T17:06:18Z | INFO | Peak allocated: 6.669 GiB (21.28% total VRAM)
+2026-09-09T17:06:18Z | INFO | Peak reserved: 8.887 GiB (28.36% total VRAM)
+2026-09-09T17:06:18Z | INFO | Reserved-memory headroom to physical capacity: 22.450 GiB
+2026-09-09T17:06:18Z | INFO | Global free VRAM after probe: 19.896 GiB
+2026-09-09T17:06:18Z | INFO | Three-step elapsed time: 0.798 s
+2026-09-09T17:06:18Z | INFO | Mean synthetic step time: 0.266 s
+2026-09-09T17:06:18Z | INFO | Capacity guard: peak_reserved_fraction <= 0.80
+2026-09-09T17:06:18Z | INFO | Result YAML: /home/sush/ForgedDocDetect/logs/probe_resnet18_training_memory_sush-AMD_2026-09-09_170616_974489Z.yaml
+2026-09-09T17:06:18Z | INFO | Result YAML SHA-256: b3714653d121e6b195753f870e84286946251a9257280845b657566c32929432
+2026-09-09T17:06:18Z | INFO | [PASS] FP32 batch-32 512x864 full Stage-B training step satisfies VRAM guard.
+2026-09-09T17:06:18Z | INFO | ========================================================================
+2026-09-09T17:06:18Z | INFO | RESNET-18 FP32 TRAINING-MEMORY PROBE: PASS
+2026-09-09T17:06:18Z | INFO | ========================================================================
