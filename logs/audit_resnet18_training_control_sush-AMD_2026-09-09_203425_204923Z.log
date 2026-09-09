@@ -1,0 +1,68 @@
+2026-09-09T20:34:25Z | INFO | ========================================================================
+2026-09-09T20:34:25Z | INFO | RESNET-18 STOPPING + RAW-CHECKPOINT CONTROL AUDIT
+2026-09-09T20:34:25Z | INFO | ========================================================================
+2026-09-09T20:34:25Z | INFO | Git commit: de8f8ffd764c7a9040b8ff332fc7ace924b0a9a5
+2026-09-09T20:34:25Z | INFO | Git working tree clean before evidence generation: True
+2026-09-09T20:34:25Z | INFO | Audit script SHA-256: 30f5a2733d63c72473cbdd802b738849c0f8965e53558ddfb12673eb3b7d5b1e
+2026-09-09T20:34:25Z | INFO | src/training_control.py SHA-256: 2801d00601f737ca133b8e5621966fb642f8d7f46ac627dee58aedb1d546d749
+2026-09-09T20:34:25Z | INFO | Audit config SHA-256: c7b54e0d95038873b46ba406dd87b1f6468df7d79ceff02650913dbbc9b03208
+2026-09-09T20:34:25Z | INFO | Experiment config SHA-256: 63a0b561dff3dd37b80dba2f60301daacf178fb7656737fa59f0438e254df803
+2026-09-09T20:34:25Z | INFO | Machine ID: sush-AMD
+2026-09-09T20:34:25Z | INFO | Validator log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_203425_176181Z.log
+2026-09-09T20:34:25Z | INFO | Validator log SHA-256: b81f9f01f9c640bf864c093859b802b60507ca561ef6fab8cf845c869b1a19fd
+2026-09-09T20:34:25Z | INFO | Execution device: CPU only
+2026-09-09T20:34:25Z | INFO | Dataset access: NONE
+2026-09-09T20:34:25Z | INFO | Held-out test: NOT ACCESSED
+2026-09-09T20:34:25Z | INFO | Stage-A -> Stage-B RNG semantics: NOT DEFINED HERE
+2026-09-09T20:34:25Z | INFO | 
+2026-09-09T20:34:25Z | INFO | --- Frozen stopping contracts ---
+2026-09-09T20:34:25Z | INFO | [PASS] stage_a contract | patience=2 | max_epochs=10 | relative_fraction=0.005
+2026-09-09T20:34:25Z | INFO | [PASS] stage_b contract | patience=5 | max_epochs=30 | relative_fraction=0.005
+2026-09-09T20:34:25Z | INFO | 
+2026-09-09T20:34:25Z | INFO | --- Synthetic stopping trajectories ---
+2026-09-09T20:34:25Z | INFO | [PASS] trajectory=stage_a_raw_argmin_vs_patience | stage=stage_a | raw_best_epoch=3 | stop_epoch=3
+2026-09-09T20:34:25Z | INFO | [PASS] trajectory=stage_b_raw_argmin_vs_patience | stage=stage_b | raw_best_epoch=6 | stop_epoch=6
+2026-09-09T20:34:25Z | INFO | [PASS] trajectory=strict_half_percent_boundary | stage=stage_a | raw_best_epoch=3 | stop_epoch=None
+2026-09-09T20:34:25Z | INFO | [PASS] trajectory=raw_argmin_rejects_worse_epoch | stage=stage_b | raw_best_epoch=2 | stop_epoch=None
+2026-09-09T20:34:25Z | INFO | 
+2026-09-09T20:34:25Z | INFO | --- Maximum-epoch controls ---
+2026-09-09T20:34:25Z | INFO | [PASS] stage_a maximum-epoch contract | maximum=10
+2026-09-09T20:34:25Z | INFO | [PASS] stage_b maximum-epoch contract | maximum=30
+2026-09-09T20:34:25Z | INFO | 
+2026-09-09T20:34:25Z | INFO | --- Raw model-checkpoint capture / restore ---
+2026-09-09T20:34:25Z | INFO | [PASS] checkpoint capture is detached CPU state
+2026-09-09T20:34:25Z | INFO | [PASS] live-model mutation cannot alter captured checkpoint
+2026-09-09T20:34:25Z | INFO | [PASS] checkpoint restore reproduces exact model-state SHA-256
+2026-09-09T20:34:25Z | INFO | [PASS] state_dict restore does not alter mode/requires_grad
+2026-09-09T20:34:25Z | INFO | [PASS] checkpoint integrity tampering detected
+2026-09-09T20:34:25Z | INFO | 
+2026-09-09T20:34:25Z | INFO | --- Controller/input guards ---
+2026-09-09T20:34:25Z | INFO | [PASS] controller rejects access before first observation
+2026-09-09T20:34:25Z | INFO | [PASS] controller rejects non-consecutive epoch observation
+2026-09-09T20:34:25Z | INFO | [PASS] invalid checkpoint metadata rejected
+2026-09-09T20:34:25Z | INFO | 
+2026-09-09T20:34:25Z | INFO | ========================================================================
+2026-09-09T20:34:25Z | INFO | AUDIT SUMMARY
+2026-09-09T20:34:25Z | INFO | ========================================================================
+2026-09-09T20:34:25Z | INFO | [PASS] Stage-A patience=2 / maximum_epochs=10
+2026-09-09T20:34:25Z | INFO | [PASS] Stage-B patience=5 / maximum_epochs=30
+2026-09-09T20:34:25Z | INFO | [PASS] raw argmin independent from patience threshold
+2026-09-09T20:34:25Z | INFO | [PASS] sub-0.5%% raw improvements still update checkpoint
+2026-09-09T20:34:25Z | INFO | [PASS] exact 0.5%% improvement does NOT reset patience
+2026-09-09T20:34:25Z | INFO | [PASS] >0.5%% meaningful improvement resets patience
+2026-09-09T20:34:25Z | INFO | [PASS] worse epoch cannot overwrite raw-best checkpoint
+2026-09-09T20:34:25Z | INFO | [PASS] Stage-A patience stop semantics
+2026-09-09T20:34:25Z | INFO | [PASS] Stage-B patience stop semantics
+2026-09-09T20:34:25Z | INFO | [PASS] Stage-A maximum-epoch stop semantics
+2026-09-09T20:34:25Z | INFO | [PASS] Stage-B maximum-epoch stop semantics
+2026-09-09T20:34:25Z | INFO | [PASS] raw checkpoint stored as detached CPU model state
+2026-09-09T20:34:25Z | INFO | [PASS] checkpoint independent of later live-model mutation
+2026-09-09T20:34:25Z | INFO | [PASS] checkpoint restore exact by SHA-256
+2026-09-09T20:34:25Z | INFO | [PASS] checkpoint restore preserves mode/requires_grad
+2026-09-09T20:34:25Z | INFO | [PASS] checkpoint tampering detected
+2026-09-09T20:34:25Z | INFO | [PASS] non-consecutive and post-stop observations rejected
+2026-09-09T20:34:25Z | INFO | Audit result: /home/sush/ForgedDocDetect/logs/audit_resnet18_training_control_sush-AMD_2026-09-09_203425_204923Z.yaml
+2026-09-09T20:34:25Z | INFO | Audit result SHA-256: c26662b40fbcb8ef9fc9455e2314595c5b9deb40a5ee504187d12efdc10cddfd
+2026-09-09T20:34:25Z | INFO | ========================================================================
+2026-09-09T20:34:25Z | INFO | RESNET-18 STOPPING + RAW-CHECKPOINT CONTROL AUDIT: PASS
+2026-09-09T20:34:25Z | INFO | ========================================================================

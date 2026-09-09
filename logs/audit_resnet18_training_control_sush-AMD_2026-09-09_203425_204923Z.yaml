@@ -1,0 +1,523 @@
+schema_version: 1
+status: PASS
+machine:
+  id: sush-AMD
+provenance:
+  git_commit: de8f8ffd764c7a9040b8ff332fc7ace924b0a9a5
+  audit_script_sha256: 30f5a2733d63c72473cbdd802b738849c0f8965e53558ddfb12673eb3b7d5b1e
+  audit_config_sha256: c7b54e0d95038873b46ba406dd87b1f6468df7d79ceff02650913dbbc9b03208
+  experiment_config_sha256: 63a0b561dff3dd37b80dba2f60301daacf178fb7656737fa59f0438e254df803
+  training_control_module_sha256: 2801d00601f737ca133b8e5621966fb642f8d7f46ac627dee58aedb1d546d749
+  validator_log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_203425_176181Z.log
+  validator_log_sha256: b81f9f01f9c640bf864c093859b802b60507ca561ef6fab8cf845c869b1a19fd
+contracts:
+  stage_a:
+    patience_epochs: 2
+    maximum_epochs: 10
+    meaningful_relative_improvement_fraction: 0.005
+    checkpoint_metric: class_weighted_dev_cross_entropy
+    checkpoint_policy: raw_argmin_class_weighted_dev_cross_entropy
+  stage_b:
+    patience_epochs: 5
+    maximum_epochs: 30
+    meaningful_relative_improvement_fraction: 0.005
+    checkpoint_metric: class_weighted_dev_cross_entropy
+    checkpoint_policy: raw_argmin_class_weighted_dev_cross_entropy
+trajectories:
+  stage_a_raw_argmin_vs_patience:
+    stage: stage_a
+    losses:
+    - 1.0
+    - 0.997
+    - 0.996
+    decisions:
+    - epoch: 1
+      weighted_dev_loss: 1.0
+      raw_checkpoint_updated: true
+      raw_best_epoch: 1
+      raw_best_loss: 1.0
+      meaningful_improvement: null
+      patience_anchor_loss: 1.0
+      patience_counter: 0
+      stop_due_to_patience: false
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+      raw_checkpoint_sha256: 533266242ce6fba7917b438904c3d9f2f87fdec859e733c4d5cee9ac063655e9
+    - epoch: 2
+      weighted_dev_loss: 0.997
+      raw_checkpoint_updated: true
+      raw_best_epoch: 2
+      raw_best_loss: 0.997
+      meaningful_improvement: false
+      patience_anchor_loss: 1.0
+      patience_counter: 1
+      stop_due_to_patience: false
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+      raw_checkpoint_sha256: 287be5c10c7f5ffeb36b998b176689c65f6eee93b0485913303b681b0b61eddc
+    - epoch: 3
+      weighted_dev_loss: 0.996
+      raw_checkpoint_updated: true
+      raw_best_epoch: 3
+      raw_best_loss: 0.996
+      meaningful_improvement: false
+      patience_anchor_loss: 1.0
+      patience_counter: 2
+      stop_due_to_patience: true
+      stop_due_to_maximum_epochs: false
+      should_stop: true
+      raw_checkpoint_sha256: 89b6ceb1f42c715c750b47cb1efa29d0a2ed44185c34d2e739198888323e0507
+    final_raw_best_epoch: 3
+    final_raw_best_loss: 0.996
+    stop_epoch: 3
+  stage_b_raw_argmin_vs_patience:
+    stage: stage_b
+    losses:
+    - 1.0
+    - 0.999
+    - 0.998
+    - 0.997
+    - 0.996
+    - 0.9955
+    decisions:
+    - epoch: 1
+      weighted_dev_loss: 1.0
+      raw_checkpoint_updated: true
+      raw_best_epoch: 1
+      raw_best_loss: 1.0
+      meaningful_improvement: null
+      patience_anchor_loss: 1.0
+      patience_counter: 0
+      stop_due_to_patience: false
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+      raw_checkpoint_sha256: 533266242ce6fba7917b438904c3d9f2f87fdec859e733c4d5cee9ac063655e9
+    - epoch: 2
+      weighted_dev_loss: 0.999
+      raw_checkpoint_updated: true
+      raw_best_epoch: 2
+      raw_best_loss: 0.999
+      meaningful_improvement: false
+      patience_anchor_loss: 1.0
+      patience_counter: 1
+      stop_due_to_patience: false
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+      raw_checkpoint_sha256: 287be5c10c7f5ffeb36b998b176689c65f6eee93b0485913303b681b0b61eddc
+    - epoch: 3
+      weighted_dev_loss: 0.998
+      raw_checkpoint_updated: true
+      raw_best_epoch: 3
+      raw_best_loss: 0.998
+      meaningful_improvement: false
+      patience_anchor_loss: 1.0
+      patience_counter: 2
+      stop_due_to_patience: false
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+      raw_checkpoint_sha256: 89b6ceb1f42c715c750b47cb1efa29d0a2ed44185c34d2e739198888323e0507
+    - epoch: 4
+      weighted_dev_loss: 0.997
+      raw_checkpoint_updated: true
+      raw_best_epoch: 4
+      raw_best_loss: 0.997
+      meaningful_improvement: false
+      patience_anchor_loss: 1.0
+      patience_counter: 3
+      stop_due_to_patience: false
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+      raw_checkpoint_sha256: 16c8976bdc52f4e400b33172b838e090f8796df4030ee6672a918a8754eee230
+    - epoch: 5
+      weighted_dev_loss: 0.996
+      raw_checkpoint_updated: true
+      raw_best_epoch: 5
+      raw_best_loss: 0.996
+      meaningful_improvement: false
+      patience_anchor_loss: 1.0
+      patience_counter: 4
+      stop_due_to_patience: false
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+      raw_checkpoint_sha256: f81579f0104e1a5ba273759d4e01d0e83b36637c7e23dbc1de8447c7664e8f4f
+    - epoch: 6
+      weighted_dev_loss: 0.9955
+      raw_checkpoint_updated: true
+      raw_best_epoch: 6
+      raw_best_loss: 0.9955
+      meaningful_improvement: false
+      patience_anchor_loss: 1.0
+      patience_counter: 5
+      stop_due_to_patience: true
+      stop_due_to_maximum_epochs: false
+      should_stop: true
+      raw_checkpoint_sha256: ef173f4170fbf17086d01a09ee4191cdcd522d7b77f13043a2f473ba72c53291
+    final_raw_best_epoch: 6
+    final_raw_best_loss: 0.9955
+    stop_epoch: 6
+  strict_half_percent_boundary:
+    stage: stage_a
+    losses:
+    - 1.0
+    - 0.995
+    - 0.994
+    decisions:
+    - epoch: 1
+      weighted_dev_loss: 1.0
+      raw_checkpoint_updated: true
+      raw_best_epoch: 1
+      raw_best_loss: 1.0
+      meaningful_improvement: null
+      patience_anchor_loss: 1.0
+      patience_counter: 0
+      stop_due_to_patience: false
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+      raw_checkpoint_sha256: 533266242ce6fba7917b438904c3d9f2f87fdec859e733c4d5cee9ac063655e9
+    - epoch: 2
+      weighted_dev_loss: 0.995
+      raw_checkpoint_updated: true
+      raw_best_epoch: 2
+      raw_best_loss: 0.995
+      meaningful_improvement: false
+      patience_anchor_loss: 1.0
+      patience_counter: 1
+      stop_due_to_patience: false
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+      raw_checkpoint_sha256: 287be5c10c7f5ffeb36b998b176689c65f6eee93b0485913303b681b0b61eddc
+    - epoch: 3
+      weighted_dev_loss: 0.994
+      raw_checkpoint_updated: true
+      raw_best_epoch: 3
+      raw_best_loss: 0.994
+      meaningful_improvement: true
+      patience_anchor_loss: 0.994
+      patience_counter: 0
+      stop_due_to_patience: false
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+      raw_checkpoint_sha256: 89b6ceb1f42c715c750b47cb1efa29d0a2ed44185c34d2e739198888323e0507
+    final_raw_best_epoch: 3
+    final_raw_best_loss: 0.994
+    stop_epoch: null
+  raw_argmin_rejects_worse_epoch:
+    stage: stage_b
+    losses:
+    - 1.0
+    - 0.998
+    - 0.999
+    decisions:
+    - epoch: 1
+      weighted_dev_loss: 1.0
+      raw_checkpoint_updated: true
+      raw_best_epoch: 1
+      raw_best_loss: 1.0
+      meaningful_improvement: null
+      patience_anchor_loss: 1.0
+      patience_counter: 0
+      stop_due_to_patience: false
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+      raw_checkpoint_sha256: 533266242ce6fba7917b438904c3d9f2f87fdec859e733c4d5cee9ac063655e9
+    - epoch: 2
+      weighted_dev_loss: 0.998
+      raw_checkpoint_updated: true
+      raw_best_epoch: 2
+      raw_best_loss: 0.998
+      meaningful_improvement: false
+      patience_anchor_loss: 1.0
+      patience_counter: 1
+      stop_due_to_patience: false
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+      raw_checkpoint_sha256: 287be5c10c7f5ffeb36b998b176689c65f6eee93b0485913303b681b0b61eddc
+    - epoch: 3
+      weighted_dev_loss: 0.999
+      raw_checkpoint_updated: false
+      raw_best_epoch: 2
+      raw_best_loss: 0.998
+      meaningful_improvement: false
+      patience_anchor_loss: 1.0
+      patience_counter: 2
+      stop_due_to_patience: false
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+      raw_checkpoint_sha256: 287be5c10c7f5ffeb36b998b176689c65f6eee93b0485913303b681b0b61eddc
+    final_raw_best_epoch: 2
+    final_raw_best_loss: 0.998
+    stop_epoch: null
+maximum_epochs:
+  stage_a:
+    maximum_epochs: 10
+    raw_best_epoch: 10
+    post_stop_observation_rejected: true
+    decisions:
+    - epoch: 1
+      weighted_dev_loss: 1.0
+      patience_counter: 0
+      meaningful_improvement: null
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 2
+      weighted_dev_loss: 0.99
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 3
+      weighted_dev_loss: 0.9801
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 4
+      weighted_dev_loss: 0.9702989999999999
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 5
+      weighted_dev_loss: 0.96059601
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 6
+      weighted_dev_loss: 0.9509900498999999
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 7
+      weighted_dev_loss: 0.9414801494009999
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 8
+      weighted_dev_loss: 0.9320653479069899
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 9
+      weighted_dev_loss: 0.92274469442792
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 10
+      weighted_dev_loss: 0.9135172474836407
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: true
+      should_stop: true
+  stage_b:
+    maximum_epochs: 30
+    raw_best_epoch: 30
+    post_stop_observation_rejected: true
+    decisions:
+    - epoch: 1
+      weighted_dev_loss: 1.0
+      patience_counter: 0
+      meaningful_improvement: null
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 2
+      weighted_dev_loss: 0.99
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 3
+      weighted_dev_loss: 0.9801
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 4
+      weighted_dev_loss: 0.9702989999999999
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 5
+      weighted_dev_loss: 0.96059601
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 6
+      weighted_dev_loss: 0.9509900498999999
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 7
+      weighted_dev_loss: 0.9414801494009999
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 8
+      weighted_dev_loss: 0.9320653479069899
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 9
+      weighted_dev_loss: 0.92274469442792
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 10
+      weighted_dev_loss: 0.9135172474836407
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 11
+      weighted_dev_loss: 0.9043820750088043
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 12
+      weighted_dev_loss: 0.8953382542587163
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 13
+      weighted_dev_loss: 0.8863848717161291
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 14
+      weighted_dev_loss: 0.8775210229989678
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 15
+      weighted_dev_loss: 0.8687458127689781
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 16
+      weighted_dev_loss: 0.8600583546412883
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 17
+      weighted_dev_loss: 0.8514577710948754
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 18
+      weighted_dev_loss: 0.8429431933839266
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 19
+      weighted_dev_loss: 0.8345137614500874
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 20
+      weighted_dev_loss: 0.8261686238355865
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 21
+      weighted_dev_loss: 0.8179069375972307
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 22
+      weighted_dev_loss: 0.8097278682212583
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 23
+      weighted_dev_loss: 0.8016305895390458
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 24
+      weighted_dev_loss: 0.7936142836436553
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 25
+      weighted_dev_loss: 0.7856781408072188
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 26
+      weighted_dev_loss: 0.7778213593991465
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 27
+      weighted_dev_loss: 0.7700431458051551
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 28
+      weighted_dev_loss: 0.7623427143471035
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 29
+      weighted_dev_loss: 0.7547192872036325
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: false
+      should_stop: false
+    - epoch: 30
+      weighted_dev_loss: 0.7471720943315961
+      patience_counter: 0
+      meaningful_improvement: true
+      stop_due_to_maximum_epochs: true
+      should_stop: true
+checkpoint_capture_restore:
+  captured_state_sha256: 533266242ce6fba7917b438904c3d9f2f87fdec859e733c4d5cee9ac063655e9
+  live_state_after_mutation_sha256: 287be5c10c7f5ffeb36b998b176689c65f6eee93b0485913303b681b0b61eddc
+  checkpoint_state_after_live_mutation_sha256: 533266242ce6fba7917b438904c3d9f2f87fdec859e733c4d5cee9ac063655e9
+  restored_state_sha256: 533266242ce6fba7917b438904c3d9f2f87fdec859e733c4d5cee9ac063655e9
+  checkpoint_cpu_only: true
+  checkpoint_detached: true
+  mode_preserved_on_restore: true
+  requires_grad_preserved_on_restore: true
+  tamper_detected: true
+guards:
+  raw_best_before_observation_rejected: true
+  nonconsecutive_epoch_rejected: true
+  invalid_checkpoint_cases:
+    invalid_stage: true
+    epoch_zero: true
+    negative_loss: true
+    nan_loss: true
+interpretation: PASS establishes the frozen distinction between raw-argmin checkpoint
+  selection and 0.5%-relative patience control, including the strict comparison boundary,
+  Stage-A/Stage-B patience and maximum epochs, exact detached CPU model-state checkpoint
+  capture/restore, and controller input guards. This audit does not define Stage-A
+  to Stage-B RNG or DataLoader generator continuation semantics.
