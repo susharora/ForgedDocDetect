@@ -1,0 +1,379 @@
+2026-09-09T18:21:59Z | INFO | ========================================================================
+2026-09-09T18:21:59Z | INFO | TECH-2 EXPERIMENT CONFIGURATION VALIDATION
+2026-09-09T18:21:59Z | INFO | ========================================================================
+2026-09-09T18:21:59Z | INFO | Git commit: e970bf20604e85ebaf05813cd520c70e685e916b
+2026-09-09T18:21:59Z | INFO | Git working tree clean before validation log creation: True
+2026-09-09T18:21:59Z | INFO | Validator script SHA-256: f1cf61c25b809e9ab631679d49dc1b741c08d74565e33b37f2a73fc2e85cabaf
+2026-09-09T18:21:59Z | INFO | Validator config: /home/u5757978/ForgedDocDetect/tools/validate_experiment_config_config.yaml
+2026-09-09T18:21:59Z | INFO | Validator config SHA-256: cda74eaf35d57d0c632c4473b05bf242a2ae65e7c64f7aa2296b1216ed280540
+2026-09-09T18:22:00Z | INFO | Experiment config: /home/u5757978/ForgedDocDetect/configs/experiments/resnet18_gradcam.yaml
+2026-09-09T18:22:00Z | INFO | Experiment config SHA-256: c879a2bbc46e9414d49a31f6ec6b8f195866daae98d480d3df9e70c2d3cc0cf4
+2026-09-09T18:22:00Z | INFO | Machine config: /home/u5757978/ForgedDocDetect/configs/local.yaml
+2026-09-09T18:22:00Z | INFO | Machine ID: IMTA134
+2026-09-09T18:22:00Z | INFO | Machine-config SHA-256 intentionally not treated as scientific provenance.
+2026-09-09T18:22:00Z | INFO | 
+2026-09-09T18:22:00Z | INFO | --- Machine contract ---
+2026-09-09T18:22:00Z | INFO | [PASS] dataset_root exists
+2026-09-09T18:22:00Z | INFO |        /home/u5757978/ForgedDocDetect/data/FantasyID
+2026-09-09T18:22:00Z | INFO | [INFO] runs_root
+2026-09-09T18:22:00Z | INFO |        /home/u5757978/ForgedDocDetect/runs
+2026-09-09T18:22:00Z | INFO | [PASS] machine_config.runtime.device
+2026-09-09T18:22:00Z | INFO |        cuda
+2026-09-09T18:22:00Z | INFO | [PASS] machine_config.runtime.num_workers
+2026-09-09T18:22:00Z | INFO |        16
+2026-09-09T18:22:00Z | INFO | [PASS] machine_config.machine.id
+2026-09-09T18:22:00Z | INFO |        IMTA134
+2026-09-09T18:22:00Z | INFO | 
+2026-09-09T18:22:00Z | INFO | --- Reproducibility contract ---
+2026-09-09T18:22:00Z | INFO | [PASS] required random seeds are explicitly defined
+2026-09-09T18:22:00Z | INFO | 
+2026-09-09T18:22:00Z | INFO | --- Frozen Tech-1 provenance ---
+2026-09-09T18:22:00Z | INFO | [PASS] source discovery workbook SHA-256
+2026-09-09T18:22:00Z | INFO |        54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+2026-09-09T18:22:00Z | INFO | [PASS] frozen split bundle SHA-256
+2026-09-09T18:22:00Z | INFO |        95cc748a4e520d90c44f68f7e0317711a659a636802debdf78887a10a85383e1
+2026-09-09T18:22:00Z | INFO | [PASS] bundle source workbook filename
+2026-09-09T18:22:00Z | INFO | [PASS] bundle source workbook SHA-256
+2026-09-09T18:22:00Z | INFO | [PASS] cards filename agrees with bundle
+2026-09-09T18:22:00Z | INFO | [PASS] cards SHA-256 agrees with bundle
+2026-09-09T18:22:00Z | INFO | [PASS] cards expected rows agrees with bundle
+2026-09-09T18:22:00Z | INFO | [PASS] cards manifest SHA-256
+2026-09-09T18:22:00Z | INFO |        414972b290094f6d85ae0fb564bb336b17ffd067c4ac988fa4f74c8950b770fb
+2026-09-09T18:22:00Z | INFO | [PASS] cards manifest rows = 211
+2026-09-09T18:22:00Z | INFO | [PASS] project_train filename agrees with bundle
+2026-09-09T18:22:00Z | INFO | [PASS] project_train SHA-256 agrees with bundle
+2026-09-09T18:22:00Z | INFO | [PASS] project_train expected rows agrees with bundle
+2026-09-09T18:22:00Z | INFO | [PASS] project_train manifest SHA-256
+2026-09-09T18:22:00Z | INFO |        6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+2026-09-09T18:22:00Z | INFO | [PASS] project_train manifest rows = 1440
+2026-09-09T18:22:00Z | INFO | [PASS] dev_val filename agrees with bundle
+2026-09-09T18:22:00Z | INFO | [PASS] dev_val SHA-256 agrees with bundle
+2026-09-09T18:22:00Z | INFO | [PASS] dev_val expected rows agrees with bundle
+2026-09-09T18:22:00Z | INFO | [PASS] dev_val manifest SHA-256
+2026-09-09T18:22:00Z | INFO |        46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+2026-09-09T18:22:00Z | INFO | [PASS] dev_val manifest rows = 459
+2026-09-09T18:22:00Z | INFO | [PASS] project_train card count
+2026-09-09T18:22:00Z | INFO | [PASS] project_train image count
+2026-09-09T18:22:00Z | INFO | [PASS] dev_val card count
+2026-09-09T18:22:00Z | INFO | [PASS] dev_val image count
+2026-09-09T18:22:00Z | INFO | 
+2026-09-09T18:22:00Z | INFO | --- ResNet-18 scientific development protocol ---
+2026-09-09T18:22:00Z | INFO | [PASS] schema_version
+2026-09-09T18:22:00Z | INFO | [PASS] experiment.name
+2026-09-09T18:22:00Z | INFO | [PASS] experiment.pipeline
+2026-09-09T18:22:00Z | INFO | [PASS] experiment.task
+2026-09-09T18:22:00Z | INFO | [PASS] experiment.protocol_stage
+2026-09-09T18:22:00Z | INFO | [PASS] experiment.primary_model_scope.supervision
+2026-09-09T18:22:00Z | INFO | [PASS] experiment.primary_model_scope.localisation_supervision
+2026-09-09T18:22:00Z | INFO | [PASS] experiment.primary_model_scope.targeted_region_dropout
+2026-09-09T18:22:00Z | INFO | [PASS] experiment.primary_model_scope.patch_training
+2026-09-09T18:22:00Z | INFO | [PASS] experiment.primary_model_scope.segmentation_head
+2026-09-09T18:22:00Z | INFO | [PASS] class_contract.index_by_name.bonafide
+2026-09-09T18:22:00Z | INFO | [PASS] class_contract.index_by_name.attack
+2026-09-09T18:22:00Z | INFO | [PASS] class_contract.name_by_index.0
+2026-09-09T18:22:00Z | INFO | [PASS] class_contract.name_by_index.1
+2026-09-09T18:22:00Z | INFO | [PASS] class_contract.positive_class
+2026-09-09T18:22:00Z | INFO | [PASS] class_contract.positive_class_index
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.seed_plan.screening_seed
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.seed_plan.confirmation_seeds
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.seed_plan.reuse_screening_seed_run_during_confirmation
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.seed_plan.seed_binding.python_random
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.seed_plan.seed_binding.numpy
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.seed_plan.seed_binding.torch_cpu
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.seed_plan.seed_binding.torch_cuda_all
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.seed_plan.seed_binding.dataloader_generator
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.seed_plan.seed_binding.dataloader_workers
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.seed_plan.seed_binding.classifier_initialisation
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.determinism.cudnn_benchmark
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.determinism.cudnn_deterministic
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.determinism.deterministic_algorithms
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.determinism.cublas_workspace_config
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.determinism.allow_tf32_matmul
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.determinism.allow_tf32_cudnn
+2026-09-09T18:22:00Z | INFO | [PASS] reproducibility.determinism.failure_policy.nondeterministic_required_operation
+2026-09-09T18:22:00Z | INFO | [PASS] data.development_policy.training_source
+2026-09-09T18:22:00Z | INFO | [PASS] data.development_policy.model_selection_source
+2026-09-09T18:22:00Z | INFO | [PASS] data.development_policy.project_train_dev_card_overlap_required
+2026-09-09T18:22:00Z | INFO | [PASS] data.development_policy.stem_family.terminology
+2026-09-09T18:22:00Z | INFO | [PASS] data.development_policy.stem_family.expected_family_count
+2026-09-09T18:22:00Z | INFO | [PASS] data.development_policy.stem_family.every_family_required_in_project_train
+2026-09-09T18:22:00Z | INFO | [PASS] data.development_policy.stem_family.every_family_required_in_dev_val
+2026-09-09T18:22:00Z | INFO | [PASS] data.development_policy.stem_family.dev_allocation.policy
+2026-09-09T18:22:00Z | INFO | [PASS] data.development_policy.stem_family.dev_allocation.status
+2026-09-09T18:22:00Z | INFO | [PASS] model.architecture
+2026-09-09T18:22:00Z | INFO | [PASS] model.pretrained_weights.source
+2026-09-09T18:22:00Z | INFO | [PASS] model.pretrained_weights.enum
+2026-09-09T18:22:00Z | INFO | [PASS] model.classifier.replace_original_fc
+2026-09-09T18:22:00Z | INFO | [PASS] model.classifier.type
+2026-09-09T18:22:00Z | INFO | [PASS] model.classifier.in_features
+2026-09-09T18:22:00Z | INFO | [PASS] model.classifier.out_features
+2026-09-09T18:22:00Z | INFO | [PASS] model.classifier.initialisation.policy
+2026-09-09T18:22:00Z | INFO | [PASS] model.classifier.initialisation.controlled_by
+2026-09-09T18:22:00Z | INFO | [PASS] model.dtype
+2026-09-09T18:22:00Z | INFO | [PASS] model.amp
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.decode.decoder
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.decode.force_rgb
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.decode.exif_orientation_policy.action
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.candidate_canvases.r256.content_height
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.candidate_canvases.r256.canvas_height
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.candidate_canvases.r256.canvas_width
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.candidate_canvases.r512.content_height
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.candidate_canvases.r512.canvas_height
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.candidate_canvases.r512.canvas_width
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.resize.preserve_aspect_ratio
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.resize.crop
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.resize.implementation.library
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.resize.implementation.operation
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.resize.size_argument
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.resize.interpolation
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.resize.antialias
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.resize.width_overflow_policy
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.padding.required_dimension
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.padding.alignment
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.padding.left_pixels.rule
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.padding.right_pixels.rule
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.padding.top_pixels
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.padding.bottom_pixels
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.baseline_transform_description.deterministic_class_independent_resampling
+2026-09-09T18:22:00Z | INFO | [PASS] preprocessing.baseline_transform_description.stochastic_resampling
+2026-09-09T18:22:00Z | INFO | [PASS] dataloader.batch_size
+2026-09-09T18:22:00Z | INFO | [PASS] dataloader.num_workers_source
+2026-09-09T18:22:00Z | INFO | [PASS] dataloader.project_train.shuffle
+2026-09-09T18:22:00Z | INFO | [PASS] dataloader.project_train.drop_last
+2026-09-09T18:22:00Z | INFO | [PASS] dataloader.dev_val.shuffle
+2026-09-09T18:22:00Z | INFO | [PASS] dataloader.dev_val.drop_last
+2026-09-09T18:22:00Z | INFO | [PASS] loss.type
+2026-09-09T18:22:00Z | INFO | [PASS] loss.class_weighting.enabled
+2026-09-09T18:22:00Z | INFO | [PASS] loss.class_weighting.source
+2026-09-09T18:22:00Z | INFO | [PASS] loss.class_weighting.formula
+2026-09-09T18:22:00Z | INFO | [PASS] loss.class_weighting.runtime_assert_against_class_contract
+2026-09-09T18:22:00Z | INFO | [PASS] loss.training_loss.weighted
+2026-09-09T18:22:00Z | INFO | [PASS] loss.dev_selection_loss.weighted
+2026-09-09T18:22:00Z | INFO | [PASS] loss.dev_selection_loss.reuse_project_train_weights
+2026-09-09T18:22:00Z | INFO | [PASS] loss.epoch_reduction.definition
+2026-09-09T18:22:00Z | INFO | [PASS] loss.epoch_reduction.numerator
+2026-09-09T18:22:00Z | INFO | [PASS] loss.epoch_reduction.denominator
+2026-09-09T18:22:00Z | INFO | [PASS] loss.label_smoothing
+2026-09-09T18:22:00Z | INFO | [PASS] optimizer.name
+2026-09-09T18:22:00Z | INFO | [PASS] optimizer.betas
+2026-09-09T18:22:00Z | INFO | [PASS] optimizer.eps
+2026-09-09T18:22:00Z | INFO | [PASS] optimizer.amsgrad
+2026-09-09T18:22:00Z | INFO | [PASS] optimizer.weight_decay
+2026-09-09T18:22:00Z | INFO | [PASS] optimizer.weight_decay_exclusions.all_bias_parameters
+2026-09-09T18:22:00Z | INFO | [PASS] optimizer.weight_decay_exclusions.batchnorm_affine_parameters
+2026-09-09T18:22:00Z | INFO | [PASS] optimizer.foreach
+2026-09-09T18:22:00Z | INFO | [PASS] optimizer.fused
+2026-09-09T18:22:00Z | INFO | [PASS] optimizer.learning_rate_schedule.type
+2026-09-09T18:22:00Z | INFO | [PASS] stopping_definition.meaningful_relative_improvement_fraction
+2026-09-09T18:22:00Z | INFO | [PASS] stopping_definition.patience_logic.comparison
+2026-09-09T18:22:00Z | INFO | [PASS] stopping_definition.patience_logic.on_meaningful_improvement.reset_patience
+2026-09-09T18:22:00Z | INFO | [PASS] stopping_definition.patience_logic.on_meaningful_improvement.update_patience_anchor
+2026-09-09T18:22:00Z | INFO | [PASS] stopping_definition.patience_logic.otherwise.increment_patience
+2026-09-09T18:22:00Z | INFO | [PASS] stopping_definition.checkpoint_logic.metric
+2026-09-09T18:22:00Z | INFO | [PASS] stopping_definition.checkpoint_logic.policy
+2026-09-09T18:22:00Z | INFO | [PASS] stopping_definition.checkpoint_logic.minimum_improvement_required_for_checkpoint
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.name
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.backbone.requires_grad
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.backbone.module_mode
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.backbone.batchnorm.affine_requires_grad
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.backbone.batchnorm.running_statistics_update
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.classifier.requires_grad
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.classifier.module_mode
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.optimizer.scope
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.optimizer.fresh_optimizer_instance
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.optimizer.classifier_lr
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.stopping.metric
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.stopping.patience_epochs
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.stopping.maximum_epochs
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.stopping.meaningful_relative_improvement_fraction
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.checkpoint.policy
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.execution_scope.once_per_resolution_and_seed
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a.execution_scope.reuse_checkpoint_for_all_stage_b_lr_candidates
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.name
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.initial_checkpoint.source
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.optimizer.fresh_optimizer_instance
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.optimizer.backbone_lr_candidates
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.optimizer.classifier_lr
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.backbone.requires_grad
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.backbone.module_mode
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.classifier.requires_grad
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.classifier.module_mode
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.batchnorm.affine_requires_grad
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.batchnorm.running_statistics_update
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.epoch_1_transition_note.required_in_history
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.stopping.metric
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.stopping.patience_epochs
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.stopping.maximum_epochs
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.stopping.meaningful_relative_improvement_fraction
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.checkpoint.policy
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.auroc_disagreement_guard.enabled
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.auroc_disagreement_guard.flag_if_strictly_greater_than
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.auroc_disagreement_guard.action.flag_for_protocol_review
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b.auroc_disagreement_guard.action.automatically_switch_checkpoint
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.lr_screening.seed
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.lr_screening.candidate_resolutions
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.lr_screening.backbone_lr_candidates
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.lr_screening.classifier_lr_fixed
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.lr_screening.stage_a.run_once_per_resolution
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.lr_screening.stage_b.branch_all_lr_candidates_from_same_stage_a_checkpoint
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.lr_screening.lr_selection_metric.name
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.lr_screening.lr_selection_metric.source
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.lr_screening.select.rule
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.lr_screening.select.exact_tie_breaker.rule
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.lr_screening.auroc_guard.does_not_change_selection_rule
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.multi_seed_confirmation.resolutions
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.multi_seed_confirmation.seeds
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.multi_seed_confirmation.learning_rate_per_resolution.source
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.multi_seed_confirmation.reuse_existing_seed_8_screening_run
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.multi_seed_confirmation.terminology
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.resolution_selection.comparison_metric.name
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.resolution_selection.comparison_metric.value_per_seed
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.resolution_selection.paired_seed_difference.definition
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.resolution_selection.decision_statistic.definition
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.resolution_selection.noninferiority_margin.type
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.resolution_selection.noninferiority_margin.relative_fraction
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.resolution_selection.decision_rule.select_r512_if
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.resolution_selection.decision_rule.select_r256_if
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.resolution_selection.robustness_annotation.report_sign_of_each_seed_difference
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.resolution_selection.robustness_annotation.sign_pattern_changes_decision
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.resolution_selection.masked_dev_diagnostics_influence_selection
+2026-09-09T18:22:00Z | INFO | [PASS] development_selection.resolution_selection.localisation_metrics_influence_selection
+2026-09-09T18:22:00Z | INFO | [PASS] post_selection.selected_resolution_seed_checkpoints.seeds
+2026-09-09T18:22:00Z | INFO | [PASS] post_selection.selected_resolution_seed_checkpoints.final_detection_test.evaluate_all_three
+2026-09-09T18:22:00Z | INFO | [PASS] post_selection.localisation_representative_checkpoint.rule
+2026-09-09T18:22:00Z | INFO | [PASS] post_selection.localisation_representative_checkpoint.exact_loss_tie_breaker
+2026-09-09T18:22:00Z | INFO | [PASS] post_selection.losing_resolution.role
+2026-09-09T18:22:00Z | INFO | [PASS] post_selection.losing_resolution.held_out_test_access
+2026-09-09T18:22:00Z | INFO | [PASS] evaluation.checkpoint_selection.threshold_independent
+2026-09-09T18:22:00Z | INFO | [PASS] evaluation.checkpoint_selection.primary_metric
+2026-09-09T18:22:00Z | INFO | [PASS] evaluation.diagnostic_metrics.dev_auroc.enabled
+2026-09-09T18:22:00Z | INFO | [PASS] evaluation.diagnostic_metrics.dev_auroc.participates_in_checkpoint_selection
+2026-09-09T18:22:00Z | INFO | [PASS] evaluation.threshold_selection.source
+2026-09-09T18:22:00Z | INFO | [PASS] evaluation.threshold_selection.threshold_per_seed_checkpoint
+2026-09-09T18:22:00Z | INFO | [PASS] evaluation.threshold_selection.target_false_positive_rate
+2026-09-09T18:22:00Z | INFO | [PASS] evaluation.threshold_selection.implementation
+2026-09-09T18:22:00Z | INFO | [PASS] evaluation.threshold_selection.positive_class
+2026-09-09T18:22:00Z | INFO | [PASS] deferred_work.masked_dev_occlusion_diagnostics.status
+2026-09-09T18:22:00Z | INFO | [PASS] deferred_work.masked_dev_occlusion_diagnostics.selection_metric
+2026-09-09T18:22:00Z | INFO | [PASS] deferred_work.targeted_region_dropout.status
+2026-09-09T18:22:00Z | INFO | [PASS] deferred_work.targeted_region_dropout.part_of_primary_model
+2026-09-09T18:22:00Z | INFO | [PASS] deferred_work.jpeg_blur_noise_augmentation.part_of_primary_model
+2026-09-09T18:22:00Z | INFO | [PASS] deferred_work.high_pass_or_srm_input.part_of_primary_model
+2026-09-09T18:22:00Z | INFO | [PASS] deferred_work.patch_training.part_of_primary_model
+2026-09-09T18:22:00Z | INFO | [PASS] deferred_work.from_scratch_resnet18.part_of_primary_model
+2026-09-09T18:22:00Z | INFO | [PASS] gradcam.status
+2026-09-09T18:22:00Z | INFO | [PASS] gradcam.classifier_training_uses_gradcam_supervision
+2026-09-09T18:22:00Z | INFO | [PASS] gradcam.target_layer.status
+2026-09-09T18:22:00Z | INFO | [PASS] gradcam.canonical_raw_map_contract.dtype
+2026-09-09T18:22:00Z | INFO | [PASS] gradcam.canonical_raw_map_contract.shape
+2026-09-09T18:22:00Z | INFO | [PASS] gradcam.rendered_visualisation_separate_from_raw_map
+2026-09-09T18:22:00Z | INFO | [PASS] held_out_test.policy
+2026-09-09T18:22:00Z | INFO | [PASS] held_out_test.final_detection_access.only_after_primary_configuration_is_frozen
+2026-09-09T18:22:00Z | INFO | [PASS] held_out_test.final_detection_access.checkpoints
+2026-09-09T18:22:00Z | INFO | [PASS] held_out_test.final_detection_access.thresholds
+2026-09-09T18:22:00Z | INFO | [PASS] experiment.protocol_status
+2026-09-09T18:22:00Z | INFO |        ready_for_validation
+2026-09-09T18:22:00Z | INFO | [PASS] model.pretrained_weights.checkpoint_sha256 is a valid SHA-256 scalar
+2026-09-09T18:22:00Z | INFO | [PASS] ResNet-18 IMAGENET1K_V1 checkpoint SHA-256
+2026-09-09T18:22:00Z | INFO | [PASS] screening seed binding: python
+2026-09-09T18:22:00Z | INFO | [PASS] screening seed binding: numpy
+2026-09-09T18:22:00Z | INFO | [PASS] screening seed binding: torch
+2026-09-09T18:22:00Z | INFO | [PASS] screening seed binding: dataloader
+2026-09-09T18:22:00Z | INFO | [PASS] LR-screening seed matches reproducibility plan
+2026-09-09T18:22:00Z | INFO | [PASS] multi-seed plan matches reproducibility plan
+2026-09-09T18:22:00Z | INFO | [PASS] post-selection seeds match confirmation plan
+2026-09-09T18:22:00Z | INFO | [PASS] machine runtime num_workers scientific reference
+2026-09-09T18:22:00Z | INFO |        16
+2026-09-09T18:22:00Z | INFO | [PASS] actual frozen project_train class counts
+2026-09-09T18:22:00Z | INFO | [PASS] actual frozen dev_val class counts
+2026-09-09T18:22:00Z | INFO | [PASS] class-contract project_train bona-fide count
+2026-09-09T18:22:00Z | INFO | [PASS] class-contract project_train attack count
+2026-09-09T18:22:00Z | INFO | [PASS] class-contract project_train total
+2026-09-09T18:22:00Z | INFO | [PASS] class-contract dev_val bona-fide count
+2026-09-09T18:22:00Z | INFO | [PASS] class-contract dev_val attack count
+2026-09-09T18:22:00Z | INFO | [PASS] class-contract dev_val total
+2026-09-09T18:22:00Z | INFO | [PASS] derived class weight vs configured class-name weight: bonafide
+2026-09-09T18:22:00Z | INFO | [PASS] derived class weight vs configured class-index weight: 0
+2026-09-09T18:22:00Z | INFO | [PASS] derived class weight vs configured class-name weight: attack
+2026-09-09T18:22:00Z | INFO | [PASS] derived class weight vs configured class-index weight: 1
+2026-09-09T18:22:00Z | INFO | [PASS] padding fill equals ImageNet mean
+2026-09-09T18:22:00Z | INFO | [PASS] normalization mean
+2026-09-09T18:22:00Z | INFO | [PASS] normalization std
+2026-09-09T18:22:00Z | INFO | [PASS] all stochastic baseline augmentations disabled
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_a stopping relative-improvement criterion
+2026-09-09T18:22:00Z | INFO | [PASS] transfer_learning.stage_b stopping relative-improvement criterion
+2026-09-09T18:22:00Z | INFO | [PASS] Stage-B LR candidates equal screening candidates
+2026-09-09T18:22:00Z | INFO | [PASS] Stage-A classifier LR vs Stage-B classifier LR
+2026-09-09T18:22:00Z | INFO | [PASS] Stage-B classifier LR vs screening classifier LR
+2026-09-09T18:22:00Z | INFO | [PASS] LR-screening resolutions match candidate canvases
+2026-09-09T18:22:00Z | INFO | [PASS] multi-seed resolutions match candidate canvases
+2026-09-09T18:22:00Z | INFO | [PASS] resolution non-inferiority margin
+2026-09-09T18:22:00Z | INFO | [PASS] resolution r512 decision rule
+2026-09-09T18:22:00Z | INFO | [PASS] resolution r256 decision rule
+2026-09-09T18:22:00Z | INFO | [PASS] dev threshold target false-positive rate
+2026-09-09T18:22:00Z | INFO | [PASS] threshold positive class agrees with class contract
+2026-09-09T18:22:00Z | INFO | [PASS] held-out test forbidden development stages
+2026-09-09T18:22:00Z | INFO | [PASS] Grad-CAM raw-map minimum
+2026-09-09T18:22:00Z | INFO | [PASS] Grad-CAM raw-map maximum
+2026-09-09T18:22:00Z | INFO | [PASS] stem-family preflight status
+2026-09-09T18:22:00Z | INFO | [PASS] stem-family audit CSV SHA-256
+2026-09-09T18:22:00Z | INFO |        1b9b77a00c1fd3588430b81cdefe446a944886946077fc2623a334019b162ed8
+2026-09-09T18:22:00Z | INFO | [PASS] stem-family source-card reconciliation
+2026-09-09T18:22:00Z | INFO | [PASS] stem-family project_train reconciliation
+2026-09-09T18:22:00Z | INFO | [PASS] stem-family dev_val reconciliation
+2026-09-09T18:22:00Z | INFO | [PASS] FP32 memory-preflight status
+2026-09-09T18:22:00Z | INFO | [PASS] memory preflight architecture
+2026-09-09T18:22:00Z | INFO | [PASS] memory preflight full-backbone state
+2026-09-09T18:22:00Z | INFO | [PASS] memory preflight batch size
+2026-09-09T18:22:00Z | INFO | [PASS] memory preflight tensor shape
+2026-09-09T18:22:00Z | INFO | [PASS] memory preflight dtype
+2026-09-09T18:22:00Z | INFO | [PASS] memory preflight AMP
+2026-09-09T18:22:00Z | INFO | [PASS] memory preflight optimizer
+2026-09-09T18:22:00Z | INFO | [PASS] home memory-probe result SHA-256
+2026-09-09T18:22:00Z | INFO |        b3714653d121e6b195753f870e84286946251a9257280845b657566c32929432
+2026-09-09T18:22:00Z | INFO | [PASS] home memory-probe schema
+2026-09-09T18:22:00Z | INFO | [PASS] home memory-probe status
+2026-09-09T18:22:00Z | INFO | [PASS] home memory-probe machine ID
+2026-09-09T18:22:00Z | INFO | [PASS] home memory-probe GPU
+2026-09-09T18:22:00Z | INFO | [PASS] home probe architecture
+2026-09-09T18:22:00Z | INFO | [PASS] home probe weights
+2026-09-09T18:22:00Z | INFO | [PASS] home probe batch size
+2026-09-09T18:22:00Z | INFO | [PASS] home probe tensor shape
+2026-09-09T18:22:00Z | INFO | [PASS] home probe dtype
+2026-09-09T18:22:00Z | INFO | [PASS] home probe AMP
+2026-09-09T18:22:00Z | INFO | [PASS] home probe full-backbone state
+2026-09-09T18:22:00Z | INFO | [PASS] home probe model mode
+2026-09-09T18:22:00Z | INFO | [PASS] home probe optimizer
+2026-09-09T18:22:00Z | INFO | [PASS] home probe AdamW foreach
+2026-09-09T18:22:00Z | INFO | [PASS] home probe AdamW fused
+2026-09-09T18:22:00Z | INFO | [PASS] home memory-probe capacity guard
+2026-09-09T18:22:00Z | INFO |        peak_reserved_fraction=0.283591
+2026-09-09T18:22:00Z | INFO | [PASS] lab memory-probe result SHA-256
+2026-09-09T18:22:00Z | INFO |        68a752aad899a623a86ff0c5aa0c7dd89787d936057fd43292213037cf420b70
+2026-09-09T18:22:00Z | INFO | [PASS] lab memory-probe schema
+2026-09-09T18:22:00Z | INFO | [PASS] lab memory-probe status
+2026-09-09T18:22:00Z | INFO | [PASS] lab memory-probe machine ID
+2026-09-09T18:22:00Z | INFO | [PASS] lab memory-probe GPU
+2026-09-09T18:22:00Z | INFO | [PASS] lab probe architecture
+2026-09-09T18:22:00Z | INFO | [PASS] lab probe weights
+2026-09-09T18:22:00Z | INFO | [PASS] lab probe batch size
+2026-09-09T18:22:00Z | INFO | [PASS] lab probe tensor shape
+2026-09-09T18:22:00Z | INFO | [PASS] lab probe dtype
+2026-09-09T18:22:00Z | INFO | [PASS] lab probe AMP
+2026-09-09T18:22:00Z | INFO | [PASS] lab probe full-backbone state
+2026-09-09T18:22:00Z | INFO | [PASS] lab probe model mode
+2026-09-09T18:22:00Z | INFO | [PASS] lab probe optimizer
+2026-09-09T18:22:00Z | INFO | [PASS] lab probe AdamW foreach
+2026-09-09T18:22:00Z | INFO | [PASS] lab probe AdamW fused
+2026-09-09T18:22:00Z | INFO | [PASS] lab memory-probe capacity guard
+2026-09-09T18:22:00Z | INFO |        peak_reserved_fraction=0.185963
+2026-09-09T18:22:00Z | INFO | [PASS] ResNet-18 transfer-learning scientific protocol
+2026-09-09T18:22:00Z | INFO | 
+2026-09-09T18:22:00Z | INFO | --- Held-out test contract ---
+2026-09-09T18:22:00Z | INFO | [PASS] held-out test policy
+2026-09-09T18:22:00Z | INFO | 
+2026-09-09T18:22:00Z | INFO | ========================================================================
+2026-09-09T18:22:00Z | INFO | EXPERIMENT CONFIGURATION VALIDATION: PASS
+2026-09-09T18:22:00Z | INFO | ========================================================================
+2026-09-09T18:22:00Z | INFO | Canonical validation log: /home/u5757978/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_182159_975921Z.log
+2026-09-09T18:22:00Z | INFO | Final status: PASS
