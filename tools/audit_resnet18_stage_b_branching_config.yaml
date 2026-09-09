@@ -1,0 +1,63 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_resnet18_stage_b_branching_{machine_id}_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: audit_resnet18_stage_b_branching_{machine_id}_{timestamp}.yaml
+
+audit:
+
+  expected_experiment_config_sha256:
+    c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+
+  run_seed: 8
+  resolution: r256
+
+  backbone_lr_candidates:
+    - 0.00003
+    - 0.0001
+    - 0.0003
+
+  invalid_backbone_lr: 0.0005
+
+  require_cuda: true
+
+  controlled_stage_a_checkpoint:
+    epoch: 3
+    weighted_dev_loss: 0.4321
+
+    classifier_weight_delta: 0.0125
+    classifier_bias_delta: -0.00625
+
+  expected:
+
+    project_train_rows: 1440
+    dev_val_rows: 459
+
+    optimizer_groups:
+
+      backbone_decay:
+        parameter_tensors: 20
+        parameter_elements: 11166912
+        weight_decay: 0.0001
+
+      backbone_no_decay:
+        parameter_tensors: 40
+        parameter_elements: 9600
+        weight_decay: 0.0
+
+      fc_decay:
+        parameter_tensors: 1
+        parameter_elements: 1024
+        lr: 0.001
+        weight_decay: 0.0001
+
+      fc_no_decay:
+        parameter_tensors: 1
+        parameter_elements: 2
+        lr: 0.001
+        weight_decay: 0.0
