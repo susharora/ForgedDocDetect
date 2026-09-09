@@ -1,0 +1,68 @@
+2026-09-09T19:10:00Z | INFO | ========================================================================
+2026-09-09T19:10:00Z | INFO | RESNET-18 DATALOADER + RNG REPRODUCIBILITY AUDIT
+2026-09-09T19:10:00Z | INFO | ========================================================================
+2026-09-09T19:10:00Z | INFO | Git commit: 70926472dedf7faaeec86c3172e43c602735030d
+2026-09-09T19:10:00Z | INFO | Git working tree clean before evidence generation: True
+2026-09-09T19:10:00Z | INFO | Audit script SHA-256: 088d171d05d42fe855aa14e4c93241bc4d6e8c55e4f93f2fdad6e5aa859112b6
+2026-09-09T19:10:00Z | INFO | src/data.py SHA-256: b9cb486b2a5d2938cfe8d838802c2416cca85fedffe882682ff1c8efd3f742f2
+2026-09-09T19:10:00Z | INFO | src/reproducibility.py SHA-256: 33bbb093c3bbb16379f0d27e72fa5b0c80a2b14d699b8f16d62d1d0ef5ef8608
+2026-09-09T19:10:00Z | INFO | src/dataloading.py SHA-256: 8573b046523e0533be169a2be5674e8a47437c34151cdf062d929e674df7ad0d
+2026-09-09T19:10:00Z | INFO | Audit config SHA-256: 223ec01b5929d2b55f2494d986094c499b9f7841c040fe1d82bb4fdc565a3994
+2026-09-09T19:10:00Z | INFO | Experiment config SHA-256: 63a0b561dff3dd37b80dba2f60301daacf178fb7656737fa59f0438e254df803
+2026-09-09T19:10:00Z | INFO | Machine ID: IMTA134
+2026-09-09T19:10:00Z | INFO | Device: cuda
+2026-09-09T19:10:00Z | INFO | Configured num_workers: 16
+2026-09-09T19:10:00Z | INFO | Canonical validator log: /home/u5757978/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_191000_533714Z.log
+2026-09-09T19:10:00Z | INFO | Canonical validator log SHA-256: 00e1bddd89b9d4e3df3ac99a918380cd5e945b3474eda8dada5b88af1a6d6c6e
+2026-09-09T19:10:00Z | INFO | Seeds: [8, 9, 10]
+2026-09-09T19:10:00Z | INFO | Resolutions: ['r256', 'r512']
+2026-09-09T19:10:00Z | INFO | held-out test: NOT ACCESSED
+2026-09-09T19:10:00Z | INFO | 
+2026-09-09T19:10:00Z | INFO | --- Global reproducibility contract ---
+2026-09-09T19:10:01Z | INFO | [PASS] Global RNG reproducibility | seed=8 | sha256=415a47a54f7acba919c6bcd670f7ad10a4f7cce11b11bda9ecb6294f70663b32
+2026-09-09T19:10:01Z | INFO | [PASS] Global RNG reproducibility | seed=9 | sha256=e87ebc336bd5fc5fe0bc5c605886439542b0f3a954f6bab7faac50a2b3096c83
+2026-09-09T19:10:01Z | INFO | [PASS] Global RNG reproducibility | seed=10 | sha256=7871cb83e8fdb78b25dd066b1e4b7c9f3852aa7b20016475c64827c099fd05c9
+2026-09-09T19:10:01Z | INFO | [PASS] Seeds 8/9/10 produce distinct global RNG streams
+2026-09-09T19:10:01Z | INFO | 
+2026-09-09T19:10:01Z | INFO | --- DataLoader worker RNG contract ---
+2026-09-09T19:10:02Z | INFO | [PASS] Worker RNG contract | seed=8 | workers=16 | sha256=9e9e9010d7ec892bc7cc4356904c9c3ba986c9a70114134ecc4bd707948ac38a
+2026-09-09T19:10:03Z | INFO | [PASS] Worker RNG contract | seed=9 | workers=16 | sha256=a68e5c2ae65be342859e7e617dffcc83b36b98a17d078403b5f83f666038da0d
+2026-09-09T19:10:04Z | INFO | [PASS] Worker RNG contract | seed=10 | workers=16 | sha256=aaab84394a7a6c9bad3f7d3e6356500a4e33570e554aaf8b69d5580f720865b0
+2026-09-09T19:10:04Z | INFO | 
+2026-09-09T19:10:04Z | INFO | --- Multi-worker reference ordering ---
+2026-09-09T19:10:04Z | INFO | [PASS] Reference DataLoader order | seed=8 | train=2910be15a930f695e94b80b4253aab0fd8850e7a8d9ed0f2f87c32ee49c679a7 | dev=d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+2026-09-09T19:10:05Z | INFO | [PASS] Reference DataLoader order | seed=9 | train=6e891c9ce90db2e8b497ef3eea878a84a7b38f4eefdb1d1fe5ba3374e36fab3e | dev=d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+2026-09-09T19:10:06Z | INFO | [PASS] Reference DataLoader order | seed=10 | train=351942d4645fe1eb45736b67f1547780d68bfc7f716b245da0046733cac8f635 | dev=d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+2026-09-09T19:10:06Z | INFO | [PASS] Seeds 8/9/10 produce distinct train permutations
+2026-09-09T19:10:06Z | INFO | 
+2026-09-09T19:10:06Z | INFO | --- Actual FantasyID multi-worker loaders ---
+2026-09-09T19:10:30Z | INFO | [PASS] Actual DataLoaders | resolution=r256 | seed=8 | train_order=2910be15a930f695e94b80b4253aab0fd8850e7a8d9ed0f2f87c32ee49c679a7 | dev_order=d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+2026-09-09T19:10:53Z | INFO | [PASS] Actual DataLoaders | resolution=r256 | seed=9 | train_order=6e891c9ce90db2e8b497ef3eea878a84a7b38f4eefdb1d1fe5ba3374e36fab3e | dev_order=d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+2026-09-09T19:11:17Z | INFO | [PASS] Actual DataLoaders | resolution=r256 | seed=10 | train_order=351942d4645fe1eb45736b67f1547780d68bfc7f716b245da0046733cac8f635 | dev_order=d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+2026-09-09T19:11:42Z | INFO | [PASS] Actual DataLoaders | resolution=r512 | seed=8 | train_order=2910be15a930f695e94b80b4253aab0fd8850e7a8d9ed0f2f87c32ee49c679a7 | dev_order=d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+2026-09-09T19:12:08Z | INFO | [PASS] Actual DataLoaders | resolution=r512 | seed=9 | train_order=6e891c9ce90db2e8b497ef3eea878a84a7b38f4eefdb1d1fe5ba3374e36fab3e | dev_order=d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+2026-09-09T19:12:34Z | INFO | [PASS] Actual DataLoaders | resolution=r512 | seed=10 | train_order=351942d4645fe1eb45736b67f1547780d68bfc7f716b245da0046733cac8f635 | dev_order=d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+2026-09-09T19:12:34Z | INFO | [PASS] Same run seed gives identical train order for r256 and r512
+2026-09-09T19:12:34Z | INFO | [PASS] dev_val manifest order is identical across all seeds and resolutions
+2026-09-09T19:12:34Z | INFO | 
+2026-09-09T19:12:34Z | INFO | ========================================================================
+2026-09-09T19:12:34Z | INFO | AUDIT SUMMARY
+2026-09-09T19:12:34Z | INFO | ========================================================================
+2026-09-09T19:12:34Z | INFO | [PASS] Python RNG reproducibility for seeds 8/9/10
+2026-09-09T19:12:34Z | INFO | [PASS] NumPy RNG reproducibility for seeds 8/9/10
+2026-09-09T19:12:34Z | INFO | [PASS] torch CPU RNG reproducibility for seeds 8/9/10
+2026-09-09T19:12:34Z | INFO | [PASS] torch CUDA RNG reproducibility for seeds 8/9/10
+2026-09-09T19:12:34Z | INFO | [PASS] deterministic backend flags active
+2026-09-09T19:12:34Z | INFO | [PASS] configured worker seeding deterministic
+2026-09-09T19:12:34Z | INFO | [PASS] repeated fresh train DataLoaders reproduce order
+2026-09-09T19:12:34Z | INFO | [PASS] different seeds produce different train orders
+2026-09-09T19:12:34Z | INFO | [PASS] dev_val order remains manifest order
+2026-09-09T19:12:34Z | INFO | [PASS] dev iteration does not perturb train generator
+2026-09-09T19:12:34Z | INFO | [PASS] same seed gives same order at r256 and r512
+2026-09-09T19:12:34Z | INFO | [PASS] actual FantasyID loaders match reference ordering
+2026-09-09T19:12:34Z | INFO | [PASS] batch counts, sizes, dtypes and geometry
+2026-09-09T19:12:34Z | INFO | Audit result: /home/u5757978/ForgedDocDetect/logs/audit_resnet18_dataloader_IMTA134_2026-09-09_191000_609457Z.yaml
+2026-09-09T19:12:34Z | INFO | Audit result SHA-256: e8491968daf5f542715bfb8af83f7fa4666332f08bb39c0d7265b7d71b9ea74d
+2026-09-09T19:12:34Z | INFO | ========================================================================
+2026-09-09T19:12:34Z | INFO | RESNET-18 DATALOADER + RNG REPRODUCIBILITY AUDIT: PASS
+2026-09-09T19:12:34Z | INFO | ========================================================================
