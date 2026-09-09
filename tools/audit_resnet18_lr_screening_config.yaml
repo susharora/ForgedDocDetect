@@ -1,0 +1,64 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_resnet18_lr_screening_{machine_id}_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: audit_resnet18_lr_screening_{machine_id}_{timestamp}.yaml
+
+audit:
+
+  expected_experiment_config_sha256:
+    c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+
+  resolution: r256
+  screening_seed: 8
+
+  backbone_lr_candidates:
+    - 0.00003
+    - 0.0001
+    - 0.0003
+
+  invalid_seed: 9
+  invalid_resolution: r999
+
+  cases:
+
+    distinct_losses_with_auroc_flag:
+
+      raw_best_weighted_dev_losses:
+        - 0.51
+        - 0.40
+        - 0.45
+
+      protocol_review_flags:
+        - false
+        - false
+        - true
+
+      expected:
+        selected_backbone_lr: 0.0001
+        selected_raw_best_weighted_dev_loss: 0.40
+        exact_loss_tie_encountered: false
+        protocol_review_required: true
+
+    exact_loss_tie:
+
+      raw_best_weighted_dev_losses:
+        - 0.40
+        - 0.40
+        - 0.50
+
+      protocol_review_flags:
+        - false
+        - false
+        - false
+
+      expected:
+        selected_backbone_lr: 0.00003
+        selected_raw_best_weighted_dev_loss: 0.40
+        exact_loss_tie_encountered: true
+        protocol_review_required: false
