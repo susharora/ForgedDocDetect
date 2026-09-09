@@ -1,0 +1,78 @@
+2026-09-09T22:00:10Z | INFO | ========================================================================
+2026-09-09T22:00:10Z | INFO | RESNET-18 STAGE-B BRANCH INITIALIZATION AUDIT
+2026-09-09T22:00:10Z | INFO | ========================================================================
+2026-09-09T22:00:10Z | INFO | Git commit: 273af23757a81627f7f2fb3f3ac4daaa3b5deac1
+2026-09-09T22:00:10Z | INFO | Git working tree clean before evidence generation: True
+2026-09-09T22:00:10Z | INFO | Machine ID: IMTA134
+2026-09-09T22:00:10Z | INFO | Configured device: cuda
+2026-09-09T22:00:10Z | INFO | Run seed: 8
+2026-09-09T22:00:10Z | INFO | Resolution: r256
+2026-09-09T22:00:10Z | INFO | Experiment config SHA-256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-09T22:00:10Z | INFO | Validator log: /home/u5757978/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_220010_615290Z.log
+2026-09-09T22:00:10Z | INFO | Validator log SHA-256: b262edf2ecfaa104ee3ea22bfac953ad9d5b81c3164db3d4364f42e34b1e1deb
+2026-09-09T22:00:10Z | INFO | Audit script SHA-256: 5233889744ed78df57637aac548469ac37df4f53e13eb31afccbfb8724e5b9ec
+2026-09-09T22:00:10Z | INFO | Audit config SHA-256: f8954c5cc251eb3d8f16ac451f80c2128e8937f8b86e73e919eb252ff635cb31
+2026-09-09T22:00:10Z | INFO | src/stage_b_branching.py SHA-256: fb3fc4a5ba383644a39da571d5100b2d9d84508a4ffeaeea2029cb2edf5050c9
+2026-09-09T22:00:10Z | INFO | src/dataloading.py SHA-256: 8573b046523e0533be169a2be5674e8a47437c34151cdf062d929e674df7ad0d
+2026-09-09T22:00:10Z | INFO | src/modeling.py SHA-256: b3cb73aa3d33d7938fe7a0e6b751721cddb049f8d6cddebc54181b9abbaf3d63
+2026-09-09T22:00:10Z | INFO | src/optimization.py SHA-256: b8f713f48447f79700552cbeca2a1b7fa4d3ec77e28fa9f968cf929fa386298e
+2026-09-09T22:00:10Z | INFO | src/reproducibility.py SHA-256: 33bbb093c3bbb16379f0d27e72fa5b0c80a2b14d699b8f16d62d1d0ef5ef8608
+2026-09-09T22:00:10Z | INFO | src/training_control.py SHA-256: 2801d00601f737ca133b8e5621966fb642f8d7f46ac627dee58aedb1d546d749
+2026-09-09T22:00:10Z | INFO | Dataset access: manifest construction/sampler inspection only
+2026-09-09T22:00:10Z | INFO | Image decoding: NOT PERFORMED
+2026-09-09T22:00:10Z | INFO | Scientific training: NOT PERFORMED
+2026-09-09T22:00:10Z | INFO | Held-out test: NOT ACCESSED
+2026-09-09T22:00:10Z | INFO | 
+2026-09-09T22:00:10Z | INFO | --- Controlled Stage-A checkpoint ---
+2026-09-09T22:00:11Z | INFO | [PASS] controlled Stage-A checkpoint differs from fresh seed-8 model
+2026-09-09T22:00:11Z | INFO | [PASS] controlled Stage-A checkpoint SHA-256 = eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+2026-09-09T22:00:11Z | INFO | 
+2026-09-09T22:00:11Z | INFO | --- Independent run-seed shuffle reference ---
+2026-09-09T22:00:11Z | INFO | [PASS] independent full project_train permutation built
+2026-09-09T22:00:11Z | INFO | [PASS] reference order SHA-256 = 79e4b9cf6ba929a20530002817b65b84c1ebbb0d67fb780ad20de37729e9b453
+2026-09-09T22:00:11Z | INFO | 
+2026-09-09T22:00:11Z | INFO | --- Stage-B LR branches ---
+2026-09-09T22:00:11Z | INFO | Constructing Stage-B branch | backbone_lr=3e-05
+2026-09-09T22:00:12Z | INFO | [PASS] branch 3e-05 restored exact Stage-A model
+2026-09-09T22:00:12Z | INFO | [PASS] branch 3e-05 fresh empty AdamW
+2026-09-09T22:00:12Z | INFO | [PASS] branch 3e-05 first-epoch train order = 79e4b9cf6ba929a20530002817b65b84c1ebbb0d67fb780ad20de37729e9b453
+2026-09-09T22:00:12Z | INFO | Constructing Stage-B branch | backbone_lr=0.0001
+2026-09-09T22:00:13Z | INFO | [PASS] branch 0.0001 restored exact Stage-A model
+2026-09-09T22:00:13Z | INFO | [PASS] branch 0.0001 fresh empty AdamW
+2026-09-09T22:00:13Z | INFO | [PASS] branch 0.0001 first-epoch train order = 79e4b9cf6ba929a20530002817b65b84c1ebbb0d67fb780ad20de37729e9b453
+2026-09-09T22:00:13Z | INFO | Constructing Stage-B branch | backbone_lr=0.0003
+2026-09-09T22:00:14Z | INFO | [PASS] branch 0.0003 restored exact Stage-A model
+2026-09-09T22:00:14Z | INFO | [PASS] branch 0.0003 fresh empty AdamW
+2026-09-09T22:00:14Z | INFO | [PASS] branch 0.0003 first-epoch train order = 79e4b9cf6ba929a20530002817b65b84c1ebbb0d67fb780ad20de37729e9b453
+2026-09-09T22:00:14Z | INFO | 
+2026-09-09T22:00:14Z | INFO | --- Cross-branch comparability ---
+2026-09-09T22:00:14Z | INFO | [PASS] all LR candidates start from identical Stage-A checkpoint/model state
+2026-09-09T22:00:14Z | INFO | [PASS] all LR candidates start from identical fresh run-seed DataLoader generator state
+2026-09-09T22:00:14Z | INFO | [PASS] all LR candidates have identical first-epoch project_train ordering
+2026-09-09T22:00:14Z | INFO | [PASS] all LR candidates have identical initial global RNG fingerprints
+2026-09-09T22:00:14Z | INFO | [PASS] optimizer structure identical except Stage-B backbone LR
+2026-09-09T22:00:14Z | INFO | [PASS] classifier LR fixed at 1e-3 for all branches
+2026-09-09T22:00:14Z | INFO | 
+2026-09-09T22:00:14Z | INFO | --- Invalid-LR guard ---
+2026-09-09T22:00:14Z | INFO | [PASS] non-frozen Stage-B LR 0.0005 rejected
+2026-09-09T22:00:14Z | INFO | 
+2026-09-09T22:00:14Z | INFO | ========================================================================
+2026-09-09T22:00:14Z | INFO | AUDIT SUMMARY
+2026-09-09T22:00:14Z | INFO | ========================================================================
+2026-09-09T22:00:14Z | INFO | [PASS] schema-v3 branch contract
+2026-09-09T22:00:14Z | INFO | [PASS] controlled Stage-A checkpoint restored exactly
+2026-09-09T22:00:14Z | INFO | [PASS] all three LR branches same starting model
+2026-09-09T22:00:14Z | INFO | [PASS] all three LR branches fresh optimizer state
+2026-09-09T22:00:14Z | INFO | [PASS] optimizer membership/settings identical except backbone LR
+2026-09-09T22:00:14Z | INFO | [PASS] all three LR branches fresh run-seed generators
+2026-09-09T22:00:14Z | INFO | [PASS] advanced Stage-A-like generator state not inherited
+2026-09-09T22:00:14Z | INFO | [PASS] all three LR branches same first-epoch train order
+2026-09-09T22:00:14Z | INFO | [PASS] all three LR branches same initial global RNG state
+2026-09-09T22:00:14Z | INFO | [PASS] no images decoded
+2026-09-09T22:00:14Z | INFO | [PASS] no training/forward/backward/optimizer step
+2026-09-09T22:00:14Z | INFO | [PASS] held-out test NOT ACCESSED
+2026-09-09T22:00:14Z | INFO | Audit result: /home/u5757978/ForgedDocDetect/logs/audit_resnet18_stage_b_branching_IMTA134_2026-09-09_220010_698977Z.yaml
+2026-09-09T22:00:14Z | INFO | Audit result SHA-256: 3c400183e0f86280f6e3a6df4c10f4a21046d00bc87fb8e29664f2ac149028be
+2026-09-09T22:00:14Z | INFO | ========================================================================
+2026-09-09T22:00:14Z | INFO | RESNET-18 STAGE-B BRANCH INITIALIZATION AUDIT: PASS
+2026-09-09T22:00:14Z | INFO | ========================================================================
