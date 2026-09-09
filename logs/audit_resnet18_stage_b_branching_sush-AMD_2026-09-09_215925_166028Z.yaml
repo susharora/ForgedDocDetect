@@ -1,0 +1,627 @@
+schema_version: 1
+status: PASS
+machine:
+  id: sush-AMD
+  device: cuda
+  num_workers: 8
+provenance:
+  git_commit: 273af23757a81627f7f2fb3f3ac4daaa3b5deac1
+  experiment_config_sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+  audit_script_sha256: 5233889744ed78df57637aac548469ac37df4f53e13eb31afccbfb8724e5b9ec
+  audit_config_sha256: f8954c5cc251eb3d8f16ac451f80c2128e8937f8b86e73e919eb252ff635cb31
+  stage_b_branching_module_sha256: fb3fc4a5ba383644a39da571d5100b2d9d84508a4ffeaeea2029cb2edf5050c9
+  validator_log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_215925_135092Z.log
+  validator_log_sha256: 326023273a402bae73842067a1a028fa1b6c35435b9d034c26bcd28d15cf00a4
+scope:
+  run_seed: 8
+  resolution: r256
+  backbone_lr_candidates:
+  - 3.0e-05
+  - 0.0001
+  - 0.0003
+  project_train_rows: 1440
+  dev_val_rows: 459
+  image_decoding_performed: false
+  forward_pass_performed: false
+  backward_pass_performed: false
+  optimizer_step_performed: false
+  scientific_training_performed: false
+  held_out_test_accessed: false
+controlled_stage_a_checkpoint:
+  run_seed: 8
+  epoch: 3
+  weighted_dev_loss: 0.4321
+  classifier_weight_delta: 0.0125
+  classifier_bias_delta: -0.00625
+  fresh_seeded_model_state_sha256: 2228a2a4f683e05f2679f4b1fc027ce575e691d72b8bbf1e1f5d1276308e3291
+  controlled_checkpoint_model_state_sha256: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+  pretrained_checkpoint_sha256: f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+independent_generator_reference:
+  initial_generator_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+  advanced_one_epoch_generator_state_sha256: 1e145ddd0a60a00a96a7e4d44b2422976b1916f3f6a5f835437d78be1f307b32
+  order_indices_sha256: 79e4b9cf6ba929a20530002817b65b84c1ebbb0d67fb780ad20de37729e9b453
+branches:
+- backbone_lr: 3.0e-05
+  initialization:
+    requested_device: cuda
+    actual_model_device: cuda:0
+    stage_a_checkpoint_epoch: 3
+    stage_a_checkpoint_weighted_dev_loss: 0.4321
+    stage_a_checkpoint_model_state_sha256: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+    fresh_model_state_sha256_before_restore: 2228a2a4f683e05f2679f4b1fc027ce575e691d72b8bbf1e1f5d1276308e3291
+    restored_model_state_sha256_cpu: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+    restored_model_state_sha256_after_device_move: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+    project_train_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    dev_val_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    optimizer_state_entries_at_construction: 0
+  global_rng_after_initialization:
+    python: 5b9c5a7ec6386de8dac7432b2d9cdfc2e6dcdd7996db309515f35ba557cc903d
+    numpy: c2fd8a6bbd32d7ea483f5fa81ce21428a4e018dd110fdae8e9cfb21df5fc701b
+    torch_cpu: d4209aea9bdb8ba85fd1d90bf28a82afecf7560837c85be2a6d3f1fcbb82126d
+    torch_cuda_all:
+    - 6e293599269b76cca7fb92085bbb5c9100ab36fa4071dafffca172e96db804f2
+  project_train_sampler:
+    initial_generator_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    advanced_one_epoch_generator_state_sha256: 1e145ddd0a60a00a96a7e4d44b2422976b1916f3f6a5f835437d78be1f307b32
+    restored_generator_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    order_indices_sha256: 79e4b9cf6ba929a20530002817b65b84c1ebbb0d67fb780ad20de37729e9b453
+    order_paths_sha256: c6a80c9faf54b4f8ac43ed93dd6afffc8276eb9033b495f0997f19818eba5617
+    first_10_paths:
+    - train/attack/digital_1/huawei/russian-NM-1027.jpg
+    - train/attack/digital_2/iphone15pro/chinese-096_03.jpg
+    - train/attack/digital_1/iphone15pro/ukraine-NF-1032.jpg
+    - train/bonafide/huawei/french-135_03.jpg
+    - train/attack/digital_1/scan/arabic-NF-1045.jpg
+    - train/attack/digital_2/huawei/portugal-NF-1024.jpg
+    - train/bonafide/iphone15pro/russian-027_03.jpg
+    - train/attack/digital_2/scan/chinese-NF-1072.jpg
+    - train/attack/digital_1/huawei/chinese-102_03.jpg
+    - train/bonafide/iphone15pro/arabic-NF-1040.jpg
+    last_10_paths:
+    - train/attack/digital_2/huawei/russian-141_03.jpg
+    - train/attack/digital_1/iphone15pro/french-NF-1056.jpg
+    - train/attack/digital_1/iphone15pro/persian-NM-1074.jpg
+    - train/bonafide/iphone15pro/chinese-NF-1101.jpg
+    - train/bonafide/iphone15pro/usa-NF-1017.jpg
+    - train/bonafide/huawei/persian-NF-1001.jpg
+    - train/attack/digital_1/huawei/usa-117_03.jpg
+    - train/bonafide/scan/chinese-NF-1014.jpg
+    - train/bonafide/huawei/arabic-NF-1012.jpg
+    - train/attack/digital_1/huawei/chinese-NF-1101.jpg
+  dev_loader:
+    generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    manifest_order_paths_sha256: e8d4f489e562398ee6b70f251cca4e2d51c5113b7cf9ba394b0153cdc5d81bf9
+  optimizer:
+    state_entries: 0
+    group_order:
+    - backbone_decay
+    - backbone_no_decay
+    - fc_decay
+    - fc_no_decay
+    groups:
+      backbone_decay:
+        parameter_names:
+        - conv1.weight
+        - layer1.0.conv1.weight
+        - layer1.0.conv2.weight
+        - layer1.1.conv1.weight
+        - layer1.1.conv2.weight
+        - layer2.0.conv1.weight
+        - layer2.0.conv2.weight
+        - layer2.0.downsample.0.weight
+        - layer2.1.conv1.weight
+        - layer2.1.conv2.weight
+        - layer3.0.conv1.weight
+        - layer3.0.conv2.weight
+        - layer3.0.downsample.0.weight
+        - layer3.1.conv1.weight
+        - layer3.1.conv2.weight
+        - layer4.0.conv1.weight
+        - layer4.0.conv2.weight
+        - layer4.0.downsample.0.weight
+        - layer4.1.conv1.weight
+        - layer4.1.conv2.weight
+        parameter_tensors: 20
+        parameter_elements: 11166912
+        lr: 3.0e-05
+        weight_decay: 0.0001
+        betas:
+        - 0.9
+        - 0.999
+        eps: 1.0e-08
+        amsgrad: false
+        foreach: false
+        fused: false
+        maximize: false
+        capturable: false
+        differentiable: false
+      backbone_no_decay:
+        parameter_names:
+        - bn1.weight
+        - bn1.bias
+        - layer1.0.bn1.weight
+        - layer1.0.bn1.bias
+        - layer1.0.bn2.weight
+        - layer1.0.bn2.bias
+        - layer1.1.bn1.weight
+        - layer1.1.bn1.bias
+        - layer1.1.bn2.weight
+        - layer1.1.bn2.bias
+        - layer2.0.bn1.weight
+        - layer2.0.bn1.bias
+        - layer2.0.bn2.weight
+        - layer2.0.bn2.bias
+        - layer2.0.downsample.1.weight
+        - layer2.0.downsample.1.bias
+        - layer2.1.bn1.weight
+        - layer2.1.bn1.bias
+        - layer2.1.bn2.weight
+        - layer2.1.bn2.bias
+        - layer3.0.bn1.weight
+        - layer3.0.bn1.bias
+        - layer3.0.bn2.weight
+        - layer3.0.bn2.bias
+        - layer3.0.downsample.1.weight
+        - layer3.0.downsample.1.bias
+        - layer3.1.bn1.weight
+        - layer3.1.bn1.bias
+        - layer3.1.bn2.weight
+        - layer3.1.bn2.bias
+        - layer4.0.bn1.weight
+        - layer4.0.bn1.bias
+        - layer4.0.bn2.weight
+        - layer4.0.bn2.bias
+        - layer4.0.downsample.1.weight
+        - layer4.0.downsample.1.bias
+        - layer4.1.bn1.weight
+        - layer4.1.bn1.bias
+        - layer4.1.bn2.weight
+        - layer4.1.bn2.bias
+        parameter_tensors: 40
+        parameter_elements: 9600
+        lr: 3.0e-05
+        weight_decay: 0.0
+        betas:
+        - 0.9
+        - 0.999
+        eps: 1.0e-08
+        amsgrad: false
+        foreach: false
+        fused: false
+        maximize: false
+        capturable: false
+        differentiable: false
+      fc_decay:
+        parameter_names:
+        - fc.weight
+        parameter_tensors: 1
+        parameter_elements: 1024
+        lr: 0.001
+        weight_decay: 0.0001
+        betas:
+        - 0.9
+        - 0.999
+        eps: 1.0e-08
+        amsgrad: false
+        foreach: false
+        fused: false
+        maximize: false
+        capturable: false
+        differentiable: false
+      fc_no_decay:
+        parameter_names:
+        - fc.bias
+        parameter_tensors: 1
+        parameter_elements: 2
+        lr: 0.001
+        weight_decay: 0.0
+        betas:
+        - 0.9
+        - 0.999
+        eps: 1.0e-08
+        amsgrad: false
+        foreach: false
+        fused: false
+        maximize: false
+        capturable: false
+        differentiable: false
+  live_model_state_sha256: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+  parameter_gradients_present: false
+- backbone_lr: 0.0001
+  initialization:
+    requested_device: cuda
+    actual_model_device: cuda:0
+    stage_a_checkpoint_epoch: 3
+    stage_a_checkpoint_weighted_dev_loss: 0.4321
+    stage_a_checkpoint_model_state_sha256: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+    fresh_model_state_sha256_before_restore: 2228a2a4f683e05f2679f4b1fc027ce575e691d72b8bbf1e1f5d1276308e3291
+    restored_model_state_sha256_cpu: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+    restored_model_state_sha256_after_device_move: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+    project_train_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    dev_val_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    optimizer_state_entries_at_construction: 0
+  global_rng_after_initialization:
+    python: 5b9c5a7ec6386de8dac7432b2d9cdfc2e6dcdd7996db309515f35ba557cc903d
+    numpy: c2fd8a6bbd32d7ea483f5fa81ce21428a4e018dd110fdae8e9cfb21df5fc701b
+    torch_cpu: d4209aea9bdb8ba85fd1d90bf28a82afecf7560837c85be2a6d3f1fcbb82126d
+    torch_cuda_all:
+    - 6e293599269b76cca7fb92085bbb5c9100ab36fa4071dafffca172e96db804f2
+  project_train_sampler:
+    initial_generator_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    advanced_one_epoch_generator_state_sha256: 1e145ddd0a60a00a96a7e4d44b2422976b1916f3f6a5f835437d78be1f307b32
+    restored_generator_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    order_indices_sha256: 79e4b9cf6ba929a20530002817b65b84c1ebbb0d67fb780ad20de37729e9b453
+    order_paths_sha256: c6a80c9faf54b4f8ac43ed93dd6afffc8276eb9033b495f0997f19818eba5617
+    first_10_paths:
+    - train/attack/digital_1/huawei/russian-NM-1027.jpg
+    - train/attack/digital_2/iphone15pro/chinese-096_03.jpg
+    - train/attack/digital_1/iphone15pro/ukraine-NF-1032.jpg
+    - train/bonafide/huawei/french-135_03.jpg
+    - train/attack/digital_1/scan/arabic-NF-1045.jpg
+    - train/attack/digital_2/huawei/portugal-NF-1024.jpg
+    - train/bonafide/iphone15pro/russian-027_03.jpg
+    - train/attack/digital_2/scan/chinese-NF-1072.jpg
+    - train/attack/digital_1/huawei/chinese-102_03.jpg
+    - train/bonafide/iphone15pro/arabic-NF-1040.jpg
+    last_10_paths:
+    - train/attack/digital_2/huawei/russian-141_03.jpg
+    - train/attack/digital_1/iphone15pro/french-NF-1056.jpg
+    - train/attack/digital_1/iphone15pro/persian-NM-1074.jpg
+    - train/bonafide/iphone15pro/chinese-NF-1101.jpg
+    - train/bonafide/iphone15pro/usa-NF-1017.jpg
+    - train/bonafide/huawei/persian-NF-1001.jpg
+    - train/attack/digital_1/huawei/usa-117_03.jpg
+    - train/bonafide/scan/chinese-NF-1014.jpg
+    - train/bonafide/huawei/arabic-NF-1012.jpg
+    - train/attack/digital_1/huawei/chinese-NF-1101.jpg
+  dev_loader:
+    generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    manifest_order_paths_sha256: e8d4f489e562398ee6b70f251cca4e2d51c5113b7cf9ba394b0153cdc5d81bf9
+  optimizer:
+    state_entries: 0
+    group_order:
+    - backbone_decay
+    - backbone_no_decay
+    - fc_decay
+    - fc_no_decay
+    groups:
+      backbone_decay:
+        parameter_names:
+        - conv1.weight
+        - layer1.0.conv1.weight
+        - layer1.0.conv2.weight
+        - layer1.1.conv1.weight
+        - layer1.1.conv2.weight
+        - layer2.0.conv1.weight
+        - layer2.0.conv2.weight
+        - layer2.0.downsample.0.weight
+        - layer2.1.conv1.weight
+        - layer2.1.conv2.weight
+        - layer3.0.conv1.weight
+        - layer3.0.conv2.weight
+        - layer3.0.downsample.0.weight
+        - layer3.1.conv1.weight
+        - layer3.1.conv2.weight
+        - layer4.0.conv1.weight
+        - layer4.0.conv2.weight
+        - layer4.0.downsample.0.weight
+        - layer4.1.conv1.weight
+        - layer4.1.conv2.weight
+        parameter_tensors: 20
+        parameter_elements: 11166912
+        lr: 0.0001
+        weight_decay: 0.0001
+        betas:
+        - 0.9
+        - 0.999
+        eps: 1.0e-08
+        amsgrad: false
+        foreach: false
+        fused: false
+        maximize: false
+        capturable: false
+        differentiable: false
+      backbone_no_decay:
+        parameter_names:
+        - bn1.weight
+        - bn1.bias
+        - layer1.0.bn1.weight
+        - layer1.0.bn1.bias
+        - layer1.0.bn2.weight
+        - layer1.0.bn2.bias
+        - layer1.1.bn1.weight
+        - layer1.1.bn1.bias
+        - layer1.1.bn2.weight
+        - layer1.1.bn2.bias
+        - layer2.0.bn1.weight
+        - layer2.0.bn1.bias
+        - layer2.0.bn2.weight
+        - layer2.0.bn2.bias
+        - layer2.0.downsample.1.weight
+        - layer2.0.downsample.1.bias
+        - layer2.1.bn1.weight
+        - layer2.1.bn1.bias
+        - layer2.1.bn2.weight
+        - layer2.1.bn2.bias
+        - layer3.0.bn1.weight
+        - layer3.0.bn1.bias
+        - layer3.0.bn2.weight
+        - layer3.0.bn2.bias
+        - layer3.0.downsample.1.weight
+        - layer3.0.downsample.1.bias
+        - layer3.1.bn1.weight
+        - layer3.1.bn1.bias
+        - layer3.1.bn2.weight
+        - layer3.1.bn2.bias
+        - layer4.0.bn1.weight
+        - layer4.0.bn1.bias
+        - layer4.0.bn2.weight
+        - layer4.0.bn2.bias
+        - layer4.0.downsample.1.weight
+        - layer4.0.downsample.1.bias
+        - layer4.1.bn1.weight
+        - layer4.1.bn1.bias
+        - layer4.1.bn2.weight
+        - layer4.1.bn2.bias
+        parameter_tensors: 40
+        parameter_elements: 9600
+        lr: 0.0001
+        weight_decay: 0.0
+        betas:
+        - 0.9
+        - 0.999
+        eps: 1.0e-08
+        amsgrad: false
+        foreach: false
+        fused: false
+        maximize: false
+        capturable: false
+        differentiable: false
+      fc_decay:
+        parameter_names:
+        - fc.weight
+        parameter_tensors: 1
+        parameter_elements: 1024
+        lr: 0.001
+        weight_decay: 0.0001
+        betas:
+        - 0.9
+        - 0.999
+        eps: 1.0e-08
+        amsgrad: false
+        foreach: false
+        fused: false
+        maximize: false
+        capturable: false
+        differentiable: false
+      fc_no_decay:
+        parameter_names:
+        - fc.bias
+        parameter_tensors: 1
+        parameter_elements: 2
+        lr: 0.001
+        weight_decay: 0.0
+        betas:
+        - 0.9
+        - 0.999
+        eps: 1.0e-08
+        amsgrad: false
+        foreach: false
+        fused: false
+        maximize: false
+        capturable: false
+        differentiable: false
+  live_model_state_sha256: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+  parameter_gradients_present: false
+- backbone_lr: 0.0003
+  initialization:
+    requested_device: cuda
+    actual_model_device: cuda:0
+    stage_a_checkpoint_epoch: 3
+    stage_a_checkpoint_weighted_dev_loss: 0.4321
+    stage_a_checkpoint_model_state_sha256: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+    fresh_model_state_sha256_before_restore: 2228a2a4f683e05f2679f4b1fc027ce575e691d72b8bbf1e1f5d1276308e3291
+    restored_model_state_sha256_cpu: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+    restored_model_state_sha256_after_device_move: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+    project_train_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    dev_val_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    optimizer_state_entries_at_construction: 0
+  global_rng_after_initialization:
+    python: 5b9c5a7ec6386de8dac7432b2d9cdfc2e6dcdd7996db309515f35ba557cc903d
+    numpy: c2fd8a6bbd32d7ea483f5fa81ce21428a4e018dd110fdae8e9cfb21df5fc701b
+    torch_cpu: d4209aea9bdb8ba85fd1d90bf28a82afecf7560837c85be2a6d3f1fcbb82126d
+    torch_cuda_all:
+    - 6e293599269b76cca7fb92085bbb5c9100ab36fa4071dafffca172e96db804f2
+  project_train_sampler:
+    initial_generator_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    advanced_one_epoch_generator_state_sha256: 1e145ddd0a60a00a96a7e4d44b2422976b1916f3f6a5f835437d78be1f307b32
+    restored_generator_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    order_indices_sha256: 79e4b9cf6ba929a20530002817b65b84c1ebbb0d67fb780ad20de37729e9b453
+    order_paths_sha256: c6a80c9faf54b4f8ac43ed93dd6afffc8276eb9033b495f0997f19818eba5617
+    first_10_paths:
+    - train/attack/digital_1/huawei/russian-NM-1027.jpg
+    - train/attack/digital_2/iphone15pro/chinese-096_03.jpg
+    - train/attack/digital_1/iphone15pro/ukraine-NF-1032.jpg
+    - train/bonafide/huawei/french-135_03.jpg
+    - train/attack/digital_1/scan/arabic-NF-1045.jpg
+    - train/attack/digital_2/huawei/portugal-NF-1024.jpg
+    - train/bonafide/iphone15pro/russian-027_03.jpg
+    - train/attack/digital_2/scan/chinese-NF-1072.jpg
+    - train/attack/digital_1/huawei/chinese-102_03.jpg
+    - train/bonafide/iphone15pro/arabic-NF-1040.jpg
+    last_10_paths:
+    - train/attack/digital_2/huawei/russian-141_03.jpg
+    - train/attack/digital_1/iphone15pro/french-NF-1056.jpg
+    - train/attack/digital_1/iphone15pro/persian-NM-1074.jpg
+    - train/bonafide/iphone15pro/chinese-NF-1101.jpg
+    - train/bonafide/iphone15pro/usa-NF-1017.jpg
+    - train/bonafide/huawei/persian-NF-1001.jpg
+    - train/attack/digital_1/huawei/usa-117_03.jpg
+    - train/bonafide/scan/chinese-NF-1014.jpg
+    - train/bonafide/huawei/arabic-NF-1012.jpg
+    - train/attack/digital_1/huawei/chinese-NF-1101.jpg
+  dev_loader:
+    generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    manifest_order_paths_sha256: e8d4f489e562398ee6b70f251cca4e2d51c5113b7cf9ba394b0153cdc5d81bf9
+  optimizer:
+    state_entries: 0
+    group_order:
+    - backbone_decay
+    - backbone_no_decay
+    - fc_decay
+    - fc_no_decay
+    groups:
+      backbone_decay:
+        parameter_names:
+        - conv1.weight
+        - layer1.0.conv1.weight
+        - layer1.0.conv2.weight
+        - layer1.1.conv1.weight
+        - layer1.1.conv2.weight
+        - layer2.0.conv1.weight
+        - layer2.0.conv2.weight
+        - layer2.0.downsample.0.weight
+        - layer2.1.conv1.weight
+        - layer2.1.conv2.weight
+        - layer3.0.conv1.weight
+        - layer3.0.conv2.weight
+        - layer3.0.downsample.0.weight
+        - layer3.1.conv1.weight
+        - layer3.1.conv2.weight
+        - layer4.0.conv1.weight
+        - layer4.0.conv2.weight
+        - layer4.0.downsample.0.weight
+        - layer4.1.conv1.weight
+        - layer4.1.conv2.weight
+        parameter_tensors: 20
+        parameter_elements: 11166912
+        lr: 0.0003
+        weight_decay: 0.0001
+        betas:
+        - 0.9
+        - 0.999
+        eps: 1.0e-08
+        amsgrad: false
+        foreach: false
+        fused: false
+        maximize: false
+        capturable: false
+        differentiable: false
+      backbone_no_decay:
+        parameter_names:
+        - bn1.weight
+        - bn1.bias
+        - layer1.0.bn1.weight
+        - layer1.0.bn1.bias
+        - layer1.0.bn2.weight
+        - layer1.0.bn2.bias
+        - layer1.1.bn1.weight
+        - layer1.1.bn1.bias
+        - layer1.1.bn2.weight
+        - layer1.1.bn2.bias
+        - layer2.0.bn1.weight
+        - layer2.0.bn1.bias
+        - layer2.0.bn2.weight
+        - layer2.0.bn2.bias
+        - layer2.0.downsample.1.weight
+        - layer2.0.downsample.1.bias
+        - layer2.1.bn1.weight
+        - layer2.1.bn1.bias
+        - layer2.1.bn2.weight
+        - layer2.1.bn2.bias
+        - layer3.0.bn1.weight
+        - layer3.0.bn1.bias
+        - layer3.0.bn2.weight
+        - layer3.0.bn2.bias
+        - layer3.0.downsample.1.weight
+        - layer3.0.downsample.1.bias
+        - layer3.1.bn1.weight
+        - layer3.1.bn1.bias
+        - layer3.1.bn2.weight
+        - layer3.1.bn2.bias
+        - layer4.0.bn1.weight
+        - layer4.0.bn1.bias
+        - layer4.0.bn2.weight
+        - layer4.0.bn2.bias
+        - layer4.0.downsample.1.weight
+        - layer4.0.downsample.1.bias
+        - layer4.1.bn1.weight
+        - layer4.1.bn1.bias
+        - layer4.1.bn2.weight
+        - layer4.1.bn2.bias
+        parameter_tensors: 40
+        parameter_elements: 9600
+        lr: 0.0003
+        weight_decay: 0.0
+        betas:
+        - 0.9
+        - 0.999
+        eps: 1.0e-08
+        amsgrad: false
+        foreach: false
+        fused: false
+        maximize: false
+        capturable: false
+        differentiable: false
+      fc_decay:
+        parameter_names:
+        - fc.weight
+        parameter_tensors: 1
+        parameter_elements: 1024
+        lr: 0.001
+        weight_decay: 0.0001
+        betas:
+        - 0.9
+        - 0.999
+        eps: 1.0e-08
+        amsgrad: false
+        foreach: false
+        fused: false
+        maximize: false
+        capturable: false
+        differentiable: false
+      fc_no_decay:
+        parameter_names:
+        - fc.bias
+        parameter_tensors: 1
+        parameter_elements: 2
+        lr: 0.001
+        weight_decay: 0.0
+        betas:
+        - 0.9
+        - 0.999
+        eps: 1.0e-08
+        amsgrad: false
+        foreach: false
+        fused: false
+        maximize: false
+        capturable: false
+        differentiable: false
+  live_model_state_sha256: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+  parameter_gradients_present: false
+cross_branch_comparability:
+  identical_stage_a_checkpoint: true
+  identical_restored_model_state: true
+  identical_fresh_model_before_restore: true
+  identical_train_generator_initial_state: true
+  identical_dev_generator_initial_state: true
+  identical_first_epoch_project_train_order: true
+  identical_global_rng_after_initialization: true
+  optimizer_structure_identical_except_learning_rate: true
+  classifier_lr_identical: true
+  observed_backbone_lrs:
+  - 3.0e-05
+  - 0.0001
+  - 0.0003
+  stage_a_checkpoint_sha256: eaab17a179566618904bb3f77985a3021204a0d4ca5875b0631c48ec130d67f4
+  first_epoch_order_indices_sha256: 79e4b9cf6ba929a20530002817b65b84c1ebbb0d67fb780ad20de37729e9b453
+  first_epoch_order_paths_sha256: c6a80c9faf54b4f8ac43ed93dd6afffc8276eb9033b495f0997f19818eba5617
+invalid_backbone_lr:
+  value: 0.0005
+  rejected: true
+interpretation: PASS establishes that schema-v3 Stage-B branch construction carries
+  only the exact Stage-A raw-argmin model state, resets RNG/DataLoader state from
+  run_seed for every LR candidate, constructs fresh empty AdamW state, exposes identical
+  corresponding first-epoch project_train ordering, and changes only the configured
+  backbone learning rate between the three screening branches. No branch training
+  was performed.
