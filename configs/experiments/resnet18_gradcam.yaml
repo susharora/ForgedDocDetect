@@ -209,8 +209,7 @@ model:
     source: torchvision
     enum: IMAGENET1K_V1
 
-    checkpoint_sha256:
-      f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+    checkpoint_sha256: f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
 
   classifier:
     replace_original_fc: true
