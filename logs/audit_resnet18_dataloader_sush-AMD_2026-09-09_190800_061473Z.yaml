@@ -1,0 +1,521 @@
+schema_version: 1
+status: PASS
+machine:
+  id: sush-AMD
+  device: cuda
+  num_workers: 8
+provenance:
+  git_commit: 70926472dedf7faaeec86c3172e43c602735030d
+  audit_script_sha256: 088d171d05d42fe855aa14e4c93241bc4d6e8c55e4f93f2fdad6e5aa859112b6
+  audit_config_sha256: 223ec01b5929d2b55f2494d986094c499b9f7841c040fe1d82bb4fdc565a3994
+  experiment_config_sha256: 63a0b561dff3dd37b80dba2f60301daacf178fb7656737fa59f0438e254df803
+  data_module_sha256: b9cb486b2a5d2938cfe8d838802c2416cca85fedffe882682ff1c8efd3f742f2
+  reproducibility_module_sha256: 33bbb093c3bbb16379f0d27e72fa5b0c80a2b14d699b8f16d62d1d0ef5ef8608
+  dataloading_module_sha256: 8573b046523e0533be169a2be5674e8a47437c34151cdf062d929e674df7ad0d
+  validator_log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-09_190800_030438Z.log
+  validator_log_sha256: 2b6a9bf0535138a1c30fbeadf434f7dde03e45106701e7349a52f4fa378270d1
+global_rng:
+  '8':
+    fingerprints:
+      python: d534e93f7540dca2dac04ad90a7c5b5d9a19a6cc9a518962ac066e033c239abf
+      numpy: 071c07d7e28179f4ca3085b5bba9781c81ddcfc685aa9db0a42bfe4305f48b85
+      torch_cpu: c4aec5a9b3c156e0818a6b3746b34ba06de3a5e2d44533edbe5e7df3c2e6b856
+      torch_cuda: 2c998313617713b4075b785538f18054d3c5fd8f8abb3f56b2b9fd8821412e40
+    combined_sha256: 415a47a54f7acba919c6bcd670f7ad10a4f7cce11b11bda9ecb6294f70663b32
+  '9':
+    fingerprints:
+      python: 3238862b0cc66c39aa11d275b5e44e9813ffb22c05654547f66d76431f3c1c00
+      numpy: 6df92211251665d18a7e0a5f49c578340a364645e51ec6fc07a0fe6fff1e7c3f
+      torch_cpu: 721b78dd4b35793377b413a45d01cc9c6595315a901f8604b11cdb3e89572955
+      torch_cuda: ef6218151ab746f4737fb333c1f41ac72f9d6fb06e440ab899a7b1a05e5bf146
+    combined_sha256: e87ebc336bd5fc5fe0bc5c605886439542b0f3a954f6bab7faac50a2b3096c83
+  '10':
+    fingerprints:
+      python: 65afc238b7d4fb6c936b429d6c06709ebd12aaa4f8140daf6c14e44f71babd0d
+      numpy: ea5c634a41122bc060399302e4d9edb98848d8fe8947270e5034352872f25d52
+      torch_cpu: e9546c21f131c3bbb512eda013113710545fef89b826bbebc6c9feb2e328ccf2
+      torch_cuda: a724843c7e2caacfb230c41fbf41c80e755988d31c5aa01a53beeaeff1f6ea3b
+    combined_sha256: 7871cb83e8fdb78b25dd066b1e4b7c9f3852aa7b20016475c64827c099fd05c9
+worker_rng:
+  '8':
+    sha256: 5aae14778c832a935fe0a63db01b2aabd9e0abe3a634533c1744e6b112b189ef
+    workers:
+      '0':
+        torch_initial_seed: 6888556634303915348
+        seed_mod_2_32: 47736148
+      '1':
+        torch_initial_seed: 6888556634303915349
+        seed_mod_2_32: 47736149
+      '2':
+        torch_initial_seed: 6888556634303915350
+        seed_mod_2_32: 47736150
+      '3':
+        torch_initial_seed: 6888556634303915351
+        seed_mod_2_32: 47736151
+      '4':
+        torch_initial_seed: 6888556634303915352
+        seed_mod_2_32: 47736152
+      '5':
+        torch_initial_seed: 6888556634303915353
+        seed_mod_2_32: 47736153
+      '6':
+        torch_initial_seed: 6888556634303915354
+        seed_mod_2_32: 47736154
+      '7':
+        torch_initial_seed: 6888556634303915355
+        seed_mod_2_32: 47736155
+  '9':
+    sha256: 1c4d143ea2bdcf66d2669aac01a7085264ab12ea43768d692ea8ea3d990b8d37
+    workers:
+      '0':
+        torch_initial_seed: 191369442034012508
+        seed_mod_2_32: 1565348188
+      '1':
+        torch_initial_seed: 191369442034012509
+        seed_mod_2_32: 1565348189
+      '2':
+        torch_initial_seed: 191369442034012510
+        seed_mod_2_32: 1565348190
+      '3':
+        torch_initial_seed: 191369442034012511
+        seed_mod_2_32: 1565348191
+      '4':
+        torch_initial_seed: 191369442034012512
+        seed_mod_2_32: 1565348192
+      '5':
+        torch_initial_seed: 191369442034012513
+        seed_mod_2_32: 1565348193
+      '6':
+        torch_initial_seed: 191369442034012514
+        seed_mod_2_32: 1565348194
+      '7':
+        torch_initial_seed: 191369442034012515
+        seed_mod_2_32: 1565348195
+  '10':
+    sha256: 0b4d5718319391eb6458f1090f8d4e5dc7fa60aab8693d8a7641365ff0072fb9
+    workers:
+      '0':
+        torch_initial_seed: 5004982467132365949
+        seed_mod_2_32: 1283169405
+      '1':
+        torch_initial_seed: 5004982467132365950
+        seed_mod_2_32: 1283169406
+      '2':
+        torch_initial_seed: 5004982467132365951
+        seed_mod_2_32: 1283169407
+      '3':
+        torch_initial_seed: 5004982467132365952
+        seed_mod_2_32: 1283169408
+      '4':
+        torch_initial_seed: 5004982467132365953
+        seed_mod_2_32: 1283169409
+      '5':
+        torch_initial_seed: 5004982467132365954
+        seed_mod_2_32: 1283169410
+      '6':
+        torch_initial_seed: 5004982467132365955
+        seed_mod_2_32: 1283169411
+      '7':
+        torch_initial_seed: 5004982467132365956
+        seed_mod_2_32: 1283169412
+reference_orders:
+  '8':
+    train_order_sha256: 2910be15a930f695e94b80b4253aab0fd8850e7a8d9ed0f2f87c32ee49c679a7
+    train_first_16_indices:
+    - 81
+    - 902
+    - 517
+    - 1363
+    - 256
+    - 895
+    - 896
+    - 1239
+    - 280
+    - 587
+    - 1073
+    - 1328
+    - 317
+    - 489
+    - 98
+    - 853
+    train_last_16_indices:
+    - 783
+    - 259
+    - 1059
+    - 1354
+    - 370
+    - 226
+    - 361
+    - 1003
+    - 1098
+    - 597
+    - 710
+    - 1179
+    - 644
+    - 551
+    - 996
+    - 618
+    dev_order_sha256: d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+  '9':
+    train_order_sha256: 6e891c9ce90db2e8b497ef3eea878a84a7b38f4eefdb1d1fe5ba3374e36fab3e
+    train_first_16_indices:
+    - 414
+    - 1226
+    - 100
+    - 206
+    - 7
+    - 113
+    - 475
+    - 784
+    - 590
+    - 874
+    - 441
+    - 340
+    - 1414
+    - 826
+    - 224
+    - 1104
+    train_last_16_indices:
+    - 105
+    - 1402
+    - 923
+    - 220
+    - 1051
+    - 64
+    - 47
+    - 35
+    - 974
+    - 216
+    - 308
+    - 157
+    - 1270
+    - 353
+    - 163
+    - 468
+    dev_order_sha256: d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+  '10':
+    train_order_sha256: 351942d4645fe1eb45736b67f1547780d68bfc7f716b245da0046733cac8f635
+    train_first_16_indices:
+    - 132
+    - 85
+    - 30
+    - 134
+    - 1051
+    - 1202
+    - 343
+    - 953
+    - 1200
+    - 1163
+    - 851
+    - 259
+    - 224
+    - 1027
+    - 974
+    - 275
+    train_last_16_indices:
+    - 903
+    - 1339
+    - 1405
+    - 84
+    - 545
+    - 307
+    - 730
+    - 1226
+    - 983
+    - 663
+    - 484
+    - 29
+    - 645
+    - 504
+    - 261
+    - 23
+    dev_order_sha256: d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+actual_loaders:
+  r256:
+    '8':
+      project_train_order_sha256: 2910be15a930f695e94b80b4253aab0fd8850e7a8d9ed0f2f87c32ee49c679a7
+      dev_val_order_sha256: d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+      project_train_first_16_indices:
+      - 81
+      - 902
+      - 517
+      - 1363
+      - 256
+      - 895
+      - 896
+      - 1239
+      - 280
+      - 587
+      - 1073
+      - 1328
+      - 317
+      - 489
+      - 98
+      - 853
+      project_train_last_16_indices:
+      - 783
+      - 259
+      - 1059
+      - 1354
+      - 370
+      - 226
+      - 361
+      - 1003
+      - 1098
+      - 597
+      - 710
+      - 1179
+      - 644
+      - 551
+      - 996
+      - 618
+      project_train_label_counts:
+        0: 480
+        1: 960
+      dev_val_label_counts:
+        0: 153
+        1: 306
+      train_generator_initial_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+      train_generator_after_epoch_sha256: 44a196b74023f9e4990241ac019739833d2cebe97b6c8fb3ce245759ad27cb60
+      dev_generator_initial_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+      dev_generator_after_epoch_sha256: 52331a60892008863d05cb6f9b1f1448c0ab5d67802ab74a0859242a6f402394
+    '9':
+      project_train_order_sha256: 6e891c9ce90db2e8b497ef3eea878a84a7b38f4eefdb1d1fe5ba3374e36fab3e
+      dev_val_order_sha256: d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+      project_train_first_16_indices:
+      - 414
+      - 1226
+      - 100
+      - 206
+      - 7
+      - 113
+      - 475
+      - 784
+      - 590
+      - 874
+      - 441
+      - 340
+      - 1414
+      - 826
+      - 224
+      - 1104
+      project_train_last_16_indices:
+      - 105
+      - 1402
+      - 923
+      - 220
+      - 1051
+      - 64
+      - 47
+      - 35
+      - 974
+      - 216
+      - 308
+      - 157
+      - 1270
+      - 353
+      - 163
+      - 468
+      project_train_label_counts:
+        0: 480
+        1: 960
+      dev_val_label_counts:
+        0: 153
+        1: 306
+      train_generator_initial_sha256: 10eeb496e28bee1ad2783148861fc25e1c0056e679c03f93a8c46d765d5e3697
+      train_generator_after_epoch_sha256: 81030738cdec8ce583737f852067bc42e8e3fe3dad0402f46ee2f2a78fc820d9
+      dev_generator_initial_sha256: 10eeb496e28bee1ad2783148861fc25e1c0056e679c03f93a8c46d765d5e3697
+      dev_generator_after_epoch_sha256: f096b56ea9b264d29bbdf3446630008e6fead6046c9be9bb3061d7f355f6ad95
+    '10':
+      project_train_order_sha256: 351942d4645fe1eb45736b67f1547780d68bfc7f716b245da0046733cac8f635
+      dev_val_order_sha256: d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+      project_train_first_16_indices:
+      - 132
+      - 85
+      - 30
+      - 134
+      - 1051
+      - 1202
+      - 343
+      - 953
+      - 1200
+      - 1163
+      - 851
+      - 259
+      - 224
+      - 1027
+      - 974
+      - 275
+      project_train_last_16_indices:
+      - 903
+      - 1339
+      - 1405
+      - 84
+      - 545
+      - 307
+      - 730
+      - 1226
+      - 983
+      - 663
+      - 484
+      - 29
+      - 645
+      - 504
+      - 261
+      - 23
+      project_train_label_counts:
+        0: 480
+        1: 960
+      dev_val_label_counts:
+        0: 153
+        1: 306
+      train_generator_initial_sha256: 25d144beea93c91bd5dcc2864da432bfcb78f6985c3e032ceceb50a3b7e0bf89
+      train_generator_after_epoch_sha256: c9c901e68f544c8795ba4f56961865ea071c4f2adb33a959ed0f3714336ff21a
+      dev_generator_initial_sha256: 25d144beea93c91bd5dcc2864da432bfcb78f6985c3e032ceceb50a3b7e0bf89
+      dev_generator_after_epoch_sha256: 21e446950bcdfb5ca815dcf9620e3195089b6b8bc46e976042a9a2cf09787480
+  r512:
+    '8':
+      project_train_order_sha256: 2910be15a930f695e94b80b4253aab0fd8850e7a8d9ed0f2f87c32ee49c679a7
+      dev_val_order_sha256: d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+      project_train_first_16_indices:
+      - 81
+      - 902
+      - 517
+      - 1363
+      - 256
+      - 895
+      - 896
+      - 1239
+      - 280
+      - 587
+      - 1073
+      - 1328
+      - 317
+      - 489
+      - 98
+      - 853
+      project_train_last_16_indices:
+      - 783
+      - 259
+      - 1059
+      - 1354
+      - 370
+      - 226
+      - 361
+      - 1003
+      - 1098
+      - 597
+      - 710
+      - 1179
+      - 644
+      - 551
+      - 996
+      - 618
+      project_train_label_counts:
+        0: 480
+        1: 960
+      dev_val_label_counts:
+        0: 153
+        1: 306
+      train_generator_initial_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+      train_generator_after_epoch_sha256: 44a196b74023f9e4990241ac019739833d2cebe97b6c8fb3ce245759ad27cb60
+      dev_generator_initial_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+      dev_generator_after_epoch_sha256: 52331a60892008863d05cb6f9b1f1448c0ab5d67802ab74a0859242a6f402394
+    '9':
+      project_train_order_sha256: 6e891c9ce90db2e8b497ef3eea878a84a7b38f4eefdb1d1fe5ba3374e36fab3e
+      dev_val_order_sha256: d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+      project_train_first_16_indices:
+      - 414
+      - 1226
+      - 100
+      - 206
+      - 7
+      - 113
+      - 475
+      - 784
+      - 590
+      - 874
+      - 441
+      - 340
+      - 1414
+      - 826
+      - 224
+      - 1104
+      project_train_last_16_indices:
+      - 105
+      - 1402
+      - 923
+      - 220
+      - 1051
+      - 64
+      - 47
+      - 35
+      - 974
+      - 216
+      - 308
+      - 157
+      - 1270
+      - 353
+      - 163
+      - 468
+      project_train_label_counts:
+        0: 480
+        1: 960
+      dev_val_label_counts:
+        0: 153
+        1: 306
+      train_generator_initial_sha256: 10eeb496e28bee1ad2783148861fc25e1c0056e679c03f93a8c46d765d5e3697
+      train_generator_after_epoch_sha256: 81030738cdec8ce583737f852067bc42e8e3fe3dad0402f46ee2f2a78fc820d9
+      dev_generator_initial_sha256: 10eeb496e28bee1ad2783148861fc25e1c0056e679c03f93a8c46d765d5e3697
+      dev_generator_after_epoch_sha256: f096b56ea9b264d29bbdf3446630008e6fead6046c9be9bb3061d7f355f6ad95
+    '10':
+      project_train_order_sha256: 351942d4645fe1eb45736b67f1547780d68bfc7f716b245da0046733cac8f635
+      dev_val_order_sha256: d67930d62e66d27f449c60fd422631e86657f62d1cafc4eb7e8d63ad51ad0ec2
+      project_train_first_16_indices:
+      - 132
+      - 85
+      - 30
+      - 134
+      - 1051
+      - 1202
+      - 343
+      - 953
+      - 1200
+      - 1163
+      - 851
+      - 259
+      - 224
+      - 1027
+      - 974
+      - 275
+      project_train_last_16_indices:
+      - 903
+      - 1339
+      - 1405
+      - 84
+      - 545
+      - 307
+      - 730
+      - 1226
+      - 983
+      - 663
+      - 484
+      - 29
+      - 645
+      - 504
+      - 261
+      - 23
+      project_train_label_counts:
+        0: 480
+        1: 960
+      dev_val_label_counts:
+        0: 153
+        1: 306
+      train_generator_initial_sha256: 25d144beea93c91bd5dcc2864da432bfcb78f6985c3e032ceceb50a3b7e0bf89
+      train_generator_after_epoch_sha256: c9c901e68f544c8795ba4f56961865ea071c4f2adb33a959ed0f3714336ff21a
+      dev_generator_initial_sha256: 25d144beea93c91bd5dcc2864da432bfcb78f6985c3e032ceceb50a3b7e0bf89
+      dev_generator_after_epoch_sha256: 21e446950bcdfb5ca815dcf9620e3195089b6b8bc46e976042a9a2cf09787480
+interpretation: PASS establishes that the frozen run seeds, global RNGs, worker RNGs,
+  multi-worker shuffle ordering, dev ordering, generator isolation, batch geometry
+  and actual FantasyID DataLoaders behave according to the frozen Tech-2 contract.
+  It does not validate model construction or training.
