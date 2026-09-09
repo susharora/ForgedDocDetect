@@ -55,3 +55,4 @@ runs/*/diagnostics/
 *.npy
 *.npz
 *.onnx
+.~lock.*#
