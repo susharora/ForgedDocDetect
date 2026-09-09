@@ -1,16 +1,110 @@
-schema_version: 1
+schema_version: 2
+
+
+# ======================================================================
+# Experiment identity
+# ======================================================================
 
 experiment:
   name: resnet18_gradcam_fantasyid
   pipeline: resnet18_gradcam
   task: binary_classification
 
+  protocol_stage: transfer_learning_development
+  protocol_status: ready_for_validation
+
+  primary_model_scope:
+    supervision: image_level_labels_only
+    localisation_supervision: false
+    targeted_region_dropout: false
+    patch_training: false
+    segmentation_head: false
+
+
+# ======================================================================
+# Binary-class contract
+#
+# Positive class follows the existing FantasyID repository convention:
+#
+#   bonafide -> 0
+#   attack   -> 1
+# ======================================================================
+
+class_contract:
+  index_by_name:
+    bonafide: 0
+    attack: 1
+
+  name_by_index:
+    0: bonafide
+    1: attack
+
+  positive_class: attack
+  positive_class_index: 1
+
+  project_train_counts:
+    bonafide: 480
+    attack: 960
+    total: 1440
+
+  dev_val_counts:
+    bonafide: 153
+    attack: 306
+    total: 459
+
+
+# ======================================================================
+# Reproducibility
+# ======================================================================
+
 reproducibility:
+
+  # Validator-compatible concrete screening seed.
+  # During multi-seed confirmation, the run_seed is substituted into
+  # every RNG named in seed_binding below.
   seeds:
     python: 8
     numpy: 8
     torch: 8
     dataloader: 8
+
+  seed_plan:
+    screening_seed: 8
+
+    confirmation_seeds:
+      - 8
+      - 9
+      - 10
+
+    reuse_screening_seed_run_during_confirmation: true
+
+    seed_binding:
+      python_random: run_seed
+      numpy: run_seed
+      torch_cpu: run_seed
+      torch_cuda_all: run_seed
+      dataloader_generator: run_seed
+      dataloader_workers: derived_from_run_seed
+      classifier_initialisation: run_seed
+
+  determinism:
+    cudnn_benchmark: false
+    cudnn_deterministic: true
+
+    deterministic_algorithms: true
+
+    cublas_workspace_config: ":4096:8"
+
+    allow_tf32_matmul: false
+    allow_tf32_cudnn: false
+
+    failure_policy:
+      nondeterministic_required_operation: fail
+
+
+# ======================================================================
+# Frozen Tech-1 data provenance
+# ======================================================================
 
 data:
   dataset: FantasyID
@@ -40,5 +134,713 @@ data:
       cards: 51
       images: 459
 
+  development_policy:
+    training_source: project_train
+    model_selection_source: dev_val
+
+    project_train_dev_card_overlap_required: 0
+
+    stem_family:
+      terminology: stem_family_not_formal_template_identity
+      expected_family_count: 10
+
+      every_family_required_in_project_train: true
+      every_family_required_in_dev_val: true
+
+      dev_allocation:
+        policy: frozen_largest_remainder_quota
+        status: validated
+
+
+# ======================================================================
+# Preflight evidence
+# ======================================================================
+
+preflight_evidence:
+
+  stem_family_audit:
+    status: PASS
+
+    csv:
+      path: logs/audit_split_stem_family_2026-09-09_164053_260036Z.csv
+      sha256: 1b9b77a00c1fd3588430b81cdefe446a944886946077fc2623a334019b162ed8
+
+  fp32_training_memory:
+    status: PASS
+
+    tested_configuration:
+      architecture: resnet18
+      full_backbone_trainable: true
+      batch_size: 32
+      input_nchw:
+        - 32
+        - 3
+        - 512
+        - 864
+      dtype: float32
+      amp: false
+      optimizer: AdamW
+
+    home:
+      machine_id: sush-AMD
+      gpu: NVIDIA GeForce RTX 5090
+
+      result:
+        path: logs/probe_resnet18_training_memory_sush-AMD_2026-09-09_170616_974489Z.yaml
+        sha256: b3714653d121e6b195753f870e84286946251a9257280845b657566c32929432
+
+    lab:
+      machine_id: IMTA134
+      gpu: NVIDIA RTX PRO 5000 Blackwell
+
+      result:
+        path: logs/probe_resnet18_training_memory_IMTA134_2026-09-09_170948_841635Z.yaml
+        sha256: 68a752aad899a623a86ff0c5aa0c7dd89787d936057fd43292213037cf420b70
+
+
+# ======================================================================
+# Model
+# ======================================================================
+
+model:
+  architecture: resnet18
+
+  pretrained_weights:
+    source: torchvision
+    enum: IMAGENET1K_V1
+
+    checkpoint_sha256:
+      f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+
+  classifier:
+    replace_original_fc: true
+    type: Linear
+
+    in_features: 512
+    out_features: 2
+
+    initialisation:
+      policy: pytorch_nn_linear_default
+      controlled_by: run_seed
+
+  dtype: float32
+  amp: false
+
+
+# ======================================================================
+# Input preprocessing
+# ======================================================================
+
+preprocessing:
+
+  decode:
+    decoder: Pillow
+    force_rgb: true
+
+    exif_orientation_policy:
+      action: none
+      reason: frozen_project_train_and_dev_have_no_nontrivial_orientation_tags
+
+  # --------------------------------------------------------------------
+  # Both candidate resolutions use the same geometry policy.
+  #
+  # There is no centre crop and no square distortion.
+  # --------------------------------------------------------------------
+
+  candidate_canvases:
+
+    r256:
+      content_height: 256
+      canvas_height: 256
+      canvas_width: 432
+
+    r512:
+      content_height: 512
+      canvas_height: 512
+      canvas_width: 864
+
+  resize:
+    preserve_aspect_ratio: true
+    crop: none
+
+    implementation:
+      library: torchvision
+      operation: transforms.functional.resize
+
+    # Dataset is landscape, so resizing the short side sets content height.
+    size_argument: content_height_as_integer_short_side
+
+    interpolation: bilinear
+    antialias: true
+
+    width_overflow_policy: fail
+
+  padding:
+    required_dimension: horizontal_only
+    alignment: center
+
+    left_pixels:
+      rule: total_horizontal_padding_floor_div_2
+
+    right_pixels:
+      rule: total_horizontal_padding_minus_left
+
+    top_pixels: 0
+    bottom_pixels: 0
+
+    # Padding happens in [0,1] RGB space before normalization.
+    # Using the ImageNet mean therefore becomes exactly zero after
+    # ImageNet normalization.
+    fill_rgb_0_to_1:
+      - 0.485
+      - 0.456
+      - 0.406
+
+  normalization:
+    mean:
+      - 0.485
+      - 0.456
+      - 0.406
+
+    std:
+      - 0.229
+      - 0.224
+      - 0.225
+
+  baseline_transform_description:
+    deterministic_class_independent_resampling: true
+    stochastic_resampling: false
+
+  stochastic_augmentation:
+    enabled: false
+
+    horizontal_flip: false
+    random_crop: false
+    random_resized_crop: false
+    rotation: false
+    affine: false
+    color_jitter: false
+    random_erasing: false
+    jpeg_recompression: false
+    blur: false
+    noise: false
+    mixup: false
+    cutmix: false
+
+
+# ======================================================================
+# DataLoader
+# ======================================================================
+
+dataloader:
+  batch_size: 32
+
+  # Machine-local worker count remains in configs/local.yaml.
+  num_workers_source: machine_config.runtime.num_workers
+
+  project_train:
+    shuffle: true
+    drop_last: false
+
+  dev_val:
+    shuffle: false
+    drop_last: false
+
+
+# ======================================================================
+# Loss
+# ======================================================================
+
+loss:
+  type: CrossEntropyLoss
+
+  class_weighting:
+    enabled: true
+
+    source: frozen_project_train_only
+
+    formula: "w_c = N / (2 * n_c)"
+
+    expected_by_class_name:
+      bonafide: 1.5
+      attack: 0.75
+
+    expected_by_class_index:
+      0: 1.5
+      1: 0.75
+
+    runtime_assert_against_class_contract: true
+
+  training_loss:
+    weighted: true
+
+  dev_selection_loss:
+    weighted: true
+
+    # Do not recompute weights from dev_val.
+    reuse_project_train_weights: true
+
+  epoch_reduction:
+    definition: weighted_cross_entropy_over_entire_dataset
+    numerator: sum_sample_weight_times_per_sample_ce
+    denominator: sum_sample_weights
+
+  label_smoothing: 0.0
+
+
+# ======================================================================
+# Optimizer
+# ======================================================================
+
+optimizer:
+  name: AdamW
+
+  betas:
+    - 0.9
+    - 0.999
+
+  eps: 0.00000001
+  amsgrad: false
+
+  weight_decay: 0.0001
+
+  weight_decay_exclusions:
+    all_bias_parameters: true
+    batchnorm_affine_parameters: true
+
+  foreach: false
+  fused: false
+
+  learning_rate_schedule:
+    type: constant
+
+
+# ======================================================================
+# Early stopping / checkpoint semantics
+#
+# IMPORTANT:
+# - the 0.5% rule governs PATIENCE only;
+# - checkpoint is always raw argmin weighted dev loss.
+# ======================================================================
+
+stopping_definition:
+
+  meaningful_relative_improvement_fraction: 0.005
+
+  patience_logic:
+    comparison:
+      "current_dev_loss < patience_anchor_loss * (1 - 0.005)"
+
+    on_meaningful_improvement:
+      reset_patience: true
+      update_patience_anchor: true
+
+    otherwise:
+      increment_patience: true
+
+  checkpoint_logic:
+    metric: class_weighted_dev_cross_entropy
+    policy: raw_argmin
+    minimum_improvement_required_for_checkpoint: false
+
+
+# ======================================================================
+# Stage A — head-only adaptation
+# ======================================================================
+
+transfer_learning:
+
+  stage_a:
+    name: head_only_adaptation
+
+    backbone:
+      requires_grad: false
+      module_mode: eval
+
+      batchnorm:
+        affine_requires_grad: false
+        running_statistics_update: false
+
+    classifier:
+      requires_grad: true
+      module_mode: train
+
+    optimizer:
+      scope: classifier_only
+      fresh_optimizer_instance: true
+
+      classifier_lr: 0.001
+
+    stopping:
+      metric: class_weighted_dev_cross_entropy
+
+      patience_epochs: 2
+      maximum_epochs: 10
+
+      meaningful_relative_improvement_fraction: 0.005
+
+    checkpoint:
+      policy: raw_argmin_class_weighted_dev_cross_entropy
+
+    execution_scope:
+      once_per_resolution_and_seed: true
+
+      # All Stage-B LR candidates for a given resolution+seed must fork
+      # from exactly this same best Stage-A checkpoint.
+      reuse_checkpoint_for_all_stage_b_lr_candidates: true
+
+
+# ======================================================================
+# Stage B — full domain adaptation
+# ======================================================================
+
+  stage_b:
+    name: full_backbone_adaptation
+
+    initial_checkpoint:
+      source: exact_stage_a_raw_argmin_checkpoint
+
+    optimizer:
+      fresh_optimizer_instance: true
+
+      backbone_lr_candidates:
+        - 0.00003
+        - 0.0001
+        - 0.0003
+
+      classifier_lr: 0.001
+
+    backbone:
+      requires_grad: true
+      module_mode: train
+
+    classifier:
+      requires_grad: true
+      module_mode: train
+
+    batchnorm:
+      affine_requires_grad: true
+      running_statistics_update: true
+
+    epoch_1_transition_note:
+      required_in_history: true
+      text:
+        "Backbone unfrozen and BatchNorm running statistics begin FantasyID domain adaptation; transient dev-loss movement is expected."
+
+    stopping:
+      metric: class_weighted_dev_cross_entropy
+
+      patience_epochs: 5
+      maximum_epochs: 30
+
+      meaningful_relative_improvement_fraction: 0.005
+
+    checkpoint:
+      policy: raw_argmin_class_weighted_dev_cross_entropy
+
+    auroc_disagreement_guard:
+      enabled: true
+
+      definition:
+        "best_dev_auroc_over_run - dev_auroc_at_loss_argmin_checkpoint"
+
+      flag_if_strictly_greater_than: 0.01
+
+      action:
+        flag_for_protocol_review: true
+        automatically_switch_checkpoint: false
+
+
+# ======================================================================
+# Resolution + learning-rate development plan
+# ======================================================================
+
+development_selection:
+
+  # --------------------------------------------------------------------
+  # Step 1:
+  # One-seed screening of LR separately for each resolution.
+  # --------------------------------------------------------------------
+
+  lr_screening:
+    seed: 8
+
+    candidate_resolutions:
+      - r256
+      - r512
+
+    backbone_lr_candidates:
+      - 0.00003
+      - 0.0001
+      - 0.0003
+
+    classifier_lr_fixed: 0.001
+
+    stage_a:
+      run_once_per_resolution: true
+
+    stage_b:
+      branch_all_lr_candidates_from_same_stage_a_checkpoint: true
+
+    lr_selection_metric:
+      name: class_weighted_dev_cross_entropy
+      source: raw_argmin_checkpoint
+
+    select:
+      rule: lowest_best_weighted_dev_loss
+
+      exact_tie_breaker:
+        rule: lower_backbone_learning_rate
+
+    auroc_guard:
+      does_not_change_selection_rule: true
+
+
+  # --------------------------------------------------------------------
+  # Step 2:
+  # Carry the best LR for EACH resolution into seeds 8,9,10.
+  # --------------------------------------------------------------------
+
+  multi_seed_confirmation:
+
+    resolutions:
+      - r256
+      - r512
+
+    seeds:
+      - 8
+      - 9
+      - 10
+
+    learning_rate_per_resolution:
+      source: winner_of_lr_screening_for_that_resolution
+
+    reuse_existing_seed_8_screening_run: true
+
+    terminology:
+      multi_seed_stability_analysis_not_independent_holdout_confirmation
+
+
+  # --------------------------------------------------------------------
+  # Step 3:
+  # Predeclared asymmetric resolution decision.
+  #
+  # Detection performance is a practical non-inferiority gate because
+  # 512 was preferred a priori for retention of forensic information
+  # and denser spatial localisation.
+  # --------------------------------------------------------------------
+
+  resolution_selection:
+
+    comparison_metric:
+      name: class_weighted_dev_cross_entropy
+      value_per_seed:
+        raw_minimum_for_that_resolution_selected_lr
+
+    paired_seed_difference:
+      definition: "d_s = L_512(s) - L_256(s)"
+
+    decision_statistic:
+      definition: "mean_d = mean(d_8, d_9, d_10)"
+
+    noninferiority_margin:
+      type: relative_to_r256_mean_loss
+
+      relative_fraction: 0.05
+
+      definition:
+        "margin = 0.05 * mean(L_256(8), L_256(9), L_256(10))"
+
+    decision_rule:
+      select_r512_if:
+        "mean_d <= margin"
+
+      select_r256_if:
+        "mean_d > margin"
+
+    rationale:
+      r512_preferred_a_priori_for_forensic_information_retention_and_denser_gradcam_grid
+
+    robustness_annotation:
+      report_sign_of_each_seed_difference: true
+      sign_pattern_changes_decision: false
+
+    masked_dev_diagnostics_influence_selection: false
+    localisation_metrics_influence_selection: false
+
+
+# ======================================================================
+# Post-selection model policy
+# ======================================================================
+
+post_selection:
+
+  selected_configuration:
+    consists_of:
+      - selected_resolution
+      - selected_backbone_learning_rate
+      - fixed_classifier_learning_rate
+      - all_other_frozen_protocol_settings
+
+  selected_resolution_seed_checkpoints:
+    seeds:
+      - 8
+      - 9
+      - 10
+
+    final_detection_test:
+      evaluate_all_three: true
+
+      report:
+        - each_seed
+        - mean
+        - min
+        - max
+
+  localisation_representative_checkpoint:
+
+    selection_pool:
+      selected_resolution_three_seed_checkpoints
+
+    rule:
+      seed_with_median_raw_best_weighted_dev_loss
+
+    exact_loss_tie_breaker:
+      lowest_seed_number
+
+    purpose:
+      representative_not_best_seed_for_gradcam_analysis
+
+  losing_resolution:
+    role: development_resolution_ablation
+    held_out_test_access: false
+
+
+# ======================================================================
+# Evaluation / threshold policy
+# ======================================================================
+
+evaluation:
+
+  checkpoint_selection:
+    threshold_independent: true
+    primary_metric: class_weighted_dev_cross_entropy
+
+  diagnostic_metrics:
+    dev_auroc:
+      enabled: true
+      participates_in_checkpoint_selection: false
+
+  threshold_selection:
+
+    source: dev_val
+
+    threshold_per_seed_checkpoint: true
+
+    target_false_positive_rate: 0.10
+
+    implementation:
+      reuse_frozen_tech1_threshold_and_metric_conventions_exactly
+
+    positive_class: attack
+
+  calibration_note:
+    weighted_training_may_shift_score_calibration: true
+
+    fixed_probability_calibration_required: false
+
+    reason:
+      operating_threshold_is_selected_on_dev_scores_under_frozen_protocol
+
+
+# ======================================================================
+# Deferred diagnostics / ablations
+#
+# These do NOT participate in primary model development or selection.
+# ======================================================================
+
+deferred_work:
+
+  masked_dev_occlusion_diagnostics:
+    status: deferred
+
+    selection_metric: false
+
+    reason:
+      requires_separate_train_only_mask_geometry_and_delta_protocol
+
+  targeted_region_dropout:
+    status: deferred_optional_ablation
+
+    part_of_primary_model: false
+
+  jpeg_blur_noise_augmentation:
+    status: deferred_optional_ablation
+
+    part_of_primary_model: false
+
+  high_pass_or_srm_input:
+    status: deferred_optional_ablation
+
+    part_of_primary_model: false
+
+  patch_training:
+    status: deferred_secondary_ablation
+
+    part_of_primary_model: false
+
+  from_scratch_resnet18:
+    status: deferred_optional_ablation
+
+    part_of_primary_model: false
+
+
+# ======================================================================
+# Grad-CAM
+# ======================================================================
+
+gradcam:
+
+  status: deferred_until_classifier_validated
+
+  classifier_training_uses_gradcam_supervision: false
+
+  target_layer:
+    status: not_yet_frozen
+
+  canonical_raw_map_contract:
+    dtype: float32
+    shape: HxW
+    range:
+      minimum: 0.0
+      maximum: 1.0
+
+  rendered_visualisation_separate_from_raw_map: true
+
+
+# ======================================================================
+# Held-out test protection
+# ======================================================================
+
 held_out_test:
+
   policy: untouched_until_final_evaluation
+
+  forbidden_during:
+    - preprocessing_selection
+    - learning_rate_screening
+    - multi_seed_stability_analysis
+    - resolution_selection
+    - checkpoint_selection
+    - augmentation_selection
+    - gradcam_target_layer_selection
+    - threshold_design
+
+  final_detection_access:
+    only_after_primary_configuration_is_frozen: true
+
+    checkpoints:
+      all_three_selected_resolution_seed_checkpoints
+
+    thresholds:
+      each_checkpoint_uses_its_own_dev_derived_threshold
