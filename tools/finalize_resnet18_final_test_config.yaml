@@ -1,0 +1,65 @@
+schema_version: 1
+
+scientific_config:
+  path: configs/experiments/resnet18_gradcam.yaml
+  sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+
+evaluation_protocol:
+  path: configs/evaluation/resnet18_final_detection.yaml
+  sha256: fc3c093baf702dc0582bea13f33e420867675d4c7e0fb13e36bc27c322db7072
+
+final_evaluation_audit:
+  path: logs/audit_resnet18_final_evaluation_sush-AMD_2026-09-10_171630_409418Z.yaml
+  sha256: e0721d4423c1520b6a8b4e00cb2415dda192b9470678111e0593eae474969a04
+
+canonical_test_manifest:
+  metadata:
+    path: output/final_detection/test_manifest/fantasyid_held_out_test_manifest.yaml
+    sha256: c7872e891a78d2fdaadc6666a76191b95e58c0719e2589cadecabd21bde93370
+
+  csv:
+    path: output/final_detection/test_manifest/fantasyid_held_out_test_manifest.csv
+    sha256: 6d12b214cabac31a22d883cc8db661c670719ad90dccb9d6cb0d243b1fa4aea4
+
+seeds:
+  8:
+    expected_machine: IMTA134
+
+    result:
+      path: output/final_detection/test_results/resnet18_r512_seed8_test_results.yaml
+      sha256: f2d08e7434f2e2fa09c87811d864d6351744d077d78f8ffde8d21d101e757da0
+
+    predictions:
+      path: output/final_detection/test_predictions/resnet18_r512_seed8_test_predictions.csv
+      sha256: a38517372774e9fe8d4a3aa8a9d554bb03b064345d8e2120b8c0408d0811eca1
+
+  9:
+    expected_machine: sush-AMD
+
+    result:
+      path: output/final_detection/test_results/resnet18_r512_seed9_test_results.yaml
+      sha256: 04026d307bc720c85bcffe75fad3860b81466fc9a5e44d8eb03b932a7276c7cc
+
+    predictions:
+      path: output/final_detection/test_predictions/resnet18_r512_seed9_test_predictions.csv
+      sha256: ac1913abbe912637013172e3021b42f642eba31ae0c0b1447797c63bb302562b
+
+  10:
+    expected_machine: IMTA134
+
+    result:
+      path: output/final_detection/test_results/resnet18_r512_seed10_test_results.yaml
+      sha256: 3f0ad01b0dd94bc5fdf1ccdd483afe0b9140dcbc63bfa3a1944e7759c98ad11e
+
+    predictions:
+      path: output/final_detection/test_predictions/resnet18_r512_seed10_test_predictions.csv
+      sha256: 24dc38d3f65ec7f652b1956d631c70afaf16407908de16ff4601d7d40e47f5c0
+
+output:
+  directory: output/final_detection/final_summary
+  filename: resnet18_r512_three_seed_final_test_{timestamp}.yaml
+
+logging:
+  directory: logs
+  filename: finalize_resnet18_final_test_{timestamp}.log
+  level: INFO
