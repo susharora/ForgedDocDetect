@@ -1,0 +1,79 @@
+schema_version: 1
+run:
+  run_id: 20260910T003313_491547Z_resnet18_lr_screen_r256_seed8_sush-AMD_bcdd3cd0
+  created_at_utc: '2026-09-10T00:33:13.491547+00:00'
+  workflow: resolution_lr_screening
+  status: failed
+  resolution_name: r256
+  run_seed: 8
+  started_at_utc: '2026-09-10T00:33:13.493450+00:00'
+  failed_at_utc: '2026-09-10T00:33:13.495103+00:00'
+git:
+  commit_sha: bcdd3cd080b53c47000e8c6633bce737c02183b7
+  branch: main
+  working_tree_clean_at_run_start: true
+scientific_config:
+  source_path: /home/sush/ForgedDocDetect/configs/experiments/resnet18_gradcam.yaml
+  snapshot: experiment_config.yaml
+  sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+  protocol_status: frozen
+validator:
+  path: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-10_003313_419385Z.log
+  sha256: 2f7210e64a8d88f8ec6096d443458e9170def7b1ab986e89a656cf43b156f599
+machine:
+  id: sush-AMD
+  hostname: sush-AMD
+  configured_device: cuda
+  num_workers: 8
+  dataset_root: /home/sush/ForgedDocDetect/data/FantasyID
+  runs_root: /home/sush/ForgedDocDetect/runs
+runtime:
+  python:
+    version: 3.11.15
+    executable: /home/sush/miniforge3/envs/idxai/bin/python
+  packages:
+    torch: 2.11.0+cu128
+    torchvision: 0.26.0+cu128
+  cuda:
+    available: true
+    torch_cuda_version: '12.8'
+    cudnn_version: 91900
+  configured_device: cuda
+  selected_gpu:
+    index: 0
+    name: NVIDIA GeForce RTX 5090
+    total_memory_bytes: 33647230976
+    total_memory_gib: 31.33642578125
+    compute_capability: '12.0'
+production_source_sha256:
+  src/data.py: b9cb486b2a5d2938cfe8d838802c2416cca85fedffe882682ff1c8efd3f742f2
+  src/dataloading.py: 8573b046523e0533be169a2be5674e8a47437c34151cdf062d929e674df7ad0d
+  src/reproducibility.py: 33bbb093c3bbb16379f0d27e72fa5b0c80a2b14d699b8f16d62d1d0ef5ef8608
+  src/modeling.py: b3cb73aa3d33d7938fe7a0e6b751721cddb049f8d6cddebc54181b9abbaf3d63
+  src/objective.py: b4f307081bfb88736e419ee5c2152c1f1ed0fcff6241196b07463b48b9323755
+  src/optimization.py: b8f713f48447f79700552cbeca2a1b7fa4d3ec77e28fa9f968cf929fa386298e
+  src/engine.py: d4a48dfc50d9a242f4a0b75b9fd3d867b9f9736ccbd2f195e45be51aca6d42d5
+  src/training_control.py: 2801d00601f737ca133b8e5621966fb642f8d7f46ac627dee58aedb1d546d749
+  src/development_metrics.py: cee65d2fc5c9dc448dd3d1296811525978b01d5f39039c11bcb9fe620884fc3f
+  src/stage_b_branching.py: fb3fc4a5ba383644a39da571d5100b2d9d84508a4ffeaeea2029cb2edf5050c9
+  src/stage_runner.py: 1871349d18b1ea346551bef58ede2fcabc0292dcdd9dcc4afc8cde9848bac5be
+  src/lr_screening.py: 59199c5225ddfeef89ae0086c8df32226d55714a17012b1cb01eac610d707790
+  src/screening_artifacts.py: 3976ab1c4a63e48b2650b059ee8d076312df63ee323c777b9dd3aedee4ae4db0
+frozen_data:
+  project_train_manifest_sha256: 6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+  dev_val_manifest_sha256: 46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+  held_out_test_accessed: false
+artifacts:
+  screening_log: logs/lr_screening.log
+  screening_summary: null
+  artifact_manifest: null
+  selected_checkpoint: null
+timing:
+  screening_seconds: null
+  persistence_seconds: null
+  total_completed_training_epochs: null
+  mean_seconds_per_completed_epoch: null
+failure:
+  exception_type: RuntimeError
+  message: "CUDA was already initialized before the frozen CUBLAS_WORKSPACE_CONFIG\
+    \ was established:\n  expected=':4096:8'\n  existing=None"
