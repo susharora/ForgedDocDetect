@@ -1,0 +1,49 @@
+schema_version: 1
+status: PASS
+machine:
+  id: sush-AMD
+provenance:
+  git_commit: 0d5c04eda8470b5e0644bfbde795d05d790d3173
+  experiment_config_sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+  entrypoint_sha256: d50897ce40d98c1aaf8c0f283d5221eda3955bcb93330614e19aa9b94ba8456c
+  stage_runner_sha256: 1871349d18b1ea346551bef58ede2fcabc0292dcdd9dcc4afc8cde9848bac5be
+  lr_screening_sha256: 59199c5225ddfeef89ae0086c8df32226d55714a17012b1cb01eac610d707790
+  audit_script_sha256: 41207aae661bba7f990e9b718bb0b1915b3c47d8bcd8a230bc2ec8a878449d57
+  audit_config_sha256: d6d827dadadd2a35e29ecd08c962d5f0fd582da676a501843d00c759f434eca6
+scope:
+  synthetic_only: true
+  fantasyid_dataset_constructed: false
+  images_decoded: false
+  model_constructed: false
+  cuda_computation_performed: false
+  scientific_training_performed: false
+  fpr10_threshold_derived: false
+  held_out_test_accessed: false
+success_lifecycle:
+  status_sequence:
+  - initialized
+  - running
+  - completed
+  screening_calls: 1
+  persistence_calls: 1
+  total_completed_training_epochs: 21
+  selected_backbone_lr: 0.0001
+  held_out_test_accessed: false
+  scientific_log_created: true
+  config_snapshot_created: true
+failure_lifecycle:
+  status_sequence:
+  - initialized
+  - running
+  - failed
+  return_code: 1
+  persistence_calls: 0
+  failure_type: RuntimeError
+  failure_message: synthetic screening execution failure
+  failed_run_retained: true
+  held_out_test_accessed: false
+interpretation: PASS establishes the real LR-screening command's run lifecycle and
+  final handoff glue without scientific training. Successful execution records initialized
+  -> running -> completed, propagates selection/checkpoint/timing evidence and persists
+  held-out-test non-access. Synthetic scientific failure records initialized -> running
+  -> failed, retains the run directory/log and does not invoke persistence.

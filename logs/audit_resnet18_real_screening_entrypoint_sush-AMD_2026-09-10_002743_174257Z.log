@@ -1,0 +1,39 @@
+2026-09-10T00:27:43Z | INFO | ========================================================================
+2026-09-10T00:27:43Z | INFO | RESNET-18 REAL SCREENING ENTRY-POINT SYNTHETIC AUDIT
+2026-09-10T00:27:43Z | INFO | ========================================================================
+2026-09-10T00:27:43Z | INFO | Git commit: 0d5c04eda8470b5e0644bfbde795d05d790d3173
+2026-09-10T00:27:43Z | INFO | Machine ID: sush-AMD
+2026-09-10T00:27:43Z | INFO | Entry-point SHA-256: d50897ce40d98c1aaf8c0f283d5221eda3955bcb93330614e19aa9b94ba8456c
+2026-09-10T00:27:43Z | INFO | stage_runner.py SHA-256: 1871349d18b1ea346551bef58ede2fcabc0292dcdd9dcc4afc8cde9848bac5be
+2026-09-10T00:27:43Z | INFO | lr_screening.py SHA-256: 59199c5225ddfeef89ae0086c8df32226d55714a17012b1cb01eac610d707790
+2026-09-10T00:27:43Z | INFO | Experiment config SHA-256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-10T00:27:43Z | INFO | Scientific training: NONE
+2026-09-10T00:27:43Z | INFO | FantasyID data/images: NOT ACCESSED
+2026-09-10T00:27:43Z | INFO | CUDA computation: NONE
+2026-09-10T00:27:43Z | INFO | Held-out test: NOT ACCESSED
+2026-09-10T00:27:43Z | INFO | [PASS] success lifecycle initialized -> running -> completed
+2026-09-10T00:27:43Z | INFO | [PASS] screening called exactly once
+2026-09-10T00:27:43Z | INFO | [PASS] persistence called exactly once
+2026-09-10T00:27:43Z | INFO | [PASS] result/checkpoint identity propagated into run.yaml
+2026-09-10T00:27:43Z | INFO | [PASS] run timing fields populated
+2026-09-10T00:27:43Z | INFO | [PASS] failure lifecycle initialized -> running -> failed
+2026-09-10T00:27:43Z | INFO | [PASS] failed run directory and scientific log retained
+2026-09-10T00:27:43Z | INFO | [PASS] persistence not called after screening failure
+2026-09-10T00:27:43Z | INFO | 
+2026-09-10T00:27:43Z | INFO | ========================================================================
+2026-09-10T00:27:43Z | INFO | AUDIT SUMMARY
+2026-09-10T00:27:43Z | INFO | ========================================================================
+2026-09-10T00:27:43Z | INFO | [PASS] success lifecycle initialized -> running -> completed
+2026-09-10T00:27:43Z | INFO | [PASS] screening invoked once
+2026-09-10T00:27:43Z | INFO | [PASS] persistence invoked once
+2026-09-10T00:27:43Z | INFO | [PASS] selected LR/checkpoint propagated
+2026-09-10T00:27:43Z | INFO | [PASS] timing fields populated
+2026-09-10T00:27:43Z | INFO | [PASS] failure lifecycle initialized -> running -> failed
+2026-09-10T00:27:43Z | INFO | [PASS] failed run/log retained
+2026-09-10T00:27:43Z | INFO | [PASS] persistence skipped after scientific failure
+2026-09-10T00:27:43Z | INFO | [PASS] held-out test NOT ACCESSED
+2026-09-10T00:27:43Z | INFO | Audit result: /home/sush/ForgedDocDetect/logs/audit_resnet18_real_screening_entrypoint_sush-AMD_2026-09-10_002743_174257Z.yaml
+2026-09-10T00:27:43Z | INFO | Audit result SHA-256: 390502388195e68f1f39d7608044fa6cc7f721222c8587a4e75888edce40f9f8
+2026-09-10T00:27:43Z | INFO | ========================================================================
+2026-09-10T00:27:43Z | INFO | REAL SCREENING ENTRY-POINT SYNTHETIC AUDIT: PASS
+2026-09-10T00:27:43Z | INFO | ========================================================================
