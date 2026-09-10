@@ -1,0 +1,92 @@
+schema_version: 1
+run:
+  run_id: 20260910T005651_789477Z_resnet18_lr_screen_r256_seed8_sush-AMD_745f47f3
+  created_at_utc: '2026-09-10T00:56:51.789477+00:00'
+  workflow: resolution_lr_screening
+  status: completed
+  resolution_name: r256
+  run_seed: 8
+  started_at_utc: '2026-09-10T00:56:51.791529+00:00'
+  completed_at_utc: '2026-09-10T01:19:06.729464+00:00'
+git:
+  commit_sha: 745f47f3fccf43694e9cf3478a261f2fd902cac9
+  branch: main
+  working_tree_clean_at_run_start: true
+scientific_config:
+  source_path: /home/sush/ForgedDocDetect/configs/experiments/resnet18_gradcam.yaml
+  snapshot: experiment_config.yaml
+  sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+  protocol_status: frozen
+validator:
+  path: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-10_005651_713310Z.log
+  sha256: 87c6569ffa05b42acfaf042ed2c3398aa64bdb85537ecf4d2fb51259f44af028
+machine:
+  id: sush-AMD
+  hostname: sush-AMD
+  configured_device: cuda
+  num_workers: 8
+  dataset_root: /home/sush/ForgedDocDetect/data/FantasyID
+  runs_root: /home/sush/ForgedDocDetect/runs
+runtime:
+  python:
+    version: 3.11.15
+    executable: /home/sush/miniforge3/envs/idxai/bin/python
+  packages:
+    torch: 2.11.0+cu128
+    torchvision: 0.26.0+cu128
+  cuda:
+    available: true
+    torch_cuda_version: '12.8'
+    cudnn_version: 91900
+  configured_device: cuda
+  selected_gpu:
+    index: 0
+    name: NVIDIA GeForce RTX 5090
+    total_memory_bytes: 33647230976
+    total_memory_gib: 31.33642578125
+    compute_capability: '12.0'
+  cublas_workspace_config: :4096:8
+production_source_sha256:
+  src/data.py: b9cb486b2a5d2938cfe8d838802c2416cca85fedffe882682ff1c8efd3f742f2
+  src/dataloading.py: 8573b046523e0533be169a2be5674e8a47437c34151cdf062d929e674df7ad0d
+  src/reproducibility.py: 1710e6201c78ba7110a0fae6206cb2ac1ed1103634bee0e7e274842a482e8617
+  src/modeling.py: b3cb73aa3d33d7938fe7a0e6b751721cddb049f8d6cddebc54181b9abbaf3d63
+  src/objective.py: b4f307081bfb88736e419ee5c2152c1f1ed0fcff6241196b07463b48b9323755
+  src/optimization.py: b8f713f48447f79700552cbeca2a1b7fa4d3ec77e28fa9f968cf929fa386298e
+  src/engine.py: d4a48dfc50d9a242f4a0b75b9fd3d867b9f9736ccbd2f195e45be51aca6d42d5
+  src/training_control.py: 2801d00601f737ca133b8e5621966fb642f8d7f46ac627dee58aedb1d546d749
+  src/development_metrics.py: cee65d2fc5c9dc448dd3d1296811525978b01d5f39039c11bcb9fe620884fc3f
+  src/stage_b_branching.py: fb3fc4a5ba383644a39da571d5100b2d9d84508a4ffeaeea2029cb2edf5050c9
+  src/stage_runner.py: 1871349d18b1ea346551bef58ede2fcabc0292dcdd9dcc4afc8cde9848bac5be
+  src/lr_screening.py: 59199c5225ddfeef89ae0086c8df32226d55714a17012b1cb01eac610d707790
+  src/screening_artifacts.py: 3976ab1c4a63e48b2650b059ee8d076312df63ee323c777b9dd3aedee4ae4db0
+frozen_data:
+  project_train_manifest_sha256: 6307b1516f0e8a6db661077fedad704bbd13f6242c9795ca11310ac86d650cc8
+  dev_val_manifest_sha256: 46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+  held_out_test_accessed: false
+artifacts:
+  screening_log: logs/lr_screening.log
+  screening_summary:
+    path: metrics/lr_screening_summary.yaml
+    sha256: 62b3b68b9c06de82ff54bbfdb90f5fc312d24d821338997579304519994fe87c
+  artifact_manifest:
+    path: manifests/lr_screening_artifacts.yaml
+    sha256: 9da62c9eaf55387acfd7b71a372e6e7c23a3df22720f72e81e33d6a7a8f825f9
+  selected_checkpoint:
+    path: checkpoints/stage_b_lr_3e-04_raw_best.pt
+    file_sha256: e7d01ee95689c0c6e6ce517891b7451ea000bfa06c283d153f0801915072ab7c
+    model_state_sha256: f8f385c3aade0081b96e9bc3751f2b3dc55e9a798a64a22cdadbb121e7c26916
+    backbone_lr: 0.0003
+    checkpoint_epoch: 5
+    weighted_dev_loss: 0.08407829264323703
+timing:
+  screening_seconds: 1334.469739921973
+  persistence_seconds: 0.4667552550090477
+  total_completed_training_epochs: 44
+  mean_seconds_per_completed_epoch: 30.32885772549939
+result:
+  selected_backbone_lr: 0.0003
+  selected_raw_best_weighted_dev_loss: 0.08407829264323703
+  selected_stage_b_checkpoint_model_state_sha256: f8f385c3aade0081b96e9bc3751f2b3dc55e9a798a64a22cdadbb121e7c26916
+  exact_loss_tie_encountered: false
+  protocol_review_required: false
