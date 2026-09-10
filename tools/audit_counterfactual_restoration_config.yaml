@@ -1,0 +1,32 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_counterfactual_restoration_{timestamp}.log
+  level: INFO
+
+output:
+  directory: logs
+  filename: audit_counterfactual_restoration_{timestamp}.csv
+
+audit:
+  # During the exhaustive probe we allow every same-field match through
+  # so that weak cases are measured rather than causing an early abort.
+  probe_minimum_normalized_iou: 0.0
+
+  # After all 306 dev attacks have been inspected, this is the current
+  # acceptance floor for trusting the geometric correspondence.
+  acceptance_minimum_normalized_iou: 0.25
+
+  # Local visual evidence only; existing runs/*/diagnostics policy
+  # keeps these images out of Git.
+  visual_root: runs/counterfactual_restoration_audit/diagnostics
+
+  # Deterministic normal examples:
+  # one per attack-variant x capture-hardware combination.
+  samples_per_variant_hardware: 1
+
+  # Also render the globally weakest geometric cases.
+  weakest_examples: 4
+
+  weakest_matches_to_log: 10
