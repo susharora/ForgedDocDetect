@@ -1,0 +1,163 @@
+schema_version: 1
+artifact_type: resnet18_final_held_out_test_result
+status: FINAL_HELD_OUT_TEST_EVALUATION_COMPLETE
+created_at_utc: '2026-09-10T21:01:19.052166+00:00'
+first_official_test_file_access_utc: '2026-09-10T21:00:57.816735+00:00'
+git:
+  commit_sha: 1972180b1cbb12d4ecd1706f52f394f2f729e0b6
+  branch: main
+machine:
+  id: IMTA134
+  device: cuda
+validator:
+  path: logs/validate_experiment_config_2026-09-10_210056_520391Z.log
+  sha256: 702fb4a3a0beeb678ab7b665e516173e8ee73dd1e217a66af5b22b4322ec1473
+scientific_config:
+  path: configs/experiments/resnet18_gradcam.yaml
+  sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+evaluation_protocol:
+  path: configs/evaluation/resnet18_final_detection.yaml
+  sha256: fc3c093baf702dc0582bea13f33e420867675d4c7e0fb13e36bc27c322db7072
+final_evaluation_primitive_audit:
+  path: logs/audit_resnet18_final_evaluation_sush-AMD_2026-09-10_171630_409418Z.yaml
+  sha256: e0721d4423c1520b6a8b4e00cb2415dda192b9470678111e0593eae474969a04
+  status: PASS
+held_out_test:
+  manifest_metadata_path: output/final_detection/test_manifest/fantasyid_held_out_test_manifest.yaml
+  manifest_metadata_sha256: c7872e891a78d2fdaadc6666a76191b95e58c0719e2589cadecabd21bde93370
+  manifest_path: output/final_detection/test_manifest/fantasyid_held_out_test_manifest.csv
+  manifest_sha256: 6d12b214cabac31a22d883cc8db661c670719ad90dccb9d6cb0d243b1fa4aea4
+  sample_count: 1385
+  bonafide_count: 300
+  attack_count: 1085
+  resolution: r512
+checkpoint:
+  seed: 10
+  source_machine: IMTA134
+  run_id: 20260910T023206_310000Z_resnet18_stability_r512_seed10_IMTA134_371add4c
+  epoch: 8
+  file_sha256: 6e826bdb5f710ea3f4f914ea3c93095340669027fb1c9aa73ce9420a09b283dd
+  model_state_sha256: 704ada7d024c8ef446501d9f06938d29ba1409707883ef62996f3691b13daaa7
+thresholds:
+  fixed_0_5:
+    threshold: 0.5
+    source: a_priori
+    modified_on_test: false
+  controlled_fpr10:
+    threshold: 0.0017376946781355158
+    source: frozen_dev_val_bonafide_only
+    threshold_artifact_path: output/final_detection/dev_thresholds/resnet18_r512_seed10_fpr10.yaml
+    threshold_artifact_sha256: 57053c99a4ff5652c3488df1a7ea4e913084c1d7464282fe7c615fafec5e5b8e
+    derived_from_test: false
+    modified_on_test: false
+metrics:
+  sample_count: 1385
+  bonafide_count: 300
+  attack_count: 1085
+  auroc: 0.26928725038402457
+  auroc_positive_negative_pair_count: 325500
+  auroc_strict_attack_wins: 87653
+  auroc_tied_pairs: 0
+  auroc_score_definition: attack_logit_minus_bonafide_logit
+  fixed_0_5:
+    name: fixed_0_5
+    threshold: 0.5
+    sample_count: 1385
+    bonafide_support: 300
+    attack_support: 1085
+    true_positive: 176
+    false_positive: 48
+    true_negative: 252
+    false_negative: 909
+    accuracy: 0.30902527075812275
+    support_weighted_f1: 0.2853830076793837
+    bonafide:
+      support: 300
+      precision: 0.21705426356589147
+      recall: 0.84
+      f1: 0.3449691991786447
+    attack:
+      support: 1085
+      precision: 0.7857142857142857
+      recall: 0.1622119815668203
+      f1: 0.26890756302521013
+    true_positive_rate: 0.1622119815668203
+    true_negative_rate: 0.84
+    false_positive_rate: 0.16
+    false_negative_rate: 0.8377880184331797
+    half_total_error_rate: 0.4988940092165899
+    balanced_accuracy: 0.5011059907834101
+    apcer: 0.8377880184331797
+    bpcer: 0.16
+    matthews_correlation_coefficient: 0.0024746676493188906
+  controlled_fpr10:
+    name: controlled_fpr10
+    threshold: 0.0017376946781355158
+    sample_count: 1385
+    bonafide_support: 300
+    attack_support: 1085
+    true_positive: 385
+    false_positive: 237
+    true_negative: 63
+    false_negative: 700
+    accuracy: 0.3234657039711191
+    support_weighted_f1: 0.3790509963716556
+    bonafide:
+      support: 300
+      precision: 0.08256880733944955
+      recall: 0.21
+      f1: 0.1185324553151458
+    attack:
+      support: 1085
+      precision: 0.6189710610932476
+      recall: 0.3548387096774194
+      f1: 0.4510837727006444
+    true_positive_rate: 0.3548387096774194
+    true_negative_rate: 0.21
+    false_positive_rate: 0.79
+    false_negative_rate: 0.6451612903225806
+    half_total_error_rate: 0.7175806451612903
+    balanced_accuracy: 0.28241935483870967
+    apcer: 0.6451612903225806
+    bpcer: 0.79
+    matthews_correlation_coefficient: -0.36038631489371886
+predictions:
+  path: output/final_detection/test_predictions/resnet18_r512_seed10_test_predictions.csv
+  sha256: 24dc38d3f65ec7f652b1956d631c70afaf16407908de16ff4601d7d40e47f5c0
+  rows: 1385
+  manifest_order_preserved: true
+  all_file_sha256_verified: true
+runtime:
+  warmup_batches: 0
+  batch_size: 32
+  num_workers: 16
+  evaluation_loop_seconds: 21.187869952002075
+  gpu_forward_only_seconds: 2.548120044708252
+  gpu_forward_batch_count: 44
+  end_to_end_images_per_second: 65.3675901889859
+  gpu_forward_only_images_per_second: 543.5379714061219
+  peak_cuda_memory_allocated_bytes: 2061176832
+  peak_cuda_memory_reserved_bytes: 2956984320
+reproducibility:
+  run_seed: 10
+  cublas_workspace_config: :4096:8
+  deterministic_algorithms: true
+  cudnn_benchmark: false
+  cudnn_deterministic: true
+  allow_tf32_matmul: false
+  allow_tf32_cudnn: false
+model:
+  architecture: resnet18
+  pretrained_weights_enum: IMAGENET1K_V1
+  pretrained_checkpoint_sha256: f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+scientific_boundaries:
+  held_out_test_accessed: true
+  all_test_images_accessed: true
+  all_test_image_hashes_verified: true
+  training_performed: false
+  checkpoint_selection_performed: false
+  learning_rate_selection_performed: false
+  resolution_selection_performed: false
+  threshold_derivation_from_test: false
+  threshold_modification_on_test: false
+  best_test_seed_selection_performed: false
