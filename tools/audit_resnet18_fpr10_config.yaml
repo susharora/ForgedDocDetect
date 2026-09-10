@@ -1,0 +1,36 @@
+schema_version: 1
+
+experiment:
+
+  config:
+    configs/experiments/resnet18_gradcam.yaml
+
+  machine_config:
+    configs/local.yaml
+
+
+evaluation:
+
+  protocol:
+    configs/evaluation/resnet18_final_detection.yaml
+
+
+logging:
+
+  directory:
+    logs
+
+  filename:
+    audit_resnet18_fpr10_{machine_id}_{timestamp}.log
+
+  level:
+    INFO
+
+
+output:
+
+  directory:
+    logs
+
+  filename:
+    audit_resnet18_fpr10_{machine_id}_{timestamp}.yaml

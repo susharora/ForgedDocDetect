@@ -1,0 +1,320 @@
+schema_version: 1
+
+artifact_type: resnet18_final_detection_protocol
+status: frozen_before_held_out_test_access
+
+
+# ======================================================================
+# Frozen upstream evidence
+# ======================================================================
+
+upstream:
+
+  training_config:
+    path: configs/experiments/resnet18_gradcam.yaml
+    sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+
+  resolution_selection:
+    path: output/model_selection/resnet18_resolution_selection_2026-09-10_133648_325769Z.yaml
+    sha256: 9a4358e48bc665d29487eede4073bba701357c3df1cdcf33d72f383a1c702037
+
+
+# ======================================================================
+# Selected final classifier configuration
+# ======================================================================
+
+selected_configuration:
+
+  resolution: r512
+  backbone_learning_rate: 0.0001
+
+  seeds:
+    - 8
+    - 9
+    - 10
+
+  evaluate_all_three_seed_checkpoints: true
+  best_test_seed_selection_permitted: false
+
+
+# ======================================================================
+# Semantic / numerical class contract
+# ======================================================================
+
+class_contract:
+
+  semantic_source_field: traffic_type
+
+  index_by_name:
+    bonafide: 0
+    attack: 1
+
+  positive_class: attack
+  positive_class_index: 1
+
+  confusion_semantics:
+    true_positive: attack_predicted_attack
+    false_negative: attack_predicted_bonafide
+    false_positive: bonafide_predicted_attack
+    true_negative: bonafide_predicted_bonafide
+
+
+# ======================================================================
+# Score representation
+# ======================================================================
+
+score:
+
+  source:
+    representation: two_class_logits
+    stored_dtype: float32
+
+  columns:
+    0: bonafide
+    1: attack
+
+  threshold_decisions:
+
+    representation: attack_softmax_probability
+
+    definition:
+      "p_attack = softmax(float64([z0, z1]))[1]"
+
+    computation_dtype: float64
+
+    direction:
+      higher_means_more_attack_evidence
+
+    finite_required: true
+
+  threshold_independent_ranking:
+
+    authoritative_development_score:
+      "z1 - z0"
+
+    attack_increasing: true
+
+    relationship_to_p_attack:
+      exactly_same_ranking_for_two_class_softmax
+
+
+# ======================================================================
+# Operating point A: fixed untuned 0.5
+# ======================================================================
+
+operating_points:
+
+  fixed_0_5:
+
+    threshold: 0.5
+
+    threshold_source:
+      fixed_a_priori
+
+    prediction_rule:
+      "attack iff p_attack >= 0.5"
+
+    equality_at_threshold:
+      attack
+
+    tuned_on_dev: false
+    tuned_on_test: false
+
+    required_metrics:
+      - confusion_matrix
+      - support_weighted_f1
+      - attack_class_f1
+      - balanced_accuracy
+      - false_positive_rate
+      - false_negative_rate
+      - half_total_error_rate
+
+    pad_style_equivalents:
+
+      terminology:
+        pad_style_reporting_equivalents_under_binary_attack_positive_convention
+
+      apcer:
+        "FN / number_of_attack"
+
+      bpcer:
+        "FP / number_of_bonafide"
+
+      equivalence:
+        APCER_equals_FNR_and_BPCER_equals_FPR
+
+    metric_definitions:
+
+      false_positive_rate:
+        "FP / number_of_bonafide"
+
+      false_negative_rate:
+        "FN / number_of_attack"
+
+      half_total_error_rate:
+        "(FPR + FNR) / 2"
+
+      balanced_accuracy:
+        "0.5 * (TPR + TNR)"
+
+      relationship:
+        "balanced_accuracy = 1 - HTER"
+
+      support_weighted_f1:
+        class_f1_weighted_by_true_sample_support_not_training_class_weights
+
+
+  # ====================================================================
+  # Operating point B: controlled empirical dev FPR
+  # ====================================================================
+
+  controlled_fpr10:
+
+    threshold_name:
+      threshold_FPR10
+
+    threshold_source_partition:
+      dev_val
+
+    threshold_selection_population:
+      complete_frozen_dev_val_bonafide_subset_only
+
+    expected_dev_bonafide_count: 153
+
+    attack_scores_participate_in_threshold_selection: false
+
+    target_empirical_false_positive_rate: 0.10
+
+    allowed_false_positive_count_rule:
+      "K = floor(target_fpr * number_of_dev_bonafide)"
+
+    expected_allowed_false_positive_count: 15
+
+    maximum_expected_empirical_dev_fpr:
+      "15 / 153"
+
+    score_order:
+      descending
+
+    ordered_score_definition:
+      "b1 >= b2 >= ... >= bN"
+
+    first_disallowed_rank_rule:
+      "K + 1"
+
+    expected_first_disallowed_rank: 16
+
+    boundary_score_definition:
+      "boundary_score = b_(K+1)"
+
+    threshold_rule:
+      "threshold_FPR10 = nextafter(boundary_score, +infinity)"
+
+    threshold_dtype: float64
+
+    prediction_rule:
+      "attack iff p_attack >= threshold_FPR10"
+
+    interpolation: false
+    randomized_tie_handling: false
+
+    boundary_tie_policy:
+      exclude_entire_boundary_tie_group_from_attack_side
+
+    threshold_clamping_to_probability_range: false
+
+    rationale_for_no_clamping:
+      nextafter_of_1_may_be_above_1_and_must_remain_so_to_preserve_strict_boundary_exclusion
+
+    achieved_dev_false_positive_count_must_be_recorded: true
+    achieved_dev_false_positive_rate_must_be_recorded: true
+
+    achieved_dev_false_positive_rate_requirement:
+      less_than_or_equal_to_target
+
+    report_same_threshold_dependent_metrics_as_fixed_0_5: true
+
+
+# ======================================================================
+# Threshold-independent evaluation
+# ======================================================================
+
+threshold_independent_metrics:
+
+  auroc:
+
+    enabled: true
+
+    positive_class: attack
+
+    score:
+      "z1 - z0"
+
+    threshold_required: false
+
+    development_role:
+      diagnostic_only
+
+    participates_in_checkpoint_selection: false
+
+
+# ======================================================================
+# Separation of training / ranking / operating metrics
+# ======================================================================
+
+metric_role_separation:
+
+  training_and_checkpoint_selection:
+    class_weighted_cross_entropy
+
+  threshold_independent_discrimination:
+    auroc
+
+  threshold_dependent_operating_performance:
+    - fixed_0_5
+    - controlled_fpr10
+
+  operating_threshold_participates_in:
+    training: false
+    early_stopping: false
+    learning_rate_selection: false
+    resolution_selection: false
+    checkpoint_selection: false
+    seed_selection: false
+
+
+# ======================================================================
+# Held-out test protection
+# ======================================================================
+
+held_out_test:
+
+  threshold_derivation_from_test: false
+  threshold_reselection_on_test: false
+  threshold_modification_after_test_access: false
+
+  inspect_test_attack_scores_before_fpr10_derivation: false
+
+  fixed_0_5:
+    threshold: 0.5
+    apply_unchanged: true
+
+  controlled_fpr10:
+    source: dev_val
+    apply_dev_derived_threshold_unchanged: true
+
+  best_seed_selection_on_test: false
+
+
+# ======================================================================
+# Later robustness / adversarial evaluation
+# ======================================================================
+
+robustness_evaluation:
+
+  reuse_clean_data_thresholds: true
+
+  retune_threshold_by_attack_method: false
+  retune_threshold_by_perturbation_strength: false
+  retune_threshold_by_corrupted_dataset: false
+  retune_threshold_by_adversarial_dataset: false
