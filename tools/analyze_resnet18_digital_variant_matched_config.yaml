@@ -1,0 +1,19 @@
+schema_version: 1
+
+frozen_final_summary:
+  path: output/final_detection/final_summary/resnet18_r512_three_seed_final_test_2026-09-10_210827_141262Z.yaml
+  sha256: f80dcc445490aa935ce958e61afe41c67e2c761c90902b833227daf7de249d27
+
+completed_subgroup_diagnostic:
+  path: output/final_detection/posthoc_diagnostics/resnet18_test_subgroup_diagnostic_2026-09-10_214235_486473Z.yaml
+  sha256: 8899756330d7d818099c540dc3d9672d21d310b0b87203022af261bd54ae7baa
+
+output:
+  directory: output/final_detection/posthoc_diagnostics
+  csv_filename: resnet18_digital_variant_matched_control_{timestamp}.csv
+  yaml_filename: resnet18_digital_variant_matched_control_{timestamp}.yaml
+
+logging:
+  directory: logs
+  filename: analyze_resnet18_digital_variant_matched_{timestamp}.log
+  level: INFO
