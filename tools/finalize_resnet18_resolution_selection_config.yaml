@@ -1,0 +1,32 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: finalize_resnet18_resolution_selection_{timestamp}.log
+  level: INFO
+
+output:
+  directory: output/model_selection
+  filename: resnet18_resolution_selection_{timestamp}.yaml
+
+sources:
+
+  r256:
+    8:
+      run_yaml: runs/20260910T005651_789477Z_resnet18_lr_screen_r256_seed8_sush-AMD_745f47f3/run.yaml
+
+    9:
+      run_yaml: runs/20260910T022231_091335Z_resnet18_stability_r256_seed9_sush-AMD_371add4c/run.yaml
+
+    10:
+      run_yaml: runs/20260910T022404_823587Z_resnet18_stability_r256_seed10_IMTA134_371add4c/run.yaml
+
+  r512:
+    8:
+      run_yaml: runs/20260910T005713_188852Z_resnet18_lr_screen_r512_seed8_IMTA134_745f47f3/run.yaml
+
+    9:
+      run_yaml: runs/20260910T023135_616872Z_resnet18_stability_r512_seed9_sush-AMD_371add4c/run.yaml
+
+    10:
+      run_yaml: runs/20260910T023206_310000Z_resnet18_stability_r512_seed10_IMTA134_371add4c/run.yaml
