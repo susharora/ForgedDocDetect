@@ -1,0 +1,62 @@
+2026-09-10T21:00:56Z | INFO | ========================================================================
+2026-09-10T21:00:56Z | INFO | RESNET-18 FINAL HELD-OUT TEST
+2026-09-10T21:00:56Z | INFO | ========================================================================
+2026-09-10T21:00:56Z | INFO | Git commit: 1972180b1cbb12d4ecd1706f52f394f2f729e0b6
+2026-09-10T21:00:56Z | INFO | Git branch: main
+2026-09-10T21:00:56Z | INFO | Machine: IMTA134
+2026-09-10T21:00:56Z | INFO | Seed: 10
+2026-09-10T21:00:56Z | INFO | [PASS] pre-CUDA CUBLAS_WORKSPACE_CONFIG = :4096:8
+2026-09-10T21:00:56Z | INFO | [PASS] canonical experiment validator | sha256=702fb4a3a0beeb678ab7b665e516173e8ee73dd1e217a66af5b22b4322ec1473
+2026-09-10T21:00:56Z | INFO | [PASS] final evaluation contract loaded
+2026-09-10T21:00:56Z | INFO | [PASS] native labels = bonafide 0 / attack 1
+2026-09-10T21:00:56Z | INFO | [PASS] fixed operating threshold = 0.5
+2026-09-10T21:00:56Z | INFO | [PASS] canonical test manifest = 1385 images
+2026-09-10T21:00:56Z | INFO | [PASS] all three dev thresholds predate test access
+2026-09-10T21:00:56Z | INFO | Frozen threshold seed8 = 0.0088515772274826102
+2026-09-10T21:00:56Z | INFO | Frozen threshold seed9 = 0.028540367027646577
+2026-09-10T21:00:56Z | INFO | Frozen threshold seed10 = 0.0017376946781355158
+2026-09-10T21:00:56Z | INFO | [PASS] final-evaluation primitive audit | sha256=e0721d4423c1520b6a8b4e00cb2415dda192b9470678111e0593eae474969a04
+2026-09-10T21:00:56Z | INFO | [PASS] PRE-ACCESS population = 1385 = 300 bona-fide + 1085 attack
+2026-09-10T21:00:56Z | INFO | [PASS] seed 10 frozen FPR10 threshold = 0.0017376946781355158
+2026-09-10T21:00:56Z | INFO | [PASS] checkpoint file SHA-256 = 6e826bdb5f710ea3f4f914ea3c93095340669027fb1c9aa73ce9420a09b283dd
+2026-09-10T21:00:56Z | INFO | [PASS] checkpoint model-state SHA-256 = 704ada7d024c8ef446501d9f06938d29ba1409707883ef62996f3691b13daaa7
+2026-09-10T21:00:57Z | INFO | [PASS] exact final checkpoint restored
+2026-09-10T21:00:57Z | INFO | [PASS] held-out Dataset authorized but not yet iterated
+2026-09-10T21:00:57Z | INFO | Batch size: 32
+2026-09-10T21:00:57Z | INFO | DataLoader workers: 16
+2026-09-10T21:00:57Z | WARNING | ========================================================================
+2026-09-10T21:00:57Z | WARNING | HELD-OUT TEST ACCESS BEGINS NOW
+2026-09-10T21:00:57Z | WARNING | Official test JPEG files may now be opened.
+2026-09-10T21:00:57Z | WARNING | All classifier, checkpoint and threshold decisions are frozen.
+2026-09-10T21:00:57Z | WARNING | ========================================================================
+2026-09-10T21:01:19Z | INFO | [PASS] complete held-out inference = 1385 = 300 bona-fide + 1085 attack
+2026-09-10T21:01:19Z | INFO | [PASS] frozen file SHA verified for all 1385 test images
+2026-09-10T21:01:19Z | INFO | 
+2026-09-10T21:01:19Z | INFO | TEST AUROC: 0.269287250384
+2026-09-10T21:01:19Z | INFO | 
+2026-09-10T21:01:19Z | INFO | FIXED 0.5 | TP=176 FP=48 TN=252 FN=909
+2026-09-10T21:01:19Z | INFO | FIXED 0.5 | weighted_F1=0.285383007679 | attack_F1=0.268907563025 | balanced_acc=0.501105990783
+2026-09-10T21:01:19Z | INFO | FIXED 0.5 | FPR/BPCER=0.160000000000 | FNR/APCER=0.837788018433 | HTER=0.498894009217
+2026-09-10T21:01:19Z | INFO | 
+2026-09-10T21:01:19Z | INFO | DEV-FPR10 threshold: 0.0017376946781355158
+2026-09-10T21:01:19Z | INFO | FPR10 | TP=385 FP=237 TN=63 FN=700
+2026-09-10T21:01:19Z | INFO | FPR10 | weighted_F1=0.379050996372 | attack_F1=0.451083772701 | balanced_acc=0.282419354839
+2026-09-10T21:01:19Z | INFO | FPR10 | FPR/BPCER=0.790000000000 | FNR/APCER=0.645161290323 | HTER=0.717580645161
+2026-09-10T21:01:19Z | INFO | 
+2026-09-10T21:01:19Z | INFO | Evaluation loop seconds: 21.187870
+2026-09-10T21:01:19Z | INFO | GPU forward-only seconds: 2.548120
+2026-09-10T21:01:19Z | INFO | End-to-end throughput: 65.368 images/s
+2026-09-10T21:01:19Z | INFO | GPU forward-only throughput: 543.538 images/s
+2026-09-10T21:01:19Z | INFO | Peak CUDA allocated: 1.920 GiB
+2026-09-10T21:01:19Z | INFO | 
+2026-09-10T21:01:19Z | INFO | [PASS] test predictions: /home/u5757978/ForgedDocDetect/output/final_detection/test_predictions/resnet18_r512_seed10_test_predictions.csv
+2026-09-10T21:01:19Z | INFO | Predictions SHA-256: 24dc38d3f65ec7f652b1956d631c70afaf16407908de16ff4601d7d40e47f5c0
+2026-09-10T21:01:19Z | INFO | [PASS] final test result: /home/u5757978/ForgedDocDetect/output/final_detection/test_results/resnet18_r512_seed10_test_results.yaml
+2026-09-10T21:01:19Z | INFO | Result SHA-256: 3f0ad01b0dd94bc5fdf1ccdd483afe0b9140dcbc63bfa3a1944e7759c98ad11e
+2026-09-10T21:01:19Z | INFO | 
+2026-09-10T21:01:19Z | INFO | [PASS] threshold derivation from test: FALSE
+2026-09-10T21:01:19Z | INFO | [PASS] threshold modification on test: FALSE
+2026-09-10T21:01:19Z | INFO | [PASS] checkpoint/model selection on test: FALSE
+2026-09-10T21:01:19Z | INFO | ========================================================================
+2026-09-10T21:01:19Z | INFO | SEED 10 FINAL HELD-OUT TEST: COMPLETE
+2026-09-10T21:01:19Z | INFO | ========================================================================
