@@ -1,0 +1,25 @@
+2026-09-10T22:09:12Z | INFO | ========================================================================
+2026-09-10T22:09:12Z | INFO | RESNET-18 MATCHED DIGITAL-VARIANT POST-HOC CONTROL
+2026-09-10T22:09:12Z | INFO | ========================================================================
+2026-09-10T22:09:12Z | INFO | Git commit: 735673a207ba9d718a4a819028c14e56ba2adecc
+2026-09-10T22:09:12Z | INFO | [PASS] frozen final summary SHA-256 = f80dcc445490aa935ce958e61afe41c67e2c761c90902b833227daf7de249d27
+2026-09-10T22:09:12Z | INFO | [PASS] subgroup diagnostic SHA-256 = 8899756330d7d818099c540dc3d9672d21d310b0b87203022af261bd54ae7baa
+2026-09-10T22:09:12Z | INFO | Seed 8 | median p bona/d1/d2/d3=0.000309049/0.999988/0.999989/0.000395387 | fixed d1/d2/d3=1.0000/1.0000/0.0196 | d3-below-both=1.0000 | fixed-collapse=0.9804
+2026-09-10T22:09:12Z | INFO | Seed 9 | median p bona/d1/d2/d3=0.00153423/0.999523/0.999716/0.00182401 | fixed d1/d2/d3=0.9869/0.9935/0.0196 | d3-below-both=1.0000 | fixed-collapse=0.9608
+2026-09-10T22:09:12Z | INFO | Seed 10 | median p bona/d1/d2/d3=0.000167476/0.999938/0.999974/0.000218371 | fixed d1/d2/d3=0.9935/0.9935/0.0131 | d3-below-both=1.0000 | fixed-collapse=0.9739
+2026-09-10T22:09:12Z | INFO | 
+2026-09-10T22:09:12Z | INFO | Aggregate fixed d1/d2/d3 positive-rate mean = 0.9935 / 0.9956 / 0.0174
+2026-09-10T22:09:12Z | INFO | Aggregate d3-below-both mean/min/max = 1.0000 / 1.0000 / 1.0000
+2026-09-10T22:09:12Z | INFO | Aggregate fixed-collapse mean/min/max = 0.9717 / 0.9608 / 0.9804
+2026-09-10T22:09:12Z | INFO | [PASS] exactly 153 matched stem x hardware units per seed
+2026-09-10T22:09:12Z | INFO | [PASS] dev/test scores bound to the same frozen checkpoint per seed
+2026-09-10T22:09:12Z | INFO | [PASS] thresholds reused unchanged from frozen dev artifacts
+2026-09-10T22:09:12Z | INFO | [PASS] images/models/checkpoints/inference accessed: FALSE
+2026-09-10T22:09:12Z | INFO | [PASS] model/checkpoint/threshold selection: FALSE
+2026-09-10T22:09:12Z | INFO | Matched CSV: /home/sush/ForgedDocDetect/output/final_detection/posthoc_diagnostics/resnet18_digital_variant_matched_control_2026-09-10_220912_163828Z.csv
+2026-09-10T22:09:12Z | INFO | Matched CSV SHA-256: 89e1531a744eb49f11ffd3aac77e0f0406848f4629f3cee11ce4e5ccdbcfe8c2
+2026-09-10T22:09:12Z | INFO | Matched YAML: /home/sush/ForgedDocDetect/output/final_detection/posthoc_diagnostics/resnet18_digital_variant_matched_control_2026-09-10_220912_163828Z.yaml
+2026-09-10T22:09:12Z | INFO | Matched YAML SHA-256: 1fe07aee1dbab5d3536152178c21eae339fde0d67a8dfb71e7585a1e37bd0bc7
+2026-09-10T22:09:12Z | INFO | ========================================================================
+2026-09-10T22:09:12Z | INFO | MATCHED DIGITAL-VARIANT POST-HOC CONTROL: COMPLETE
+2026-09-10T22:09:12Z | INFO | ========================================================================

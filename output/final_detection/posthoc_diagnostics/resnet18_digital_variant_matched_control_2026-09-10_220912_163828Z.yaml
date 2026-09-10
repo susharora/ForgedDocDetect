@@ -1,0 +1,746 @@
+schema_version: 1
+artifact_type: resnet18_digital_variant_matched_posthoc_control
+status: POST_HOC_MATCHED_CONTROL_COMPLETE_NOT_MODEL_SELECTION
+created_at_utc: '2026-09-10T22:09:12.304869+00:00'
+git:
+  commit_sha: 735673a207ba9d718a4a819028c14e56ba2adecc
+  branch: main
+frozen_final_summary:
+  path: output/final_detection/final_summary/resnet18_r512_three_seed_final_test_2026-09-10_210827_141262Z.yaml
+  sha256: f80dcc445490aa935ce958e61afe41c67e2c761c90902b833227daf7de249d27
+prerequisite_subgroup_diagnostic:
+  path: output/final_detection/posthoc_diagnostics/resnet18_test_subgroup_diagnostic_2026-09-10_214235_486473Z.yaml
+  sha256: 8899756330d7d818099c540dc3d9672d21d310b0b87203022af261bd54ae7baa
+design:
+  matching_key:
+  - file_stem
+  - hardware_source
+  dev_stems: 51
+  hardware_sources:
+  - huawei
+  - iphone15pro
+  - scan
+  matched_units_per_seed: 153
+  dev_members:
+  - bonafide
+  - digital_1
+  - digital_2
+  test_member: digital_3
+  interpretation_limit: dev_val participated in model selection and digital_3 is from
+    the official test split; matching controls file_stem and hardware but not split
+    or generation-pipeline differences
+inputs_by_seed:
+  8:
+    threshold: 0.00885157722748261
+    checkpoint:
+      seed: 8
+      source_machine: IMTA134
+      run_id: 20260910T005713_188852Z_resnet18_lr_screen_r512_seed8_IMTA134_745f47f3
+      epoch: 12
+      file_sha256: a6b8409f51b3becee644936047ed420f4c5860f03f8f7be93d505e41326db50f
+      model_state_sha256: 4167857618a6413593e10eb486ecc88ecbc65b5f3ba0ffd5689c3dfa12a4156e
+    threshold_artifact_path: output/final_detection/dev_thresholds/resnet18_r512_seed8_fpr10.yaml
+    threshold_artifact_sha256: 07586659a7866450cf804a2233549a19e2db6a8584dd81037beb710651ecfeed
+    dev_predictions_path: output/final_detection/dev_predictions/resnet18_r512_seed8_dev_predictions.csv
+    dev_predictions_sha256: cbbe11d4a0b232bd77a9c7b1a46c8cf64b76002eadeec08187b9153ba611e12f
+    test_predictions_path: output/final_detection/test_predictions/resnet18_r512_seed8_test_predictions.csv
+    test_predictions_sha256: a38517372774e9fe8d4a3aa8a9d554bb03b064345d8e2120b8c0408d0811eca1
+  9:
+    threshold: 0.028540367027646577
+    checkpoint:
+      seed: 9
+      source_machine: sush-AMD
+      run_id: 20260910T023135_616872Z_resnet18_stability_r512_seed9_sush-AMD_371add4c
+      epoch: 3
+      file_sha256: 002d7e3208b164579e1c678d98cf79b614c8de1348a693c69b417f601d03fd14
+      model_state_sha256: fbbd2867ef9c1db6e8312b257a8c89262456e7246d0e088151e5112a7b9afd48
+    threshold_artifact_path: output/final_detection/dev_thresholds/resnet18_r512_seed9_fpr10.yaml
+    threshold_artifact_sha256: 9592a18635d1c103bad7a171d4514ffde6f4832ce7ca0a8fd77429a22702073d
+    dev_predictions_path: output/final_detection/dev_predictions/resnet18_r512_seed9_dev_predictions.csv
+    dev_predictions_sha256: 266733ab9ede427354edb9d697ec75c112846dd834dfdbd8daedeee6691cac83
+    test_predictions_path: output/final_detection/test_predictions/resnet18_r512_seed9_test_predictions.csv
+    test_predictions_sha256: ac1913abbe912637013172e3021b42f642eba31ae0c0b1447797c63bb302562b
+  10:
+    threshold: 0.0017376946781355158
+    checkpoint:
+      seed: 10
+      source_machine: IMTA134
+      run_id: 20260910T023206_310000Z_resnet18_stability_r512_seed10_IMTA134_371add4c
+      epoch: 8
+      file_sha256: 6e826bdb5f710ea3f4f914ea3c93095340669027fb1c9aa73ce9420a09b283dd
+      model_state_sha256: 704ada7d024c8ef446501d9f06938d29ba1409707883ef62996f3691b13daaa7
+    threshold_artifact_path: output/final_detection/dev_thresholds/resnet18_r512_seed10_fpr10.yaml
+    threshold_artifact_sha256: 57053c99a4ff5652c3488df1a7ea4e913084c1d7464282fe7c615fafec5e5b8e
+    dev_predictions_path: output/final_detection/dev_predictions/resnet18_r512_seed10_dev_predictions.csv
+    dev_predictions_sha256: 3484a89a4cd113cfcbb8d58615298e03cb85ef984e317ccfe4e2ffd9e9fcd304
+    test_predictions_path: output/final_detection/test_predictions/resnet18_r512_seed10_test_predictions.csv
+    test_predictions_sha256: 24dc38d3f65ec7f652b1956d631c70afaf16407908de16ff4601d7d40e47f5c0
+summary_by_seed:
+  8:
+    ALL:
+      n_units: 153
+      median_p_bonafide: 0.0003090487374025292
+      median_p_digital1: 0.9999884723487823
+      median_p_digital2: 0.9999890764764957
+      median_p_digital3: 0.00039538687472189844
+      fixed_positive_rate_bonafide: 0.013071895424836602
+      fixed_positive_rate_digital1: 1.0
+      fixed_positive_rate_digital2: 1.0
+      fixed_positive_rate_digital3: 0.0196078431372549
+      fpr10_positive_rate_bonafide: 0.09803921568627451
+      fpr10_positive_rate_digital1: 1.0
+      fpr10_positive_rate_digital2: 1.0
+      fpr10_positive_rate_digital3: 0.1111111111111111
+      rate_d3_below_both_dev_attacks: 1.0
+      rate_d3_above_matched_bonafide: 0.803921568627451
+      rate_dev_attacks_fixed_detected_then_d3_missed: 0.9803921568627451
+      rate_dev_attacks_fpr10_detected_then_d3_missed: 0.8888888888888888
+      median_delta_p_d3_minus_d1: -0.9993525360015196
+      median_delta_p_d3_minus_d2: -0.9991441873629022
+      median_delta_p_d3_minus_mean_d1_d2: -0.9991264357460405
+      median_delta_margin_d3_minus_d1: -19.075993299484253
+      median_delta_margin_d3_minus_d2: -18.52900004386902
+      median_delta_margin_d3_minus_mean_d1_d2: -18.941816926002502
+    huawei:
+      n_units: 51
+      median_p_bonafide: 0.00038771510580924945
+      median_p_digital1: 0.9999580863607082
+      median_p_digital2: 0.999989591198631
+      median_p_digital3: 0.0004782894025470294
+      fixed_positive_rate_bonafide: 0.0392156862745098
+      fixed_positive_rate_digital1: 1.0
+      fixed_positive_rate_digital2: 1.0
+      fixed_positive_rate_digital3: 0.058823529411764705
+      fpr10_positive_rate_bonafide: 0.17647058823529413
+      fpr10_positive_rate_digital1: 1.0
+      fpr10_positive_rate_digital2: 1.0
+      fpr10_positive_rate_digital3: 0.17647058823529413
+      rate_d3_below_both_dev_attacks: 1.0
+      rate_d3_above_matched_bonafide: 0.8431372549019608
+      rate_dev_attacks_fixed_detected_then_d3_missed: 0.9411764705882353
+      rate_dev_attacks_fpr10_detected_then_d3_missed: 0.8235294117647058
+      median_delta_p_d3_minus_d1: -0.9981834861168849
+      median_delta_p_d3_minus_d2: -0.9988446017871206
+      median_delta_p_d3_minus_mean_d1_d2: -0.9982864728469275
+      median_delta_margin_d3_minus_d1: -16.93455719947815
+      median_delta_margin_d3_minus_d2: -18.777577877044678
+      median_delta_margin_d3_minus_mean_d1_d2: -17.610188007354736
+    iphone15pro:
+      n_units: 51
+      median_p_bonafide: 0.00013296355659021228
+      median_p_digital1: 0.9999893089364001
+      median_p_digital2: 0.9999888072196661
+      median_p_digital3: 0.00014859655990455013
+      fixed_positive_rate_bonafide: 0.0
+      fixed_positive_rate_digital1: 1.0
+      fixed_positive_rate_digital2: 1.0
+      fixed_positive_rate_digital3: 0.0
+      fpr10_positive_rate_bonafide: 0.0
+      fpr10_positive_rate_digital1: 1.0
+      fpr10_positive_rate_digital2: 1.0
+      fpr10_positive_rate_digital3: 0.0
+      rate_d3_below_both_dev_attacks: 1.0
+      rate_d3_above_matched_bonafide: 0.7647058823529411
+      rate_dev_attacks_fixed_detected_then_d3_missed: 1.0
+      rate_dev_attacks_fpr10_detected_then_d3_missed: 1.0
+      median_delta_p_d3_minus_d1: -0.9997416198365121
+      median_delta_p_d3_minus_d2: -0.999483300129659
+      median_delta_p_d3_minus_mean_d1_d2: -0.9994795192108743
+      median_delta_margin_d3_minus_d1: -19.808236598968506
+      median_delta_margin_d3_minus_d2: -19.86462926864624
+      median_delta_margin_d3_minus_mean_d1_d2: -20.15053105354309
+    scan:
+      n_units: 51
+      median_p_bonafide: 0.0009292702850695595
+      median_p_digital1: 0.9999945152182732
+      median_p_digital2: 0.9999890764764957
+      median_p_digital3: 0.0010645087594050942
+      fixed_positive_rate_bonafide: 0.0
+      fixed_positive_rate_digital1: 1.0
+      fixed_positive_rate_digital2: 1.0
+      fixed_positive_rate_digital3: 0.0
+      fpr10_positive_rate_bonafide: 0.11764705882352941
+      fpr10_positive_rate_digital1: 1.0
+      fpr10_positive_rate_digital2: 1.0
+      fpr10_positive_rate_digital3: 0.1568627450980392
+      rate_d3_below_both_dev_attacks: 1.0
+      rate_d3_above_matched_bonafide: 0.803921568627451
+      rate_dev_attacks_fixed_detected_then_d3_missed: 1.0
+      rate_dev_attacks_fpr10_detected_then_d3_missed: 0.8431372549019608
+      median_delta_p_d3_minus_d1: -0.9989302621890488
+      median_delta_p_d3_minus_d2: -0.9983812371286153
+      median_delta_p_d3_minus_mean_d1_d2: -0.9987082105913646
+      median_delta_margin_d3_minus_d1: -19.484014987945557
+      median_delta_margin_d3_minus_d2: -18.13325834274292
+      median_delta_margin_d3_minus_mean_d1_d2: -18.941816926002502
+  9:
+    ALL:
+      n_units: 153
+      median_p_bonafide: 0.0015342265116609084
+      median_p_digital1: 0.9995227323484641
+      median_p_digital2: 0.9997163639747141
+      median_p_digital3: 0.00182401420939366
+      fixed_positive_rate_bonafide: 0.0196078431372549
+      fixed_positive_rate_digital1: 0.9869281045751634
+      fixed_positive_rate_digital2: 0.9934640522875817
+      fixed_positive_rate_digital3: 0.0196078431372549
+      fpr10_positive_rate_bonafide: 0.09803921568627451
+      fpr10_positive_rate_digital1: 1.0
+      fpr10_positive_rate_digital2: 1.0
+      fpr10_positive_rate_digital3: 0.09803921568627451
+      rate_d3_below_both_dev_attacks: 1.0
+      rate_d3_above_matched_bonafide: 0.7058823529411765
+      rate_dev_attacks_fixed_detected_then_d3_missed: 0.9607843137254902
+      rate_dev_attacks_fpr10_detected_then_d3_missed: 0.9019607843137255
+      median_delta_p_d3_minus_d1: -0.994556573835823
+      median_delta_p_d3_minus_d2: -0.9952437312490748
+      median_delta_p_d3_minus_mean_d1_d2: -0.9937061322232995
+      median_delta_margin_d3_minus_d1: -13.699108600616455
+      median_delta_margin_d3_minus_d2: -14.060163021087646
+      median_delta_margin_d3_minus_mean_d1_d2: -14.200114744715393
+    huawei:
+      n_units: 51
+      median_p_bonafide: 0.004083663242758745
+      median_p_digital1: 0.9992854469818118
+      median_p_digital2: 0.9998000260032952
+      median_p_digital3: 0.004405469998932954
+      fixed_positive_rate_bonafide: 0.058823529411764705
+      fixed_positive_rate_digital1: 0.9803921568627451
+      fixed_positive_rate_digital2: 1.0
+      fixed_positive_rate_digital3: 0.058823529411764705
+      fpr10_positive_rate_bonafide: 0.2549019607843137
+      fpr10_positive_rate_digital1: 1.0
+      fpr10_positive_rate_digital2: 1.0
+      fpr10_positive_rate_digital3: 0.27450980392156865
+      rate_d3_below_both_dev_attacks: 1.0
+      rate_d3_above_matched_bonafide: 0.8235294117647058
+      rate_dev_attacks_fixed_detected_then_d3_missed: 0.9215686274509803
+      rate_dev_attacks_fpr10_detected_then_d3_missed: 0.7254901960784313
+      median_delta_p_d3_minus_d1: -0.985531883899251
+      median_delta_p_d3_minus_d2: -0.9904809790900043
+      median_delta_p_d3_minus_mean_d1_d2: -0.986510803669702
+      median_delta_margin_d3_minus_d1: -11.910912871360779
+      median_delta_margin_d3_minus_d2: -13.397247314453125
+      median_delta_margin_d3_minus_mean_d1_d2: -12.560502171516418
+    iphone15pro:
+      n_units: 51
+      median_p_bonafide: 0.001026361408235012
+      median_p_digital1: 0.9991154128475567
+      median_p_digital2: 0.9988338298294226
+      median_p_digital3: 0.0011433297527669343
+      fixed_positive_rate_bonafide: 0.0
+      fixed_positive_rate_digital1: 0.9803921568627451
+      fixed_positive_rate_digital2: 1.0
+      fixed_positive_rate_digital3: 0.0
+      fpr10_positive_rate_bonafide: 0.0
+      fpr10_positive_rate_digital1: 1.0
+      fpr10_positive_rate_digital2: 1.0
+      fpr10_positive_rate_digital3: 0.0
+      rate_d3_below_both_dev_attacks: 1.0
+      rate_d3_above_matched_bonafide: 0.6862745098039216
+      rate_dev_attacks_fixed_detected_then_d3_missed: 0.9803921568627451
+      rate_dev_attacks_fpr10_detected_then_d3_missed: 1.0
+      median_delta_p_d3_minus_d1: -0.9973018226367508
+      median_delta_p_d3_minus_d2: -0.9956854494593852
+      median_delta_p_d3_minus_mean_d1_d2: -0.995056689906152
+      median_delta_margin_d3_minus_d1: -13.9259033203125
+      median_delta_margin_d3_minus_d2: -13.274353265762329
+      median_delta_margin_d3_minus_mean_d1_d2: -14.179882764816284
+    scan:
+      n_units: 51
+      median_p_bonafide: 0.0013321044721918392
+      median_p_digital1: 0.9999030675049
+      median_p_digital2: 0.9998317273000048
+      median_p_digital3: 0.0012201596403230064
+      fixed_positive_rate_bonafide: 0.0
+      fixed_positive_rate_digital1: 1.0
+      fixed_positive_rate_digital2: 0.9803921568627451
+      fixed_positive_rate_digital3: 0.0
+      fpr10_positive_rate_bonafide: 0.0392156862745098
+      fpr10_positive_rate_digital1: 1.0
+      fpr10_positive_rate_digital2: 1.0
+      fpr10_positive_rate_digital3: 0.0196078431372549
+      rate_d3_below_both_dev_attacks: 1.0
+      rate_d3_above_matched_bonafide: 0.6078431372549019
+      rate_dev_attacks_fixed_detected_then_d3_missed: 0.9803921568627451
+      rate_dev_attacks_fpr10_detected_then_d3_missed: 0.9803921568627451
+      median_delta_p_d3_minus_d1: -0.9973684049815493
+      median_delta_p_d3_minus_d2: -0.9970070338104728
+      median_delta_p_d3_minus_mean_d1_d2: -0.9972531986672245
+      median_delta_margin_d3_minus_d1: -15.97269093990326
+      median_delta_margin_d3_minus_d2: -15.198137640953064
+      median_delta_margin_d3_minus_mean_d1_d2: -15.585414290428162
+  10:
+    ALL:
+      n_units: 153
+      median_p_bonafide: 0.00016747618983427477
+      median_p_digital1: 0.9999376336994039
+      median_p_digital2: 0.9999742877350337
+      median_p_digital3: 0.00021837141929777123
+      fixed_positive_rate_bonafide: 0.013071895424836602
+      fixed_positive_rate_digital1: 0.9934640522875817
+      fixed_positive_rate_digital2: 0.9934640522875817
+      fixed_positive_rate_digital3: 0.013071895424836602
+      fpr10_positive_rate_bonafide: 0.09803921568627451
+      fpr10_positive_rate_digital1: 1.0
+      fpr10_positive_rate_digital2: 1.0
+      fpr10_positive_rate_digital3: 0.13725490196078433
+      rate_d3_below_both_dev_attacks: 1.0
+      rate_d3_above_matched_bonafide: 0.7777777777777778
+      rate_dev_attacks_fixed_detected_then_d3_missed: 0.9738562091503268
+      rate_dev_attacks_fpr10_detected_then_d3_missed: 0.8627450980392157
+      median_delta_p_d3_minus_d1: -0.9993429553336071
+      median_delta_p_d3_minus_d2: -0.9993339273531893
+      median_delta_p_d3_minus_mean_d1_d2: -0.9989515261849503
+      median_delta_margin_d3_minus_d1: -18.014601469039917
+      median_delta_margin_d3_minus_d2: -18.50622272491455
+      median_delta_margin_d3_minus_mean_d1_d2: -18.209070682525635
+    huawei:
+      n_units: 51
+      median_p_bonafide: 0.00019599138502135178
+      median_p_digital1: 0.99988093623168
+      median_p_digital2: 0.9999843430271435
+      median_p_digital3: 0.0002368679309980494
+      fixed_positive_rate_bonafide: 0.0392156862745098
+      fixed_positive_rate_digital1: 1.0
+      fixed_positive_rate_digital2: 1.0
+      fixed_positive_rate_digital3: 0.0392156862745098
+      fpr10_positive_rate_bonafide: 0.1568627450980392
+      fpr10_positive_rate_digital1: 1.0
+      fpr10_positive_rate_digital2: 1.0
+      fpr10_positive_rate_digital3: 0.21568627450980393
+      rate_d3_below_both_dev_attacks: 1.0
+      rate_d3_above_matched_bonafide: 0.8431372549019608
+      rate_dev_attacks_fixed_detected_then_d3_missed: 0.9607843137254902
+      rate_dev_attacks_fpr10_detected_then_d3_missed: 0.7843137254901961
+      median_delta_p_d3_minus_d1: -0.9984370951113499
+      median_delta_p_d3_minus_d2: -0.9989578672469938
+      median_delta_p_d3_minus_mean_d1_d2: -0.998436607612931
+      median_delta_margin_d3_minus_d1: -16.45968747138977
+      median_delta_margin_d3_minus_d2: -18.33351230621338
+      median_delta_margin_d3_minus_mean_d1_d2: -17.482238292694092
+    iphone15pro:
+      n_units: 51
+      median_p_bonafide: 0.00016327574554037835
+      median_p_digital1: 0.999932010019065
+      median_p_digital2: 0.9999344801839114
+      median_p_digital3: 0.00020396234185880837
+      fixed_positive_rate_bonafide: 0.0
+      fixed_positive_rate_digital1: 0.9803921568627451
+      fixed_positive_rate_digital2: 1.0
+      fixed_positive_rate_digital3: 0.0
+      fpr10_positive_rate_bonafide: 0.11764705882352941
+      fpr10_positive_rate_digital1: 1.0
+      fpr10_positive_rate_digital2: 1.0
+      fpr10_positive_rate_digital3: 0.1568627450980392
+      rate_d3_below_both_dev_attacks: 1.0
+      rate_d3_above_matched_bonafide: 0.803921568627451
+      rate_dev_attacks_fixed_detected_then_d3_missed: 0.9803921568627451
+      rate_dev_attacks_fpr10_detected_then_d3_missed: 0.8431372549019608
+      median_delta_p_d3_minus_d1: -0.9995833317273514
+      median_delta_p_d3_minus_d2: -0.9992930172723095
+      median_delta_p_d3_minus_mean_d1_d2: -0.9989088353184427
+      median_delta_margin_d3_minus_d1: -18.470988035202026
+      median_delta_margin_d3_minus_d2: -17.76372480392456
+      median_delta_margin_d3_minus_mean_d1_d2: -18.39217519760132
+    scan:
+      n_units: 51
+      median_p_bonafide: 0.00016010035029166873
+      median_p_digital1: 0.9999728403124534
+      median_p_digital2: 0.9999723767262338
+      median_p_digital3: 0.00019173440888213943
+      fixed_positive_rate_bonafide: 0.0
+      fixed_positive_rate_digital1: 1.0
+      fixed_positive_rate_digital2: 0.9803921568627451
+      fixed_positive_rate_digital3: 0.0
+      fpr10_positive_rate_bonafide: 0.0196078431372549
+      fpr10_positive_rate_digital1: 1.0
+      fpr10_positive_rate_digital2: 1.0
+      fpr10_positive_rate_digital3: 0.0392156862745098
+      rate_d3_below_both_dev_attacks: 1.0
+      rate_d3_above_matched_bonafide: 0.6862745098039216
+      rate_dev_attacks_fixed_detected_then_d3_missed: 0.9803921568627451
+      rate_dev_attacks_fpr10_detected_then_d3_missed: 0.9607843137254902
+      median_delta_p_d3_minus_d1: -0.9996656413489188
+      median_delta_p_d3_minus_d2: -0.9996146894354482
+      median_delta_p_d3_minus_mean_d1_d2: -0.9994897143101579
+      median_delta_margin_d3_minus_d1: -19.156174659729004
+      median_delta_margin_d3_minus_d2: -18.612723350524902
+      median_delta_margin_d3_minus_mean_d1_d2: -19.5019690990448
+aggregate_mean_min_max_by_scope:
+  ALL:
+    n_units: 153
+    median_p_bonafide:
+      mean: 0.0006702504796325708
+      min: 0.00016747618983427477
+      max: 0.0015342265116609084
+    median_p_digital1:
+      mean: 0.99981627946555
+      min: 0.9995227323484641
+      max: 0.9999884723487823
+    median_p_digital2:
+      mean: 0.9998932427287478
+      min: 0.9997163639747141
+      max: 0.9999890764764957
+    median_p_digital3:
+      mean: 0.0008125908344711099
+      min: 0.00021837141929777123
+      max: 0.00182401420939366
+    fixed_positive_rate_bonafide:
+      mean: 0.01525054466230937
+      min: 0.013071895424836602
+      max: 0.0196078431372549
+    fixed_positive_rate_digital1:
+      mean: 0.9934640522875817
+      min: 0.9869281045751634
+      max: 1.0
+    fixed_positive_rate_digital2:
+      mean: 0.9956427015250545
+      min: 0.9934640522875817
+      max: 1.0
+    fixed_positive_rate_digital3:
+      mean: 0.017429193899782137
+      min: 0.013071895424836602
+      max: 0.0196078431372549
+    fpr10_positive_rate_bonafide:
+      mean: 0.09803921568627451
+      min: 0.09803921568627451
+      max: 0.09803921568627451
+    fpr10_positive_rate_digital1:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    fpr10_positive_rate_digital2:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    fpr10_positive_rate_digital3:
+      mean: 0.11546840958605664
+      min: 0.09803921568627451
+      max: 0.13725490196078433
+    rate_d3_below_both_dev_attacks:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    rate_d3_above_matched_bonafide:
+      mean: 0.7625272331154683
+      min: 0.7058823529411765
+      max: 0.803921568627451
+    rate_dev_attacks_fixed_detected_then_d3_missed:
+      mean: 0.971677559912854
+      min: 0.9607843137254902
+      max: 0.9803921568627451
+    rate_dev_attacks_fpr10_detected_then_d3_missed:
+      mean: 0.8845315904139434
+      min: 0.8627450980392157
+      max: 0.9019607843137255
+    median_delta_p_d3_minus_d1:
+      mean: -0.9977506883903166
+      min: -0.9993525360015196
+      max: -0.994556573835823
+    median_delta_p_d3_minus_d2:
+      mean: -0.9979072819883887
+      min: -0.9993339273531893
+      max: -0.9952437312490748
+    median_delta_p_d3_minus_mean_d1_d2:
+      mean: -0.9972613647180967
+      min: -0.9991264357460405
+      max: -0.9937061322232995
+    median_delta_margin_d3_minus_d1:
+      mean: -16.929901123046875
+      min: -19.075993299484253
+      max: -13.699108600616455
+    median_delta_margin_d3_minus_d2:
+      mean: -17.031795263290405
+      min: -18.52900004386902
+      max: -14.060163021087646
+    median_delta_margin_d3_minus_mean_d1_d2:
+      mean: -17.11700078441451
+      min: -18.941816926002502
+      max: -14.200114744715393
+  huawei:
+    n_units: 51
+    median_p_bonafide:
+      mean: 0.001555789911196449
+      min: 0.00019599138502135178
+      max: 0.004083663242758745
+    median_p_digital1:
+      mean: 0.9997081565247332
+      min: 0.9992854469818118
+      max: 0.9999580863607082
+    median_p_digital2:
+      mean: 0.99992465340969
+      min: 0.9998000260032952
+      max: 0.999989591198631
+    median_p_digital3:
+      mean: 0.0017068757774926777
+      min: 0.0002368679309980494
+      max: 0.004405469998932954
+    fixed_positive_rate_bonafide:
+      mean: 0.04575163398692811
+      min: 0.0392156862745098
+      max: 0.058823529411764705
+    fixed_positive_rate_digital1:
+      mean: 0.9934640522875817
+      min: 0.9803921568627451
+      max: 1.0
+    fixed_positive_rate_digital2:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    fixed_positive_rate_digital3:
+      mean: 0.05228758169934641
+      min: 0.0392156862745098
+      max: 0.058823529411764705
+    fpr10_positive_rate_bonafide:
+      mean: 0.19607843137254902
+      min: 0.1568627450980392
+      max: 0.2549019607843137
+    fpr10_positive_rate_digital1:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    fpr10_positive_rate_digital2:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    fpr10_positive_rate_digital3:
+      mean: 0.22222222222222224
+      min: 0.17647058823529413
+      max: 0.27450980392156865
+    rate_d3_below_both_dev_attacks:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    rate_d3_above_matched_bonafide:
+      mean: 0.8366013071895425
+      min: 0.8235294117647058
+      max: 0.8431372549019608
+    rate_dev_attacks_fixed_detected_then_d3_missed:
+      mean: 0.9411764705882354
+      min: 0.9215686274509803
+      max: 0.9607843137254902
+    rate_dev_attacks_fpr10_detected_then_d3_missed:
+      mean: 0.7777777777777777
+      min: 0.7254901960784313
+      max: 0.8235294117647058
+    median_delta_p_d3_minus_d1:
+      mean: -0.994050821709162
+      min: -0.9984370951113499
+      max: -0.985531883899251
+    median_delta_p_d3_minus_d2:
+      mean: -0.9960944827080396
+      min: -0.9989578672469938
+      max: -0.9904809790900043
+    median_delta_p_d3_minus_mean_d1_d2:
+      mean: -0.9944112947098535
+      min: -0.998436607612931
+      max: -0.986510803669702
+    median_delta_margin_d3_minus_d1:
+      mean: -15.101719180742899
+      min: -16.93455719947815
+      max: -11.910912871360779
+    median_delta_margin_d3_minus_d2:
+      mean: -16.83611249923706
+      min: -18.777577877044678
+      max: -13.397247314453125
+    median_delta_margin_d3_minus_mean_d1_d2:
+      mean: -15.88430949052175
+      min: -17.610188007354736
+      max: -12.560502171516418
+  iphone15pro:
+    n_units: 51
+    median_p_bonafide:
+      mean: 0.0004408669034552009
+      min: 0.00013296355659021228
+      max: 0.001026361408235012
+    median_p_digital1:
+      mean: 0.9996789106010073
+      min: 0.9991154128475567
+      max: 0.9999893089364001
+    median_p_digital2:
+      mean: 0.9995857057443334
+      min: 0.9988338298294226
+      max: 0.9999888072196661
+    median_p_digital3:
+      mean: 0.0004986295515100977
+      min: 0.00014859655990455013
+      max: 0.0011433297527669343
+    fixed_positive_rate_bonafide:
+      mean: 0.0
+      min: 0.0
+      max: 0.0
+    fixed_positive_rate_digital1:
+      mean: 0.9869281045751634
+      min: 0.9803921568627451
+      max: 1.0
+    fixed_positive_rate_digital2:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    fixed_positive_rate_digital3:
+      mean: 0.0
+      min: 0.0
+      max: 0.0
+    fpr10_positive_rate_bonafide:
+      mean: 0.0392156862745098
+      min: 0.0
+      max: 0.11764705882352941
+    fpr10_positive_rate_digital1:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    fpr10_positive_rate_digital2:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    fpr10_positive_rate_digital3:
+      mean: 0.05228758169934641
+      min: 0.0
+      max: 0.1568627450980392
+    rate_d3_below_both_dev_attacks:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    rate_d3_above_matched_bonafide:
+      mean: 0.7516339869281046
+      min: 0.6862745098039216
+      max: 0.803921568627451
+    rate_dev_attacks_fixed_detected_then_d3_missed:
+      mean: 0.9869281045751634
+      min: 0.9803921568627451
+      max: 1.0
+    rate_dev_attacks_fpr10_detected_then_d3_missed:
+      mean: 0.9477124183006537
+      min: 0.8431372549019608
+      max: 1.0
+    median_delta_p_d3_minus_d1:
+      mean: -0.9988755914002048
+      min: -0.9997416198365121
+      max: -0.9973018226367508
+    median_delta_p_d3_minus_d2:
+      mean: -0.998153922287118
+      min: -0.999483300129659
+      max: -0.9956854494593852
+    median_delta_p_d3_minus_mean_d1_d2:
+      mean: -0.997815014811823
+      min: -0.9994795192108743
+      max: -0.995056689906152
+    median_delta_margin_d3_minus_d1:
+      mean: -17.40170931816101
+      min: -19.808236598968506
+      max: -13.9259033203125
+    median_delta_margin_d3_minus_d2:
+      mean: -16.96756911277771
+      min: -19.86462926864624
+      max: -13.274353265762329
+    median_delta_margin_d3_minus_mean_d1_d2:
+      mean: -17.574196338653564
+      min: -20.15053105354309
+      max: -14.179882764816284
+  scan:
+    n_units: 51
+    median_p_bonafide:
+      mean: 0.0008071583691843558
+      min: 0.00016010035029166873
+      max: 0.0013321044721918392
+    median_p_digital1:
+      mean: 0.9999568076785422
+      min: 0.9999030675049
+      max: 0.9999945152182732
+    median_p_digital2:
+      mean: 0.9999310601675782
+      min: 0.9998317273000048
+      max: 0.9999890764764957
+    median_p_digital3:
+      mean: 0.00082546760287008
+      min: 0.00019173440888213943
+      max: 0.0012201596403230064
+    fixed_positive_rate_bonafide:
+      mean: 0.0
+      min: 0.0
+      max: 0.0
+    fixed_positive_rate_digital1:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    fixed_positive_rate_digital2:
+      mean: 0.9869281045751634
+      min: 0.9803921568627451
+      max: 1.0
+    fixed_positive_rate_digital3:
+      mean: 0.0
+      min: 0.0
+      max: 0.0
+    fpr10_positive_rate_bonafide:
+      mean: 0.0588235294117647
+      min: 0.0196078431372549
+      max: 0.11764705882352941
+    fpr10_positive_rate_digital1:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    fpr10_positive_rate_digital2:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    fpr10_positive_rate_digital3:
+      mean: 0.0718954248366013
+      min: 0.0196078431372549
+      max: 0.1568627450980392
+    rate_d3_below_both_dev_attacks:
+      mean: 1.0
+      min: 1.0
+      max: 1.0
+    rate_d3_above_matched_bonafide:
+      mean: 0.699346405228758
+      min: 0.6078431372549019
+      max: 0.803921568627451
+    rate_dev_attacks_fixed_detected_then_d3_missed:
+      mean: 0.9869281045751634
+      min: 0.9803921568627451
+      max: 1.0
+    rate_dev_attacks_fpr10_detected_then_d3_missed:
+      mean: 0.9281045751633986
+      min: 0.8431372549019608
+      max: 0.9803921568627451
+    median_delta_p_d3_minus_d1:
+      mean: -0.9986547695065057
+      min: -0.9996656413489188
+      max: -0.9973684049815493
+    median_delta_p_d3_minus_d2:
+      mean: -0.9983343201248455
+      min: -0.9996146894354482
+      max: -0.9970070338104728
+    median_delta_p_d3_minus_mean_d1_d2:
+      mean: -0.998483707856249
+      min: -0.9994897143101579
+      max: -0.9972531986672245
+    median_delta_margin_d3_minus_d1:
+      mean: -18.204293529192608
+      min: -19.484014987945557
+      max: -15.97269093990326
+    median_delta_margin_d3_minus_d2:
+      mean: -17.314706444740295
+      min: -18.612723350524902
+      max: -15.198137640953064
+    median_delta_margin_d3_minus_mean_d1_d2:
+      mean: -18.00973343849182
+      min: -19.5019690990448
+      max: -15.585414290428162
+matched_rows:
+  path: output/final_detection/posthoc_diagnostics/resnet18_digital_variant_matched_control_2026-09-10_220912_163828Z.csv
+  sha256: 89e1531a744eb49f11ffd3aac77e0f0406848f4629f3cee11ce4e5ccdbcfe8c2
+  rows: 459
+scientific_boundaries:
+  post_hoc: true
+  used_for_model_selection: false
+  used_for_checkpoint_selection: false
+  used_for_threshold_selection: false
+  threshold_derived: false
+  threshold_modified: false
+  images_opened: false
+  model_loaded: false
+  checkpoint_loaded: false
+  inference_performed: false
+  persisted_predictions_only: true
