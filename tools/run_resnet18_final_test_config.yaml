@@ -1,0 +1,49 @@
+schema_version: 1
+
+experiment:
+  config: configs/experiments/resnet18_gradcam.yaml
+  machine_config: configs/local.yaml
+
+evaluation_protocol:
+  path: configs/evaluation/resnet18_final_detection.yaml
+  sha256: fc3c093baf702dc0582bea13f33e420867675d4c7e0fb13e36bc27c322db7072
+
+canonical_test_manifest:
+  metadata:
+    path: output/final_detection/test_manifest/fantasyid_held_out_test_manifest.yaml
+    sha256: c7872e891a78d2fdaadc6666a76191b95e58c0719e2589cadecabd21bde93370
+
+  csv:
+    path: output/final_detection/test_manifest/fantasyid_held_out_test_manifest.csv
+    sha256: 6d12b214cabac31a22d883cc8db661c670719ad90dccb9d6cb0d243b1fa4aea4
+
+prerequisites:
+  final_evaluation_audit:
+    path: logs/audit_resnet18_final_evaluation_sush-AMD_2026-09-10_171630_409418Z.yaml
+    sha256: e0721d4423c1520b6a8b4e00cb2415dda192b9470678111e0593eae474969a04
+    required_status: PASS
+
+dev_thresholds:
+  8:
+    path: output/final_detection/dev_thresholds/resnet18_r512_seed8_fpr10.yaml
+    sha256: 07586659a7866450cf804a2233549a19e2db6a8584dd81037beb710651ecfeed
+
+  9:
+    path: output/final_detection/dev_thresholds/resnet18_r512_seed9_fpr10.yaml
+    sha256: 9592a18635d1c103bad7a171d4514ffde6f4832ce7ca0a8fd77429a22702073d
+
+  10:
+    path: output/final_detection/dev_thresholds/resnet18_r512_seed10_fpr10.yaml
+    sha256: 57053c99a4ff5652c3488df1a7ea4e913084c1d7464282fe7c615fafec5e5b8e
+
+logging:
+  directory: logs
+  filename: run_resnet18_final_test_{machine_id}_seed{seed}_{timestamp}.log
+  level: INFO
+
+output:
+  predictions_directory: output/final_detection/test_predictions
+  predictions_filename: resnet18_r512_seed{seed}_test_predictions.csv
+
+  results_directory: output/final_detection/test_results
+  results_filename: resnet18_r512_seed{seed}_test_results.yaml
