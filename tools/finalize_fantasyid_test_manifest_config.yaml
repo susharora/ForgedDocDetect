@@ -1,0 +1,119 @@
+schema_version: 1
+
+
+source_discovery:
+
+  workbook:
+    output/fantasyid_inventory_2026-09-05_023126.xlsx
+
+  sha256:
+    54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+
+  sheet:
+    Images
+
+  expected_total_rows:
+    3284
+
+  expected_split_counts:
+    train: 1899
+    test: 1385
+
+
+held_out_test:
+
+  source_split:
+    test
+
+  project_role:
+    held_out_test
+
+  expected_rows:
+    1385
+
+  class_mapping:
+    bonafide: 0
+    attack: 1
+
+  expected_class_counts:
+    bonafide: 300
+    attack: 1085
+
+  expected_groups:
+
+    bonafide:
+      "":
+        300
+
+    attack:
+      digital_3:
+        786
+
+      facedancer:
+        150
+
+      textdiffuserft_bfei:
+        149
+
+
+# ----------------------------------------------------------------------
+# Prove that all model/threshold decisions already existed before this
+# canonical test manifest was materialized.
+# ----------------------------------------------------------------------
+
+prerequisites:
+
+  final_detection_protocol:
+
+    path:
+      configs/evaluation/resnet18_final_detection.yaml
+
+    sha256:
+      fc3c093baf702dc0582bea13f33e420867675d4c7e0fb13e36bc27c322db7072
+
+  dev_thresholds:
+
+    8:
+      path:
+        output/final_detection/dev_thresholds/resnet18_r512_seed8_fpr10.yaml
+
+      sha256:
+        07586659a7866450cf804a2233549a19e2db6a8584dd81037beb710651ecfeed
+
+    9:
+      path:
+        output/final_detection/dev_thresholds/resnet18_r512_seed9_fpr10.yaml
+
+      sha256:
+        9592a18635d1c103bad7a171d4514ffde6f4832ce7ca0a8fd77429a22702073d
+
+    10:
+      path:
+        output/final_detection/dev_thresholds/resnet18_r512_seed10_fpr10.yaml
+
+      sha256:
+        57053c99a4ff5652c3488df1a7ea4e913084c1d7464282fe7c615fafec5e5b8e
+
+
+output:
+
+  directory:
+    output/final_detection/test_manifest
+
+  csv_filename:
+    fantasyid_held_out_test_manifest.csv
+
+  metadata_filename:
+    fantasyid_held_out_test_manifest.yaml
+
+
+logging:
+
+  directory:
+    logs
+
+  filename:
+    finalize_fantasyid_test_manifest_{timestamp}.log
+
+  level:
+    INFO
