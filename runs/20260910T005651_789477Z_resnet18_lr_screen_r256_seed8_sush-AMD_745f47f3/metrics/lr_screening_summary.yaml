@@ -1,0 +1,146 @@
+schema_version: 1
+artifact_type: resolution_lr_screening_summary
+run:
+  run_id: 20260910T005651_789477Z_resnet18_lr_screen_r256_seed8_sush-AMD_745f47f3
+  git_commit: 745f47f3fccf43694e9cf3478a261f2fd902cac9
+  experiment_config_sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+scope:
+  resolution_name: r256
+  run_seed: 8
+  backbone_lr_candidates:
+  - 3.0e-05
+  - 0.0001
+  - 0.0003
+  held_out_test_accessed: false
+stage_a_initialization:
+  fresh_model_state_sha256: 2228a2a4f683e05f2679f4b1fc027ce575e691d72b8bbf1e1f5d1276308e3291
+  project_train_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+  dev_val_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+  optimizer_state_entries_at_construction: 0
+  pretrained_checkpoint_sha256: f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+stage_a:
+  stage: stage_a
+  epochs_completed: 7
+  stop_reason: patience
+  raw_best_epoch: 7
+  raw_best_weighted_dev_loss: 0.624011937082463
+  raw_best_model_state_sha256: f8b42a2405152fc7c74a7d714426557a137601d0ccb4d86d4b9e2a783d8b4ff7
+  dev_auroc_at_raw_best_checkpoint: 0.7904652056901191
+  best_dev_auroc: 0.7904652056901191
+  best_dev_auroc_epoch: 7
+  model_left_in_eval_mode: true
+  optimizer_reuse_permitted: false
+stage_b_candidates:
+- backbone_lr: 3.0e-05
+  selected: false
+  protocol_review_flag: false
+  initialization:
+    stage_a_checkpoint_epoch: 7
+    stage_a_checkpoint_weighted_dev_loss: 0.624011937082463
+    stage_a_checkpoint_model_state_sha256: f8b42a2405152fc7c74a7d714426557a137601d0ccb4d86d4b9e2a783d8b4ff7
+    fresh_model_state_sha256_before_restore: 2228a2a4f683e05f2679f4b1fc027ce575e691d72b8bbf1e1f5d1276308e3291
+    restored_model_state_sha256_cpu: f8b42a2405152fc7c74a7d714426557a137601d0ccb4d86d4b9e2a783d8b4ff7
+    restored_model_state_sha256_after_device_move: f8b42a2405152fc7c74a7d714426557a137601d0ccb4d86d4b9e2a783d8b4ff7
+    project_train_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    dev_val_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    optimizer_state_entries_at_construction: 0
+  training:
+    stage: stage_b
+    epochs_completed: 13
+    stop_reason: patience
+    raw_best_epoch: 8
+    raw_best_weighted_dev_loss: 0.1400324879901058
+    raw_best_model_state_sha256: d11e5f1b811217bec9b0a4a417aab810bccbedf41723fc65434a4f7973677b43
+    dev_auroc_at_raw_best_checkpoint: 0.9932718185313341
+    best_dev_auroc: 0.9932718185313341
+    best_dev_auroc_epoch: 8
+    model_left_in_eval_mode: true
+    optimizer_reuse_permitted: false
+    stage_b_auroc_disagreement:
+      best_dev_auroc: 0.9932718185313341
+      best_dev_auroc_epoch: 8
+      loss_argmin_checkpoint_epoch: 8
+      auroc_at_loss_argmin_checkpoint: 0.9932718185313341
+      difference: 0.0
+      threshold: 0.01
+      protocol_review_flag: false
+      automatically_switch_checkpoint: false
+- backbone_lr: 0.0001
+  selected: false
+  protocol_review_flag: false
+  initialization:
+    stage_a_checkpoint_epoch: 7
+    stage_a_checkpoint_weighted_dev_loss: 0.624011937082463
+    stage_a_checkpoint_model_state_sha256: f8b42a2405152fc7c74a7d714426557a137601d0ccb4d86d4b9e2a783d8b4ff7
+    fresh_model_state_sha256_before_restore: 2228a2a4f683e05f2679f4b1fc027ce575e691d72b8bbf1e1f5d1276308e3291
+    restored_model_state_sha256_cpu: f8b42a2405152fc7c74a7d714426557a137601d0ccb4d86d4b9e2a783d8b4ff7
+    restored_model_state_sha256_after_device_move: f8b42a2405152fc7c74a7d714426557a137601d0ccb4d86d4b9e2a783d8b4ff7
+    project_train_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    dev_val_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    optimizer_state_entries_at_construction: 0
+  training:
+    stage: stage_b
+    epochs_completed: 14
+    stop_reason: patience
+    raw_best_epoch: 9
+    raw_best_weighted_dev_loss: 0.10442634494336772
+    raw_best_model_state_sha256: 813f13be0b939865fdcae1e226a54cba4005ba57dcb50a685d49b87c70b9dc8a
+    dev_auroc_at_raw_best_checkpoint: 0.9957494980563031
+    best_dev_auroc: 0.9967747447562904
+    best_dev_auroc_epoch: 11
+    model_left_in_eval_mode: true
+    optimizer_reuse_permitted: false
+    stage_b_auroc_disagreement:
+      best_dev_auroc: 0.9967747447562904
+      best_dev_auroc_epoch: 11
+      loss_argmin_checkpoint_epoch: 9
+      auroc_at_loss_argmin_checkpoint: 0.9957494980563031
+      difference: 0.00102524669998727
+      threshold: 0.01
+      protocol_review_flag: false
+      automatically_switch_checkpoint: false
+- backbone_lr: 0.0003
+  selected: true
+  protocol_review_flag: false
+  initialization:
+    stage_a_checkpoint_epoch: 7
+    stage_a_checkpoint_weighted_dev_loss: 0.624011937082463
+    stage_a_checkpoint_model_state_sha256: f8b42a2405152fc7c74a7d714426557a137601d0ccb4d86d4b9e2a783d8b4ff7
+    fresh_model_state_sha256_before_restore: 2228a2a4f683e05f2679f4b1fc027ce575e691d72b8bbf1e1f5d1276308e3291
+    restored_model_state_sha256_cpu: f8b42a2405152fc7c74a7d714426557a137601d0ccb4d86d4b9e2a783d8b4ff7
+    restored_model_state_sha256_after_device_move: f8b42a2405152fc7c74a7d714426557a137601d0ccb4d86d4b9e2a783d8b4ff7
+    project_train_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    dev_val_generator_initial_state_sha256: f5bc3c574db9dc1e49dee6f3d77ea1914debd5135176a482f8df48d4ce3c7a62
+    optimizer_state_entries_at_construction: 0
+  training:
+    stage: stage_b
+    epochs_completed: 10
+    stop_reason: patience
+    raw_best_epoch: 5
+    raw_best_weighted_dev_loss: 0.08407829264323703
+    raw_best_model_state_sha256: f8f385c3aade0081b96e9bc3751f2b3dc55e9a798a64a22cdadbb121e7c26916
+    dev_auroc_at_raw_best_checkpoint: 0.995599982912555
+    best_dev_auroc: 0.995599982912555
+    best_dev_auroc_epoch: 5
+    model_left_in_eval_mode: true
+    optimizer_reuse_permitted: false
+    stage_b_auroc_disagreement:
+      best_dev_auroc: 0.995599982912555
+      best_dev_auroc_epoch: 5
+      loss_argmin_checkpoint_epoch: 5
+      auroc_at_loss_argmin_checkpoint: 0.995599982912555
+      difference: 0.0
+      threshold: 0.01
+      protocol_review_flag: false
+      automatically_switch_checkpoint: false
+selection:
+  metric: class_weighted_dev_cross_entropy
+  source: raw_argmin_checkpoint
+  rule: lowest_best_weighted_dev_loss
+  exact_tie_breaker: lower_backbone_learning_rate
+  selected_backbone_lr: 0.0003
+  selected_raw_best_weighted_dev_loss: 0.08407829264323703
+  selected_stage_b_checkpoint_model_state_sha256: f8f385c3aade0081b96e9bc3751f2b3dc55e9a798a64a22cdadbb121e7c26916
+  exact_loss_tie_encountered: false
+  protocol_review_required: false
+  auroc_changes_selection: false
