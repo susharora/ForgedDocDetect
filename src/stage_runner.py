@@ -81,9 +81,6 @@ from torch.utils.data import DataLoader
 
 import logging
 import time
-from dataclasses import dataclass
-from typing import Any, Literal, Mapping
-
 
 PROGRESS_LOGGER = logging.getLogger(
     "tech2.resnet18"
@@ -934,44 +931,7 @@ def run_training_stage(
             time.perf_counter()
             - dev_started
         )
-
-
-        # ==============================================================
-        # Complete project_train epoch
-        # ==============================================================
-
-        train_result: TrainingEpochResult = (
-            train_one_epoch(
-                model=model,
-                loader=project_train_loader,
-                optimizer=optimizer,
-                objective=objective,
-                device=execution_device,
-                stage=validated_stage,
-            )
-        )
-
-        if (
-            train_result.stage
-            != validated_stage
-        ):
-
-            raise RuntimeError(
-                "Training epoch reported wrong stage."
-            )
-
-        # ==============================================================
-        # Complete dev_val evaluation
-        # ==============================================================
-
-        dev_result = (
-            evaluate_dev_one_epoch(
-                model=model,
-                loader=dev_val_loader,
-                objective=objective,
-                device=execution_device,
-            )
-        )
+    
 
         # ==============================================================
         # Diagnostic AUROC
