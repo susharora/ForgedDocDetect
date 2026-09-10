@@ -1,0 +1,25 @@
+schema_version: 1
+
+logging:
+  directory: logs
+  filename: audit_resnet18_real_screening_entrypoint_{machine_id}_{timestamp}.log
+
+output:
+  directory: logs
+  filename: audit_resnet18_real_screening_entrypoint_{machine_id}_{timestamp}.yaml
+
+audit:
+
+  expected_experiment_config_sha256:
+    c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+
+  resolution: r256
+  run_seed: 8
+
+  synthetic_selected_backbone_lr: 0.0001
+  synthetic_selected_dev_loss: 0.45
+
+  expected_total_completed_epochs: 21
+
+  failure_message:
+    synthetic screening execution failure
