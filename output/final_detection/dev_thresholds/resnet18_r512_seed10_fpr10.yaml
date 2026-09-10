@@ -1,0 +1,106 @@
+schema_version: 1
+artifact_type: resnet18_dev_derived_fpr10_threshold
+status: DERIVED_UNDER_FROZEN_PROTOCOL
+created_at_utc: '2026-09-10T16:35:41.742712+00:00'
+git:
+  commit_sha: 16d4276482c7506618fcfc9ceebfc02f7413a734
+  branch: main
+machine:
+  id: IMTA134
+  configured_device: cuda
+scientific_config:
+  path: configs/experiments/resnet18_gradcam.yaml
+  sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+evaluation_protocol:
+  path: configs/evaluation/resnet18_final_detection.yaml
+  sha256: fc3c093baf702dc0582bea13f33e420867675d4c7e0fb13e36bc27c322db7072
+fpr10_primitive_audit:
+  path: logs/audit_resnet18_fpr10_sush-AMD_2026-09-10_153458_042110Z.yaml
+  sha256: 089671a875ee391b1db6f913d580b8abe9fadd19285fec5caa062693cb18eaf9
+  status: PASS
+resolution_selection:
+  path: output/model_selection/resnet18_resolution_selection_2026-09-10_133648_325769Z.yaml
+  sha256: 9a4358e48bc665d29487eede4073bba701357c3df1cdcf33d72f383a1c702037
+  selected_resolution: r512
+  selected_backbone_lr: 0.0001
+checkpoint:
+  seed: 10
+  source_machine: IMTA134
+  run_id: 20260910T023206_310000Z_resnet18_stability_r512_seed10_IMTA134_371add4c
+  source_run_yaml: runs/20260910T023206_310000Z_resnet18_stability_r512_seed10_IMTA134_371add4c/run.yaml
+  source_run_yaml_sha256: 516f26c045444e6138f3761ab967f341ae210dd2d3da927f4dc211e1c46213fa
+  file_sha256: 6e826bdb5f710ea3f4f914ea3c93095340669027fb1c9aa73ce9420a09b283dd
+  model_state_sha256: 704ada7d024c8ef446501d9f06938d29ba1409707883ef62996f3691b13daaa7
+  epoch: 8
+  historical_weighted_dev_loss: 0.018668773302985397
+  observed_weighted_dev_loss: 0.018668773302985397
+  weighted_dev_loss_delta: 0.0
+  historical_dev_auroc: 0.9998504848562518
+  observed_dev_auroc: 0.9998504848562518
+dev_val:
+  manifest_path: output/splits/fantasyid_project_split_2026-09-05_091937_dev_val.csv
+  manifest_sha256: 46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+  sample_count: 459
+  bonafide_count: 153
+  attack_count: 306
+  resolution: r512
+score:
+  stored_logits: float32
+  threshold_score: p_attack
+  threshold_score_dtype: float64
+  definition: softmax(float64([z0,z1]))[1]
+fixed_operating_point:
+  threshold: 0.5
+  prediction_rule: attack iff p_attack >= 0.5
+controlled_fpr10:
+  threshold_selection_population: complete_dev_val_bonafide_subset_only
+  target_empirical_fpr: 0.1
+  bonafide_count: 153
+  allowed_false_positive_count: 15
+  boundary_rank_one_based: 16
+  boundary_score_b16: 0.0017376946781355155
+  threshold: 0.0017376946781355158
+  threshold_dtype: float64
+  threshold_rule: nextafter(b16,+infinity)
+  prediction_rule: attack iff p_attack >= threshold_FPR10
+  boundary_tie_count: 1
+  strictly_above_boundary_count: 15
+  achieved_dev_false_positive_count: 15
+  achieved_dev_false_positive_rate: 0.09803921568627451
+  attack_scores_used_for_threshold_selection: false
+  interpolation: false
+  randomized_tie_handling: false
+  threshold_clamped: false
+predictions:
+  path: output/final_detection/dev_predictions/resnet18_r512_seed10_dev_predictions.csv
+  sha256: 3484a89a4cd113cfcbb8d58615298e03cb85ef984e317ccfe4e2ffd9e9fcd304
+  rows: 459
+  manifest_order_preserved: true
+inference_reproducibility:
+  run_seed: 10
+  cublas_workspace_config: :4096:8
+  deterministic_algorithms: true
+  cudnn_benchmark: false
+  cudnn_deterministic: true
+  allow_tf32_matmul: false
+  allow_tf32_cudnn: false
+  inference_seconds: 9.244563910004217
+model_build:
+  architecture: resnet18
+  pretrained_weights_enum: IMAGENET1K_V1
+  pretrained_checkpoint_sha256: f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+production_inference_source_sha256:
+  src/data.py: b9cb486b2a5d2938cfe8d838802c2416cca85fedffe882682ff1c8efd3f742f2
+  src/reproducibility.py: 1710e6201c78ba7110a0fae6206cb2ac1ed1103634bee0e7e274842a482e8617
+  src/modeling.py: b3cb73aa3d33d7938fe7a0e6b751721cddb049f8d6cddebc54181b9abbaf3d63
+  src/objective.py: b4f307081bfb88736e419ee5c2152c1f1ed0fcff6241196b07463b48b9323755
+  src/engine.py: d4a48dfc50d9a242f4a0b75b9fd3d867b9f9736ccbd2f195e45be51aca6d42d5
+  src/development_metrics.py: cee65d2fc5c9dc448dd3d1296811525978b01d5f39039c11bcb9fe620884fc3f
+  src/screening_artifacts.py: 3976ab1c4a63e48b2650b059ee8d076312df63ee323c777b9dd3aedee4ae4db0
+boundaries:
+  scientific_training_performed: false
+  checkpoint_selection_performed: false
+  learning_rate_selection_performed: false
+  resolution_selection_performed: false
+  test_threshold_tuning_performed: false
+  held_out_test_accessed: false
