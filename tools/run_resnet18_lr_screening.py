@@ -95,10 +95,6 @@ import torch
 import torchvision
 import yaml
 
-from src.reproducibility import (
-    establish_pre_cuda_environment,
-)
-
 
 # ======================================================================
 # Repository imports
@@ -119,6 +115,9 @@ if str(
         ),
     )
 
+from src.reproducibility import (
+    establish_pre_cuda_environment,
+)
 
 from src.config import (
     load_experiment_config,
