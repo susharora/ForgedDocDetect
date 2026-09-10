@@ -183,6 +183,89 @@ def validate_run_seed(
             f"  allowed={sorted(allowed_seeds)}"
         )
 
+# ======================================================================
+# Pre-CUDA deterministic environment
+# ======================================================================
+
+def establish_pre_cuda_environment(
+    *,
+    experiment_cfg: Mapping[str, Any],
+) -> str:
+    """
+    Establish deterministic environment variables that must exist before
+    CUDA is initialized.
+
+    This function deliberately does NOT:
+    - seed any RNG;
+    - initialize CUDA;
+    - configure cuDNN;
+    - configure TF32;
+    - construct any scientific object.
+
+    It is safe to call more than once.
+
+    The primary purpose is to guarantee that
+    CUBLAS_WORKSPACE_CONFIG=:4096:8 exists before any provenance or
+    diagnostic code initializes CUDA.
+    """
+
+    reproducibility = require_mapping(
+        require_key(
+            experiment_cfg,
+            "reproducibility",
+            "experiment_config",
+        ),
+        "reproducibility",
+    )
+
+    determinism = require_mapping(
+        require_key(
+            reproducibility,
+            "determinism",
+            "reproducibility",
+        ),
+        "reproducibility.determinism",
+    )
+
+    cublas_workspace_config = str(
+        require_key(
+            determinism,
+            "cublas_workspace_config",
+            "reproducibility.determinism",
+        )
+    )
+
+    if cublas_workspace_config != ":4096:8":
+
+        raise ValueError(
+            "Frozen protocol requires "
+            "CUBLAS_WORKSPACE_CONFIG=:4096:8."
+        )
+
+    existing_workspace_config = os.environ.get(
+        "CUBLAS_WORKSPACE_CONFIG"
+    )
+
+    # Once CUDA has initialized, changing this environment variable is
+    # too late. Fail rather than silently claiming deterministic cuBLAS.
+    if (
+        torch.cuda.is_initialized()
+        and existing_workspace_config
+        != cublas_workspace_config
+    ):
+
+        raise RuntimeError(
+            "CUDA was already initialized before the frozen "
+            "CUBLAS_WORKSPACE_CONFIG was established:\n"
+            f"  expected={cublas_workspace_config!r}\n"
+            f"  existing={existing_workspace_config!r}"
+        )
+
+    os.environ[
+        "CUBLAS_WORKSPACE_CONFIG"
+    ] = cublas_workspace_config
+
+    return cublas_workspace_config
 
 # ======================================================================
 # Global deterministic configuration
@@ -248,12 +331,10 @@ def configure_run_reproducibility(
         "deterministic_algorithms",
         "reproducibility.determinism",
     )
-
-    cublas_workspace_config = str(
-        require_key(
-            determinism,
-            "cublas_workspace_config",
-            "reproducibility.determinism",
+    
+    cublas_workspace_config = (
+        establish_pre_cuda_environment(
+            experiment_cfg=experiment_cfg,
         )
     )
 
@@ -311,13 +392,6 @@ def configure_run_reproducibility(
             "deterministic_algorithms=true."
         )
 
-    if cublas_workspace_config != ":4096:8":
-
-        raise ValueError(
-            "Frozen protocol requires "
-            "CUBLAS_WORKSPACE_CONFIG=:4096:8."
-        )
-
     if allow_tf32_matmul is not False:
 
         raise ValueError(
@@ -336,31 +410,6 @@ def configure_run_reproducibility(
             "Frozen protocol requires nondeterministic "
             "required operations to fail."
         )
-
-    # ------------------------------------------------------------------
-    # CUBLAS_WORKSPACE_CONFIG must be established before CUDA work.
-    # ------------------------------------------------------------------
-
-    existing_workspace_config = os.environ.get(
-        "CUBLAS_WORKSPACE_CONFIG"
-    )
-
-    if (
-        torch.cuda.is_initialized()
-        and existing_workspace_config
-        != cublas_workspace_config
-    ):
-
-        raise RuntimeError(
-            "CUDA was already initialized before the frozen "
-            "CUBLAS_WORKSPACE_CONFIG was established:\n"
-            f"  expected={cublas_workspace_config!r}\n"
-            f"  existing={existing_workspace_config!r}"
-        )
-
-    os.environ[
-        "CUBLAS_WORKSPACE_CONFIG"
-    ] = cublas_workspace_config
 
     # ------------------------------------------------------------------
     # Global RNGs.

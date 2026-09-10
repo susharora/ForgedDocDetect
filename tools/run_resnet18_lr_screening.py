@@ -95,6 +95,10 @@ import torch
 import torchvision
 import yaml
 
+from src.reproducibility import (
+    establish_pre_cuda_environment,
+)
+
 
 # ======================================================================
 # Repository imports
@@ -880,6 +884,19 @@ def main() -> int:
         )
     )
 
+    # ==================================================================
+    # PRE-CUDA deterministic environment.
+    #
+    # This MUST happen before runtime_provenance(), because that function
+    # queries the CUDA device and may initialize CUDA.
+    # ==================================================================
+
+    cublas_workspace_config = (
+        establish_pre_cuda_environment(
+            experiment_cfg=experiment_cfg,
+        )
+    )
+
     machine_cfg, machine_path = (
         load_machine_config(
             args.machine_config,
@@ -919,6 +936,22 @@ def main() -> int:
             configured_device
         )
     )
+
+    if (
+        os.environ.get(
+            "CUBLAS_WORKSPACE_CONFIG"
+        )
+        != cublas_workspace_config
+    ):
+
+        raise RuntimeError(
+            "CUBLAS_WORKSPACE_CONFIG changed after "
+            "CUDA runtime provenance collection."
+        )
+
+    runtime_info[
+        "cublas_workspace_config"
+    ] = cublas_workspace_config
 
     source_hashes = (
         production_source_hashes()
@@ -1183,6 +1216,11 @@ def main() -> int:
     write_yaml_atomic(
         path=run_yaml_path,
         value=run_record,
+    )
+
+    LOGGER.info(
+        "CUBLAS_WORKSPACE_CONFIG: %s",
+        cublas_workspace_config,
     )
 
     LOGGER.info(
