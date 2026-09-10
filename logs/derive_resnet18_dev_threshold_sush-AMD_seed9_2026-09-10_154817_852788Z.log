@@ -1,0 +1,51 @@
+2026-09-10T15:48:17Z | INFO | ========================================================================
+2026-09-10T15:48:17Z | INFO | RESNET-18 REAL DEV THRESHOLD DERIVATION
+2026-09-10T15:48:17Z | INFO | ========================================================================
+2026-09-10T15:48:17Z | INFO | Git commit: ea0ae11b9655b3b5d02ef3023dbaad659287949f
+2026-09-10T15:48:17Z | INFO | Git branch: main
+2026-09-10T15:48:17Z | INFO | Machine: sush-AMD
+2026-09-10T15:48:17Z | INFO | Seed: 9
+2026-09-10T15:48:17Z | INFO | [PASS] pre-CUDA CUBLAS_WORKSPACE_CONFIG = :4096:8
+2026-09-10T15:48:17Z | INFO | [PASS] canonical experiment validator
+2026-09-10T15:48:17Z | INFO | Validator artifact: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-10_154817_881598Z.log
+2026-09-10T15:48:17Z | INFO | Validator artifact SHA-256: 0b97a22af90a4dc99a31f5d644851934cda85075a853c0025fecc52b5a9d2765
+2026-09-10T15:48:17Z | INFO | [PASS] FPR10 primitive audit prerequisite
+2026-09-10T15:48:17Z | INFO | FPR10 audit: /home/sush/ForgedDocDetect/logs/audit_resnet18_fpr10_sush-AMD_2026-09-10_153458_042110Z.yaml
+2026-09-10T15:48:17Z | INFO | FPR10 audit SHA-256: 089671a875ee391b1db6f913d580b8abe9fadd19285fec5caa062693cb18eaf9
+2026-09-10T15:48:17Z | INFO | [PASS] frozen final configuration = r512 / LR 1e-4
+2026-09-10T15:48:17Z | INFO | [PASS] seed 9 canonical checkpoint origin = sush-AMD
+2026-09-10T15:48:17Z | INFO | [PASS] checkpoint file SHA-256 = 002d7e3208b164579e1c678d98cf79b614c8de1348a693c69b417f601d03fd14
+2026-09-10T15:48:17Z | INFO | [PASS] checkpoint model-state SHA-256 = fbbd2867ef9c1db6e8312b257a8c89262456e7246d0e088151e5112a7b9afd48
+2026-09-10T15:48:17Z | INFO | [PASS] current inference source matches checkpoint training-time source
+2026-09-10T15:48:18Z | INFO | [PASS] deterministic run contract established for seed 9
+2026-09-10T15:48:18Z | INFO | Configured device: cuda
+2026-09-10T15:48:18Z | INFO | [PASS] exact selected model state restored
+2026-09-10T15:48:18Z | INFO | [PASS] dev-only Dataset constructed: 459 images
+2026-09-10T15:48:18Z | INFO | [PASS] held-out test route absent from Dataset constructor
+2026-09-10T15:48:26Z | INFO | [PASS] complete dev inference = 459 = 153 bona-fide + 306 attack
+2026-09-10T15:48:26Z | INFO | Dev inference seconds: 8.439903
+2026-09-10T15:48:26Z | INFO | [PASS] weighted dev CE reproduces selected checkpoint
+2026-09-10T15:48:26Z | INFO | Historical dev CE: 0.036387547043128604
+2026-09-10T15:48:26Z | INFO | Observed dev CE:   0.036387547043128604
+2026-09-10T15:48:26Z | INFO | Dev CE delta:      0
+2026-09-10T15:48:26Z | INFO | [PASS] FPR10 derived from bona-fide dev scores ONLY
+2026-09-10T15:48:26Z | INFO | FPR10 K: 15
+2026-09-10T15:48:26Z | INFO | FPR10 boundary rank: 16
+2026-09-10T15:48:26Z | INFO | FPR10 boundary score b16: 0.028540367027646573
+2026-09-10T15:48:26Z | INFO | FPR10 threshold nextafter(b16,+inf): 0.028540367027646577
+2026-09-10T15:48:26Z | INFO | Boundary tie count: 1
+2026-09-10T15:48:26Z | INFO | Achieved dev bona-fide FP: 15/153
+2026-09-10T15:48:26Z | INFO | Achieved empirical dev FPR: 0.098039215686
+2026-09-10T15:48:26Z | INFO | [PASS] dev AUROC reproduces historical raw-best checkpoint
+2026-09-10T15:48:26Z | INFO | Observed dev AUROC: 0.99933786150625825
+2026-09-10T15:48:26Z | INFO | 
+2026-09-10T15:48:26Z | INFO | [PASS] dev predictions persisted: /home/sush/ForgedDocDetect/output/final_detection/dev_predictions/resnet18_r512_seed9_dev_predictions.csv
+2026-09-10T15:48:26Z | INFO | Dev predictions SHA-256: 266733ab9ede427354edb9d697ec75c112846dd834dfdbd8daedeee6691cac83
+2026-09-10T15:48:26Z | INFO | [PASS] seed-specific FPR10 artifact persisted: /home/sush/ForgedDocDetect/output/final_detection/dev_thresholds/resnet18_r512_seed9_fpr10.yaml
+2026-09-10T15:48:26Z | INFO | Threshold artifact SHA-256: 9592a18635d1c103bad7a171d4514ffde6f4832ce7ca0a8fd77429a22702073d
+2026-09-10T15:48:26Z | INFO | [PASS] scientific training: NOT PERFORMED
+2026-09-10T15:48:26Z | INFO | [PASS] model/checkpoint selection: NOT PERFORMED
+2026-09-10T15:48:26Z | INFO | [PASS] held-out test: NOT ACCESSED
+2026-09-10T15:48:26Z | INFO | ========================================================================
+2026-09-10T15:48:26Z | INFO | SEED 9 DEV THRESHOLD DERIVATION: COMPLETE
+2026-09-10T15:48:26Z | INFO | ========================================================================
