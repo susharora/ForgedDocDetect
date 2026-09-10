@@ -1,0 +1,31 @@
+2026-09-10T00:33:13Z | INFO | ========================================================================
+2026-09-10T00:33:13Z | INFO | RESNET-18 REAL LR SCREENING
+2026-09-10T00:33:13Z | INFO | ========================================================================
+2026-09-10T00:33:13Z | INFO | Run ID: 20260910T003313_491547Z_resnet18_lr_screen_r256_seed8_sush-AMD_bcdd3cd0
+2026-09-10T00:33:13Z | INFO | Git commit: bcdd3cd080b53c47000e8c6633bce737c02183b7
+2026-09-10T00:33:13Z | INFO | Machine: sush-AMD
+2026-09-10T00:33:13Z | INFO | Resolution: r256
+2026-09-10T00:33:13Z | INFO | Run seed: 8
+2026-09-10T00:33:13Z | INFO | Device: cuda
+2026-09-10T00:33:13Z | INFO | Experiment config SHA-256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-10T00:33:13Z | INFO | Held-out test: NOT ACCESSED
+2026-09-10T00:33:13Z | INFO | 
+2026-09-10T00:33:13Z | INFO | Starting scientific training:
+2026-09-10T00:33:13Z | INFO |   Stage A once, then Stage B for backbone LRs [3e-5, 1e-4, 3e-4].
+2026-09-10T00:33:13Z | INFO |   Live epoch timing/loss/AUROC progress will be logged below.
+2026-09-10T00:33:13Z | INFO | Resolution screen start | resolution=r256 | seed=8 | stage_b_backbone_lrs=(3e-05, 0.0001, 0.0003)
+2026-09-10T00:33:13Z | INFO | Stage A start | resolution=r256 | seed=8
+2026-09-10T00:33:13Z | ERROR | REAL LR SCREENING: FAIL
+Traceback (most recent call last):
+  File "/home/sush/ForgedDocDetect/tools/run_resnet18_lr_screening.py", line 1292, in main
+    run_resolution_lr_screening(
+  File "/home/sush/ForgedDocDetect/src/lr_screening.py", line 997, in run_resolution_lr_screening
+    ) = _build_stage_a_runtime(
+        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sush/ForgedDocDetect/src/lr_screening.py", line 668, in _build_stage_a_runtime
+    configure_run_reproducibility(
+  File "/home/sush/ForgedDocDetect/src/reproducibility.py", line 354, in configure_run_reproducibility
+    raise RuntimeError(
+RuntimeError: CUDA was already initialized before the frozen CUBLAS_WORKSPACE_CONFIG was established:
+  expected=':4096:8'
+  existing=None
