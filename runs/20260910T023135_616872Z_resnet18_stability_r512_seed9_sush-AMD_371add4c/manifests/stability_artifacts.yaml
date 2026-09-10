@@ -1,0 +1,47 @@
+schema_version: 1
+artifact_type: selected_lr_stability_artifact_manifest
+run:
+  run_id: 20260910T023135_616872Z_resnet18_stability_r512_seed9_sush-AMD_371add4c
+  git_commit: 371add4c4fbec85e798a50e79bc4ed2bc5805229
+  resolution_name: r512
+  run_seed: 9
+  backbone_lr: 0.0001
+held_out_test_accessed: false
+manifest_self_excluded: true
+artifact_count: 5
+artifacts:
+- path: checkpoints/stage_a_raw_best.pt
+  sha256: 015e8f568ba58a76395bf7c86c187f1099329a69bf5ed81443dd8a73fe1db718
+  size_bytes: 44788491
+  artifact_type: raw_argmin_model_checkpoint
+  stage: stage_a
+  backbone_lr: null
+  model_state_sha256: eef8cd3c1cb036748555b684427a1fe730a3169f0bda57629fe153b8885fbe43
+  checkpoint_epoch: 7
+  weighted_dev_loss: 0.6239466030223697
+- path: metrics/stage_a_history.csv
+  sha256: c0e42aa15baece9e152288101763fdfbc77f8086cc602c8a703200b55b40d441
+  size_bytes: 2054
+  artifact_type: epoch_history_csv
+  stage: stage_a
+- path: checkpoints/stage_b_lr_1e-04_raw_best.pt
+  sha256: 002d7e3208b164579e1c678d98cf79b614c8de1348a693c69b417f601d03fd14
+  size_bytes: 44789643
+  artifact_type: raw_argmin_model_checkpoint
+  stage: stage_b
+  backbone_lr: 0.0001
+  model_state_sha256: fbbd2867ef9c1db6e8312b257a8c89262456e7246d0e088151e5112a7b9afd48
+  checkpoint_epoch: 3
+  weighted_dev_loss: 0.036387547043128604
+  selected: true
+- path: metrics/stage_b_lr_1e-04_history.csv
+  sha256: 150b4d2907f156e493f84727d4e4c564067833a700d9c4e836fa1b90ed33d568
+  size_bytes: 2458
+  artifact_type: epoch_history_csv
+  stage: stage_b
+  backbone_lr: 0.0001
+  selected: true
+- path: metrics/stability_summary.yaml
+  sha256: fe8e535f3347d9c6189f76c39cd803485556a3fece59daa5e9074c0d3847a2cf
+  size_bytes: 4054
+  artifact_type: selected_lr_stability_summary_yaml
