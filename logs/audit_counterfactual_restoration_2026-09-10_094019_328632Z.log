@@ -1,0 +1,35 @@
+2026-09-10T09:40:19Z | INFO | ========================================================================
+2026-09-10T09:40:19Z | INFO | DEV COUNTERFACTUAL RESTORATION AUDIT
+2026-09-10T09:40:19Z | INFO | ========================================================================
+2026-09-10T09:40:19Z | INFO | Git commit: 640ee183af71545094f0b520e8d2515e7ebefbf9
+2026-09-10T09:40:19Z | INFO | Audit script SHA-256: a5984ead72a0d38da4284084e65065b65a40f96541ff3bb96fc93a76e9d53938
+2026-09-10T09:40:19Z | INFO | Restoration primitive SHA-256: 1860d07be10d15bea3f3ff87e6e3932352e5503267fb4ad00a31378ca8358de2
+2026-09-10T09:40:19Z | INFO | Audit config SHA-256: 0e07fef936728f1dc2159ecfde43b3e192c2ba3fab8bd4577f4e08ca9249371f
+2026-09-10T09:40:19Z | INFO | Experiment config SHA-256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-10T09:40:19Z | INFO | Canonical validator: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-10_094019_290760Z.log
+2026-09-10T09:40:19Z | INFO | Canonical validator SHA-256: fa78455a10e0f325d758e4007e1eb52ec16446010403bc1926a4888fc15c4503
+2026-09-10T09:40:19Z | INFO | Machine: sush-AMD
+2026-09-10T09:40:19Z | INFO | Probe match floor: 0.000000
+2026-09-10T09:40:19Z | INFO | Acceptance minimum normalized IoU: 0.250000
+2026-09-10T09:40:19Z | INFO | Held-out test images: NOT ACCESSED
+2026-09-10T09:40:19Z | INFO | Frozen workbook rows used: required dev_val paths only
+2026-09-10T09:40:19Z | INFO | Frozen dev manifest: /home/sush/ForgedDocDetect/output/splits/fantasyid_project_split_2026-09-05_091937_dev_val.csv
+2026-09-10T09:40:19Z | INFO | Frozen dev manifest SHA-256: 46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+2026-09-10T09:40:19Z | INFO | Development attacks: 306
+2026-09-10T09:40:19Z | INFO | Aligned bona-fide captures: 153
+2026-09-10T09:40:19Z | INFO | Required dev image paths for restoration audit: 459
+2026-09-10T09:40:24Z | INFO | Frozen discovery workbook: /home/sush/ForgedDocDetect/output/fantasyid_inventory_2026-09-05_023126.xlsx
+2026-09-10T09:40:24Z | INFO | Frozen discovery workbook SHA-256: 54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+2026-09-10T09:40:29Z | INFO | Processed 25 / 306 development attacks
+2026-09-10T09:40:31Z | ERROR | DEV COUNTERFACTUAL RESTORATION AUDIT: FAIL
+Traceback (most recent call last):
+  File "/home/sush/ForgedDocDetect/tools/audit_counterfactual_restoration.py", line 2309, in main
+    text = restore_counterfactual(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sush/ForgedDocDetect/src/counterfactual_restoration.py", line 1364, in restore_counterfactual
+    match_restoration_regions(
+  File "/home/sush/ForgedDocDetect/src/counterfactual_restoration.py", line 868, in match_restoration_regions
+    raise CounterfactualRestorationError(
+src.counterfactual_restoration.CounterfactualRestorationError: No matching semantic region exists in aligned bona-fide image:
+  field='name_other'
+  attack_region_index=10
