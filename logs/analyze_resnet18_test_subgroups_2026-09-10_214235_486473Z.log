@@ -1,0 +1,41 @@
+2026-09-10T21:42:35Z | INFO | ========================================================================
+2026-09-10T21:42:35Z | INFO | RESNET-18 POST-HOC FINAL-TEST SUBGROUP DIAGNOSTIC
+2026-09-10T21:42:35Z | INFO | ========================================================================
+2026-09-10T21:42:35Z | INFO | Git commit: 749046b33e28aa6f756bfc053fcaba9c4b3c5562
+2026-09-10T21:42:35Z | INFO | [PASS] frozen final baseline summary SHA-256 = f80dcc445490aa935ce958e61afe41c67e2c761c90902b833227daf7de249d27
+2026-09-10T21:42:35Z | INFO | [PASS] scientific config SHA-256 = c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-10T21:42:35Z | INFO | [PASS] development stems = 160 project_train + 51 dev_val = 211
+2026-09-10T21:42:35Z | INFO | 
+2026-09-10T21:42:35Z | INFO | --- Attack stem-exposure counts ---
+2026-09-10T21:42:35Z | INFO | digital_3 | train_seen=480 | dev_only=153 | unseen=153
+2026-09-10T21:42:35Z | INFO | facedancer | train_seen=0 | dev_only=0 | unseen=150
+2026-09-10T21:42:35Z | INFO | textdiffuserft_bfei | train_seen=0 | dev_only=0 | unseen=149
+2026-09-10T21:42:35Z | INFO | 
+2026-09-10T21:42:35Z | INFO | Seed 8 overall | AUROC=0.237963133641 | fixed_TPR=0.184331797235 | FPR10_TPR=0.293087557604
+2026-09-10T21:42:35Z | INFO | Seed 8 family=digital_3 | n=786 | AUROC=0.046980491942 | fixed_TPR=0.005089058524 | FPR10_TPR=0.061068702290 | median_p_attack=0.000170082944
+2026-09-10T21:42:35Z | INFO | Seed 8 family=facedancer | n=150 | AUROC=0.971355555556 | fixed_TPR=0.980000000000 | FPR10_TPR=1.000000000000 | median_p_attack=0.999997946055
+2026-09-10T21:42:35Z | INFO | Seed 8 family=textdiffuserft_bfei | n=149 | AUROC=0.507114093960 | fixed_TPR=0.328859060403 | FPR10_TPR=0.805369127517 | median_p_attack=0.228338356845
+2026-09-10T21:42:35Z | INFO | 
+2026-09-10T21:42:35Z | INFO | Seed 9 overall | AUROC=0.278294930876 | fixed_TPR=0.170506912442 | FPR10_TPR=0.249769585253
+2026-09-10T21:42:35Z | INFO | Seed 9 family=digital_3 | n=786 | AUROC=0.104160305344 | fixed_TPR=0.010178117048 | FPR10_TPR=0.041984732824 | median_p_attack=0.001187512299
+2026-09-10T21:42:35Z | INFO | Seed 9 family=facedancer | n=150 | AUROC=0.971800000000 | fixed_TPR=0.960000000000 | FPR10_TPR=1.000000000000 | median_p_attack=0.999670010827
+2026-09-10T21:42:35Z | INFO | Seed 9 family=textdiffuserft_bfei | n=149 | AUROC=0.498724832215 | fixed_TPR=0.221476510067 | FPR10_TPR=0.590604026846 | median_p_attack=0.053223847517
+2026-09-10T21:42:35Z | INFO | 
+2026-09-10T21:42:35Z | INFO | Seed 10 overall | AUROC=0.269287250384 | fixed_TPR=0.162211981567 | FPR10_TPR=0.354838709677
+2026-09-10T21:42:35Z | INFO | Seed 10 family=digital_3 | n=786 | AUROC=0.089677692960 | fixed_TPR=0.002544529262 | FPR10_TPR=0.147582697201 | median_p_attack=0.000199382728
+2026-09-10T21:42:35Z | INFO | Seed 10 family=facedancer | n=150 | AUROC=0.985377777778 | fixed_TPR=0.980000000000 | FPR10_TPR=1.000000000000 | median_p_attack=0.999986986454
+2026-09-10T21:42:35Z | INFO | Seed 10 family=textdiffuserft_bfei | n=149 | AUROC=0.495861297539 | fixed_TPR=0.181208053691 | FPR10_TPR=0.798657718121 | median_p_attack=0.013651156859
+2026-09-10T21:42:35Z | INFO | 
+2026-09-10T21:42:35Z | INFO | [PASS] family AUROC decomposition exactly reconstructs overall AUROC for all three seeds
+2026-09-10T21:42:35Z | INFO | [PASS] family attack-recall decomposition exactly reconstructs overall attack recall
+2026-09-10T21:42:35Z | INFO | [PASS] diagnostic uses frozen prediction files only
+2026-09-10T21:42:35Z | INFO | [PASS] images/models/checkpoints opened: FALSE
+2026-09-10T21:42:35Z | INFO | [PASS] threshold derivation/modification: FALSE
+2026-09-10T21:42:35Z | INFO | [PASS] model/seed selection: FALSE
+2026-09-10T21:42:35Z | INFO | Diagnostic CSV: /home/sush/ForgedDocDetect/output/final_detection/posthoc_diagnostics/resnet18_test_subgroup_diagnostic_2026-09-10_214235_486473Z.csv
+2026-09-10T21:42:35Z | INFO | Diagnostic CSV SHA-256: 39d76a75ad2eb152d2782c45873090f1aecb25e4b990100087fdf0a4b5a48522
+2026-09-10T21:42:35Z | INFO | Diagnostic YAML: /home/sush/ForgedDocDetect/output/final_detection/posthoc_diagnostics/resnet18_test_subgroup_diagnostic_2026-09-10_214235_486473Z.yaml
+2026-09-10T21:42:35Z | INFO | Diagnostic YAML SHA-256: 8899756330d7d818099c540dc3d9672d21d310b0b87203022af261bd54ae7baa
+2026-09-10T21:42:35Z | INFO | ========================================================================
+2026-09-10T21:42:35Z | INFO | POST-HOC SUBGROUP DIAGNOSTIC: COMPLETE
+2026-09-10T21:42:35Z | INFO | ========================================================================
