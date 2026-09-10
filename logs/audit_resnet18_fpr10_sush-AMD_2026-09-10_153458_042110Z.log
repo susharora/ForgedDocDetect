@@ -1,0 +1,40 @@
+2026-09-10T15:34:58Z | INFO | ========================================================================
+2026-09-10T15:34:58Z | INFO | RESNET-18 FPR10 PRIMITIVE AUDIT
+2026-09-10T15:34:58Z | INFO | ========================================================================
+2026-09-10T15:34:58Z | INFO | Git commit: 18a5c2db506b4c1b40631808b58f0c3bc1482f2c
+2026-09-10T15:34:58Z | INFO | Machine: sush-AMD
+2026-09-10T15:34:58Z | INFO | Validator artifact: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-10_153458_010243Z.log
+2026-09-10T15:34:58Z | INFO | Validator artifact SHA-256: 201eaeeddd9e47b303351a73e70dee701466fcf8d1fdbdc9c504ef7c0ef09c05
+2026-09-10T15:34:58Z | INFO | [PASS] final-detection protocol parsed
+2026-09-10T15:34:58Z | INFO | [PASS] upstream training_config SHA-256 = c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-10T15:34:58Z | INFO | [PASS] upstream resolution_selection SHA-256 = 9a4358e48bc665d29487eede4073bba701357c3df1cdcf33d72f383a1c702037
+2026-09-10T15:34:58Z | INFO | [PASS] ground truth: bonafide=0, attack=1, positive=attack
+2026-09-10T15:34:58Z | INFO | [PASS] selected configuration = r512 / backbone LR 1e-4
+2026-09-10T15:34:58Z | INFO | [PASS] threshold API accepts bona-fide scores only
+2026-09-10T15:34:58Z | INFO | [PASS] attack scores cannot enter threshold derivation API
+2026-09-10T15:34:58Z | INFO | [PASS] FP32 logits -> float64 softmax p_attack
+2026-09-10T15:34:58Z | INFO | [PASS] score conversion does not mutate stored logits
+2026-09-10T15:34:58Z | INFO | [PASS] fixed threshold 0.5 uses >= and ties classify attack
+2026-09-10T15:34:58Z | INFO | [PASS] K = floor(0.10 * 153) = 15
+2026-09-10T15:34:58Z | INFO | [PASS] first disallowed rank = K+1 = 16
+2026-09-10T15:34:58Z | INFO | [PASS] no-tie b16 nextafter | K=15 | boundary_rank=16 | boundary=0.18340879752672659 | threshold=0.18340879752672662 | FP=15/153 | FPR=0.098039215686 | boundary_ties=1
+2026-09-10T15:34:58Z | INFO | [PASS] boundary-tie exclusion | K=15 | boundary_rank=16 | boundary=0.62245933120185459 | threshold=0.6224593312018547 | FP=13/153 | FPR=0.084967320261 | boundary_ties=5
+2026-09-10T15:34:58Z | INFO | [PASS] complete boundary tie group excluded: 13 FP rather than 18
+2026-09-10T15:34:58Z | INFO | [PASS] all-bonafide-tied | K=15 | boundary_rank=16 | boundary=0.56217650088579807 | threshold=0.56217650088579818 | FP=0/153 | FPR=0.000000000000 | boundary_ties=153
+2026-09-10T15:34:58Z | INFO | [PASS] all-tied bona-fide cohort yields empirical FPR=0
+2026-09-10T15:34:58Z | INFO | [PASS] probability-one-no-clamp | K=15 | boundary_rank=16 | boundary=1 | threshold=1.0000000000000002 | FP=0/153 | FPR=0.000000000000 | boundary_ties=153
+2026-09-10T15:34:58Z | INFO | [PASS] threshold may exceed 1.0; no probability clamping
+2026-09-10T15:34:58Z | INFO | [PASS] NaN logits are fatal
+2026-09-10T15:34:58Z | INFO | [PASS] infinite logits are fatal
+2026-09-10T15:34:58Z | INFO | [PASS] non-FP32 stored logits are rejected
+2026-09-10T15:34:58Z | INFO | [PASS] incomplete dev bona-fide population is rejected
+2026-09-10T15:34:58Z | INFO | 
+2026-09-10T15:34:58Z | INFO | [PASS] FantasyID image decoding: NONE
+2026-09-10T15:34:58Z | INFO | [PASS] checkpoint/model inference: NONE
+2026-09-10T15:34:58Z | INFO | [PASS] real dev threshold derivation: NONE
+2026-09-10T15:34:58Z | INFO | [PASS] held-out test: NOT ACCESSED
+2026-09-10T15:34:58Z | INFO | Audit artifact: /home/sush/ForgedDocDetect/logs/audit_resnet18_fpr10_sush-AMD_2026-09-10_153458_042110Z.yaml
+2026-09-10T15:34:58Z | INFO | Audit artifact SHA-256: 089671a875ee391b1db6f913d580b8abe9fadd19285fec5caa062693cb18eaf9
+2026-09-10T15:34:58Z | INFO | ========================================================================
+2026-09-10T15:34:58Z | INFO | RESNET-18 FPR10 PRIMITIVE AUDIT: PASS
+2026-09-10T15:34:58Z | INFO | ========================================================================

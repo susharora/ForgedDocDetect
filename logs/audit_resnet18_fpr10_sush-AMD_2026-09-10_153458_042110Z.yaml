@@ -1,0 +1,79 @@
+schema_version: 1
+artifact_type: resnet18_fpr10_primitive_audit
+status: PASS
+created_at_utc: '2026-09-10T15:34:58.058039+00:00'
+git_commit: 18a5c2db506b4c1b40631808b58f0c3bc1482f2c
+machine_id: sush-AMD
+validator:
+  path: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-10_153458_010243Z.log
+  sha256: 201eaeeddd9e47b303351a73e70dee701466fcf8d1fdbdc9c504ef7c0ef09c05
+source_sha256:
+  src/fpr10.py: 03d8a999b15679ee16cb925100efe5d4279b5805ff6cc5c9d8a4f93a9bb99b04
+  evaluation_protocol: fc3c093baf702dc0582bea13f33e420867675d4c7e0fb13e36bc27c322db7072
+  audit_script: 802ba5f3331dc16a3e09bbcbe8610f200703833f3ab723b45c4624ab515ed9f1
+  audit_config: 744e7e46159b725db0dc6722fa24c0460d8939eb68822a57882221f53433e308
+contract:
+  ground_truth:
+    bonafide: 0
+    attack: 1
+    positive_class: attack
+  threshold_score:
+    representation: attack_softmax_probability
+    stored_logit_dtype: float32
+    score_dtype: float64
+  fixed_threshold: 0.5
+  fpr10:
+    population: complete_frozen_dev_val_bonafide_subset_only
+    expected_dev_bonafide_count: 153
+    target_fpr: 0.1
+    allowed_false_positive_count: 15
+    boundary_rank: 16
+    threshold_rule: threshold_FPR10 = nextafter(boundary_score, +infinity)
+    attack_scores_participate: false
+    interpolation: false
+    randomized_tie_handling: false
+    threshold_clamping: false
+synthetic_cases:
+  no_tie:
+    boundary_score: 0.1834087975267266
+    threshold: 0.18340879752672662
+    boundary_rank_one_based: 16
+    allowed_false_positive_count: 15
+    achieved_false_positive_count: 15
+    achieved_false_positive_rate: 0.09803921568627451
+    boundary_tie_count: 1
+    threshold_above_one: false
+  boundary_tie:
+    boundary_score: 0.6224593312018546
+    threshold: 0.6224593312018547
+    boundary_rank_one_based: 16
+    allowed_false_positive_count: 15
+    achieved_false_positive_count: 13
+    achieved_false_positive_rate: 0.08496732026143791
+    boundary_tie_count: 5
+    threshold_above_one: false
+  all_tied:
+    boundary_score: 0.5621765008857981
+    threshold: 0.5621765008857982
+    boundary_rank_one_based: 16
+    allowed_false_positive_count: 15
+    achieved_false_positive_count: 0
+    achieved_false_positive_rate: 0.0
+    boundary_tie_count: 153
+    threshold_above_one: false
+  probability_one:
+    boundary_score: 1.0
+    threshold: 1.0000000000000002
+    boundary_rank_one_based: 16
+    allowed_false_positive_count: 15
+    achieved_false_positive_count: 0
+    achieved_false_positive_rate: 0.0
+    boundary_tie_count: 153
+    threshold_above_one: true
+boundaries:
+  fantasyid_images_decoded: false
+  checkpoint_loaded: false
+  model_inference_performed: false
+  training_performed: false
+  real_dev_threshold_derived: false
+  held_out_test_accessed: false
