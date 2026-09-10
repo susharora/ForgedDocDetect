@@ -3014,10 +3014,7 @@ def main() -> int:
                         {
                             exposure:
                                 int(
-                                    exposure_counts[
-                                        variant
-                                    ][
-                                        exposure
+                                    exposure_counts[variant][exposure]
                                 )
                             for exposure
                             in STEM_EXPOSURES
