@@ -1,0 +1,90 @@
+schema_version: 1
+artifact_type: fantasyid_held_out_test_manifest
+status: FROZEN_BEFORE_MODEL_TEST_ACCESS
+created_at_utc: '2026-09-10T16:55:25.850500+00:00'
+git:
+  commit_sha: 0e78095447486c52a12717247af9418ee7082a8f
+  branch: main
+source_discovery:
+  workbook: output/fantasyid_inventory_2026-09-05_023126.xlsx
+  sha256: 54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+  sheet: Images
+  source_total_rows: 3284
+  source_split_counts:
+    test: 1385
+    train: 1899
+held_out_test:
+  source_split: test
+  project_role: held_out_test
+  rows: 1385
+  class_mapping:
+    bonafide: 0
+    attack: 1
+  class_counts:
+    attack: 1085
+    bonafide: 300
+  traffic_variant_counts:
+    attack|digital_3: 786
+    attack|facedancer: 150
+    attack|textdiffuserft_bfei: 149
+    bonafide|: 300
+  hardware_counts_observed_metadata_only:
+    huawei: 461
+    iphone15: 200
+    iphone15pro: 262
+    scan: 462
+  unique_file_stems: 362
+  unique_image_paths: 1385
+  unique_frozen_image_sha256: 1385
+manifest:
+  path: output/final_detection/test_manifest/fantasyid_held_out_test_manifest.csv
+  sha256: 6d12b214cabac31a22d883cc8db661c670719ad90dccb9d6cb0d243b1fa4aea4
+  rows: 1385
+  columns:
+  - source_workbook_row
+  - image_path
+  - image_sha256
+  - file_stem
+  - traffic_type
+  - label
+  - variant
+  - hardware_source
+  - face_db
+  - face_id
+  - gender
+  - project_role
+  order: frozen_discovery_Images_sheet_order_filtered_to_split_test
+  sorting_performed: false
+pre_test_prerequisites:
+  final_detection_protocol:
+    path: configs/evaluation/resnet18_final_detection.yaml
+    sha256: fc3c093baf702dc0582bea13f33e420867675d4c7e0fb13e36bc27c322db7072
+  dev_thresholds:
+    8:
+      path: output/final_detection/dev_thresholds/resnet18_r512_seed8_fpr10.yaml
+      sha256: 07586659a7866450cf804a2233549a19e2db6a8584dd81037beb710651ecfeed
+      threshold: 0.00885157722748261
+      held_out_test_accessed: false
+    9:
+      path: output/final_detection/dev_thresholds/resnet18_r512_seed9_fpr10.yaml
+      sha256: 9592a18635d1c103bad7a171d4514ffde6f4832ce7ca0a8fd77429a22702073d
+      threshold: 0.028540367027646577
+      held_out_test_accessed: false
+    10:
+      path: output/final_detection/dev_thresholds/resnet18_r512_seed10_fpr10.yaml
+      sha256: 57053c99a4ff5652c3488df1a7ea4e913084c1d7464282fe7c615fafec5e5b8e
+      threshold: 0.0017376946781355158
+      held_out_test_accessed: false
+access_boundary:
+  test_workbook_metadata_read: true
+  test_image_paths_followed: false
+  test_image_files_opened: false
+  test_image_pixels_decoded: false
+  test_image_hashes_recomputed: false
+  test_json_files_opened: false
+  test_regions_inspected: false
+  model_loaded: false
+  checkpoint_loaded: false
+  model_inference_performed: false
+  metric_calculation_performed: false
+  threshold_derived_or_modified: false

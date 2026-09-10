@@ -1,0 +1,38 @@
+2026-09-10T16:55:25Z | INFO | ========================================================================
+2026-09-10T16:55:25Z | INFO | FANTASYID HELD-OUT TEST MANIFEST FINALIZATION
+2026-09-10T16:55:25Z | INFO | ========================================================================
+2026-09-10T16:55:25Z | INFO | Git commit: 0e78095447486c52a12717247af9418ee7082a8f
+2026-09-10T16:55:25Z | INFO | Git branch: main
+2026-09-10T16:55:25Z | INFO | Discovery workbook: /home/sush/ForgedDocDetect/output/fantasyid_inventory_2026-09-05_023126.xlsx
+2026-09-10T16:55:25Z | INFO | Discovery workbook SHA-256: 54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+2026-09-10T16:55:25Z | INFO | [PASS] seed 8 dev threshold frozen before test-manifest materialization | threshold=0.0088515772274826102 | sha256=07586659a7866450cf804a2233549a19e2db6a8584dd81037beb710651ecfeed
+2026-09-10T16:55:25Z | INFO | [PASS] seed 9 dev threshold frozen before test-manifest materialization | threshold=0.028540367027646577 | sha256=9592a18635d1c103bad7a171d4514ffde6f4832ce7ca0a8fd77429a22702073d
+2026-09-10T16:55:25Z | INFO | [PASS] seed 10 dev threshold frozen before test-manifest materialization | threshold=0.0017376946781355158 | sha256=57053c99a4ff5652c3488df1a7ea4e913084c1d7464282fe7c615fafec5e5b8e
+2026-09-10T16:55:25Z | INFO | [PASS] frozen Images sheet rows = 3284
+2026-09-10T16:55:25Z | INFO | [PASS] frozen split counts = train 1899 / test 1385
+2026-09-10T16:55:25Z | INFO | [PASS] held-out rows = 1385
+2026-09-10T16:55:25Z | INFO | [PASS] ground truth = bonafide 300 / attack 1085
+2026-09-10T16:55:25Z | INFO | [PASS] T2 label encoding = bonafide 0 / attack 1
+2026-09-10T16:55:25Z | INFO | [PASS] test group = bonafide 300
+2026-09-10T16:55:25Z | INFO | [PASS] test attack digital_3 = 786
+2026-09-10T16:55:25Z | INFO | [PASS] test attack facedancer = 150
+2026-09-10T16:55:25Z | INFO | [PASS] test attack textdiffuserft_bfei = 149
+2026-09-10T16:55:25Z | INFO | [PASS] unique image paths = 1385
+2026-09-10T16:55:25Z | INFO | [PASS] unique frozen image SHA-256 values = 1385
+2026-09-10T16:55:25Z | INFO | Observed hardware counts: {'huawei': 461, 'iphone15': 200, 'iphone15pro': 262, 'scan': 462}
+2026-09-10T16:55:25Z | INFO | Observed unique file stems: 362
+2026-09-10T16:55:25Z | INFO | 
+2026-09-10T16:55:25Z | INFO | [PASS] canonical held-out manifest: /home/sush/ForgedDocDetect/output/final_detection/test_manifest/fantasyid_held_out_test_manifest.csv
+2026-09-10T16:55:25Z | INFO | Manifest SHA-256: 6d12b214cabac31a22d883cc8db661c670719ad90dccb9d6cb0d243b1fa4aea4
+2026-09-10T16:55:25Z | INFO | [PASS] manifest metadata: /home/sush/ForgedDocDetect/output/final_detection/test_manifest/fantasyid_held_out_test_manifest.yaml
+2026-09-10T16:55:25Z | INFO | Metadata SHA-256: c7872e891a78d2fdaadc6666a76191b95e58c0719e2589cadecabd21bde93370
+2026-09-10T16:55:25Z | INFO | 
+2026-09-10T16:55:25Z | INFO | [PASS] test image files opened: FALSE
+2026-09-10T16:55:25Z | INFO | [PASS] test pixels decoded: FALSE
+2026-09-10T16:55:25Z | INFO | [PASS] test JSON/regions inspected: FALSE
+2026-09-10T16:55:25Z | INFO | [PASS] model/checkpoint loaded: FALSE
+2026-09-10T16:55:25Z | INFO | [PASS] model inference performed: FALSE
+2026-09-10T16:55:25Z | INFO | [PASS] threshold derivation/modification: FALSE
+2026-09-10T16:55:25Z | INFO | ========================================================================
+2026-09-10T16:55:25Z | INFO | HELD-OUT TEST MANIFEST: FROZEN BEFORE MODEL TEST ACCESS
+2026-09-10T16:55:25Z | INFO | ========================================================================
