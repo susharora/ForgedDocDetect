@@ -1,0 +1,360 @@
+schema_version: 1
+status: PASS
+machine:
+  id: sush-AMD
+provenance:
+  git_commit: c2cc333dd1ddeb635074d2818e0ffdb93420b2e5
+  experiment_config_sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+  stage_runner_sha256: 1871349d18b1ea346551bef58ede2fcabc0292dcdd9dcc4afc8cde9848bac5be
+  training_control_sha256: 2801d00601f737ca133b8e5621966fb642f8d7f46ac627dee58aedb1d546d749
+  development_metrics_sha256: cee65d2fc5c9dc448dd3d1296811525978b01d5f39039c11bcb9fe620884fc3f
+  engine_sha256: d4a48dfc50d9a242f4a0b75b9fd3d867b9f9736ccbd2f195e45be51aca6d42d5
+  audit_script_sha256: 0258e777856f717eb478e3b9326df79268b672914746c10d0963f0bd7e2308b1
+  audit_config_sha256: f65fb58568f0c258356b6c68acd2ecf256c2dd8a3ef8d6340129aa7380cad337
+  validator_log: /home/sush/ForgedDocDetect/logs/validate_experiment_config_2026-09-10_002636_740798Z.log
+  validator_log_sha256: d09d22c244a82d6ffa289e05ff67adaa091add5aad93efe5e8d2e3ff58712f70
+scope:
+  synthetic_only: true
+  execution_device: cpu
+  real_one_epoch_engine_used: false
+  real_development_auroc_used: false
+  real_stage_training_controller_used: true
+  real_stage_runner_used: true
+  fantasyid_dataset_constructed: false
+  images_decoded: false
+  forward_pass_performed: false
+  backward_pass_performed: false
+  optimizer_step_performed: false
+  fpr10_threshold_derived: false
+  held_out_test_accessed: false
+cases:
+  stage_a_patience_restore:
+    stage: stage_a
+    epochs_completed: 3
+    stop_reason: patience
+    initial_model_state_sha256: 6955c377de9340094a5911d55ce55faad46d9ceed23893446ad2d2bd7c15e8d7
+    raw_best_epoch: 2
+    raw_best_weighted_dev_loss: 0.998
+    dev_auroc_at_raw_best_checkpoint: 0.0
+    best_dev_auroc: 1.0
+    best_dev_auroc_epoch: 3
+    raw_checkpoint_updated:
+    - true
+    - true
+    - false
+    meaningful_improvement:
+    - null
+    - false
+    - false
+    patience_counter:
+    - 0
+    - 1
+    - 2
+    running_raw_best_epochs:
+    - 1
+    - 2
+    - 2
+    events:
+    - train:1
+    - dev:1
+    - auroc:1
+    - train:2
+    - dev:2
+    - auroc:2
+    - train:3
+    - dev:3
+    - auroc:3
+    epoch_model_state_sha256:
+      '1': a8d6f003183dfd60150ce71c4b1e9b2e7662ff5d7be95934cc78b5a078bce2e9
+      '2': bde3da893efcd6f81d940bdebec7d473b21a43f678ef1af3fc8c59603816425c
+      '3': b589098066f9e95fbc1aacb1d4cc7b442aba9fb16cff156f2babd056df883e3f
+    restored_selected_model_state_sha256: bde3da893efcd6f81d940bdebec7d473b21a43f678ef1af3fc8c59603816425c
+    transition_notes:
+    - null
+    - null
+    - null
+    model_left_in_eval_mode: true
+    optimizer_reuse_permitted: false
+    stage_b_auroc_disagreement: null
+  stage_b_patience_auroc_flag:
+    stage: stage_b
+    epochs_completed: 6
+    stop_reason: patience
+    initial_model_state_sha256: 6955c377de9340094a5911d55ce55faad46d9ceed23893446ad2d2bd7c15e8d7
+    raw_best_epoch: 2
+    raw_best_weighted_dev_loss: 0.998
+    dev_auroc_at_raw_best_checkpoint: 0.0
+    best_dev_auroc: 1.0
+    best_dev_auroc_epoch: 6
+    raw_checkpoint_updated:
+    - true
+    - true
+    - false
+    - false
+    - false
+    - false
+    meaningful_improvement:
+    - null
+    - false
+    - false
+    - false
+    - false
+    - false
+    patience_counter:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    running_raw_best_epochs:
+    - 1
+    - 2
+    - 2
+    - 2
+    - 2
+    - 2
+    events:
+    - train:1
+    - dev:1
+    - auroc:1
+    - train:2
+    - dev:2
+    - auroc:2
+    - train:3
+    - dev:3
+    - auroc:3
+    - train:4
+    - dev:4
+    - auroc:4
+    - train:5
+    - dev:5
+    - auroc:5
+    - train:6
+    - dev:6
+    - auroc:6
+    epoch_model_state_sha256:
+      '1': a8d6f003183dfd60150ce71c4b1e9b2e7662ff5d7be95934cc78b5a078bce2e9
+      '2': bde3da893efcd6f81d940bdebec7d473b21a43f678ef1af3fc8c59603816425c
+      '3': b589098066f9e95fbc1aacb1d4cc7b442aba9fb16cff156f2babd056df883e3f
+      '4': 4b298406bf0929bf59a9569849dc06d1f3af17b77c880217a5732f2299294e30
+      '5': 2db339f379f1c90fe21e61ef1f0b3e3001aeebccc0f4598f3099d749b5799d67
+      '6': 5c51be4cc7d757181ed19f81e58bcbe036c20197fcadab48868312a9afb8c96d
+    restored_selected_model_state_sha256: bde3da893efcd6f81d940bdebec7d473b21a43f678ef1af3fc8c59603816425c
+    transition_notes:
+    - Backbone unfrozen and BatchNorm running statistics begin FantasyID domain adaptation;
+      transient dev-loss movement is expected.
+    - null
+    - null
+    - null
+    - null
+    - null
+    model_left_in_eval_mode: true
+    optimizer_reuse_permitted: false
+    stage_b_auroc_disagreement:
+      difference: 1.0
+      threshold: 0.01
+      protocol_review_flag: true
+      automatically_switch_checkpoint: false
+      loss_argmin_checkpoint_epoch: 2
+  stage_b_no_auroc_flag:
+    stage: stage_b
+    epochs_completed: 6
+    stop_reason: patience
+    initial_model_state_sha256: 6955c377de9340094a5911d55ce55faad46d9ceed23893446ad2d2bd7c15e8d7
+    raw_best_epoch: 2
+    raw_best_weighted_dev_loss: 0.998
+    dev_auroc_at_raw_best_checkpoint: 0.5
+    best_dev_auroc: 0.5
+    best_dev_auroc_epoch: 1
+    raw_checkpoint_updated:
+    - true
+    - true
+    - false
+    - false
+    - false
+    - false
+    meaningful_improvement:
+    - null
+    - false
+    - false
+    - false
+    - false
+    - false
+    patience_counter:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    running_raw_best_epochs:
+    - 1
+    - 2
+    - 2
+    - 2
+    - 2
+    - 2
+    events:
+    - train:1
+    - dev:1
+    - auroc:1
+    - train:2
+    - dev:2
+    - auroc:2
+    - train:3
+    - dev:3
+    - auroc:3
+    - train:4
+    - dev:4
+    - auroc:4
+    - train:5
+    - dev:5
+    - auroc:5
+    - train:6
+    - dev:6
+    - auroc:6
+    epoch_model_state_sha256:
+      '1': a8d6f003183dfd60150ce71c4b1e9b2e7662ff5d7be95934cc78b5a078bce2e9
+      '2': bde3da893efcd6f81d940bdebec7d473b21a43f678ef1af3fc8c59603816425c
+      '3': b589098066f9e95fbc1aacb1d4cc7b442aba9fb16cff156f2babd056df883e3f
+      '4': 4b298406bf0929bf59a9569849dc06d1f3af17b77c880217a5732f2299294e30
+      '5': 2db339f379f1c90fe21e61ef1f0b3e3001aeebccc0f4598f3099d749b5799d67
+      '6': 5c51be4cc7d757181ed19f81e58bcbe036c20197fcadab48868312a9afb8c96d
+    restored_selected_model_state_sha256: bde3da893efcd6f81d940bdebec7d473b21a43f678ef1af3fc8c59603816425c
+    transition_notes:
+    - Backbone unfrozen and BatchNorm running statistics begin FantasyID domain adaptation;
+      transient dev-loss movement is expected.
+    - null
+    - null
+    - null
+    - null
+    - null
+    model_left_in_eval_mode: true
+    optimizer_reuse_permitted: false
+    stage_b_auroc_disagreement:
+      difference: 0.0
+      threshold: 0.01
+      protocol_review_flag: false
+      automatically_switch_checkpoint: false
+      loss_argmin_checkpoint_epoch: 2
+  stage_a_maximum_epochs:
+    stage: stage_a
+    epochs_completed: 10
+    stop_reason: maximum_epochs
+    initial_model_state_sha256: 6955c377de9340094a5911d55ce55faad46d9ceed23893446ad2d2bd7c15e8d7
+    raw_best_epoch: 10
+    raw_best_weighted_dev_loss: 0.9135172474836409
+    dev_auroc_at_raw_best_checkpoint: 0.5
+    best_dev_auroc: 0.5
+    best_dev_auroc_epoch: 1
+    raw_checkpoint_updated:
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    meaningful_improvement:
+    - null
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    - true
+    patience_counter:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    running_raw_best_epochs:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    events:
+    - train:1
+    - dev:1
+    - auroc:1
+    - train:2
+    - dev:2
+    - auroc:2
+    - train:3
+    - dev:3
+    - auroc:3
+    - train:4
+    - dev:4
+    - auroc:4
+    - train:5
+    - dev:5
+    - auroc:5
+    - train:6
+    - dev:6
+    - auroc:6
+    - train:7
+    - dev:7
+    - auroc:7
+    - train:8
+    - dev:8
+    - auroc:8
+    - train:9
+    - dev:9
+    - auroc:9
+    - train:10
+    - dev:10
+    - auroc:10
+    epoch_model_state_sha256:
+      '1': a8d6f003183dfd60150ce71c4b1e9b2e7662ff5d7be95934cc78b5a078bce2e9
+      '2': bde3da893efcd6f81d940bdebec7d473b21a43f678ef1af3fc8c59603816425c
+      '3': b589098066f9e95fbc1aacb1d4cc7b442aba9fb16cff156f2babd056df883e3f
+      '4': 4b298406bf0929bf59a9569849dc06d1f3af17b77c880217a5732f2299294e30
+      '5': 2db339f379f1c90fe21e61ef1f0b3e3001aeebccc0f4598f3099d749b5799d67
+      '6': 5c51be4cc7d757181ed19f81e58bcbe036c20197fcadab48868312a9afb8c96d
+      '7': f8e97139f32e39f303049b32d7dbb278a058cde6ccbf689bd05ff5e70c492e81
+      '8': 7cc6bb2dd296add786d5f807d435610bba8ed31340625d4c1a564e46072fb5c0
+      '9': 1686383488b7d3a173e2585b704ba92805e89d29cf500d0c789ec750582a24de
+      '10': 0caa8ebd926fa9430897593041953d7fed8ea7603464e7d2b9f4162a9011166b
+    restored_selected_model_state_sha256: 0caa8ebd926fa9430897593041953d7fed8ea7603464e7d2b9f4162a9011166b
+    transition_notes:
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    - null
+    model_left_in_eval_mode: true
+    optimizer_reuse_permitted: false
+    stage_b_auroc_disagreement: null
+invalid_stage:
+  value: stage_c
+  rejected: true
+interpretation: PASS establishes the orchestration semantics of the production multi-epoch
+  stage runner using deterministic synthetic epoch results. Weighted dev loss alone
+  controls raw checkpoint selection and patience; AUROC is diagnostic only; Stage-B
+  disagreement can flag review without switching the loss-selected checkpoint; the
+  selected raw-best model is restored exactly at completion; and completed-stage optimizer
+  reuse is forbidden. No real scientific training was performed.
