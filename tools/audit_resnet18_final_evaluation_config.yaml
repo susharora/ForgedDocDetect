@@ -1,0 +1,59 @@
+schema_version: 1
+
+
+experiment:
+
+  config:
+    configs/experiments/resnet18_gradcam.yaml
+
+  sha256:
+    c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+
+
+evaluation_protocol:
+
+  path:
+    configs/evaluation/resnet18_final_detection.yaml
+
+  sha256:
+    fc3c093baf702dc0582bea13f33e420867675d4c7e0fb13e36bc27c322db7072
+
+
+canonical_test_manifest:
+
+  metadata:
+
+    path:
+      output/final_detection/test_manifest/fantasyid_held_out_test_manifest.yaml
+
+    sha256:
+      c7872e891a78d2fdaadc6666a76191b95e58c0719e2589cadecabd21bde93370
+
+  csv:
+
+    path:
+      output/final_detection/test_manifest/fantasyid_held_out_test_manifest.csv
+
+    sha256:
+      6d12b214cabac31a22d883cc8db661c670719ad90dccb9d6cb0d243b1fa4aea4
+
+
+logging:
+
+  directory:
+    logs
+
+  filename:
+    audit_resnet18_final_evaluation_{machine_id}_{timestamp}.log
+
+  level:
+    INFO
+
+
+output:
+
+  directory:
+    logs
+
+  filename:
+    audit_resnet18_final_evaluation_{machine_id}_{timestamp}.yaml
