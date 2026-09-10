@@ -491,6 +491,42 @@ def run_validator(
             "Validator artifact SHA mismatch."
         )
 
+    # ------------------------------------------------------------------
+    # The canonical validator must itself have observed a clean Git tree.
+    #
+    # The threshold runner therefore has to invoke the validator BEFORE
+    # creating its own log/output artifacts.
+    # ------------------------------------------------------------------
+
+    validator_text = artifact_path.read_text(
+        encoding="utf-8"
+    )
+
+    required_clean_marker = (
+        "Git working tree clean before validation log creation: True"
+    )
+
+    if required_clean_marker not in validator_text:
+
+        raise RuntimeError(
+            "Canonical experiment validator did not observe a clean "
+            "Git working tree."
+        )
+
+    diagnostic_warning = (
+        "Validation is diagnostic until the scientific code/config "
+        "is committed."
+    )
+
+    if diagnostic_warning in validator_text:
+
+        raise RuntimeError(
+            "Canonical experiment validator marked validation as "
+            "diagnostic rather than clean."
+        )
+
+
+
     return (
         artifact_path,
         expected_sha,
@@ -1698,6 +1734,34 @@ def main() -> int:
         ]
     )
 
+    # ==============================================================
+    # PRE-OUTPUT PREFLIGHT
+    #
+    # Nothing belonging to this threshold-derivation run has been
+    # created yet. Therefore the canonical validator sees the same
+    # clean Git tree already established by require_clean_git().
+    # ==============================================================
+
+    workspace = establish_pre_cuda_environment(
+        experiment_cfg=(
+            experiment_cfg
+        )
+    )
+
+    (
+        validator_path,
+        validator_sha,
+    ) = run_validator(
+        experiment_path=(
+            experiment_path
+        ),
+        machine_path=(
+            machine_path
+        ),
+    )
+
+
+
     log_path = configure_logging(
         tool_cfg=(
             tool_cfg
@@ -1833,38 +1897,13 @@ def main() -> int:
                 predictions_partial
             )
 
-        # ==============================================================
-        # Establish pre-CUDA environment before anything can initialize
-        # CUDA in this process.
-        # ==============================================================
-
-        workspace = establish_pre_cuda_environment(
-            experiment_cfg=(
-                experiment_cfg
-            )
-        )
+        
 
         LOGGER.info(
             "[PASS] pre-CUDA CUBLAS_WORKSPACE_CONFIG = %s",
             workspace,
         )
-
-        # ==============================================================
-        # Canonical experiment validator
-        # ==============================================================
-
-        (
-            validator_path,
-            validator_sha,
-        ) = run_validator(
-            experiment_path=(
-                experiment_path
-            ),
-            machine_path=(
-                machine_path
-            ),
-        )
-
+   
         LOGGER.info(
             "[PASS] canonical experiment validator"
         )
