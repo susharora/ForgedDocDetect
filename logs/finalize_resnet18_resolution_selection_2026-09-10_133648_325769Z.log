@@ -1,0 +1,38 @@
+2026-09-10T13:36:48Z | INFO | ========================================================================
+2026-09-10T13:36:48Z | INFO | RESNET-18 RESOLUTION SELECTION FINALIZATION
+2026-09-10T13:36:48Z | INFO | ========================================================================
+2026-09-10T13:36:48Z | INFO | Git commit: 4e5feb1cba8d4c42f99ec104641c2070964c62c2
+2026-09-10T13:36:48Z | INFO | Experiment config SHA-256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-10T13:36:48Z | INFO | Decision rule: select r512 if mean_d <= margin
+2026-09-10T13:36:48Z | INFO | Margin fraction: 0.050000
+2026-09-10T13:36:48Z | INFO | Counterfactual diagnostics influence selection: False
+2026-09-10T13:36:48Z | INFO | Held-out test: NOT ACCESSED
+2026-09-10T13:36:48Z | INFO | Source validated | resolution=r256 | seed=8 | loss=0.084078292643 | LR=0.0003 | machine=sush-AMD
+2026-09-10T13:36:48Z | INFO | Source validated | resolution=r256 | seed=9 | loss=0.140452704891 | LR=0.0003 | machine=sush-AMD
+2026-09-10T13:36:48Z | INFO | Source validated | resolution=r256 | seed=10 | loss=0.091816921549 | LR=0.0003 | machine=IMTA134
+2026-09-10T13:36:48Z | INFO | Source validated | resolution=r512 | seed=8 | loss=0.014951429794 | LR=0.0001 | machine=IMTA134
+2026-09-10T13:36:48Z | INFO | Source validated | resolution=r512 | seed=9 | loss=0.036387547043 | LR=0.0001 | machine=sush-AMD
+2026-09-10T13:36:48Z | INFO | Source validated | resolution=r512 | seed=10 | loss=0.018668773303 | LR=0.0001 | machine=IMTA134
+2026-09-10T13:36:48Z | INFO | 
+2026-09-10T13:36:48Z | INFO | Seed 8 | L256=0.084078292643 | L512=0.014951429794 | d=-0.069126862849 | sign=-
+2026-09-10T13:36:48Z | INFO | Seed 9 | L256=0.140452704891 | L512=0.036387547043 | d=-0.104065157848 | sign=-
+2026-09-10T13:36:48Z | INFO | Seed 10 | L256=0.091816921549 | L512=0.018668773303 | d=-0.073148148246 | sign=-
+2026-09-10T13:36:48Z | INFO | 
+2026-09-10T13:36:48Z | INFO | Mean r256 loss: 0.105449306361
+2026-09-10T13:36:48Z | INFO | Mean r512 loss: 0.023335916713
+2026-09-10T13:36:48Z | INFO | Mean paired difference: -0.082113389648
+2026-09-10T13:36:48Z | INFO | 5% r256-relative margin: 0.005272465318
+2026-09-10T13:36:48Z | INFO | Decision comparison: -0.082113389648 <= 0.005272465318 -> True
+2026-09-10T13:36:48Z | INFO | 
+2026-09-10T13:36:48Z | INFO | [PASS] selected resolution: r512
+2026-09-10T13:36:48Z | INFO | [PASS] selected backbone LR: 0.0001
+2026-09-10T13:36:48Z | INFO | [PASS] representative Grad-CAM seed: 10
+2026-09-10T13:36:48Z | INFO | [PASS] all three selected-resolution checkpoints assigned to final detection
+2026-09-10T13:36:48Z | INFO | [PASS] threshold source remains per-checkpoint dev_val
+2026-09-10T13:36:48Z | INFO | [PASS] counterfactual diagnostic did not participate in selection
+2026-09-10T13:36:48Z | INFO | [PASS] held-out test was NOT ACCESSED
+2026-09-10T13:36:48Z | INFO | Selection artifact: /home/sush/ForgedDocDetect/output/model_selection/resnet18_resolution_selection_2026-09-10_133648_325769Z.yaml
+2026-09-10T13:36:48Z | INFO | Selection artifact SHA-256: 9a4358e48bc665d29487eede4073bba701357c3df1cdcf33d72f383a1c702037
+2026-09-10T13:36:48Z | INFO | ========================================================================
+2026-09-10T13:36:48Z | INFO | RESNET-18 RESOLUTION SELECTION: FROZEN
+2026-09-10T13:36:48Z | INFO | ========================================================================

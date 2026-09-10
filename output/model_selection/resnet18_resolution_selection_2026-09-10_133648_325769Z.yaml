@@ -1,0 +1,171 @@
+schema_version: 1
+artifact_type: resnet18_resolution_selection
+status: FROZEN
+created_at_utc: '2026-09-10T13:36:48.344858+00:00'
+git_commit: 4e5feb1cba8d4c42f99ec104641c2070964c62c2
+scientific_config:
+  path: configs/experiments/resnet18_gradcam.yaml
+  sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+development_evidence:
+  r256:
+    8:
+      run_yaml: runs/20260910T005651_789477Z_resnet18_lr_screen_r256_seed8_sush-AMD_745f47f3/run.yaml
+      run_yaml_sha256: 2f79a3877667ea9757cde13247f195be0c7a3f666135d84201c2fa0a56573f1c
+      run_id: 20260910T005651_789477Z_resnet18_lr_screen_r256_seed8_sush-AMD_745f47f3
+      workflow: resolution_lr_screening
+      training_machine_id: sush-AMD
+      resolution_name: r256
+      run_seed: 8
+      backbone_lr: 0.0003
+      raw_best_weighted_dev_loss: 0.08407829264323703
+      checkpoint:
+        path: checkpoints/stage_b_lr_3e-04_raw_best.pt
+        file_sha256: e7d01ee95689c0c6e6ce517891b7451ea000bfa06c283d153f0801915072ab7c
+        model_state_sha256: f8f385c3aade0081b96e9bc3751f2b3dc55e9a798a64a22cdadbb121e7c26916
+        epoch: 5
+    9:
+      run_yaml: runs/20260910T022231_091335Z_resnet18_stability_r256_seed9_sush-AMD_371add4c/run.yaml
+      run_yaml_sha256: b34d5052dc206f8e3ee6564a23f40b979c48714aa8c497dbaec96fb051ba1666
+      run_id: 20260910T022231_091335Z_resnet18_stability_r256_seed9_sush-AMD_371add4c
+      workflow: selected_lr_multi_seed_stability
+      training_machine_id: sush-AMD
+      resolution_name: r256
+      run_seed: 9
+      backbone_lr: 0.0003
+      raw_best_weighted_dev_loss: 0.14045270489072437
+      checkpoint:
+        path: checkpoints/stage_b_lr_3e-04_raw_best.pt
+        file_sha256: 3d818fcefb26de66e97937d194418ff53e96a41a4bc720c6e66d5ed4dffa8646
+        model_state_sha256: aaed4e27aab54087d30869b3ac26ced64f7d6dccb75ab131f5df1d8d0852dbdd
+        epoch: 3
+    10:
+      run_yaml: runs/20260910T022404_823587Z_resnet18_stability_r256_seed10_IMTA134_371add4c/run.yaml
+      run_yaml_sha256: 39446b3fa024ddc24d2c990c7bc0f4c15bc084fd27798921b9c9705403d750e3
+      run_id: 20260910T022404_823587Z_resnet18_stability_r256_seed10_IMTA134_371add4c
+      workflow: selected_lr_multi_seed_stability
+      training_machine_id: IMTA134
+      resolution_name: r256
+      run_seed: 10
+      backbone_lr: 0.0003
+      raw_best_weighted_dev_loss: 0.0918169215492759
+      checkpoint:
+        path: checkpoints/stage_b_lr_3e-04_raw_best.pt
+        file_sha256: b04cbbff4e2d459996821d435410fdae3021874d4b443a25d958457f7d4dfc63
+        model_state_sha256: 6d3da5d0966a0e04f32e2b8d780842102440bb3eef6987d208ca68db90eae191
+        epoch: 5
+  r512:
+    8:
+      run_yaml: runs/20260910T005713_188852Z_resnet18_lr_screen_r512_seed8_IMTA134_745f47f3/run.yaml
+      run_yaml_sha256: e14c34e76c414863fc5aaa144902cbcdefc79d007f76353325cca610355586bf
+      run_id: 20260910T005713_188852Z_resnet18_lr_screen_r512_seed8_IMTA134_745f47f3
+      workflow: resolution_lr_screening
+      training_machine_id: IMTA134
+      resolution_name: r512
+      run_seed: 8
+      backbone_lr: 0.0001
+      raw_best_weighted_dev_loss: 0.01495142979434905
+      checkpoint: &id001
+        path: checkpoints/stage_b_lr_1e-04_raw_best.pt
+        file_sha256: a6b8409f51b3becee644936047ed420f4c5860f03f8f7be93d505e41326db50f
+        model_state_sha256: 4167857618a6413593e10eb486ecc88ecbc65b5f3ba0ffd5689c3dfa12a4156e
+        epoch: 12
+    9:
+      run_yaml: runs/20260910T023135_616872Z_resnet18_stability_r512_seed9_sush-AMD_371add4c/run.yaml
+      run_yaml_sha256: 40c11aa7bf5ae8ff6ed6df7d8e517f89603a913d3729111d6b6eb36150cf59b3
+      run_id: 20260910T023135_616872Z_resnet18_stability_r512_seed9_sush-AMD_371add4c
+      workflow: selected_lr_multi_seed_stability
+      training_machine_id: sush-AMD
+      resolution_name: r512
+      run_seed: 9
+      backbone_lr: 0.0001
+      raw_best_weighted_dev_loss: 0.036387547043128604
+      checkpoint: &id002
+        path: checkpoints/stage_b_lr_1e-04_raw_best.pt
+        file_sha256: 002d7e3208b164579e1c678d98cf79b614c8de1348a693c69b417f601d03fd14
+        model_state_sha256: fbbd2867ef9c1db6e8312b257a8c89262456e7246d0e088151e5112a7b9afd48
+        epoch: 3
+    10:
+      run_yaml: runs/20260910T023206_310000Z_resnet18_stability_r512_seed10_IMTA134_371add4c/run.yaml
+      run_yaml_sha256: 516f26c045444e6138f3761ab967f341ae210dd2d3da927f4dc211e1c46213fa
+      run_id: 20260910T023206_310000Z_resnet18_stability_r512_seed10_IMTA134_371add4c
+      workflow: selected_lr_multi_seed_stability
+      training_machine_id: IMTA134
+      resolution_name: r512
+      run_seed: 10
+      backbone_lr: 0.0001
+      raw_best_weighted_dev_loss: 0.018668773302985397
+      checkpoint: &id003
+        path: checkpoints/stage_b_lr_1e-04_raw_best.pt
+        file_sha256: 6e826bdb5f710ea3f4f914ea3c93095340669027fb1c9aa73ce9420a09b283dd
+        model_state_sha256: 704ada7d024c8ef446501d9f06938d29ba1409707883ef62996f3691b13daaa7
+        epoch: 8
+resolution_selection:
+  metric: class_weighted_dev_cross_entropy
+  metric_source: raw_minimum_for_that_resolution_selected_lr
+  paired_difference: d_s = L512(s) - L256(s)
+  losses:
+    r256:
+      8: 0.08407829264323703
+      9: 0.14045270489072437
+      10: 0.0918169215492759
+    r512:
+      8: 0.01495142979434905
+      9: 0.036387547043128604
+      10: 0.018668773302985397
+  differences:
+    8: -0.06912686284888798
+    9: -0.10406515784759576
+    10: -0.0731481482462905
+  sign_pattern:
+    8: '-'
+    9: '-'
+    10: '-'
+  mean_r256_loss: 0.10544930636107909
+  mean_r512_loss: 0.023335916713487684
+  mean_d: -0.08211338964759142
+  margin_fraction: 0.05
+  margin: 0.005272465318053955
+  decision_rule: select r512 if mean_d <= margin; otherwise select r256
+  selected_resolution: r512
+  selected_backbone_lr: 0.0001
+  losing_resolution: r256
+  counterfactual_diagnostics_used_for_selection: false
+  localisation_metrics_used_for_selection: false
+final_detection_plan:
+  resolution: r512
+  backbone_lr: 0.0001
+  seeds:
+  - 8
+  - 9
+  - 10
+  evaluate_all_three_checkpoints: true
+  checkpoint_sources:
+    8:
+      training_machine_id: IMTA134
+      run_id: 20260910T005713_188852Z_resnet18_lr_screen_r512_seed8_IMTA134_745f47f3
+      checkpoint: *id001
+    9:
+      training_machine_id: sush-AMD
+      run_id: 20260910T023135_616872Z_resnet18_stability_r512_seed9_sush-AMD_371add4c
+      checkpoint: *id002
+    10:
+      training_machine_id: IMTA134
+      run_id: 20260910T023206_310000Z_resnet18_stability_r512_seed10_IMTA134_371add4c
+      checkpoint: *id003
+  threshold_policy:
+    source: own_dev_val_scores
+    one_threshold_per_seed_checkpoint: true
+    target_false_positive_rate: 0.1
+    test_threshold_tuning: false
+  held_out_test_accessed_during_selection: false
+  best_test_seed_selection_permitted: false
+localisation_representative_checkpoint:
+  rule: median_raw_best_weighted_dev_loss
+  exact_tie_breaker: lowest_seed_number
+  median_loss: 0.018668773302985397
+  seed: 10
+  training_machine_id: IMTA134
+  checkpoint: *id003
+next_gate:
+  fpr10_threshold_derivation: READY
+  held_out_test: NOT_YET_OPENED__THRESHOLD_MACHINERY_MUST_BE_VALIDATED_FIRST
