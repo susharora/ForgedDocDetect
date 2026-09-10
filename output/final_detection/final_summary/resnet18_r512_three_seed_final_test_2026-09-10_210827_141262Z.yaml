@@ -1,0 +1,381 @@
+schema_version: 1
+artifact_type: resnet18_three_seed_final_held_out_test_summary
+status: FROZEN_FINAL_BASELINE_TEST_SUMMARY
+created_at_utc: '2026-09-10T21:08:27.197855+00:00'
+git:
+  commit_sha: ac899a4eb63118738290446e341fb056dfd9b1d2
+  branch: main
+scientific_config:
+  path: configs/experiments/resnet18_gradcam.yaml
+  sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+evaluation_protocol:
+  path: configs/evaluation/resnet18_final_detection.yaml
+  sha256: fc3c093baf702dc0582bea13f33e420867675d4c7e0fb13e36bc27c322db7072
+final_evaluation_audit:
+  path: logs/audit_resnet18_final_evaluation_sush-AMD_2026-09-10_171630_409418Z.yaml
+  sha256: e0721d4423c1520b6a8b4e00cb2415dda192b9470678111e0593eae474969a04
+  status: PASS
+held_out_test:
+  metadata_path: output/final_detection/test_manifest/fantasyid_held_out_test_manifest.yaml
+  metadata_sha256: c7872e891a78d2fdaadc6666a76191b95e58c0719e2589cadecabd21bde93370
+  manifest_path: output/final_detection/test_manifest/fantasyid_held_out_test_manifest.csv
+  manifest_sha256: 6d12b214cabac31a22d883cc8db661c670719ad90dccb9d6cb0d243b1fa4aea4
+  sample_count: 1385
+  bonafide_count: 300
+  attack_count: 1085
+  resolution: r512
+seed_policy:
+  prespecified_seeds:
+  - 8
+  - 9
+  - 10
+  all_prespecified_seeds_reported: true
+  best_test_seed_selected: false
+  test_results_used_for_model_selection: false
+per_seed:
+  8:
+    source:
+      result_path: output/final_detection/test_results/resnet18_r512_seed8_test_results.yaml
+      result_sha256: f2d08e7434f2e2fa09c87811d864d6351744d077d78f8ffde8d21d101e757da0
+      predictions_path: output/final_detection/test_predictions/resnet18_r512_seed8_test_predictions.csv
+      predictions_sha256: a38517372774e9fe8d4a3aa8a9d554bb03b064345d8e2120b8c0408d0811eca1
+      threshold_artifact_path: output/final_detection/dev_thresholds/resnet18_r512_seed8_fpr10.yaml
+      threshold_artifact_sha256: 07586659a7866450cf804a2233549a19e2db6a8584dd81037beb710651ecfeed
+    machine: IMTA134
+    checkpoint:
+      seed: 8
+      source_machine: IMTA134
+      run_id: 20260910T005713_188852Z_resnet18_lr_screen_r512_seed8_IMTA134_745f47f3
+      epoch: 12
+      file_sha256: a6b8409f51b3becee644936047ed420f4c5860f03f8f7be93d505e41326db50f
+      model_state_sha256: 4167857618a6413593e10eb486ecc88ecbc65b5f3ba0ffd5689c3dfa12a4156e
+    thresholds:
+      fixed_0_5: 0.5
+      controlled_fpr10: 0.00885157722748261
+    metrics:
+      sample_count: 1385
+      bonafide_count: 300
+      attack_count: 1085
+      auroc: 0.237963133640553
+      auroc_positive_negative_pair_count: 325500
+      auroc_strict_attack_wins: 77457
+      auroc_tied_pairs: 0
+      auroc_score_definition: attack_logit_minus_bonafide_logit
+      fixed_0_5:
+        name: fixed_0_5
+        threshold: 0.5
+        sample_count: 1385
+        bonafide_support: 300
+        attack_support: 1085
+        true_positive: 200
+        false_positive: 101
+        true_negative: 199
+        false_negative: 885
+        accuracy: 0.28808664259927796
+        support_weighted_f1: 0.28837760969811643
+        bonafide:
+          support: 300
+          precision: 0.18357933579335795
+          recall: 0.6633333333333333
+          f1: 0.2875722543352601
+        attack:
+          support: 1085
+          precision: 0.6644518272425249
+          recall: 0.18433179723502305
+          f1: 0.28860028860028863
+        true_positive_rate: 0.18433179723502305
+        true_negative_rate: 0.6633333333333333
+        false_positive_rate: 0.33666666666666667
+        false_negative_rate: 0.815668202764977
+        half_total_error_rate: 0.5761674347158219
+        balanced_accuracy: 0.4238325652841782
+        apcer: 0.815668202764977
+        bpcer: 0.33666666666666667
+        matthews_correlation_coefficient: -0.15215174312707536
+      controlled_fpr10:
+        name: controlled_fpr10
+        threshold: 0.00885157722748261
+        sample_count: 1385
+        bonafide_support: 300
+        attack_support: 1085
+        true_positive: 318
+        false_positive: 239
+        true_negative: 61
+        false_negative: 767
+        accuracy: 0.2736462093862816
+        support_weighted_f1: 0.32686107879994375
+        bonafide:
+          support: 300
+          precision: 0.07367149758454106
+          recall: 0.20333333333333334
+          f1: 0.1081560283687943
+        attack:
+          support: 1085
+          precision: 0.5709156193895871
+          recall: 0.29308755760368665
+          f1: 0.38733252131546897
+        true_positive_rate: 0.29308755760368665
+        true_negative_rate: 0.20333333333333334
+        false_positive_rate: 0.7966666666666666
+        false_negative_rate: 0.7069124423963133
+        half_total_error_rate: 0.75178955453149
+        balanced_accuracy: 0.24821044546851
+        apcer: 0.7069124423963133
+        bpcer: 0.7966666666666666
+        matthews_correlation_coefficient: -0.4230585101184867
+  9:
+    source:
+      result_path: output/final_detection/test_results/resnet18_r512_seed9_test_results.yaml
+      result_sha256: 04026d307bc720c85bcffe75fad3860b81466fc9a5e44d8eb03b932a7276c7cc
+      predictions_path: output/final_detection/test_predictions/resnet18_r512_seed9_test_predictions.csv
+      predictions_sha256: ac1913abbe912637013172e3021b42f642eba31ae0c0b1447797c63bb302562b
+      threshold_artifact_path: output/final_detection/dev_thresholds/resnet18_r512_seed9_fpr10.yaml
+      threshold_artifact_sha256: 9592a18635d1c103bad7a171d4514ffde6f4832ce7ca0a8fd77429a22702073d
+    machine: sush-AMD
+    checkpoint:
+      seed: 9
+      source_machine: sush-AMD
+      run_id: 20260910T023135_616872Z_resnet18_stability_r512_seed9_sush-AMD_371add4c
+      epoch: 3
+      file_sha256: 002d7e3208b164579e1c678d98cf79b614c8de1348a693c69b417f601d03fd14
+      model_state_sha256: fbbd2867ef9c1db6e8312b257a8c89262456e7246d0e088151e5112a7b9afd48
+    thresholds:
+      fixed_0_5: 0.5
+      controlled_fpr10: 0.028540367027646577
+    metrics:
+      sample_count: 1385
+      bonafide_count: 300
+      attack_count: 1085
+      auroc: 0.27829493087557605
+      auroc_positive_negative_pair_count: 325500
+      auroc_strict_attack_wins: 90585
+      auroc_tied_pairs: 0
+      auroc_score_definition: attack_logit_minus_bonafide_logit
+      fixed_0_5:
+        name: fixed_0_5
+        threshold: 0.5
+        sample_count: 1385
+        bonafide_support: 300
+        attack_support: 1085
+        true_positive: 185
+        false_positive: 64
+        true_negative: 236
+        false_negative: 900
+        accuracy: 0.303971119133574
+        support_weighted_f1: 0.2884796200895962
+        bonafide:
+          support: 300
+          precision: 0.20774647887323944
+          recall: 0.7866666666666666
+          f1: 0.3286908077994429
+        attack:
+          support: 1085
+          precision: 0.7429718875502008
+          recall: 0.17050691244239632
+          f1: 0.27736131934032987
+        true_positive_rate: 0.17050691244239632
+        true_negative_rate: 0.7866666666666666
+        false_positive_rate: 0.21333333333333335
+        false_negative_rate: 0.8294930875576036
+        half_total_error_rate: 0.5214132104454685
+        balanced_accuracy: 0.4785867895545315
+        apcer: 0.8294930875576036
+        bpcer: 0.21333333333333335
+        matthews_correlation_coefficient: -0.045940787778864685
+      controlled_fpr10:
+        name: controlled_fpr10
+        threshold: 0.028540367027646577
+        sample_count: 1385
+        bonafide_support: 300
+        attack_support: 1085
+        true_positive: 271
+        false_positive: 176
+        true_negative: 124
+        false_negative: 814
+        accuracy: 0.2851985559566787
+        support_weighted_f1: 0.3205448612873555
+        bonafide:
+          support: 300
+          precision: 0.13219616204690832
+          recall: 0.41333333333333333
+          f1: 0.20032310177705978
+        attack:
+          support: 1085
+          precision: 0.6062639821029083
+          recall: 0.24976958525345622
+          f1: 0.3537859007832898
+        true_positive_rate: 0.24976958525345622
+        true_negative_rate: 0.41333333333333333
+        false_positive_rate: 0.5866666666666667
+        false_negative_rate: 0.7502304147465437
+        half_total_error_rate: 0.6684485407066052
+        balanced_accuracy: 0.3315514592933948
+        apcer: 0.7502304147465437
+        bpcer: 0.5866666666666667
+        matthews_correlation_coefficient: -0.29683667918429246
+  10:
+    source:
+      result_path: output/final_detection/test_results/resnet18_r512_seed10_test_results.yaml
+      result_sha256: 3f0ad01b0dd94bc5fdf1ccdd483afe0b9140dcbc63bfa3a1944e7759c98ad11e
+      predictions_path: output/final_detection/test_predictions/resnet18_r512_seed10_test_predictions.csv
+      predictions_sha256: 24dc38d3f65ec7f652b1956d631c70afaf16407908de16ff4601d7d40e47f5c0
+      threshold_artifact_path: output/final_detection/dev_thresholds/resnet18_r512_seed10_fpr10.yaml
+      threshold_artifact_sha256: 57053c99a4ff5652c3488df1a7ea4e913084c1d7464282fe7c615fafec5e5b8e
+    machine: IMTA134
+    checkpoint:
+      seed: 10
+      source_machine: IMTA134
+      run_id: 20260910T023206_310000Z_resnet18_stability_r512_seed10_IMTA134_371add4c
+      epoch: 8
+      file_sha256: 6e826bdb5f710ea3f4f914ea3c93095340669027fb1c9aa73ce9420a09b283dd
+      model_state_sha256: 704ada7d024c8ef446501d9f06938d29ba1409707883ef62996f3691b13daaa7
+    thresholds:
+      fixed_0_5: 0.5
+      controlled_fpr10: 0.0017376946781355158
+    metrics:
+      sample_count: 1385
+      bonafide_count: 300
+      attack_count: 1085
+      auroc: 0.26928725038402457
+      auroc_positive_negative_pair_count: 325500
+      auroc_strict_attack_wins: 87653
+      auroc_tied_pairs: 0
+      auroc_score_definition: attack_logit_minus_bonafide_logit
+      fixed_0_5:
+        name: fixed_0_5
+        threshold: 0.5
+        sample_count: 1385
+        bonafide_support: 300
+        attack_support: 1085
+        true_positive: 176
+        false_positive: 48
+        true_negative: 252
+        false_negative: 909
+        accuracy: 0.30902527075812275
+        support_weighted_f1: 0.2853830076793837
+        bonafide:
+          support: 300
+          precision: 0.21705426356589147
+          recall: 0.84
+          f1: 0.3449691991786447
+        attack:
+          support: 1085
+          precision: 0.7857142857142857
+          recall: 0.1622119815668203
+          f1: 0.26890756302521013
+        true_positive_rate: 0.1622119815668203
+        true_negative_rate: 0.84
+        false_positive_rate: 0.16
+        false_negative_rate: 0.8377880184331797
+        half_total_error_rate: 0.4988940092165899
+        balanced_accuracy: 0.5011059907834101
+        apcer: 0.8377880184331797
+        bpcer: 0.16
+        matthews_correlation_coefficient: 0.0024746676493188906
+      controlled_fpr10:
+        name: controlled_fpr10
+        threshold: 0.0017376946781355158
+        sample_count: 1385
+        bonafide_support: 300
+        attack_support: 1085
+        true_positive: 385
+        false_positive: 237
+        true_negative: 63
+        false_negative: 700
+        accuracy: 0.3234657039711191
+        support_weighted_f1: 0.3790509963716556
+        bonafide:
+          support: 300
+          precision: 0.08256880733944955
+          recall: 0.21
+          f1: 0.1185324553151458
+        attack:
+          support: 1085
+          precision: 0.6189710610932476
+          recall: 0.3548387096774194
+          f1: 0.4510837727006444
+        true_positive_rate: 0.3548387096774194
+        true_negative_rate: 0.21
+        false_positive_rate: 0.79
+        false_negative_rate: 0.6451612903225806
+        half_total_error_rate: 0.7175806451612903
+        balanced_accuracy: 0.28241935483870967
+        apcer: 0.6451612903225806
+        bpcer: 0.79
+        matthews_correlation_coefficient: -0.36038631489371886
+aggregate_mean_min_max:
+  overall:
+    auroc:
+      mean: 0.26184843830005117
+      min: 0.237963133640553
+      max: 0.27829493087557605
+  fixed_0_5:
+    accuracy:
+      mean: 0.3003610108303249
+      min: 0.28808664259927796
+      max: 0.30902527075812275
+    support_weighted_f1:
+      mean: 0.2874134124890321
+      min: 0.2853830076793837
+      max: 0.2884796200895962
+    attack_f1:
+      mean: 0.2782897236552762
+      min: 0.26890756302521013
+      max: 0.28860028860028863
+    balanced_accuracy:
+      mean: 0.4678417818740399
+      min: 0.4238325652841782
+      max: 0.5011059907834101
+    false_positive_rate:
+      mean: 0.2366666666666667
+      min: 0.16
+      max: 0.33666666666666667
+    false_negative_rate:
+      mean: 0.8276497695852534
+      min: 0.815668202764977
+      max: 0.8377880184331797
+    half_total_error_rate:
+      mean: 0.5321582181259601
+      min: 0.4988940092165899
+      max: 0.5761674347158219
+  controlled_fpr10:
+    accuracy:
+      mean: 0.29410348977135975
+      min: 0.2736462093862816
+      max: 0.3234657039711191
+    support_weighted_f1:
+      mean: 0.34215231215298497
+      min: 0.3205448612873555
+      max: 0.3790509963716556
+    attack_f1:
+      mean: 0.3974007315998011
+      min: 0.3537859007832898
+      max: 0.4510837727006444
+    balanced_accuracy:
+      mean: 0.2873937532002048
+      min: 0.24821044546851
+      max: 0.3315514592933948
+    false_positive_rate:
+      mean: 0.7244444444444444
+      min: 0.5866666666666667
+      max: 0.7966666666666666
+    false_negative_rate:
+      mean: 0.7007680491551459
+      min: 0.6451612903225806
+      max: 0.7502304147465437
+    half_total_error_rate:
+      mean: 0.7126062467997952
+      min: 0.6684485407066052
+      max: 0.75178955453149
+verification:
+  prediction_csvs_recomputed: true
+  persisted_metrics_reproduced: true
+  identical_test_identity_and_order_across_seeds: true
+  all_test_image_hashes_had_been_verified_during_runs: true
+  images_opened_by_finalizer: false
+  models_loaded_by_finalizer: false
+  checkpoints_loaded_by_finalizer: false
+  inference_performed_by_finalizer: false
+  threshold_derived_by_finalizer: false
+  threshold_modified_by_finalizer: false
+  best_seed_selected: false

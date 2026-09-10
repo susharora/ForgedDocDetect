@@ -1,0 +1,24 @@
+2026-09-10T21:08:27Z | INFO | ========================================================================
+2026-09-10T21:08:27Z | INFO | RESNET-18 THREE-SEED FINAL TEST FINALIZATION
+2026-09-10T21:08:27Z | INFO | ========================================================================
+2026-09-10T21:08:27Z | INFO | Git commit: ac899a4eb63118738290446e341fb056dfd9b1d2
+2026-09-10T21:08:27Z | INFO | [PASS] scientific config SHA-256 = c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-10T21:08:27Z | INFO | [PASS] evaluation protocol SHA-256 = fc3c093baf702dc0582bea13f33e420867675d4c7e0fb13e36bc27c322db7072
+2026-09-10T21:08:27Z | INFO | [PASS] final evaluation audit SHA-256 = e0721d4423c1520b6a8b4e00cb2415dda192b9470678111e0593eae474969a04
+2026-09-10T21:08:27Z | INFO | [PASS] canonical test manifest SHA-256 = 6d12b214cabac31a22d883cc8db661c670719ad90dccb9d6cb0d243b1fa4aea4
+2026-09-10T21:08:27Z | INFO | [PASS] seed 8 | AUROC=0.237963133641 | fixed HTER=0.576167434716 | FPR10 HTER=0.751789554531
+2026-09-10T21:08:27Z | INFO | [PASS] seed 9 | AUROC=0.278294930876 | fixed HTER=0.521413210445 | FPR10 HTER=0.668448540707
+2026-09-10T21:08:27Z | INFO | [PASS] seed 10 | AUROC=0.269287250384 | fixed HTER=0.498894009217 | FPR10 HTER=0.717580645161
+2026-09-10T21:08:27Z | INFO | 
+2026-09-10T21:08:27Z | INFO | Three-seed AUROC mean/min/max = 0.261848438300 / 0.237963133641 / 0.278294930876
+2026-09-10T21:08:27Z | INFO | Fixed-0.5 HTER mean/min/max = 0.532158218126 / 0.498894009217 / 0.576167434716
+2026-09-10T21:08:27Z | INFO | FPR10 HTER mean/min/max = 0.712606246800 / 0.668448540707 / 0.751789554531
+2026-09-10T21:08:27Z | INFO | 
+2026-09-10T21:08:27Z | INFO | [PASS] no best test seed selected
+2026-09-10T21:08:27Z | INFO | [PASS] no threshold derivation/modification
+2026-09-10T21:08:27Z | INFO | [PASS] no image/model/checkpoint access
+2026-09-10T21:08:27Z | INFO | Canonical summary: /home/sush/ForgedDocDetect/output/final_detection/final_summary/resnet18_r512_three_seed_final_test_2026-09-10_210827_141262Z.yaml
+2026-09-10T21:08:27Z | INFO | Canonical summary SHA-256: f80dcc445490aa935ce958e61afe41c67e2c761c90902b833227daf7de249d27
+2026-09-10T21:08:27Z | INFO | ========================================================================
+2026-09-10T21:08:27Z | INFO | THREE-SEED FINAL BASELINE SUMMARY: FROZEN
+2026-09-10T21:08:27Z | INFO | ========================================================================
