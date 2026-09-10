@@ -1,0 +1,58 @@
+2026-09-10T02:32:06Z | INFO | CUBLAS_WORKSPACE_CONFIG: :4096:8
+2026-09-10T02:32:06Z | INFO | ========================================================================
+2026-09-10T02:32:06Z | INFO | RESNET-18 SELECTED-LR STABILITY RUN
+2026-09-10T02:32:06Z | INFO | ========================================================================
+2026-09-10T02:32:06Z | INFO | Run ID: 20260910T023206_310000Z_resnet18_stability_r512_seed10_IMTA134_371add4c
+2026-09-10T02:32:06Z | INFO | Git commit: 371add4c4fbec85e798a50e79bc4ed2bc5805229
+2026-09-10T02:32:06Z | INFO | Machine: IMTA134
+2026-09-10T02:32:06Z | INFO | Resolution: r512
+2026-09-10T02:32:06Z | INFO | Run seed: 10
+2026-09-10T02:32:06Z | INFO | Locked backbone LR: 0.0001
+2026-09-10T02:32:06Z | INFO | Locked LR source: runs/20260910T005713_188852Z_resnet18_lr_screen_r512_seed8_IMTA134_745f47f3/metrics/lr_screening_summary.yaml
+2026-09-10T02:32:06Z | INFO | Experiment config SHA-256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-10T02:32:06Z | INFO | Held-out test: NOT ACCESSED
+2026-09-10T02:32:06Z | INFO | Stability run start | resolution=r512 | seed=10 | locked_backbone_lr=0.0001
+2026-09-10T02:32:06Z | INFO | Stage A start | resolution=r512 | seed=10
+2026-09-10T02:32:07Z | INFO | Stage start | stage=stage_a | maximum_epochs=10 | patience=2
+2026-09-10T02:32:35Z | INFO | Epoch complete | stage=stage_a | epoch=1/10 | train_loss=0.699464781086 | dev_loss=0.677992536287 | AUROC=0.632043231236 | raw_best_epoch=1 | raw_best_loss=0.677992536287 | checkpoint_updated=True | patience=0/2 | meaningful_improvement=None | stop=False | train_seconds=20.260 | dev_seconds=7.854 | epoch_seconds=28.236
+2026-09-10T02:33:04Z | INFO | Epoch complete | stage=stage_a | epoch=2/10 | train_loss=0.684695833518 | dev_loss=0.669047276893 | AUROC=0.715002776710 | raw_best_epoch=2 | raw_best_loss=0.669047276893 | checkpoint_updated=True | patience=0/2 | meaningful_improvement=True | stop=False | train_seconds=21.189 | dev_seconds=8.093 | epoch_seconds=29.403
+2026-09-10T02:33:32Z | INFO | Epoch complete | stage=stage_a | epoch=3/10 | train_loss=0.662945577751 | dev_loss=0.657708950162 | AUROC=0.761373830578 | raw_best_epoch=3 | raw_best_loss=0.657708950162 | checkpoint_updated=True | patience=0/2 | meaningful_improvement=True | stop=False | train_seconds=20.081 | dev_seconds=7.600 | epoch_seconds=27.803
+2026-09-10T02:34:00Z | INFO | Epoch complete | stage=stage_a | epoch=4/10 | train_loss=0.655120235464 | dev_loss=0.653161346068 | AUROC=0.768080652740 | raw_best_epoch=4 | raw_best_loss=0.653161346068 | checkpoint_updated=True | patience=0/2 | meaningful_improvement=True | stop=False | train_seconds=20.213 | dev_seconds=7.868 | epoch_seconds=28.209
+2026-09-10T02:34:29Z | INFO | Epoch complete | stage=stage_a | epoch=5/10 | train_loss=0.637048770001 | dev_loss=0.632694202895 | AUROC=0.803964287240 | raw_best_epoch=5 | raw_best_loss=0.632694202895 | checkpoint_updated=True | patience=0/2 | meaningful_improvement=True | stop=False | train_seconds=20.753 | dev_seconds=8.306 | epoch_seconds=29.179
+2026-09-10T02:34:58Z | INFO | Epoch complete | stage=stage_a | epoch=6/10 | train_loss=0.633497828431 | dev_loss=0.634379013691 | AUROC=0.805395360759 | raw_best_epoch=5 | raw_best_loss=0.632694202895 | checkpoint_updated=False | patience=1/2 | meaningful_improvement=False | stop=False | train_seconds=20.213 | dev_seconds=7.915 | epoch_seconds=28.129
+2026-09-10T02:35:26Z | INFO | Epoch complete | stage=stage_a | epoch=7/10 | train_loss=0.619233577481 | dev_loss=0.621994229573 | AUROC=0.814344910077 | raw_best_epoch=7 | raw_best_loss=0.621994229573 | checkpoint_updated=True | patience=0/2 | meaningful_improvement=True | stop=False | train_seconds=19.989 | dev_seconds=7.831 | epoch_seconds=27.941
+2026-09-10T02:35:55Z | INFO | Epoch complete | stage=stage_a | epoch=8/10 | train_loss=0.610733739432 | dev_loss=0.607242314352 | AUROC=0.833333333333 | raw_best_epoch=8 | raw_best_loss=0.607242314352 | checkpoint_updated=True | patience=0/2 | meaningful_improvement=True | stop=False | train_seconds=20.960 | dev_seconds=8.064 | epoch_seconds=29.144
+2026-09-10T02:36:23Z | INFO | Epoch complete | stage=stage_a | epoch=9/10 | train_loss=0.600390922920 | dev_loss=0.604241151306 | AUROC=0.836387714127 | raw_best_epoch=9 | raw_best_loss=0.604241151306 | checkpoint_updated=True | patience=1/2 | meaningful_improvement=False | stop=False | train_seconds=20.637 | dev_seconds=7.495 | epoch_seconds=28.259
+2026-09-10T02:36:51Z | INFO | Epoch complete | stage=stage_a | epoch=10/10 | train_loss=0.599683744838 | dev_loss=0.618224313154 | AUROC=0.835960528002 | raw_best_epoch=9 | raw_best_loss=0.604241151306 | checkpoint_updated=False | patience=2/2 | meaningful_improvement=False | stop=True | train_seconds=20.826 | dev_seconds=7.554 | epoch_seconds=28.381
+2026-09-10T02:36:52Z | INFO | Stage complete | stage=stage_a | epochs=10 | stop=patience_and_maximum_epochs | raw_best_epoch=9 | raw_best_loss=0.604241151306 | AUROC_at_raw_best=0.836387714127 | best_AUROC=0.836387714127 | best_AUROC_epoch=9
+2026-09-10T02:36:52Z | INFO | Stage A selected checkpoint | resolution=r512 | seed=10 | epoch=9 | weighted_dev_loss=0.604241151306 | model_sha256=969677659c29b65925a41421c39bf760960ccc900be0842e57d3a35932b457d6
+2026-09-10T02:36:52Z | INFO | Stage B selected-LR branch start | resolution=r512 | seed=10 | backbone_lr=0.0001
+2026-09-10T02:36:52Z | INFO | Stage start | stage=stage_b | maximum_epochs=30 | patience=5
+2026-09-10T02:37:22Z | INFO | Epoch complete | stage=stage_b | epoch=1/30 | train_loss=0.443066633626 | dev_loss=0.126406762221 | AUROC=0.993143662694 | raw_best_epoch=1 | raw_best_loss=0.126406762221 | checkpoint_updated=True | patience=0/5 | meaningful_improvement=None | stop=False | train_seconds=22.081 | dev_seconds=7.761 | epoch_seconds=29.957
+2026-09-10T02:37:22Z | INFO | Stage transition | stage=stage_b | epoch=1 | Backbone unfrozen and BatchNorm running statistics begin FantasyID domain adaptation; transient dev-loss movement is expected.
+2026-09-10T02:37:53Z | INFO | Epoch complete | stage=stage_b | epoch=2/30 | train_loss=0.106981156679 | dev_loss=0.054723940418 | AUROC=0.999594173181 | raw_best_epoch=2 | raw_best_loss=0.054723940418 | checkpoint_updated=True | patience=0/5 | meaningful_improvement=True | stop=False | train_seconds=23.256 | dev_seconds=7.786 | epoch_seconds=31.165
+2026-09-10T02:38:24Z | INFO | Epoch complete | stage=stage_b | epoch=3/30 | train_loss=0.028148345280 | dev_loss=0.116370088615 | AUROC=0.996625229613 | raw_best_epoch=2 | raw_best_loss=0.054723940418 | checkpoint_updated=False | patience=1/5 | meaningful_improvement=False | stop=False | train_seconds=22.845 | dev_seconds=7.762 | epoch_seconds=30.608
+2026-09-10T02:38:54Z | INFO | Epoch complete | stage=stage_b | epoch=4/30 | train_loss=0.028061751196 | dev_loss=0.133678029599 | AUROC=0.997351446025 | raw_best_epoch=2 | raw_best_loss=0.054723940418 | checkpoint_updated=False | patience=2/5 | meaningful_improvement=False | stop=False | train_seconds=22.460 | dev_seconds=7.504 | epoch_seconds=29.965
+2026-09-10T02:39:24Z | INFO | Epoch complete | stage=stage_b | epoch=5/30 | train_loss=0.025581603940 | dev_loss=0.042044493337 | AUROC=0.999807766244 | raw_best_epoch=5 | raw_best_loss=0.042044493337 | checkpoint_updated=True | patience=0/5 | meaningful_improvement=True | stop=False | train_seconds=22.419 | dev_seconds=7.879 | epoch_seconds=30.423
+2026-09-10T02:39:54Z | INFO | Epoch complete | stage=stage_b | epoch=6/30 | train_loss=0.018525307451 | dev_loss=0.080252660527 | AUROC=0.999530095263 | raw_best_epoch=5 | raw_best_loss=0.042044493337 | checkpoint_updated=False | patience=1/5 | meaningful_improvement=False | stop=False | train_seconds=21.456 | dev_seconds=7.874 | epoch_seconds=29.331
+2026-09-10T02:40:24Z | INFO | Epoch complete | stage=stage_b | epoch=7/30 | train_loss=0.002833155618 | dev_loss=0.036332755499 | AUROC=0.999572813875 | raw_best_epoch=7 | raw_best_loss=0.036332755499 | checkpoint_updated=True | patience=0/5 | meaningful_improvement=True | stop=False | train_seconds=22.534 | dev_seconds=7.676 | epoch_seconds=30.336
+2026-09-10T02:40:55Z | INFO | Epoch complete | stage=stage_b | epoch=8/30 | train_loss=0.004240710638 | dev_loss=0.018668773303 | AUROC=0.999850484856 | raw_best_epoch=8 | raw_best_loss=0.018668773303 | checkpoint_updated=True | patience=0/5 | meaningful_improvement=True | stop=False | train_seconds=23.003 | dev_seconds=7.802 | epoch_seconds=30.930
+2026-09-10T02:41:25Z | INFO | Epoch complete | stage=stage_b | epoch=9/30 | train_loss=0.006809260017 | dev_loss=0.019425712114 | AUROC=0.999829125550 | raw_best_epoch=8 | raw_best_loss=0.018668773303 | checkpoint_updated=False | patience=1/5 | meaningful_improvement=False | stop=False | train_seconds=22.648 | dev_seconds=7.474 | epoch_seconds=30.123
+2026-09-10T02:41:56Z | INFO | Epoch complete | stage=stage_b | epoch=10/30 | train_loss=0.010590369184 | dev_loss=0.176612481600 | AUROC=0.999337861506 | raw_best_epoch=8 | raw_best_loss=0.018668773303 | checkpoint_updated=False | patience=2/5 | meaningful_improvement=False | stop=False | train_seconds=23.390 | dev_seconds=7.740 | epoch_seconds=31.132
+2026-09-10T02:42:27Z | INFO | Epoch complete | stage=stage_b | epoch=11/30 | train_loss=0.016651638538 | dev_loss=0.142132003199 | AUROC=0.999615532488 | raw_best_epoch=8 | raw_best_loss=0.018668773303 | checkpoint_updated=False | patience=3/5 | meaningful_improvement=False | stop=False | train_seconds=22.571 | dev_seconds=7.833 | epoch_seconds=30.405
+2026-09-10T02:42:57Z | INFO | Epoch complete | stage=stage_b | epoch=12/30 | train_loss=0.001279758409 | dev_loss=0.028690771522 | AUROC=0.999914562775 | raw_best_epoch=8 | raw_best_loss=0.018668773303 | checkpoint_updated=False | patience=4/5 | meaningful_improvement=False | stop=False | train_seconds=23.190 | dev_seconds=7.724 | epoch_seconds=30.915
+2026-09-10T02:43:28Z | INFO | Epoch complete | stage=stage_b | epoch=13/30 | train_loss=0.001011261971 | dev_loss=0.033746111340 | AUROC=0.999914562775 | raw_best_epoch=8 | raw_best_loss=0.018668773303 | checkpoint_updated=False | patience=5/5 | meaningful_improvement=False | stop=True | train_seconds=22.635 | dev_seconds=7.747 | epoch_seconds=30.384
+2026-09-10T02:43:28Z | INFO | Stage complete | stage=stage_b | epochs=13 | stop=patience | raw_best_epoch=8 | raw_best_loss=0.018668773303 | AUROC_at_raw_best=0.999850484856 | best_AUROC=0.999914562775 | best_AUROC_epoch=12
+2026-09-10T02:43:28Z | INFO | Stage B selected-LR branch complete | resolution=r512 | seed=10 | backbone_lr=0.0001 | epochs=13 | raw_best_epoch=8 | raw_best_dev_loss=0.018668773303 | AUROC_at_raw_best=0.999850484856 | best_AUROC=0.999914562775 | AUROC_difference=0.000064077919 | protocol_review=False
+2026-09-10T02:43:29Z | INFO | 
+2026-09-10T02:43:29Z | INFO | ========================================================================
+2026-09-10T02:43:29Z | INFO | SELECTED-LR STABILITY RUN: PASS
+2026-09-10T02:43:29Z | INFO | ========================================================================
+2026-09-10T02:43:29Z | INFO | Run directory: /home/u5757978/ForgedDocDetect/runs/20260910T023206_310000Z_resnet18_stability_r512_seed10_IMTA134_371add4c
+2026-09-10T02:43:29Z | INFO | Resolution: r512
+2026-09-10T02:43:29Z | INFO | Seed: 10
+2026-09-10T02:43:29Z | INFO | Backbone LR: 0.0001
+2026-09-10T02:43:29Z | INFO | Selected raw-best weighted dev loss: 0.018668773303
+2026-09-10T02:43:29Z | INFO | AUROC at selected checkpoint: 0.999850484856
+2026-09-10T02:43:29Z | INFO | Protocol review required: False
+2026-09-10T02:43:29Z | INFO | Held-out test: NOT ACCESSED

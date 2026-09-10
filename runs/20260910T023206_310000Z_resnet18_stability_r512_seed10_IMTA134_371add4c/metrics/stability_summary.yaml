@@ -1,0 +1,83 @@
+schema_version: 1
+artifact_type: resolution_selected_lr_stability_summary
+run:
+  run_id: 20260910T023206_310000Z_resnet18_stability_r512_seed10_IMTA134_371add4c
+  git_commit: 371add4c4fbec85e798a50e79bc4ed2bc5805229
+  experiment_config_sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+scope:
+  resolution_name: r512
+  run_seed: 10
+  backbone_lr: 0.0001
+  workflow: selected_lr_multi_seed_stability
+  held_out_test_accessed: false
+locked_lr_source:
+  policy: reuse_seed8_lr_screening_winner
+  summary_path: runs/20260910T005713_188852Z_resnet18_lr_screen_r512_seed8_IMTA134_745f47f3/metrics/lr_screening_summary.yaml
+  summary_sha256: abd8b8213401e641016c9c12af443d53197b8e55826b6e97916f965d411efb16
+  source_run_id: 20260910T005713_188852Z_resnet18_lr_screen_r512_seed8_IMTA134_745f47f3
+  source_git_commit: 745f47f3fccf43694e9cf3478a261f2fd902cac9
+  screening_seed: 8
+  selected_backbone_lr: 0.0001
+  seed8_selected_weighted_dev_loss: 0.01495142979434905
+  seed8_selected_model_state_sha256: 4167857618a6413593e10eb486ecc88ecbc65b5f3ba0ffd5689c3dfa12a4156e
+stage_a_initialization:
+  fresh_model_state_sha256: c2dc6f357fd46a0655fca3b3c468b4941faef4e57bc11470af07f83abca902fe
+  project_train_generator_initial_state_sha256: 25d144beea93c91bd5dcc2864da432bfcb78f6985c3e032ceceb50a3b7e0bf89
+  dev_val_generator_initial_state_sha256: 25d144beea93c91bd5dcc2864da432bfcb78f6985c3e032ceceb50a3b7e0bf89
+  optimizer_state_entries_at_construction: 0
+  pretrained_checkpoint_sha256: f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec
+  requested_device: cuda
+  actual_model_device: cuda:0
+stage_a:
+  stage: stage_a
+  epochs_completed: 10
+  stop_reason: patience_and_maximum_epochs
+  raw_best_epoch: 9
+  raw_best_weighted_dev_loss: 0.6042411513058449
+  raw_best_model_state_sha256: 969677659c29b65925a41421c39bf760960ccc900be0842e57d3a35932b457d6
+  dev_auroc_at_raw_best_checkpoint: 0.8363877141270452
+  best_dev_auroc: 0.8363877141270452
+  best_dev_auroc_epoch: 9
+  model_left_in_eval_mode: true
+  optimizer_reuse_permitted: false
+stage_b:
+  backbone_lr: 0.0001
+  initialization:
+    stage_a_checkpoint_epoch: 9
+    stage_a_checkpoint_weighted_dev_loss: 0.6042411513058449
+    stage_a_checkpoint_model_state_sha256: 969677659c29b65925a41421c39bf760960ccc900be0842e57d3a35932b457d6
+    fresh_model_state_sha256_before_restore: c2dc6f357fd46a0655fca3b3c468b4941faef4e57bc11470af07f83abca902fe
+    restored_model_state_sha256_cpu: 969677659c29b65925a41421c39bf760960ccc900be0842e57d3a35932b457d6
+    restored_model_state_sha256_after_device_move: 969677659c29b65925a41421c39bf760960ccc900be0842e57d3a35932b457d6
+    project_train_generator_initial_state_sha256: 25d144beea93c91bd5dcc2864da432bfcb78f6985c3e032ceceb50a3b7e0bf89
+    dev_val_generator_initial_state_sha256: 25d144beea93c91bd5dcc2864da432bfcb78f6985c3e032ceceb50a3b7e0bf89
+    optimizer_state_entries_at_construction: 0
+  training:
+    stage: stage_b
+    epochs_completed: 13
+    stop_reason: patience
+    raw_best_epoch: 8
+    raw_best_weighted_dev_loss: 0.018668773302985397
+    raw_best_model_state_sha256: 704ada7d024c8ef446501d9f06938d29ba1409707883ef62996f3691b13daaa7
+    dev_auroc_at_raw_best_checkpoint: 0.9998504848562518
+    best_dev_auroc: 0.999914562775001
+    best_dev_auroc_epoch: 12
+    model_left_in_eval_mode: true
+    optimizer_reuse_permitted: false
+    stage_b_auroc_disagreement:
+      best_dev_auroc: 0.999914562775001
+      best_dev_auroc_epoch: 12
+      loss_argmin_checkpoint_epoch: 8
+      auroc_at_loss_argmin_checkpoint: 0.9998504848562518
+      difference: 6.407791874918356e-05
+      threshold: 0.01
+      protocol_review_flag: false
+      automatically_switch_checkpoint: false
+  protocol_review_required: false
+selection:
+  checkpoint_source: raw_argmin_weighted_dev_loss
+  selected_backbone_lr: 0.0001
+  selected_raw_best_weighted_dev_loss: 0.018668773302985397
+  selected_stage_b_checkpoint_model_state_sha256: 704ada7d024c8ef446501d9f06938d29ba1409707883ef62996f3691b13daaa7
+  auroc_changes_checkpoint_selection: false
+  protocol_review_required: false
