@@ -1,0 +1,120 @@
+schema_version: 1
+artifact_type: resnet18_final_evaluation_primitive_audit
+status: PASS
+created_at_utc: '2026-09-10T17:16:30.453215+00:00'
+git_commit: 3b9d1275009ba5f2fe358820a44c954d12ba01a1
+machine_id: sush-AMD
+source_sha256:
+  src/final_evaluation.py: 34e0d2608e385c823677c55ce780948fee1b58b60c75934e251a2b82975c2968
+  evaluation_protocol: fc3c093baf702dc0582bea13f33e420867675d4c7e0fb13e36bc27c322db7072
+  canonical_test_manifest_metadata: c7872e891a78d2fdaadc6666a76191b95e58c0719e2589cadecabd21bde93370
+  canonical_test_manifest_csv: 6d12b214cabac31a22d883cc8db661c670719ad90dccb9d6cb0d243b1fa4aea4
+  audit_script: 76ee27891e01c1ac4c16595f3bf1081a7f7361fec6965b261ac4166aa9b30402
+  audit_config: 4426d3a57564ed6fd6383d9206f7d37c405d59b45a93438656ff0d1efaae43eb
+canonical_held_out_contract:
+  metadata_path: /home/sush/ForgedDocDetect/output/final_detection/test_manifest/fantasyid_held_out_test_manifest.yaml
+  metadata_sha256: c7872e891a78d2fdaadc6666a76191b95e58c0719e2589cadecabd21bde93370
+  manifest_path: /home/sush/ForgedDocDetect/output/final_detection/test_manifest/fantasyid_held_out_test_manifest.csv
+  manifest_sha256: 6d12b214cabac31a22d883cc8db661c670719ad90dccb9d6cb0d243b1fa4aea4
+  rows: 1385
+  bonafide_count: 300
+  attack_count: 1085
+  project_role: held_out_test
+dataset_synthetic_audit:
+  synthetic_rows: 2
+  r512_shape:
+  - 3
+  - 512
+  - 864
+  sha_verification: true
+  corruption_rejected: true
+  access_token_required: true
+metric_synthetic_audit:
+  fixed_0_5:
+    name: fixed_0_5
+    threshold: 0.5
+    sample_count: 8
+    bonafide_support: 4
+    attack_support: 4
+    true_positive: 2
+    false_positive: 2
+    true_negative: 2
+    false_negative: 2
+    accuracy: 0.5
+    support_weighted_f1: 0.5
+    bonafide:
+      support: 4
+      precision: 0.5
+      recall: 0.5
+      f1: 0.5
+    attack:
+      support: 4
+      precision: 0.5
+      recall: 0.5
+      f1: 0.5
+    true_positive_rate: 0.5
+    true_negative_rate: 0.5
+    false_positive_rate: 0.5
+    false_negative_rate: 0.5
+    half_total_error_rate: 0.5
+    balanced_accuracy: 0.5
+    apcer: 0.5
+    bpcer: 0.5
+    matthews_correlation_coefficient: 0.0
+  controlled_probe:
+    name: controlled_fpr10
+    threshold: 0.2
+    sample_count: 8
+    bonafide_support: 4
+    attack_support: 4
+    true_positive: 3
+    false_positive: 3
+    true_negative: 1
+    false_negative: 1
+    accuracy: 0.5
+    support_weighted_f1: 0.4666666666666667
+    bonafide:
+      support: 4
+      precision: 0.5
+      recall: 0.25
+      f1: 0.3333333333333333
+    attack:
+      support: 4
+      precision: 0.5
+      recall: 0.75
+      f1: 0.6
+    true_positive_rate: 0.75
+    true_negative_rate: 0.25
+    false_positive_rate: 0.75
+    false_negative_rate: 0.25
+    half_total_error_rate: 0.5
+    balanced_accuracy: 0.5
+    apcer: 0.25
+    bpcer: 0.75
+    matthews_correlation_coefficient: 0.0
+  auroc: 0.5
+  permutation_invariant: true
+  support_weighting_verified: true
+  exact_half_predicts_attack: true
+scientific_contract:
+  bonafide_index: 0
+  attack_index: 1
+  positive_class: attack
+  fixed_threshold: 0.5
+  threshold_score: attack_softmax_probability
+  threshold_score_dtype: float64
+  auroc_score: z1 - z0
+real_held_out_access:
+  canonical_manifest_metadata_read: true
+  canonical_manifest_csv_read: true
+  test_dataset_root_used: false
+  test_image_paths_followed: false
+  test_image_files_opened: false
+  test_image_hashes_recomputed: false
+  test_pixels_decoded: false
+  test_json_files_opened: false
+  model_loaded: false
+  checkpoint_loaded: false
+  model_inference_performed: false
+  test_metrics_computed: false
+  threshold_derived_or_modified: false

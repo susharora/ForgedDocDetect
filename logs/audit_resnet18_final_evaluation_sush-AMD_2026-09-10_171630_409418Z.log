@@ -1,0 +1,47 @@
+2026-09-10T17:16:30Z | INFO | ========================================================================
+2026-09-10T17:16:30Z | INFO | RESNET-18 FINAL EVALUATION PRIMITIVE AUDIT
+2026-09-10T17:16:30Z | INFO | ========================================================================
+2026-09-10T17:16:30Z | INFO | Git commit: 3b9d1275009ba5f2fe358820a44c954d12ba01a1
+2026-09-10T17:16:30Z | INFO | Machine: sush-AMD
+2026-09-10T17:16:30Z | INFO | [PASS] frozen scientific config SHA-256 = c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-10T17:16:30Z | INFO | [PASS] final binary contract parsed
+2026-09-10T17:16:30Z | INFO | [PASS] class polarity = bonafide 0 / attack 1
+2026-09-10T17:16:30Z | INFO | [PASS] fixed operating point = p_attack >= 0.5
+2026-09-10T17:16:30Z | INFO | [PASS] controlled threshold applied unchanged from dev
+2026-09-10T17:16:30Z | INFO | [PASS] AUROC ranking score = z1-z0
+2026-09-10T17:16:30Z | INFO | [PASS] canonical test manifest metadata = 1385 = 300 bona-fide + 1085 attack
+2026-09-10T17:16:30Z | INFO | [PASS] canonical held-out CSV SHA-256 = 6d12b214cabac31a22d883cc8db661c670719ad90dccb9d6cb0d243b1fa4aea4
+2026-09-10T17:16:30Z | INFO | [PASS] canonical manifest validation has no dataset_root and cannot follow test image paths
+2026-09-10T17:16:30Z | INFO | [PASS] held-out Dataset rejects missing/incorrect access token
+2026-09-10T17:16:30Z | INFO | [PASS] synthetic held-out access requires explicit token
+2026-09-10T17:16:30Z | INFO | [PASS] synthetic held-out file SHA verified before decode
+2026-09-10T17:16:30Z | INFO | [PASS] synthetic r512 decode/preprocess = [3,512,864]
+2026-09-10T17:16:30Z | INFO | [PASS] synthetic labels = bonafide 0 / attack 1
+2026-09-10T17:16:30Z | INFO | [PASS] held-out file mutation is rejected by SHA-256
+2026-09-10T17:16:30Z | INFO | [PASS] fixed 0.5 confusion = TP2 FP2 TN2 FN2
+2026-09-10T17:16:30Z | INFO | [PASS] fixed support-weighted F1 = 0.5
+2026-09-10T17:16:30Z | INFO | [PASS] fixed attack F1 = 0.5
+2026-09-10T17:16:30Z | INFO | [PASS] fixed FPR/FNR/HTER = 0.5/0.5/0.5
+2026-09-10T17:16:30Z | INFO | [PASS] APCER=FNR and BPCER=FPR
+2026-09-10T17:16:30Z | INFO | [PASS] fixed balanced accuracy = 1 - HTER = 0.5
+2026-09-10T17:16:30Z | INFO | [PASS] AUROC(z1-z0) = 0.5
+2026-09-10T17:16:30Z | INFO | [PASS] arbitrary frozen threshold uses same generic evaluator
+2026-09-10T17:16:30Z | INFO | [PASS] support-weighted F1 is true-support weighted
+2026-09-10T17:16:30Z | INFO | [PASS] exact p_attack=0.5 equality predicts attack
+2026-09-10T17:16:30Z | INFO | [PASS] final metrics are permutation invariant
+2026-09-10T17:16:30Z | INFO | [PASS] weighted F1 uses sample support, not training CE weights
+2026-09-10T17:16:30Z | INFO | [PASS] NaN final logits are fatal
+2026-09-10T17:16:30Z | INFO | [PASS] target outside frozen {0,1} is fatal
+2026-09-10T17:16:30Z | INFO | 
+2026-09-10T17:16:30Z | INFO | [PASS] real held-out dataset_root used: FALSE
+2026-09-10T17:16:30Z | INFO | [PASS] real test image files opened: FALSE
+2026-09-10T17:16:30Z | INFO | [PASS] real test image hashes recomputed: FALSE
+2026-09-10T17:16:30Z | INFO | [PASS] real test pixels decoded: FALSE
+2026-09-10T17:16:30Z | INFO | [PASS] model/checkpoint loaded: FALSE
+2026-09-10T17:16:30Z | INFO | [PASS] test inference performed: FALSE
+2026-09-10T17:16:30Z | INFO | [PASS] threshold derivation/modification: FALSE
+2026-09-10T17:16:30Z | INFO | Audit artifact: /home/sush/ForgedDocDetect/logs/audit_resnet18_final_evaluation_sush-AMD_2026-09-10_171630_409418Z.yaml
+2026-09-10T17:16:30Z | INFO | Audit artifact SHA-256: e0721d4423c1520b6a8b4e00cb2415dda192b9470678111e0593eae474969a04
+2026-09-10T17:16:30Z | INFO | ========================================================================
+2026-09-10T17:16:30Z | INFO | RESNET-18 FINAL EVALUATION PRIMITIVE AUDIT: PASS
+2026-09-10T17:16:30Z | INFO | ========================================================================
