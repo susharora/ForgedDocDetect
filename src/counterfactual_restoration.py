@@ -58,6 +58,19 @@ FACE_FIELD = "face"
 
 ALTERED_PROVENANCE = "altered"
 
+# Narrow empirically established source-field alias.
+#
+# Evidence:
+# logs/probe_counterfactual_semantic_parent_map_2026-09-11_153502_981144Z.yaml
+# SHA-256:
+# f48acba66bf17d96e49ae69f120cf431b6aa0465862b4ffe15eb1bd637c5a757
+#
+# Exact same-field correspondence remains primary. This alias is used
+# only when the aligned bona-fide annotation lacks the attack field.
+SEMANTIC_SOURCE_FIELD_ALIASES: dict[str, str] = {
+    "name_other": "name",
+}
+
 
 RestorationMode = Literal[
     "face",
@@ -150,7 +163,13 @@ class AnnotationRegion:
 )
 class RegionMatch:
 
+    # Destination semantic field in the attack annotation.
     field_name: str
+
+    # Semantic field actually used from the bona-fide annotation.
+    # Normally identical to field_name; differs only for an explicitly
+    # allowed semantic-parent alias.
+    source_field_name: str
 
     attack_region_index: int
     bonafide_region_index: int
@@ -168,6 +187,7 @@ class RegionMatch:
 class AppliedRestoration:
 
     field_name: str
+    source_field_name: str
 
     attack_region_index: int
     bonafide_region_index: int
@@ -853,12 +873,28 @@ def match_restoration_regions(
     ] = []
 
     for destination in (
-        destinations
+    destinations
     ):
+
+        # Exact semantic correspondence always has priority.
+        if destination.field_name in by_field:
+
+            source_field_name = (
+                destination.field_name
+            )
+
+        else:
+
+            source_field_name = (
+                SEMANTIC_SOURCE_FIELD_ALIASES.get(
+                    destination.field_name,
+                    destination.field_name,
+                )
+            )
 
         candidates = (
             by_field.get(
-                destination.field_name,
+                source_field_name,
                 [],
             )
         )
@@ -866,13 +902,17 @@ def match_restoration_regions(
         if not candidates:
 
             raise CounterfactualRestorationError(
-                "No matching semantic region exists in "
+                "No permitted semantic source region exists in "
                 "aligned bona-fide image:\n"
-                f"  field={destination.field_name!r}\n"
+                f"  attack_field={destination.field_name!r}\n"
+                f"  attempted_source_field={source_field_name!r}\n"
                 f"  attack_region_index="
                 f"{destination.region_index}"
             )
 
+        # Preserve the original uniqueness contract: a source region cannot
+        # be reused for another destination belonging to the same ATTACK
+        # semantic field. Distinct parent/child attack fields remain separate.
         used = (
             used_by_field.setdefault(
                 destination.field_name,
@@ -1016,6 +1056,10 @@ def match_restoration_regions(
             RegionMatch(
                 field_name=(
                     destination.field_name
+                ),
+
+                source_field_name=(
+                    source.field_name
                 ),
 
                 attack_region_index=(
@@ -1507,6 +1551,10 @@ def restore_counterfactual(
             AppliedRestoration(
                 field_name=(
                     match.field_name
+                ),
+
+                source_field_name=(
+                    match.source_field_name
                 ),
 
                 attack_region_index=(

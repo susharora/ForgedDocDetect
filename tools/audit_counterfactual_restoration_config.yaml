@@ -9,6 +9,16 @@ output:
   directory: logs
   filename: audit_counterfactual_restoration_{timestamp}.csv
 
+semantic_alias_validation:
+  evidence:
+    path: logs/probe_counterfactual_semantic_parent_map_2026-09-11_153502_981144Z.yaml
+    sha256: f48acba66bf17d96e49ae69f120cf431b6aa0465862b4ffe15eb1bd637c5a757
+
+  expected:
+    name_other:
+      source_field: name
+      occurrences: 6
+
 audit:
   # During the exhaustive probe we allow every same-field match through
   # so that weak cases are measured rather than causing an early abort.

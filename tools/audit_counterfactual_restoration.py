@@ -60,7 +60,7 @@ import statistics
 import subprocess
 import sys
 import time
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping
@@ -97,6 +97,7 @@ from src.config import (
 )
 
 from src.counterfactual_restoration import (
+    SEMANTIC_SOURCE_FIELD_ALIASES,
     RestorationResult,
     restore_counterfactual,
 )
@@ -258,6 +259,183 @@ def load_yaml(
 
     return value
 
+
+def load_semantic_alias_validation(
+    *,
+    tool_cfg: Mapping[str, Any],
+) -> dict[str, Any]:
+
+    cfg = (
+        tool_cfg[
+            "semantic_alias_validation"
+        ]
+    )
+
+    evidence_cfg = (
+        cfg[
+            "evidence"
+        ]
+    )
+
+    evidence_path = resolve_repo_path(
+        evidence_cfg[
+            "path"
+        ]
+    )
+
+    expected_sha = str(
+        evidence_cfg[
+            "sha256"
+        ]
+    )
+
+    actual_sha = sha256_file(
+        evidence_path
+    )
+
+    if actual_sha != expected_sha:
+
+        raise RuntimeError(
+            "Semantic-parent probe SHA mismatch:\n"
+            f"  expected={expected_sha}\n"
+            f"  actual={actual_sha}"
+        )
+
+    evidence = load_yaml(
+        evidence_path
+    )
+
+    if (
+        evidence.get(
+            "status"
+        )
+        != "PROBE_ONLY_NOT_FROZEN"
+    ):
+
+        raise RuntimeError(
+            "Semantic-parent probe has unexpected status."
+        )
+
+    expected_map: dict[
+        str,
+        str,
+    ] = {}
+
+    expected_counts: dict[
+        tuple[str, str],
+        int,
+    ] = {}
+
+    for (
+        attack_field,
+        specification,
+    ) in cfg[
+        "expected"
+    ].items():
+
+        source_field = str(
+            specification[
+                "source_field"
+            ]
+        )
+
+        occurrences = int(
+            specification[
+                "occurrences"
+            ]
+        )
+
+        expected_map[
+            attack_field
+        ] = source_field
+
+        expected_counts[
+            (
+                attack_field,
+                source_field,
+            )
+        ] = occurrences
+
+    if (
+        dict(
+            SEMANTIC_SOURCE_FIELD_ALIASES
+        )
+        != expected_map
+    ):
+
+        raise RuntimeError(
+            "Primitive semantic alias map differs from "
+            "the audit's evidence-bound contract."
+        )
+
+    probe_summary = (
+        evidence[
+            "candidate_summary_by_attack_field"
+        ]
+    )
+
+    if set(
+        probe_summary
+    ) != set(
+        expected_map
+    ):
+
+        raise RuntimeError(
+            "Probe semantic fields differ from expected aliases."
+        )
+
+    for (
+        attack_field,
+        source_field,
+    ) in expected_map.items():
+
+        record = (
+            probe_summary[
+                attack_field
+            ]
+        )
+
+        if (
+            record[
+                "dominant_candidate_parent"
+            ]
+            != source_field
+            or not record[
+                "candidate_is_unanimous"
+            ]
+            or not record[
+                "candidate_meets_probe_coverage_floor"
+            ]
+        ):
+
+            raise RuntimeError(
+                "Probe does not support configured semantic alias:\n"
+                f"  {attack_field!r} -> {source_field!r}"
+            )
+
+    if int(
+        evidence[
+            "unmatched_semantic_occurrences"
+        ]
+    ) != sum(
+        expected_counts.values()
+    ):
+
+        raise RuntimeError(
+            "Probe unmatched occurrence count differs "
+            "from configured alias count."
+        )
+
+    return {
+        "evidence_path":
+            evidence_path,
+
+        "evidence_sha256":
+            actual_sha,
+
+        "expected_counts":
+            expected_counts,
+    }
 
 def cell_text(
     value: Any,
@@ -972,7 +1150,10 @@ def match_map(
         str,
         int,
     ],
-    int,
+    tuple[
+        str,
+        int,
+    ],
 ]:
 
     mapping: dict[
@@ -980,7 +1161,10 @@ def match_map(
             str,
             int,
         ],
-        int,
+        tuple[
+            str,
+            int,
+        ],
     ] = {}
 
     for match in (
@@ -1002,12 +1186,42 @@ def match_map(
         mapping[
             key
         ] = (
-            match
-            .bonafide_region_index
+            match.source_field_name,
+            match.bonafide_region_index,
         )
 
     return mapping
 
+def validate_semantic_source_contract(
+    result: RestorationResult,
+) -> None:
+
+    for match in (
+        result.matches
+    ):
+
+        if (
+            match.source_field_name
+            == match.field_name
+        ):
+            continue
+
+        permitted_source = (
+            SEMANTIC_SOURCE_FIELD_ALIASES.get(
+                match.field_name
+            )
+        )
+
+        if (
+            permitted_source
+            != match.source_field_name
+        ):
+
+            raise RuntimeError(
+                "Restoration used an unapproved semantic alias:\n"
+                f"  attack_field={match.field_name!r}\n"
+                f"  source_field={match.source_field_name!r}"
+            )
 
 def validate_cross_mode_consistency(
     *,
@@ -1015,6 +1229,16 @@ def validate_cross_mode_consistency(
     text: RestorationResult,
     both: RestorationResult,
 ) -> None:
+
+    for result in (
+        face,
+        text,
+        both,
+    ):
+
+        validate_semantic_source_contract(
+            result
+        )
 
     if face.mode != "face":
 
@@ -1401,6 +1625,9 @@ def restoration_metadata(
                 {
                     "field_name":
                         match.field_name,
+
+                    "source_field_name":
+                        match.source_field_name,
 
                     "attack_region_index":
                         match.attack_region_index,
@@ -2467,9 +2694,10 @@ def main() -> int:
             applied_by_key = {
                 (
                     item.field_name,
+                    item.source_field_name,
                     item.attack_region_index,
                     item.bonafide_region_index,
-                ):
+                ):                 
                     item
 
                 for item
@@ -2482,6 +2710,7 @@ def main() -> int:
 
                 key = (
                     match.field_name,
+                    match.source_field_name,
                     match.attack_region_index,
                     match.bonafide_region_index,
                 )
@@ -2504,6 +2733,9 @@ def main() -> int:
                     {
                         "image_path":
                             attack_relative,
+
+                        "source_field_name":
+                            match.source_field_name,
 
                         "bonafide_path":
                             bonafide_relative,
@@ -2963,6 +3195,77 @@ def main() -> int:
             raise RuntimeError(
                 "No restoration matches were recorded."
             )
+
+        alias_validation = (
+            load_semantic_alias_validation(
+                tool_cfg=tool_cfg
+            )
+        )
+
+        observed_alias_counts = Counter(
+            (
+                row[
+                    "field_name"
+                ],
+                row[
+                    "source_field_name"
+                ],
+            )
+
+            for row
+            in all_match_records
+
+            if (
+                row[
+                    "field_name"
+                ]
+                != row[
+                    "source_field_name"
+                ]
+            )
+        )
+
+        expected_alias_counts = (
+            alias_validation[
+                "expected_counts"
+            ]
+        )
+
+        if (
+            dict(
+                observed_alias_counts
+            )
+            != expected_alias_counts
+        ):
+
+            raise RuntimeError(
+                "Observed semantic-alias usage differs "
+                "from probe-backed expectation:\n"
+                f"  expected={expected_alias_counts}\n"
+                f"  observed={dict(observed_alias_counts)}"
+            )
+
+        LOGGER.info(
+            "[PASS] semantic-parent evidence SHA-256 = %s",
+            alias_validation[
+                "evidence_sha256"
+            ],
+        )
+
+        for (
+            attack_field,
+            source_field,
+        ), count in sorted(
+            observed_alias_counts.items()
+        ):
+
+            LOGGER.info(
+                "[PASS] semantic alias %s -> %s | occurrences=%d",
+                attack_field,
+                source_field,
+                count,
+            )
+
 
         weak_matches = [
             row
