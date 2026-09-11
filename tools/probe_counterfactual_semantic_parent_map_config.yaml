@@ -1,0 +1,21 @@
+schema_version: 1
+
+experiment_config:
+  path: configs/experiments/resnet18_gradcam.yaml
+  sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+
+probe:
+  # This is NOT the later restoration acceptance threshold.
+  # It only marks whether a proposed parent correspondence has strong
+  # normalized containment evidence.
+  minimum_attack_coverage_for_parent_candidate: 0.80
+
+output:
+  directory: logs
+  csv_filename: probe_counterfactual_semantic_parent_map_{timestamp}.csv
+  yaml_filename: probe_counterfactual_semantic_parent_map_{timestamp}.yaml
+
+logging:
+  directory: logs
+  filename: probe_counterfactual_semantic_parent_map_{timestamp}.log
+  level: INFO
