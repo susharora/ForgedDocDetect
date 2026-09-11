@@ -1,0 +1,54 @@
+schema_version: 1
+artifact_type: counterfactual_semantic_parent_map_probe
+status: PROBE_ONLY_NOT_FROZEN
+created_at_utc: '2026-09-11T15:35:02.982603+00:00'
+git:
+  commit_sha: 1c52f385610e99efec4f2718643cc5a330019719
+  branch: main
+experiment_config:
+  path: configs/experiments/resnet18_gradcam.yaml
+  sha256: c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+frozen_dev_manifest:
+  path: output/splits/fantasyid_project_split_2026-09-05_091937_dev_val.csv
+  sha256: 46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+  rows: 459
+frozen_discovery_workbook:
+  path: output/fantasyid_inventory_2026-09-05_023126.xlsx
+  sha256: 54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+probe_rule:
+  scope: altered fields lacking an exact same-field bona-fide source
+  ranking:
+  - highest normalized attack-box coverage by candidate source
+  - highest normalized IoU
+  - smallest normalized center distance
+  - lowest bona-fide region_index
+  minimum_attack_coverage_for_parent_candidate: 0.8
+  automatic_mapping_applied: false
+exact_same_field_altered_occurrences: 1373
+unmatched_semantic_occurrences: 6
+candidate_summary_by_attack_field:
+  name_other:
+    unmatched_occurrences: 6
+    candidate_parent_counts:
+      name: 6
+    dominant_candidate_parent: name
+    dominance_fraction: 1.0
+    dominant_candidate_min_attack_coverage: 1.0
+    dominant_candidate_median_attack_coverage: 1.0
+    dominant_candidate_max_attack_coverage: 1.0
+    candidate_is_unanimous: true
+    candidate_meets_probe_coverage_floor: true
+evidence_csv:
+  path: logs/probe_counterfactual_semantic_parent_map_2026-09-11_153502_981144Z.csv
+  sha256: 3755478f18971bca16c9c33e4aa5a9180eecb36a409de3517cda1a2c093ffd28
+  rows: 6
+scientific_boundaries:
+  probe_only: true
+  restoration_performed: false
+  pixels_copied: false
+  images_opened: false
+  model_loaded: false
+  checkpoint_loaded: false
+  inference_performed: false
+  threshold_derived_or_modified: false
+  held_out_test_accessed: false

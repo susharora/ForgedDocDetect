@@ -1,0 +1,7 @@
+attack_image_path,bonafide_image_path,file_stem,variant,hardware_source,attack_region_index,attack_field,candidate_parent_field,candidate_parent_region_index,attack_coverage_by_candidate,normalized_iou,normalized_center_distance,second_candidate_field,second_candidate_attack_coverage
+train/attack/digital_1/huawei/turkiye-032_03.jpg,train/bonafide/huawei/turkiye-032_03.jpg,turkiye-032_03,digital_1,huawei,10,name_other,name,1,1.0,0.7430555555555562,0.011587848418415286,surname,0.0
+train/attack/digital_1/iphone15pro/turkiye-032_03.jpg,train/bonafide/iphone15pro/turkiye-032_03.jpg,turkiye-032_03,digital_1,iphone15pro,10,name_other,name,1,1.0,0.7441860465116277,0.011681415929203548,surname,0.0
+train/attack/digital_1/scan/turkiye-032_03.jpg,train/bonafide/scan/turkiye-032_03.jpg,turkiye-032_03,digital_1,scan,10,name_other,name,1,1.0,0.7472527472527469,0.011511511511511502,surname,0.0
+train/attack/digital_2/huawei/turkiye-032_03.jpg,train/bonafide/huawei/turkiye-032_03.jpg,turkiye-032_03,digital_2,huawei,10,name_other,name,1,1.0,0.7430555555555562,0.011587848418415286,surname,0.0
+train/attack/digital_2/iphone15pro/turkiye-032_03.jpg,train/bonafide/iphone15pro/turkiye-032_03.jpg,turkiye-032_03,digital_2,iphone15pro,10,name_other,name,1,1.0,0.7441860465116277,0.011681415929203548,surname,0.0
+train/attack/digital_2/scan/turkiye-032_03.jpg,train/bonafide/scan/turkiye-032_03.jpg,turkiye-032_03,digital_2,scan,10,name_other,name,1,1.0,0.7472527472527469,0.011511511511511502,surname,0.0

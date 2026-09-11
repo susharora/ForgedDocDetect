@@ -1,0 +1,20 @@
+2026-09-11T15:35:02Z | INFO | ========================================================================
+2026-09-11T15:35:02Z | INFO | COUNTERFACTUAL SEMANTIC PARENT-MAP PROBE
+2026-09-11T15:35:02Z | INFO | ========================================================================
+2026-09-11T15:35:02Z | INFO | Git commit: 1c52f385610e99efec4f2718643cc5a330019719
+2026-09-11T15:35:02Z | INFO | [PASS] experiment config SHA-256 = c16d807bdb71579661629b17c499a90359f41039076f2f1067312d6d5c1135c5
+2026-09-11T15:35:02Z | INFO | [PASS] dev manifest SHA-256 = 46953b0e474fb52be7a94c2555d0453a57123d8412bd2e21780986155a9e250d
+2026-09-11T15:35:02Z | INFO | [PASS] discovery workbook SHA-256 = 54fa68d9e3695ffbe200917ad59b47f9c2a855d47d974896f53a5fd171abfe6a
+2026-09-11T15:35:02Z | INFO | [PASS] scope = 306 dev attacks + 153 aligned bona-fide
+2026-09-11T15:35:02Z | INFO | [PASS] images opened: FALSE
+2026-09-11T15:35:02Z | INFO | [PASS] held-out test accessed: FALSE
+2026-09-11T15:35:02Z | INFO | field=name_other | unmatched=6 | candidate=name | dominance=1.000000 | min_coverage=1.000000 | median_coverage=1.000000 | floor_pass=True
+2026-09-11T15:35:02Z | INFO | Exact-field altered occurrences: 1373
+2026-09-11T15:35:02Z | INFO | Unmatched semantic occurrences: 6
+2026-09-11T15:35:02Z | INFO | Probe CSV: /home/sush/ForgedDocDetect/logs/probe_counterfactual_semantic_parent_map_2026-09-11_153502_981144Z.csv
+2026-09-11T15:35:02Z | INFO | Probe CSV SHA-256: 3755478f18971bca16c9c33e4aa5a9180eecb36a409de3517cda1a2c093ffd28
+2026-09-11T15:35:02Z | INFO | Probe YAML: /home/sush/ForgedDocDetect/logs/probe_counterfactual_semantic_parent_map_2026-09-11_153502_981144Z.yaml
+2026-09-11T15:35:02Z | INFO | Probe YAML SHA-256: f48acba66bf17d96e49ae69f120cf431b6aa0465862b4ffe15eb1bd637c5a757
+2026-09-11T15:35:02Z | INFO | ========================================================================
+2026-09-11T15:35:02Z | INFO | COUNTERFACTUAL SEMANTIC PARENT-MAP PROBE: COMPLETE
+2026-09-11T15:35:02Z | INFO | ========================================================================
